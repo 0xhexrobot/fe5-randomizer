@@ -1,0 +1,24 @@
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'eclipse'
+}
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    version = "14"
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    // Use JUnit test framework
+    testCompile 'junit:junit:4.12'
+}
+
+// Define the main class for the application
+mainClassName = 'org.hexrobot.fe5randomizer.Launcher'
