@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="393.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar VBox.vgrow="NEVER">
         <menus>
@@ -30,42 +24,11 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-        <tabs>
-          <Tab text="Playable units">
-               <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                     <children>
-                        <CheckBox mnemonicParsing="false" text="Randomize units bases" />
-                        <RadioButton mnemonicParsing="false" text="Redistribute" />
-                        <RadioButton mnemonicParsing="false" text="RadioButton" />
-                        <RadioButton mnemonicParsing="false" text="RadioButton" />
-                     </children>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </padding>
-                  </VBox>
-               </content>
-            </Tab>
-          <Tab text="Classes">
-               <content>
-                  <ScrollPane>
-                     <content>
-                        <FlowPane>
-                           <children>
-                              <Pane prefHeight="100.0" prefWidth="200.0" />
-                              <Pane prefHeight="200.0" prefWidth="100.0" />
-                              <Pane prefHeight="200.0" prefWidth="200.0" />
-                           </children>
-                        </FlowPane>
-                     </content>
-                  </ScrollPane>
-               </content>
-            </Tab>
-            <Tab disable="true" text="Items" />
-        </tabs>
-      </TabPane>
-      <Label text="Fire Emblem 5 randomizer v0.1" VBox.vgrow="NEVER">
+      <ScrollPane id="scrlMain" VBox.vgrow="ALWAYS">
+         <content>
+            <fx:include source="LoadRomView.fxml" />
+         </content></ScrollPane>
+      <Label text="FE 5 randomizer v0.1" VBox.vgrow="NEVER">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></Label>

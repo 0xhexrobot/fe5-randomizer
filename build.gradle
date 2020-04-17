@@ -16,8 +16,7 @@ javafx {
 }
 
 dependencies {
-    // Use JUnit test framework
-    testCompile 'junit:junit:4.12'
+    // dependencies
 }
 
 // Define the main class for the application
