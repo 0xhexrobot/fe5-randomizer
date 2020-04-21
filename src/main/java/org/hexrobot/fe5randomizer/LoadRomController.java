@@ -15,13 +15,14 @@ import javafx.stage.FileChooser;
 public class LoadRomController {
 	@FXML
 	private Button btnLoadRom;
-	
-	private byte[] rom = null;
+
+	private Rom rom;
 
 	@FXML
 	private void openFileDialog() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select Fire Emblem 5 ROM file");
+		fileChooser.setInitialDirectory(new File("/home/hexrobot/Downloads/"));
 		fileChooser.getExtensionFilters().add(
 				new FileChooser.ExtensionFilter("SNES ROM files (*.sfc, *.smc, *.fig)", "*.sfc", "*.smc", "*.fig"));
 		File selectedFile = fileChooser.showOpenDialog(btnLoadRom.getScene().getWindow());
@@ -33,11 +34,16 @@ public class LoadRomController {
 			try {
 				romValidity = isValidRom(selectedFile);
 			} catch(IOException e) {
+				e.printStackTrace();
 				romValidity = RomValidity.ERROR;
 			}
 
-			if(romValidity.equals(RomValidity.FE5_UNHEADERED)) {
+			if(romValidity.equals(RomValidity.FE5_HEADERED) || romValidity.equals(RomValidity.FE5_UNHEADERED)) {
 				System.out.println("Viento en las velas!!!");
+
+				for(Item item : Item.values()) {
+					item.readItem(rom, Constants.ITEMS_OFFSET);
+				}
 			} else {
 				switch(romValidity) {
 				case NO_FE5:
@@ -59,32 +65,10 @@ public class LoadRomController {
 	}
 
 	private RomValidity isValidRom(File file) throws IOException {
-		RomValidity romValidity = RomValidity.ERROR;
-		
 		InputStream inputStream = new FileInputStream(file);
-		CRC32 crc32 = new CRC32();
-		rom = inputStream.readAllBytes();
-		
-		crc32.update(rom);
-		Long fileCrc32Checksum = crc32.getValue();
-		
-		System.out.println("Length: " + rom.length + " bytes");
-		System.out.println("CRC32 checksum: " + fileCrc32Checksum);
-		
-		if(fileCrc32Checksum.equals(Constants.FE5_HEADERED_CRC32_CHK)) {
-			System.out.println("Fire Emblem 5 headered");
-			romValidity = RomValidity.FE5_HEADERED;
-		} else if(fileCrc32Checksum.equals(Constants.FE5_UNHEADERED_CRC32_CHK)) {
-			System.out.println("Fire Emblem 5 unheadered");
-			romValidity = RomValidity.FE5_UNHEADERED;
-		}
-		
+		rom = new Rom(inputStream.readAllBytes());
 		inputStream.close();
 
-		return romValidity;
-	}
-
-	private enum RomValidity {
-		FE5_HEADERED, FE5_UNHEADERED, NO_FE5, FAILS_CHECKSUM, ERROR
+		return rom.getRomValidity();
 	}
 }
