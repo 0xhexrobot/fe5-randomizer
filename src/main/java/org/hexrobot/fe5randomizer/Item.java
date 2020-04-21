@@ -182,6 +182,11 @@ public enum Item {
 	private WeaponEffectiveness weaponEffectiveness = WeaponEffectiveness.NONE;
 	private WeaponStatBonus weaponStatBonus = WeaponStatBonus.NONE;
 	private int costPerUse = -1;
+	private ItemUseEffect itemUseEffect = ItemUseEffect.NOTHING;
+	private WeaponBladeEffect weaponBladeEffect = WeaponBladeEffect.NOTHING;
+	private WeaponSkill1 weaponSkill1 = WeaponSkill1.NOTHING;
+	private WeaponSkill2 weaponSkill2 = WeaponSkill2.NOTHING;
+	private ItemClassification itemClassification = ItemClassification.ITEM;
 	
 	private static final int ITEM_DATA_SIZE = 23;
 	private static final int ITEM_TYPE_OFFSET = 0x0;
@@ -193,13 +198,13 @@ public enum Item {
 	private static final int RANGE_OFFSET = 0x06;
 	private static final int WEAPON_RANK_OFFSET = 0x07;
 	private static final int WPN_EFFECTIVENESS_OFFSET = 0x09;
-	private static final int STAT_BONUSES_OFFSET = 0x11;
-	private static final int COST_PER_USE_OFFSET = 0x13;
-	private static final int USE_OFFSET = 0x17;
-	private static final int BLADE_EFFECT_OFFSET = 0x18;
-	private static final int WEAPON_SKILL1_OFFSET = 0x19;
-	private static final int WEAPON_SKILL2_OFFSET = 0x20;
-	private static final int ITEM_CLASSIFICATION_OFFSET = 0x21;
+	private static final int STAT_BONUSES_OFFSET = 0x0B;
+	private static final int COST_PER_USE_OFFSET = 0x0D;
+	private static final int USE_EFFECT_OFFSET = 0x11;
+	private static final int BLADE_EFFECT_OFFSET = 0x12;
+	private static final int WEAPON_SKILL1_OFFSET = 0x13;
+	private static final int WEAPON_SKILL2_OFFSET = 0x14;
+	private static final int ITEM_CLASSIFICATION_OFFSET = 0x15;
 	
 	private Item(int offset, String name) {
 		this.offset = offset;
@@ -222,12 +227,13 @@ public enum Item {
 		weaponRange = WeaponRange.findById(rom.getValueAt(relOffset + RANGE_OFFSET));
 		weaponRank = WeaponRank.findById(rom.getValueAt(relOffset + WEAPON_RANK_OFFSET, 2));
 		weaponEffectiveness = WeaponEffectiveness.findById(rom.getValueAt(relOffset + WPN_EFFECTIVENESS_OFFSET, 2));
-		// weapon stat bonus
-		// cost per use
-		// blade effect
-		// weapon skill1
-		// weapon skill2
-		// item classification
+		weaponStatBonus = WeaponStatBonus.findById(rom.getValueAt(relOffset + STAT_BONUSES_OFFSET, 2));
+		costPerUse = rom.getValueAt(relOffset + COST_PER_USE_OFFSET, -2);
+		itemUseEffect = ItemUseEffect.findById(rom.getValueAt(relOffset + USE_EFFECT_OFFSET));
+		weaponBladeEffect = WeaponBladeEffect.findById(rom.getValueAt(relOffset + BLADE_EFFECT_OFFSET));
+		weaponSkill1 = WeaponSkill1.findById(rom.getValueAt(relOffset + WEAPON_SKILL1_OFFSET));
+		weaponSkill2 = WeaponSkill2.findById(rom.getValueAt(relOffset + WEAPON_SKILL2_OFFSET));
+		itemClassification = ItemClassification.findById(rom.getValueAt(relOffset + ITEM_CLASSIFICATION_OFFSET));
 		
 		System.out.println(this);
 	}
@@ -236,8 +242,8 @@ public enum Item {
 	public String toString() {
 		String itemData = "";
 		
-		itemData += String.format("[Item] Name: name %s, Item type: %s, Power: %d, Acc: %d, Weight: %d, Max uses: %d, Crit: %d, Wpn Rng: %s, Wpn Rank: %s, Wpn Effectiveness: %s, Wpn stat bonus: %s, Cost x use: %d, Blade eff: %s, Wpn skill1: %s, Wpn skill2: %s, Item class: %s", 
-				name, itemType.getName(), power, accuracy, weight, maxUses, critical, weaponRange.getName(), weaponRank.getName(), weaponEffectiveness.getName(), "<StatBonus>", costPerUse, "<BladeEff>", "<WpnSkill1>", "<WpnSkill2>", "<ItemClass>");
+		itemData += String.format("[Item] Name: %s, Item type: %s, Power: %d, Acc: %d, Weight: %d, Max uses: %d, Crit: %d, Wpn Rng: %s, Wpn Rank: %s, Wpn Effectiveness: %s, Wpn stat bonus: %s, Cost x use: %d, Use effect: %s, Blade eff: %s, Wpn skill1: %s, Wpn skill2: %s, Item class: %s", 
+				name, itemType.getName(), power, accuracy, weight, maxUses, critical, weaponRange.getName(), weaponRank.getName(), weaponEffectiveness.getName(), weaponStatBonus.getName(), costPerUse, itemUseEffect.getName(), weaponBladeEffect.getName(), weaponSkill1.getName(), weaponSkill2.getName(), itemClassification.getName());
 		
 		return itemData;
 	}

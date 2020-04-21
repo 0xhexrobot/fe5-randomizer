@@ -1,86 +1,51 @@
 package org.hexrobot.fe5randomizer;
 
 public enum WeaponStatBonus {
-	NONE(0x8000),
-	PLUS_10LUK(0x8005),
-	PLUS_10DEF(0x8007),
-	PLUS_10SPD(0x8008),
-	PLUS_10SKL(0x8009),
-	PLUS_10MGC(0x800A),
-	PLUS_10STR(0x800B),
-	/*PLUS_10DEF(0x8014),
-	PLUS_10SPD(0x8015),
-	PLUS_10SKL(0x8016),*/
-	PLUS_10MGC_5LUK(0x8017),
-	/*PLUS_10STR(0x8018),*/
-	PLUS_5DEF(0x8019),
-	PLUS_5SPD(0x801A),
-	PLUS_5SKL(0x801B),
-	PLUS_5MGC(0x801C),
-	PLUS_5STR_5LUK(0x801D),
-	/*PLUS_5DEF(0x801F),
-	PLUS_5SPD(0x8020),
-	PLUS_5SKL(0x8021),
-	PLUS_5MGC(0x8022),
-	PLUS_5STR(0x8023),
-	PLUS_5LUK(0x8026),
-	PLUS_5DEF(0x8028),
-	PLUS_5SPD(0x8029),
-	PLUS_5SKL(0x802A),
-	PLUS_5MGC(0x802B),
-	PLUS_5STR(0x802C),
-	PLUS_5LUK(0x8030),
-	PLUS_5DEF(0x8032),
-	PLUS_5SPD(0x8033),
-	PLUS_5SKL(0x8034),*/
-	PLUS_5MGC_20LUK(0x8035),
-	/*PLUS_5STR(0x8036),*/
-	PLUS_20DEF(0x8037),
-	PLUS_20SPD(0x8038),
-	PLUS_20SKL(0x8039),
-	PLUS_20MGC(0x803A),
-	PLUS_20STR(0x803B),
-	/*PLUS_10LUK(0x8042),
-	PLUS_10DEF(0x8044),
-	PLUS_10SPD(0x8045),*/
-	PLUS_10SKL_20LUK(0x8046),
-	PLUS_10MGC_20LUK(0x8047),
-	PLUS_10STR_20DEF(0x8048),
-	PLUS_20SPD_20DEF(0x8049),
-	PLUS_20SKL_20SPD(0x804A),
-	PLUS_20MGC_20SKL(0x804B),
-	PLUS_20STR_20MGC(0x804C),
-	/*PLUS_20STR(0x804D),
-	PLUS_20LUK(0x8055),
-	PLUS_20DEF(0x8057),
-	PLUS_20SPD(0x8058),
-	PLUS_20SKL(0x8059),
-	PLUS_20MGC(0x805A),
-	PLUS_20STR(0x805B),
-	PLUS_20LUK(0x805F),
-	PLUS_20DEF(0x8061),
-	PLUS_20SPD(0x8062),
-	PLUS_20SKL(0x8063),
-	PLUS_20MGC(0x8064),
-	PLUS_20STR(0x8065),
-	PLUS_10LUK(0x8068),
-	PLUS_10DEF(0x806A),
-	PLUS_10SPD(0x806B),*/
-	PLUS_10SKL_10_LUK(0x806C),
-	/*PLUS_10MGC(0x806D),*/
-	PLUS_10STR_10_DEF(0x806E);
-	/*PLUS_10SPD(0x806F),
-	PLUS_10SKL(0x8070),
-	PLUS_10MGC(0x8071),
-	PLUS_10STR(0x8072);*/
+	NONE(0x0080, "None"),
+	PLUS_10MGC(0x0A80, "+10 Mag"),
+	PLUS_10LUK(0x1280, "+10 Lck"),
+	PLUS_5SPD(0x1A80, "+5 Spd"),
+	PLUS_5MGC(0x2280, "+ 5 Mag"),
+	PLUS_5SKL(0x2A80, "+5 Skl"),
+	PLUS_5DEF(0x3280, "+5 Def"),
+	PLUS_20MGC(0x3A80, "+20 Mag"),
+	PLUS_10LUK2(0x4280, "+10 Lck"),
+	PLUS_20SKL_20SPD(0x4A80, "+20Skl +20Spd"),
+	NONE2(0x5280, "None"),
+	PLUS_10DEF(0x6A80, "+10 Def"),
+	PLUS_10STR(0x7280, "+10 Str");
 
 	private int offset;
+	private String name;
 	
-	private WeaponStatBonus(int offset) {
+	private WeaponStatBonus(int offset, String name) {
 		this.offset = offset;
+		this.name = name;
 	}
 	
 	public int getOffset() {
 		return offset;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public static WeaponStatBonus findById(int offset) {
+		WeaponStatBonus weaponStatBonus = null;
+		
+		for(WeaponStatBonus wpnStatBonus : WeaponStatBonus.values()) {
+			if(wpnStatBonus.offset == offset) {
+				weaponStatBonus = wpnStatBonus;
+				break;
+			}
+		}
+		
+		if(weaponStatBonus == null) {
+			System.out.println(String.format("WARNING: Offset 0x%04X in WeaponStatBonus was not found.", offset));
+			weaponStatBonus = WeaponStatBonus.NONE;
+		}
+		
+		return weaponStatBonus;
 	}
 }

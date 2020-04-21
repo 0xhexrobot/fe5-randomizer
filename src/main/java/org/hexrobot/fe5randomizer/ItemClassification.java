@@ -1,8 +1,9 @@
 package org.hexrobot.fe5randomizer;
 
-public enum WeaponClassification {
+public enum ItemClassification {
 	ITEM(0x00, "Item"),
 	WEAPON(0x04, "Weapon"),
+	BALLISTA(0x05, "Ballista"),
 	MAGIC_WEAPON(0x06, "Magic Weapon"),
 	MAGIC(0x0C, "Magic"),
 	STAFF(0x10, "Staff"),
@@ -27,7 +28,7 @@ public enum WeaponClassification {
 	private int offset;
 	private String name;
 	
-	private WeaponClassification(int offset, String name) {
+	private ItemClassification(int offset, String name) {
 		this.offset = offset;
 		this.name = name;
 	}
@@ -36,10 +37,10 @@ public enum WeaponClassification {
 		return name;
 	}
 	
-	public static WeaponClassification findById(int offset) {
-		WeaponClassification weaponClassification = null;
+	public static ItemClassification findById(int offset) {
+		ItemClassification weaponClassification = null;
 		
-		for(WeaponClassification wpnClassification : WeaponClassification.values()) {
+		for(ItemClassification wpnClassification : ItemClassification.values()) {
 			if(wpnClassification.offset == offset) {
 				weaponClassification = wpnClassification;
 				break;
@@ -47,8 +48,8 @@ public enum WeaponClassification {
 		}
 		
 		if(weaponClassification == null) {
-			System.out.println(String.format("WARNING: Offset 0x%02X in WeaponClassification was not found.", offset));
-			weaponClassification = WeaponClassification.ITEM;
+			System.out.println(String.format("WARNING: Offset 0x%02X in ItemClassification was not found.", offset));
+			weaponClassification = ItemClassification.ITEM;
 		}
 		
 		return weaponClassification;

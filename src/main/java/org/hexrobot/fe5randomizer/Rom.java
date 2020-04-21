@@ -20,11 +20,19 @@ public class Rom {
 	}
 	
 	public int getValueAt(int offset, int length) {
-		if(length != 2) {
-			throw new UnsupportedOperationException("Only retrieving 2 bytes are supported.");
+		if(Math.abs(length) != 2) {
+			throw new IllegalArgumentException("Only retrieving 2 bytes are supported.");
 		}
 		
-		return (bytes[offset] & 0xFF) << 8 | (bytes[offset + 1] & 0xFF);
+		int value = 0;
+		
+		if(length == 2) {
+			value = (bytes[offset] & 0xFF) << 8 | (bytes[offset + 1] & 0xFF);
+		} else if(length == -2) {
+			value = (bytes[offset + 1] & 0xFF) << 8 | (bytes[offset] & 0xFF);
+		}
+		
+		return value;
 	}
 	
 	public RomValidity getRomValidity() {
