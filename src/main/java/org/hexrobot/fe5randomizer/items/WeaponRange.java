@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.items;
 
 public enum WeaponRange {
 	R_1(0x11, "R 1"),

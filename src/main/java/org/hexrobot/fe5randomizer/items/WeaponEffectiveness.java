@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.items;
 
 public enum WeaponEffectiveness {
 	NONE(0xAA80, "None"),

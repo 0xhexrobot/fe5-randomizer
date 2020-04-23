@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.items;
 
 public enum WeaponStatBonus {
 	NONE(0x0080, "None"),

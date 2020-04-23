@@ -1,4 +1,6 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.items;
+
+import org.hexrobot.fe5randomizer.Rom;
 
 public enum Item {
 	IRON_SWORD(0x00, "Iron Sword"),
@@ -225,17 +227,15 @@ public enum Item {
 		maxUses = rom.getValueAt(relOffset + MAX_USES_OFFSET);
 		critical = rom.getValueAt(relOffset + CRITICAL_OFFSET);
 		weaponRange = WeaponRange.findById(rom.getValueAt(relOffset + RANGE_OFFSET));
-		weaponRank = WeaponRank.findById(rom.getValueAt(relOffset + WEAPON_RANK_OFFSET, 2));
-		weaponEffectiveness = WeaponEffectiveness.findById(rom.getValueAt(relOffset + WPN_EFFECTIVENESS_OFFSET, 2));
-		weaponStatBonus = WeaponStatBonus.findById(rom.getValueAt(relOffset + STAT_BONUSES_OFFSET, 2));
+		weaponRank = WeaponRank.findById(rom.getValueAt(relOffset + WEAPON_RANK_OFFSET, 2)); // TODO reverse offsets
+		weaponEffectiveness = WeaponEffectiveness.findById(rom.getValueAt(relOffset + WPN_EFFECTIVENESS_OFFSET, 2)); // TODO reverse offsets
+		weaponStatBonus = WeaponStatBonus.findById(rom.getValueAt(relOffset + STAT_BONUSES_OFFSET, 2)); // TODO reverse offsets
 		costPerUse = rom.getValueAt(relOffset + COST_PER_USE_OFFSET, -2);
 		itemUseEffect = ItemUseEffect.findById(rom.getValueAt(relOffset + USE_EFFECT_OFFSET));
 		weaponBladeEffect = WeaponBladeEffect.findById(rom.getValueAt(relOffset + BLADE_EFFECT_OFFSET));
 		weaponSkill1 = WeaponSkill1.findById(rom.getValueAt(relOffset + WEAPON_SKILL1_OFFSET));
 		weaponSkill2 = WeaponSkill2.findById(rom.getValueAt(relOffset + WEAPON_SKILL2_OFFSET));
 		itemClassification = ItemClassification.findById(rom.getValueAt(relOffset + ITEM_CLASSIFICATION_OFFSET));
-		
-		System.out.println(this);
 	}
 	
 	@Override

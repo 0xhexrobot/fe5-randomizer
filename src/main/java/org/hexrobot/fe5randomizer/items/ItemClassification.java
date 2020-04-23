@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.items;
 
 public enum ItemClassification {
 	ITEM(0x00, "Item"),

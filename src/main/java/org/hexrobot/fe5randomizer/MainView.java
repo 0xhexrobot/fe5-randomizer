@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 public class MainView extends Application {
 
 	public static void main(String[] args) {
@@ -19,12 +18,10 @@ public class MainView extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainView.fxml"));
-		//Parent loadRomView = FXMLLoader.load(getClass().getClassLoader().getResource("LoadRomView.fxml"));
-
 		Scene scene = new Scene(root);
+		
 		primaryStage.setScene(scene);
         primaryStage.setTitle("Fire Emblem 5 Randomizer");
         primaryStage.show();
 	}
-
 }

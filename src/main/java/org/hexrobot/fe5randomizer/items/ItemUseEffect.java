@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.items;
 
 public enum ItemUseEffect {
 	NOTHING(0x00, "Nothing"),

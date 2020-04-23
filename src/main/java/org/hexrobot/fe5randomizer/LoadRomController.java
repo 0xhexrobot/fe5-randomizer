@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.CRC32;
 
+import org.hexrobot.fe5randomizer.items.Item;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -39,11 +41,8 @@ public class LoadRomController {
 			}
 
 			if(romValidity.equals(RomValidity.FE5_HEADERED) || romValidity.equals(RomValidity.FE5_UNHEADERED)) {
-				System.out.println("Viento en las velas!!!");
-
-				for(Item item : Item.values()) {
-					item.readItem(rom, Constants.ITEMS_OFFSET);
-				}
+			    //rom.initializeItems();
+			    rom.initializeCharacters();
 			} else {
 				switch(romValidity) {
 				case NO_FE5:
