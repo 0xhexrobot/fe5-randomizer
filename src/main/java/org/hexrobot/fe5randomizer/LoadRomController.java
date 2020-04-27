@@ -4,10 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.CRC32;
-
-import org.hexrobot.fe5randomizer.items.Item;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -18,7 +14,12 @@ public class LoadRomController {
 	@FXML
 	private Button btnLoadRom;
 
+	private MainController mainController;
 	private Rom rom;
+	
+	public void setMainController(MainController mainController) {
+	    this.mainController = mainController;
+	}
 
 	@FXML
 	private void openFileDialog() {
@@ -41,7 +42,7 @@ public class LoadRomController {
 			}
 
 			if(romValidity.equals(RomValidity.FE5_HEADERED) || romValidity.equals(RomValidity.FE5_UNHEADERED)) {
-			    //rom.initializeItems();
+			    rom.initializeItems();
 			    rom.initializeCharacters();
 			} else {
 				switch(romValidity) {

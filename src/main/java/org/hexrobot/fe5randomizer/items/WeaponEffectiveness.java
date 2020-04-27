@@ -1,12 +1,12 @@
 package org.hexrobot.fe5randomizer.items;
 
 public enum WeaponEffectiveness {
-	NONE(0xAA80, "None"),
-	ARMORS(0x7A80, "Armors"),
-	DRAGONS(0x8280, "Dragons"),
-	FLYING(0x8680, "Flying"),
-	ARMORS_KNIGHTS(0x8F80, "Armor/Knights"),
-	KNIGHTS(0x9680, "Knights");
+	NONE(0x80AA, "None"),
+	ARMORS(0x807A, "Armors"),
+	DRAGONS(0x8082, "Dragons"),
+	FLYING(0x8086, "Flying"),
+	ARMORS_KNIGHTS(0x808F, "Armor/Knights"),
+	KNIGHTS(0x8096, "Knights");
 	
 	private int offset;
 	private String name;

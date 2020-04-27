@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.characters;
 
 public enum MovementStars {
     MOV_STARS_0(0x00, 0),

@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.characters;
 
 public enum Gender {
     MALE(0x00, "Male"),

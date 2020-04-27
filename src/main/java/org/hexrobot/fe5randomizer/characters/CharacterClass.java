@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.characters;
 
 public enum CharacterClass {
     NOTHING(0x00, "Nothing/Separator"),

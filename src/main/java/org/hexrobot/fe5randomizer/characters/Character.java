@@ -1,16 +1,9 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.characters;
 
-import org.hexrobot.fe5randomizer.Character;
-import org.hexrobot.fe5randomizer.items.ItemClassification;
-import org.hexrobot.fe5randomizer.items.ItemType;
-import org.hexrobot.fe5randomizer.items.ItemUseEffect;
-import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
-import org.hexrobot.fe5randomizer.items.WeaponEffectiveness;
-import org.hexrobot.fe5randomizer.items.WeaponRange;
-import org.hexrobot.fe5randomizer.items.WeaponRank;
-import org.hexrobot.fe5randomizer.items.WeaponSkill1;
-import org.hexrobot.fe5randomizer.items.WeaponSkill2;
-import org.hexrobot.fe5randomizer.items.WeaponStatBonus;
+import java.util.ArrayList;
+
+import org.hexrobot.fe5randomizer.Rom;
+import org.hexrobot.fe5randomizer.characters.Character;
 
 public enum Character {
     LEAF(0x0001, "Leaf"),
@@ -367,7 +360,6 @@ public enum Character {
     private int baseBld = -1;
     private int baseLck = -1;
     private int baseMov = -1;
-    private int movStars = -1;
     private MovementStars movementStars = MovementStars.MOV_STARS_0;
     private int counterCritBoost = -1;
     private int hpGrowth = -1;
@@ -390,9 +382,10 @@ public enum Character {
     private int baseLightLv = -1;
     private int baseDarkLv = -1;
     private Gender gender = Gender.MALE;
-    private CharacterSkill1 characterSkill1 = CharacterSkill1.NONE;
-    private CharacterSkill2 characterSkill2 = CharacterSkill2.NONE;
-    private CharacterSkill3 characterSkill3 = CharacterSkill3.NONE;
+    private int skills1 = -1;
+    private int skills2 = -1;
+    private int skills3 = -1;
+    private ArrayList<Skill> skills = new ArrayList<Skill>();
     private CharacterClass characterClass = CharacterClass.LORD;
     private int leadershipStars = -1;
     
@@ -471,21 +464,13 @@ public enum Character {
         baseWindLv = rom.getValueAt(relOffset + BASE_WIND_LV_OFFSET);
         baseLightLv = rom.getValueAt(relOffset + BASE_LIGHT_LV_OFFSET);
         baseDarkLv = rom.getValueAt(relOffset + BASE_DARK_LV_OFFSET);
-        /*private static final int BASE_SWORD_LV_OFFSET = 0x14;
-        private static final int BASE_LANCE_LV_OFFSET = 0x15;
-        private static final int BASE_AXE_LV_OFFSET = 0x16;
-        private static final int BASE_BOW_LV_OFFSET = 0x17;
-        private static final int BASE_STAFF_LV_OFFSET = 0x18;
-        private static final int BASE_FIRE_LV_OFFSET = 0x19;
-        private static final int BASE_THUNDER_LV_OFFSET = 0x1A;
-        private static final int BASE_WIND_LV_OFFSET = 0x1B;
-        private static final int BASE_LIGHT_LV_OFFSET = 0x1C;
-        private static final int BASE_DARK_LV_OFFSET = 0x1D;
-        private static final int GENDER_OFFSET = 0x28;
-        private static final int SKILL1_OFFSET = 0x29;
-        private static final int SKILL2_OFFSET = 0x2A;
-        private static final int SKILL3_OFFSET = 0x2B;*/
+        gender = Gender.findById(rom.getValueAt(relOffset + GENDER_OFFSET));
+        skills1 = rom.getValueAt(relOffset + SKILL1_OFFSET);
+        skills2 = rom.getValueAt(relOffset + SKILL2_OFFSET);
+        skills3 = rom.getValueAt(relOffset + SKILL3_OFFSET);
+        skills = Skill.getSkills(skills1, skills2, skills3);
         characterClass = CharacterClass.findById(rom.getValueAt(relOffset + CLASS_OFFSET));
+        leadershipStars = rom.getValueAt(relOffset + LEADERSHIP_STARS_OFFSET);
         
         System.out.println(this);
     }
@@ -495,36 +480,48 @@ public enum Character {
     }
     
     public static Character findById(int offset) {
-        Character actor = null;
+        Character character = null;
         
-        for(Character currentActor : Character.values()) {
-            if(currentActor.offset == offset) {
-                actor = currentActor;
+        for(Character currentCharacter : Character.values()) {
+            if(currentCharacter.offset == offset) {
+                character = currentCharacter;
                 break;
             }
         }
         
-        if(actor == null) {
-            System.out.println(String.format("WARNING: Offset 0x%04X in Actor was not found.", offset));
-            actor = Character.LEAF;
+        if(character == null) {
+            System.out.println(String.format("WARNING: Offset 0x%04X in Character was not found.", offset));
+            character = Character.LEAF;
         }
         
-        return actor;
+        return character;
     }
     
     @Override
     public String toString() {
         String text;
         
-        text = String.format("[CHARACTER] Name: %s\n", name);
+        String skillsText = "";
+        
+        for(int i = 0; i < skills.size(); i++) {
+            skillsText += skills.get(i).getName();
+                    
+            if(i < skills.size() - 1) {
+                 skillsText += ", ";
+            }
+        }
+        
+        text = String.format("[CHARACTER] Name: %s, Class: %s, Gender: %s\n", name, characterClass.getName(), gender.getName());
         text += String.format("Bases HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",
                 baseHp, baseStr, baseMag, baseSkl, baseSpd, baseDef, baseBld, baseLck, baseMov);
-        text += String.format("Mov stars: %d, Counter crit bonus: %d\n",
-                movementStars.getAmmount(), counterCritBoost);
+        text += String.format("Mov stars: %d, Counter crit bonus: %d, Leadership stars: %d\n",
+                movementStars.getAmmount(), counterCritBoost, leadershipStars);
         text += String.format("Growths HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",
                 hpGrowth, strGrowth, magGrowth, sklGrowth, spdGrowth, defGrowth, bldGrowth, lckGrowth, movGrowth);
         text += String.format("Base Wpn level Sword: %d, Lance: %d Axe: %d, Bow: %d, Staff: %d, Fire: %d, Thunder: %d, Wind: %d, Light: %d, Dark: %d\n",
                 baseSwordLv, baseLanceLv, baseAxeLv, baseBowLv, baseStaffLv, baseFireLv, baseThunderLv, baseWindLv, baseLightLv, baseDarkLv);
+        text += String.format("Skill1: 0x%02X, Skill2: 0x%02X, Skill3: 0x%02X, (%s)\n",
+                skills1, skills2, skills3, skillsText);
         
         return text; 
     }

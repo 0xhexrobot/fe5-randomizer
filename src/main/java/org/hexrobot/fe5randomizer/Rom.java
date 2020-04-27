@@ -2,6 +2,7 @@ package org.hexrobot.fe5randomizer;
 
 import java.util.zip.CRC32;
 
+import org.hexrobot.fe5randomizer.characters.Character;
 import org.hexrobot.fe5randomizer.items.Item;
 
 public class Rom {
@@ -73,7 +74,6 @@ public class Rom {
 	public void initializeItems() {
 	    for(Item item : Item.values()) {
             item.readItem(this, ITEMS_OFFSET);
-            //System.out.println(item);
         }
 	}
 	

@@ -8,7 +8,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.MainController">
    <children>
       <MenuBar VBox.vgrow="NEVER">
         <menus>
@@ -24,7 +24,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ScrollPane id="scrlMain" VBox.vgrow="ALWAYS">
+      <ScrollPane id="scrlMain" fx:id="content" fitToHeight="true" fitToWidth="true" minViewportWidth="200.0" VBox.vgrow="ALWAYS">
          <content>
             <fx:include source="LoadRomView.fxml" />
          </content></ScrollPane>

@@ -17,9 +17,10 @@ public class MainView extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainView.fxml"));
+	    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("MainView.fxml"));
+		Parent root = loader.load();
 		Scene scene = new Scene(root);
-		
+				
 		primaryStage.setScene(scene);
         primaryStage.setTitle("Fire Emblem 5 Randomizer");
         primaryStage.show();
