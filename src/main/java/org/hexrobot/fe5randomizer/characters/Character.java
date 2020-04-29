@@ -471,8 +471,6 @@ public enum Character {
         skills = Skill.getSkills(skills1, skills2, skills3);
         characterClass = CharacterClass.findById(rom.getValueAt(relOffset + CLASS_OFFSET));
         leadershipStars = rom.getValueAt(relOffset + LEADERSHIP_STARS_OFFSET);
-        
-        System.out.println(this);
     }
     
     public String getName() {

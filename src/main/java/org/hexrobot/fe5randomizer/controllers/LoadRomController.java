@@ -1,30 +1,42 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.controllers;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.hexrobot.fe5randomizer.Rom;
+import org.hexrobot.fe5randomizer.RomValidity;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class LoadRomController {
+    @FXML
+    private HBox loadRom;
 	@FXML
 	private Button btnLoadRom;
 
-	private MainController mainController;
+	private Stage stage;
 	private Rom rom;
 	
-	public void setMainController(MainController mainController) {
-	    this.mainController = mainController;
+	public void setStage(Stage stage) {
+	    this.stage = stage;
 	}
 
 	@FXML
 	private void openFileDialog() {
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Select Fire Emblem 5 ROM file");
+		fileChooser.setTitle("Select Fire Emblem 5 Rom file");
 		fileChooser.setInitialDirectory(new File("/home/hexrobot/Downloads/"));
 		fileChooser.getExtensionFilters().add(
 				new FileChooser.ExtensionFilter("SNES ROM files (*.sfc, *.smc, *.fig)", "*.sfc", "*.smc", "*.fig"));
@@ -44,6 +56,12 @@ public class LoadRomController {
 			if(romValidity.equals(RomValidity.FE5_HEADERED) || romValidity.equals(RomValidity.FE5_UNHEADERED)) {
 			    rom.initializeItems();
 			    rom.initializeCharacters();
+			    
+			    try {
+			        goToSectionsScene();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
 			} else {
 				switch(romValidity) {
 				case NO_FE5:
@@ -70,5 +88,16 @@ public class LoadRomController {
 		inputStream.close();
 
 		return rom.getRomValidity();
+	}
+	
+	private void goToSectionsScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Sections.fxml"));
+        Parent vBox = loader.load();
+        SectionsController sectionsController = loader.getController();
+        sectionsController.setRom(rom);
+        
+        Scene sectionsScene = new Scene(vBox);
+        stage.setScene(sectionsScene);
+        stage.setResizable(true);
 	}
 }
