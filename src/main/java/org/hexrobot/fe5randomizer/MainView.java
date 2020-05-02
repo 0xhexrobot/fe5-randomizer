@@ -3,6 +3,8 @@ package org.hexrobot.fe5randomizer;
 import java.io.IOException;
 
 import org.hexrobot.fe5randomizer.controllers.LoadRomController;
+import org.hexrobot.fe5randomizer.controllers.MainController;
+import org.hexrobot.fe5randomizer.controllers.SectionsController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,13 +20,13 @@ public class MainView extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-	    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("LoadRom.fxml"));
-	    Parent root = loader.load();
-		Scene loadRomScene = new Scene(root);
-		LoadRomController loadRomController = loader.getController();
+	    FXMLLoader mainLoader = new FXMLLoader(getClass().getClassLoader().getResource("Main.fxml"));
+	    Parent root = mainLoader.load();
+		Scene scene = new Scene(root);
+		MainController mainController = mainLoader.getController();
 		
-		loadRomController.setStage(primaryStage);
-		primaryStage.setScene(loadRomScene);
+		mainController.setStage(primaryStage);
+		primaryStage.setScene(scene);
         primaryStage.setTitle("FE 5 Randomizer");
         primaryStage.setResizable(false);
         primaryStage.show();

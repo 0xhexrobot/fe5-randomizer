@@ -16,6 +16,11 @@ public class SectionsController {
         
     }
     
+    @FXML
+    private void initialize() {
+        System.out.println("Initializing sections controller.");
+    }
+    
     public void setRom(Rom rom) {
         this.rom = rom;
     }

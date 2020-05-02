@@ -8,78 +8,115 @@ import org.hexrobot.fe5randomizer.items.Item;
 public class Rom {
     private static final long FE5_HEADERED_CRC32_CHK = 2514651613L;
     private static final long FE5_UNHEADERED_CRC32_CHK = 4233206098L;
-    public static final int HEADER_SIZE = 0x200;
+    private static final long MIN_FILE_SIZE = 4233206098L;
+    private static final int HEADER_SIZE = 0x200;
+    private static final int GAME_TITLE_OFFSET = 0x81C0;
     private static final int ITEMS_OFFSET = 0x1802C2;
     private static final int CHARACTERS_OFFSET = 0x31C2D;
-	private byte[] bytes;
-	private boolean headered;
-	
-	public Rom(byte[] bytes) {
-		this.bytes = bytes;
-		headered = bytes.length % 1024 == 512;
-	}
-	
-	public boolean isHeadered() {
-		return headered;
-	}
-	
-	public int getValueAt(int offset) {
-	    if(!headered) {
+    private byte[] bytes;
+    private String name = "Unknown";
+    private boolean headered;
+    private boolean validFileSize;
+    private long crc32Checksum;
+    private boolean fireEmblem5;
+
+    public Rom(byte[] bytes) {
+        this.bytes = bytes;
+
+        headered = bytes.length % 1024 == 512;
+        validFileSize = bytes.length % 1024 == 0 && bytes.length >= MIN_FILE_SIZE;
+
+        CRC32 crc32 = new CRC32();
+        crc32.update(bytes);
+        crc32Checksum = crc32.getValue();
+
+        if(crc32Checksum == FE5_HEADERED_CRC32_CHK) {
+            name = "Fire Emblem 5 Headered";
+            fireEmblem5 = true;
+        } else if(crc32Checksum == FE5_UNHEADERED_CRC32_CHK) {
+            name = "Fire Emblem 5 Unheadered";
+            fireEmblem5 = true;
+        }
+
+        if(!fireEmblem5) {
+            String gameTitle = "";
+            for(int i = 0; i < 14; i++) {
+                char currentChar = (char) getValueAt(GAME_TITLE_OFFSET + i);
+                gameTitle += currentChar;
+            }
+
+            if(gameTitle.equals("FIREEMBLEM5ROM")) {
+                fireEmblem5 = true;
+            }
+        }
+    }
+
+    public int getValueAt(int offset) {
+        if(!headered) {
             offset -= HEADER_SIZE;
         }
-	    
-		return bytes[offset] & 0xFF;
-	}
-	
-	public int getValueAt(int offset, int length) {
-		if(Math.abs(length) != 2) {
-			throw new IllegalArgumentException("Only retrieving 2 bytes are supported.");
-		}
-		
-		if(!headered) {
-		    offset -= HEADER_SIZE;
-		}
-		
-		int value = 0;
-		
-		if(length == 2) {
-			value = (bytes[offset] & 0xFF) << 8 | (bytes[offset + 1] & 0xFF);
-		} else if(length == -2) {
-			value = (bytes[offset + 1] & 0xFF) << 8 | (bytes[offset] & 0xFF);
-		}
-		
-		return value;
-	}
-	
-	public RomValidity getRomValidity() {
-		RomValidity romValidity = RomValidity.ERROR;
-		CRC32 crc32 = new CRC32();
-		crc32.update(bytes);
-		Long fileCrc32Checksum = crc32.getValue();
 
-		System.out.println("Length: " + bytes.length + " bytes");
-		System.out.println("CRC32 checksum: " + fileCrc32Checksum);
+        return bytes[offset] & 0xFF;
+    }
 
-		if(fileCrc32Checksum.equals(FE5_HEADERED_CRC32_CHK)) {
-			System.out.println("Fire Emblem 5 headered");
-			romValidity = RomValidity.FE5_HEADERED;
-		} else if(fileCrc32Checksum.equals(FE5_UNHEADERED_CRC32_CHK)) {
-			System.out.println("Fire Emblem 5 unheadered");
-			romValidity = RomValidity.FE5_UNHEADERED;
-		}
-		
-		return romValidity;
-	}
-	
-	public void initializeItems() {
-	    for(Item item : Item.values()) {
+    public int getValueAt(int offset, int length) {
+        if(Math.abs(length) != 2) {
+            throw new IllegalArgumentException("Only retrieving 2 bytes are supported.");
+        }
+
+        if(!headered) {
+            offset -= HEADER_SIZE;
+        }
+
+        int value = 0;
+
+        if(length == 2) {
+            value = (bytes[offset] & 0xFF) << 8 | (bytes[offset + 1] & 0xFF);
+        } else if(length == -2) {
+            value = (bytes[offset + 1] & 0xFF) << 8 | (bytes[offset] & 0xFF);
+        }
+
+        return value;
+    }
+
+    public boolean isHeadered() {
+        return headered;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isValid() {
+        return validFileSize;
+    }
+
+    public boolean isFireEmblem5() {
+        return fireEmblem5;
+    }
+
+    public long getCrc32Checksum() {
+        return crc32Checksum;
+    }
+
+    public void initializeItems() {
+        for(Item item : Item.values()) {
             item.readItem(this, ITEMS_OFFSET);
         }
-	}
-	
-	public void initializeCharacters() {
-	    for(Character character : Character.values()) {
-	        character.readCharacter(this, CHARACTERS_OFFSET);
-	    }
-	}
+    }
+
+    public void initializeCharacters() {
+        for(Character character : Character.values()) {
+            character.readCharacter(this, CHARACTERS_OFFSET);
+        }
+    }
+
+    @Override
+    public String toString() {
+        String text = String.format(
+                "[ROM] Name: %s, FE5: %b, Header: %b, CRC32Chk: %d, File Size: %d bytes, Valid file size: %b",
+                name, fireEmblem5, headered, crc32Checksum, bytes.length, validFileSize);
+
+        return text;
+    }
 }
