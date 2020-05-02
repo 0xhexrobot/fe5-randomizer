@@ -4,6 +4,7 @@ import org.hexrobot.fe5randomizer.Rom;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class SectionsController {
     @FXML
@@ -16,12 +17,8 @@ public class SectionsController {
         
     }
     
-    @FXML
-    private void initialize() {
-        System.out.println("Initializing sections controller.");
-    }
-    
-    public void setRom(Rom rom) {
+    public void setRom(Rom rom, Stage stage) {
         this.rom = rom;
+        stage.setResizable(true);       
     }
 }

@@ -8,7 +8,7 @@ import org.hexrobot.fe5randomizer.items.Item;
 public class Rom {
     private static final long FE5_HEADERED_CRC32_CHK = 2514651613L;
     private static final long FE5_UNHEADERED_CRC32_CHK = 4233206098L;
-    private static final long MIN_FILE_SIZE = 4233206098L;
+    private static final int MIN_FILE_SIZE = 4194304;
     private static final int HEADER_SIZE = 0x200;
     private static final int GAME_TITLE_OFFSET = 0x81C0;
     private static final int ITEMS_OFFSET = 0x1802C2;
@@ -40,14 +40,12 @@ public class Rom {
 
         if(!fireEmblem5) {
             String gameTitle = "";
-            for(int i = 0; i < 14; i++) {
+            for(int i = 0; i < 11; i++) {
                 char currentChar = (char) getValueAt(GAME_TITLE_OFFSET + i);
                 gameTitle += currentChar;
             }
-
-            if(gameTitle.equals("FIREEMBLEM5ROM")) {
-                fireEmblem5 = true;
-            }
+                        
+            fireEmblem5 = gameTitle.equalsIgnoreCase("FIREEMBLEM5");
         }
     }
 
@@ -87,10 +85,6 @@ public class Rom {
         return name;
     }
 
-    public boolean isValid() {
-        return validFileSize;
-    }
-
     public boolean isFireEmblem5() {
         return fireEmblem5;
     }
@@ -114,8 +108,8 @@ public class Rom {
     @Override
     public String toString() {
         String text = String.format(
-                "[ROM] Name: %s, FE5: %b, Header: %b, CRC32Chk: %d, File Size: %d bytes, Valid file size: %b",
-                name, fireEmblem5, headered, crc32Checksum, bytes.length, validFileSize);
+                "[ROM] Name: %s, FE5: %b, Header: %b, CRC32Chk: %d, File Size: %d bytes, Valid file size: %b", name,
+                fireEmblem5, headered, crc32Checksum, bytes.length, validFileSize);
 
         return text;
     }

@@ -34,12 +34,10 @@
       <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
          <children>
             <Label text="Seed" />
-            <ComboBox prefHeight="34.0" prefWidth="60.0" />
-            <ComboBox prefHeight="34.0" prefWidth="60.0" />
-            <ComboBox prefHeight="34.0" prefWidth="60.0" />
-            <ComboBox prefHeight="34.0" prefWidth="60.0" />
-            <ComboBox prefHeight="34.0" prefWidth="60.0" />
-            <ComboBox prefHeight="34.0" prefWidth="60.0" />
+            <ComboBox fx:id="cbSeed1" prefHeight="34.0" prefWidth="60.0" />
+            <ComboBox fx:id="cbSeed2" prefHeight="34.0" prefWidth="60.0" />
+            <ComboBox fx:id="cbSeed3" prefHeight="34.0" prefWidth="60.0" />
+            <ComboBox fx:id="cbSeed4" prefHeight="34.0" prefWidth="60.0" />
             <Button mnemonicParsing="false" onAction="#generateRandomSeed" text="Random seed">
                <HBox.margin>
                   <Insets left="20.0" />

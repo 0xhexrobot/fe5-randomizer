@@ -42,8 +42,6 @@ public class LoadRomController {
                 new FileChooser.ExtensionFilter("SNES ROM files (*.sfc, *.smc, *.fig)", "*.sfc", "*.smc", "*.fig"));
         File selectedFile = fileChooser.showOpenDialog(btnLoadRom.getScene().getWindow());
 
-        Alert alert = new Alert(AlertType.ERROR);
-
         if(selectedFile != null) {
             LoadRomService loadRomService = new LoadRomService(selectedFile);
 
@@ -54,6 +52,7 @@ public class LoadRomController {
             label.visibleProperty().bind(loadRomService.runningProperty());
             progressBar.progressProperty().bind(loadRomService.progressProperty());
             progressBar.visibleProperty().bind(loadRomService.runningProperty());
+            btnLoadRom.disableProperty().bind(loadRomService.runningProperty());
 
             loadRomService.start();
 
@@ -67,31 +66,25 @@ public class LoadRomController {
                     progressBar.progressProperty().unbind();
                     progressBar.visibleProperty().unbind();
                     progressBar.setVisible(false);
-                    
-                    Rom rom = loadRomService.getValue();
-                    System.out.println(rom);
-                    mainController.switchToSectionsController(rom);
+                    btnLoadRom.disableProperty().unbind();
+                    btnLoadRom.setDisable(false);
+
+                    evaluateRom(loadRomService.getValue());
                 }
             });
 
-            /*
-             * try { romValidity = isValidRom(selectedFile); } catch(IOException e) {
-             * e.printStackTrace(); romValidity = RomValidity.ERROR; }
-             * 
-             * if(romValidity.equals(RomValidity.FE5_HEADERED) ||
-             * romValidity.equals(RomValidity.FE5_UNHEADERED)) { rom.initializeItems();
-             * rom.initializeCharacters();
-             * 
-             * try { goToSectionsScene(); } catch (IOException e) { e.printStackTrace(); } }
-             * else { switch(romValidity) { case NO_FE5:
-             * alert.setContentText("Only Fire Emblem 5 is supported."); break; case
-             * FAILS_CHECKSUM: alert.
-             * setContentText("Only unpatched versions of Fire Emblem 5 are supported.");
-             * break; case ERROR: alert.setContentText("The file was not found."); break;
-             * default: break; }
-             * 
-             * alert.show();
-             */
+        }
+    }
+
+    private void evaluateRom(Rom rom) {
+        System.out.println(rom);
+        
+        if(rom.isFireEmblem5()) {
+            mainController.switchToSectionsController(rom);
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setContentText("The selected file is not a Fire Emblem 5 Rom.");
+            alert.show();
         }
     }
 }

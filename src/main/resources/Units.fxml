@@ -13,7 +13,7 @@
    <children>
       <VBox spacing="5.0">
          <children>
-            <CheckBox mnemonicParsing="false" text="Randomize bases" />
+            <CheckBox fx:id="chkBases" mnemonicParsing="false" text="Randomize bases" />
             <HBox spacing="10.0">
                <children>
                   <RadioButton mnemonicParsing="false" selected="true" text="Variance">
@@ -30,28 +30,28 @@
             <HBox fx:id="parBasesVarianceOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Delta" />
-                  <Spinner prefWidth="70.0" />
+                  <Spinner fx:id="spBasesDelta" prefWidth="70.0" />
                </children>
             </HBox>
             <HBox fx:id="parBasesRedistributeOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Variance" />
-                  <Spinner prefWidth="70.0" />
+                  <Spinner fx:id="spBasesVar" prefWidth="70.0" />
                </children>
             </HBox>
             <HBox fx:id="parBasesAbsoluteOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Min bases" />
-                  <Spinner prefWidth="70.0" />
+                  <Spinner fx:id="spBasesMin" prefWidth="70.0" />
                   <Label text="Max bases" />
-                  <Spinner prefWidth="70.0" />
+                  <Spinner fx:id="spBasesMax" prefWidth="70.0" />
                </children>
             </HBox>
          </children>
       </VBox>
       <VBox spacing="5.0">
          <children>
-            <CheckBox mnemonicParsing="false" text="Randomize growths" />
+            <CheckBox fx:id="chkGrowths" mnemonicParsing="false" text="Randomize growths" />
             <HBox spacing="10.0">
                <children>
                   <RadioButton mnemonicParsing="false" selected="true" text="Variance">
@@ -69,21 +69,21 @@
             <HBox fx:id="parGrowthVarianceOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Delta" />
-                  <Spinner prefWidth="70.0" />
+                  <Spinner fx:id="spGrowthsDelta" prefWidth="70.0" />
                </children>
             </HBox>
             <HBox fx:id="parGrowthsRedistributeOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Variance" />
-                  <Spinner prefWidth="70.0" />
+                  <Spinner fx:id="spGrowthsVar" prefWidth="70.0" />
                </children>
             </HBox>
             <HBox fx:id="parGrowthsAbsoluteOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Min growths" />
-                  <Spinner prefWidth="70.0" />
+                  <Spinner fx:id="spGrowthsAbsMin" prefWidth="70.0" />
                   <Label text="Max growths" />
-                  <Spinner prefWidth="70.0" />
+                  <Spinner fx:id="spGrowthsAbsMax" prefWidth="70.0" />
                </children>
             </HBox>
          </children>

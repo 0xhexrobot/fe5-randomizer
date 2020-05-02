@@ -39,8 +39,9 @@ public class LoadRomService extends Service<Rom> {
                         updateProgress(0.7, 1.0);
                         updateMessage("Reading characters...");
                         rom.initializeCharacters();
-                        updateProgress(1.0, 1.0);
                     }
+                    
+                    updateProgress(1.0, 1.0);
                 } catch(IOException e) {
                     e.printStackTrace();
                 }

@@ -38,9 +38,7 @@ public class MainController {
     }
     
     public void switchToSectionsController(Rom rom) {
-        sectionsController.setRom(rom);
-        
-        stage.setResizable(true);
+        sectionsController.setRom(rom, stage);
         content.setContent(vBox);
         stage.sizeToScene();
     }
