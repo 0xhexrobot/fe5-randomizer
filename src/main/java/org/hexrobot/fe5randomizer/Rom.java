@@ -14,7 +14,7 @@ public class Rom {
     private static final int ITEMS_OFFSET = 0x1802C2;
     private static final int CHARACTERS_OFFSET = 0x31C2D;
     private byte[] bytes;
-    private String name = "Unknown";
+    private String name = "Fire Emblem 5 (Unknown)";
     private boolean headered;
     private boolean validFileSize;
     private long crc32Checksum;
@@ -30,11 +30,8 @@ public class Rom {
         crc32.update(bytes);
         crc32Checksum = crc32.getValue();
 
-        if(crc32Checksum == FE5_HEADERED_CRC32_CHK) {
-            name = "Fire Emblem 5 Headered";
-            fireEmblem5 = true;
-        } else if(crc32Checksum == FE5_UNHEADERED_CRC32_CHK) {
-            name = "Fire Emblem 5 Unheadered";
+        if(crc32Checksum == FE5_HEADERED_CRC32_CHK || crc32Checksum == FE5_UNHEADERED_CRC32_CHK) {
+            name = "Fire Emblem 5";
             fireEmblem5 = true;
         }
 
@@ -91,6 +88,10 @@ public class Rom {
 
     public long getCrc32Checksum() {
         return crc32Checksum;
+    }
+    
+    public int getSize() {
+        return bytes.length;
     }
 
     public void initializeItems() {

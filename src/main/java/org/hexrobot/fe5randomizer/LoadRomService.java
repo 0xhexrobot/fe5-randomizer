@@ -25,6 +25,7 @@ public class LoadRomService extends Service<Rom> {
 
                 try {
                     updateMessage("Loading file...");
+                    updateProgress(0, 1.0);
                     InputStream inputStream = new FileInputStream(file);
 
                     rom = new Rom(inputStream.readAllBytes());
@@ -41,6 +42,7 @@ public class LoadRomService extends Service<Rom> {
                         rom.initializeCharacters();
                     }
                     
+                    updateMessage("Finished loading.");
                     updateProgress(1.0, 1.0);
                 } catch(IOException e) {
                     e.printStackTrace();

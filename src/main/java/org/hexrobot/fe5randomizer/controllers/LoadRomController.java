@@ -1,17 +1,11 @@
 package org.hexrobot.fe5randomizer.controllers;
 
 import java.io.File;
-import java.io.IOException;
 import org.hexrobot.fe5randomizer.LoadRomService;
 import org.hexrobot.fe5randomizer.Rom;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -19,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 public class LoadRomController {
     @FXML

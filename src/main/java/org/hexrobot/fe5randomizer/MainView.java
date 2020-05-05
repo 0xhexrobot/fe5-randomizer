@@ -2,10 +2,7 @@ package org.hexrobot.fe5randomizer;
 
 import java.io.IOException;
 
-import org.hexrobot.fe5randomizer.controllers.LoadRomController;
 import org.hexrobot.fe5randomizer.controllers.MainController;
-import org.hexrobot.fe5randomizer.controllers.SectionsController;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
