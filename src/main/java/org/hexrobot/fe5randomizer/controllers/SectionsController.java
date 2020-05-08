@@ -25,9 +25,9 @@ public class SectionsController {
     private ComboBox<Integer> cbSeed3;
     @FXML
     private ComboBox<Integer> cbSeed4;
-
-    private Rom rom;
-
+    @FXML
+    private UnitsController unitsController;
+    
     @FXML
     private void initialize() {
         cbSeed1.getSelectionModel().selectFirst();
@@ -45,7 +45,6 @@ public class SectionsController {
     }
 
     public void setRom(Rom rom, Stage stage) {
-        this.rom = rom;
         stage.setResizable(true);
         lblTitle.setText(String.format("%s %s", rom.getName(), rom.isHeadered() ? "Headered" : "Headerless"));
         lblBytes.setText(String.format("%d bytes", rom.getSize()));

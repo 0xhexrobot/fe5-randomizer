@@ -20,31 +20,22 @@
                      <children>
                         <RadioButton fx:id="rbBasesVariance" mnemonicParsing="false" selected="true" text="Variance">
                            <toggleGroup>
-                              <ToggleGroup fx:id="rbgBases" />
+                              <ToggleGroup fx:id="tgBases" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="rbBasesRedistribute" mnemonicParsing="false" text="Redistribute" toggleGroup="$rbgBases" />
-                        <RadioButton fx:id="rbBasesAbsolute" mnemonicParsing="false" text="Absolute" toggleGroup="$rbgBases" />
+                        <RadioButton fx:id="rbBasesRedistribute" mnemonicParsing="false" text="Redistribute" toggleGroup="$tgBases" />
                      </children>
                   </HBox>
                   <HBox fx:id="parBasesVarianceOptions" alignment="CENTER_RIGHT" spacing="10.0">
                      <children>
                         <Label text="Delta" />
-                        <Spinner fx:id="spBasesDelta" prefWidth="70.0" />
+                        <Spinner fx:id="spBasesDelta" prefWidth="70.0" min="0" max="20" editable="true" />
                      </children>
                   </HBox>
                   <HBox fx:id="parBasesRedistributeOptions" alignment="CENTER_RIGHT" spacing="10.0">
                      <children>
                         <Label text="Variance" />
-                        <Spinner fx:id="spBasesVar" prefWidth="70.0" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="parBasesAbsoluteOptions" alignment="CENTER_RIGHT" spacing="10.0">
-                     <children>
-                        <Label text="Min bases" />
-                        <Spinner fx:id="spBasesMin" prefWidth="70.0" />
-                        <Label text="Max bases" />
-                        <Spinner fx:id="spBasesMax" prefWidth="70.0" />
+                        <Spinner fx:id="spBasesVar" prefWidth="70.0" min="0" max="20" editable="true" />
                      </children>
                   </HBox>
                </children>
@@ -63,31 +54,31 @@
                      <children>
                         <RadioButton fx:id="rbGrowthsVariance" mnemonicParsing="false" selected="true" text="Variance">
                            <toggleGroup>
-                              <ToggleGroup fx:id="rbgGrowths" />
+                              <ToggleGroup fx:id="tgGrowths" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="rbGrowthsRedistribute" mnemonicParsing="false" text="Redistribute" toggleGroup="$rbgGrowths" />
-                        <RadioButton fx:id="rbGrowthsAbsolute" mnemonicParsing="false" text="Absolute" toggleGroup="$rbgGrowths" />
+                        <RadioButton fx:id="rbGrowthsRedistribute" mnemonicParsing="false" text="Redistribute" toggleGroup="$tgGrowths" />
+                        <RadioButton fx:id="rbGrowthsAbsolute" mnemonicParsing="false" text="Absolute" toggleGroup="$tgGrowths" />
                      </children>
                   </HBox>
                   <HBox fx:id="parGrowthsVarianceOptions" alignment="CENTER_RIGHT" spacing="10.0">
                      <children>
                         <Label text="Delta" />
-                        <Spinner fx:id="spGrowthsDelta" prefWidth="70.0" />
+                        <Spinner fx:id="spGrowthsDelta" prefWidth="70.0" min="0" max="100" amountToStepBy="5" editable="true" />
                      </children>
                   </HBox>
                   <HBox fx:id="parGrowthsRedistributeOptions" alignment="CENTER_RIGHT" spacing="10.0">
                      <children>
                         <Label text="Variance" />
-                        <Spinner fx:id="spGrowthsVar" prefWidth="70.0" />
+                        <Spinner fx:id="spGrowthsVar" prefWidth="70.0" min="0" max="100" amountToStepBy="5" editable="true" />
                      </children>
                   </HBox>
                   <HBox fx:id="parGrowthsAbsoluteOptions" alignment="CENTER_RIGHT" spacing="10.0">
                      <children>
                         <Label text="Min growths" />
-                        <Spinner fx:id="spGrowthsAbsMin" prefWidth="70.0" />
+                        <Spinner fx:id="spGrowthsAbsMin" prefWidth="70.0" min="0" max="200" amountToStepBy="5" editable="true" />
                         <Label text="Max growths" />
-                        <Spinner fx:id="spGrowthsAbsMax" prefWidth="70.0" />
+                        <Spinner fx:id="spGrowthsAbsMax" prefWidth="70.0" min="0" max="200" amountToStepBy="5" editable="true" />
                      </children>
                   </HBox>
                </children>

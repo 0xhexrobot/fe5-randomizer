@@ -105,6 +105,14 @@ public class Rom {
             character.readCharacter(this, CHARACTERS_OFFSET);
         }
     }
+    
+    public void randomizeUnitsBasesVariance(int delta) {
+        
+    }
+    
+    public void randomizeUnitsGrowths() {
+        
+    }
 
     @Override
     public String toString() {

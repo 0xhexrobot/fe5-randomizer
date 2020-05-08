@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox fx:id="randomize" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.RandomizeController">
    <children>
       <Label text="Randomization summary" VBox.vgrow="NEVER" />
@@ -15,7 +14,7 @@
       <HBox VBox.vgrow="NEVER">
          <children>
             <Pane HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" text="Randomize" HBox.hgrow="NEVER" />
+            <Button mnemonicParsing="false" onAction="#randomize" text="Randomize" HBox.hgrow="NEVER" />
          </children>
       </HBox>
    </children>

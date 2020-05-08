@@ -1,8 +1,12 @@
 package org.hexrobot.fe5randomizer.controllers;
 
+import org.hexrobot.fe5randomizer.RandomizeSummary;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -15,8 +19,6 @@ public class UnitsController {
     private RadioButton rbBasesVariance;
     @FXML
     private RadioButton rbBasesRedistribute;
-    @FXML
-    private RadioButton rbBasesAbsolute;
     @FXML
     private RadioButton rbGrowthsVariance;
     @FXML
@@ -32,23 +34,35 @@ public class UnitsController {
     @FXML
     private HBox parBasesRedistributeOptions;
     @FXML
-    private HBox parBasesAbsoluteOptions;
-    @FXML
     private HBox parGrowthsVarianceOptions;
     @FXML
     private HBox parGrowthsRedistributeOptions;
     @FXML
     private HBox parGrowthsAbsoluteOptions;
-    
+    @FXML
+    private Spinner<Integer> spBasesDelta;
+    @FXML
+    private Spinner<Integer> spBasesVar;
+    @FXML
+    private Spinner<Integer> spGrowthsDelta;
+    @FXML
+    private Spinner<Integer> spGrowthsVar;
+    @FXML
+    private Spinner<Integer> spGrowthsAbsMin;
+    @FXML
+    private Spinner<Integer> spGrowthsAbsMax;
+    @FXML
+    private ToggleGroup tgBases;
+    @FXML
+    private ToggleGroup tgGrowths;
+        
     @FXML
     private void initialize() {
         // bases controls
         parBasesVarianceOptions.managedProperty().bind(parBasesVarianceOptions.visibleProperty());
         parBasesRedistributeOptions.managedProperty().bind(parBasesRedistributeOptions.visibleProperty());
-        parBasesAbsoluteOptions.managedProperty().bind(parBasesAbsoluteOptions.visibleProperty());
         parBasesVarianceOptions.visibleProperty().bind(rbBasesVariance.selectedProperty());
         parBasesRedistributeOptions.visibleProperty().bind(rbBasesRedistribute.selectedProperty());
-        parBasesAbsoluteOptions.visibleProperty().bind(rbBasesAbsolute.selectedProperty());
         parBasesControls.disableProperty().bind(chkBases.selectedProperty().not());
         
         // growths controls
@@ -59,5 +73,28 @@ public class UnitsController {
         parGrowthsRedistributeOptions.visibleProperty().bind(rbGrowthsRedistribute.selectedProperty());
         parGrowthsAbsoluteOptions.visibleProperty().bind(rbGrowthsAbsolute.selectedProperty());
         parGrowthsControls.disableProperty().bind(chkGrowths.selectedProperty().not());
+        
+        // radiobuttons user data
+        rbBasesVariance.setUserData("variance");
+        rbBasesRedistribute.setUserData("redistribute");
+        rbGrowthsVariance.setUserData("variance");
+        rbGrowthsRedistribute.setUserData("redistribute");
+        rbGrowthsAbsolute.setUserData("absolute");
+        
+        RandomizeSummary randomizeSummary = MainController.randomizeSummary;
+        
+        // bases
+        chkBases.selectedProperty().bindBidirectional(randomizeSummary.randomizeBasesProperty());
+        randomizeSummary.basesRandomizationTypeProperty().bind(tgBases.selectedToggleProperty());
+        spBasesDelta.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.basesVarianceProperty());
+        spBasesVar.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.basesVarianceProperty());
+        
+        // growths
+        chkGrowths.selectedProperty().bindBidirectional(randomizeSummary.randomizeGrowthsProperty());
+        randomizeSummary.growthsRandomizationTypeProperty().bind(tgGrowths.selectedToggleProperty());
+        spGrowthsDelta.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsVarianceProperty());
+        spGrowthsVar.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsRedistributeVarProperty());
+        spGrowthsAbsMin.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsAbsoluteMinProperty());
+        spGrowthsAbsMax.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsAbsoluteMaxProperty());
     }
 }

@@ -2,6 +2,7 @@ package org.hexrobot.fe5randomizer.controllers;
 
 import java.io.IOException;
 
+import org.hexrobot.fe5randomizer.RandomizeSummary;
 import org.hexrobot.fe5randomizer.Rom;
 
 import javafx.fxml.FXML;
@@ -25,9 +26,12 @@ public class MainController {
     private Stage stage;
     private SectionsController sectionsController;
     private Parent vBox;
+    public static RandomizeSummary randomizeSummary;
+    public static Rom rom = null;
     
     @FXML
     private void initialize()  throws IOException {
+        randomizeSummary = new RandomizeSummary();
         loadRomController.setMainController(this);
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Sections.fxml"));
         vBox = loader.load();
