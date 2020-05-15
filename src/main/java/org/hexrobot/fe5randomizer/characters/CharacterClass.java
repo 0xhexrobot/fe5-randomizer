@@ -30,10 +30,10 @@ public enum CharacterClass {
     GENERAL(0x1A, "General"),
     EMPEROR(0x1B, "Emperor"),
     BARON(0x1C, "Baron"),
-    LANCE_ARMOUR(0x1D, "Lance Armour"),
-    AXE_ARMOUR(0x1E, "Axe Armour"),
-    BOW_ARMOUR(0x1F, "Bow Armour"),
-    SWORD_ARMOUR(0x20, "Sword Armour"),
+    LANCE_ARMOR(0x1D, "Lance Armor"),
+    AXE_ARMOR(0x1E, "Axe Armor"),
+    BOW_ARMOUR(0x1F, "Bow Armor"),
+    SWORD_ARMOR(0x20, "Sword Armor"),
     BERSERKER(0x21, "Berserker"),
     MOUNTAIN_THIEF(0x22, "Mountain Thief"),
     MOUNTAIN_THIEF2(0x23, "Mountain Thief (2)"),
@@ -128,6 +128,10 @@ public enum CharacterClass {
     private CharacterClass(int offset, String name) {
         this.offset = offset;
         this.name = name;
+    }
+    
+    public int getOffset() {
+        return offset;
     }
     
     public String getName() {

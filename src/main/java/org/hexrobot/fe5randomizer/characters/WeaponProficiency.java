@@ -3,7 +3,7 @@ package org.hexrobot.fe5randomizer.characters;
 public class WeaponProficiency {
     private int proficiency;
     
-    private WeaponProficiency(int proficiency) {
+    public void setAmount(int proficiency) {
         this.proficiency = proficiency;
     }
     
@@ -11,7 +11,7 @@ public class WeaponProficiency {
         return proficiency;
     }
     
-    public static String getName(int proficiency) {
+    public String getName() {
         String name;
         
         if(proficiency > 249) {

@@ -1,8 +1,11 @@
 package org.hexrobot.fe5randomizer;
 
+import java.beans.PropertyChangeListener;
+import java.util.Random;
 import java.util.zip.CRC32;
 
-import org.hexrobot.fe5randomizer.characters.Character;
+import org.hexrobot.fe5randomizer.characters.GameCharacter;
+import org.hexrobot.fe5randomizer.controllers.MainController;
 import org.hexrobot.fe5randomizer.items.Item;
 
 public class Rom {
@@ -19,9 +22,11 @@ public class Rom {
     private boolean validFileSize;
     private long crc32Checksum;
     private boolean fireEmblem5;
+    private Random random;
 
     public Rom(byte[] bytes) {
         this.bytes = bytes;
+        random = new Random();
 
         headered = bytes.length % 1024 == 512;
         validFileSize = bytes.length % 1024 == 0 && bytes.length >= MIN_FILE_SIZE;
@@ -44,6 +49,10 @@ public class Rom {
                         
             fireEmblem5 = gameTitle.equalsIgnoreCase("FIREEMBLEM5");
         }
+    }
+    
+    public void setRandomSeed(long seed) {
+        random = new Random(seed);
     }
 
     public int getValueAt(int offset) {
@@ -101,13 +110,25 @@ public class Rom {
     }
 
     public void initializeCharacters() {
-        for(Character character : Character.values()) {
+        PropertyChangeListener changesTracker = MainController.getInstance().getChangesTracker();
+
+        for(GameCharacter character : GameCharacter.values()) {
             character.readCharacter(this, CHARACTERS_OFFSET);
+            character.addPropertyChangeListener(changesTracker);
         }
     }
     
     public void randomizeUnitsBasesVariance(int delta) {
+        GameCharacter[] characters = GameCharacter.values();
         
+        for(int i = 0; i < characters.length; i++) {
+            GameCharacter character = characters[i];
+            
+            int baseHp = character.getBaseHp();
+            int newBaseHp = baseHp + random.nextInt(delta * 2 + 1) - delta;
+            
+            character.setBaseHp(newBaseHp);
+        }
     }
     
     public void randomizeUnitsGrowths() {

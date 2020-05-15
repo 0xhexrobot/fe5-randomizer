@@ -30,3 +30,6 @@ proguard/
 .gradle/
 build/
 bin/
+
+*.md
+*..html

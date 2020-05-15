@@ -73,7 +73,7 @@ public class LoadRomController {
         System.out.println(rom);
         
         if(rom.isFireEmblem5()) {
-            MainController.rom = rom;
+            mainController.setRom(rom);
             mainController.switchToSectionsController(rom);
         } else {
             Alert alert = new Alert(AlertType.ERROR);

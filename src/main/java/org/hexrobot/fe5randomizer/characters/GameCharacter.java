@@ -1,11 +1,13 @@
 package org.hexrobot.fe5randomizer.characters;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import org.hexrobot.fe5randomizer.Rom;
-import org.hexrobot.fe5randomizer.characters.Character;
+import org.hexrobot.fe5randomizer.characters.GameCharacter;
 
-public enum Character {
+public enum GameCharacter {
     LEAF(0x0001, "Leaf"),
     FINN(0x0002, "Finn"),
     OTHIN(0x0003, "Othin"),
@@ -49,7 +51,7 @@ public enum Character {
     SLEUF(0x0029, "Sleuf"),
     MAREETA(0x002A, "Mareeta"),
     TINA(0x002B, "Tina"),
-    GUNNA(0x002C, "Gunna_Bishop from dialogue)"),
+    GUNNA(0x002C, "Gunna (Bishop from dialogue)"),
     AMALDA(0x002D, "Amalda"),
     CONOMORE(0x002E, "Conomore"),
     HOMEROS(0x002F, "Homeros"),
@@ -352,7 +354,7 @@ public enum Character {
     private int offset;
     private String name;
     private int baseHp = -1;
-    private int baseStr = -1;
+    private int baseAtk = -1;
     private int baseMag = -1;
     private int baseSkl = -1;
     private int baseSpd = -1;
@@ -363,7 +365,7 @@ public enum Character {
     private MovementStars movementStars = MovementStars.MOV_STARS_0;
     private int counterCritBoost = -1;
     private int hpGrowth = -1;
-    private int strGrowth = -1;
+    private int atkGrowth = -1;
     private int magGrowth = -1;
     private int sklGrowth = -1;
     private int spdGrowth = -1;
@@ -371,16 +373,16 @@ public enum Character {
     private int bldGrowth = -1;
     private int lckGrowth = -1;
     private int movGrowth = -1;
-    private int baseSwordLv = -1;
-    private int baseLanceLv = -1;
-    private int baseAxeLv = -1;
-    private int baseBowLv = -1;
-    private int baseStaffLv = -1;
-    private int baseFireLv = -1;
-    private int baseThunderLv = -1;
-    private int baseWindLv = -1;
-    private int baseLightLv = -1;
-    private int baseDarkLv = -1;
+    private WeaponProficiency baseSwordLv = new WeaponProficiency();
+    private WeaponProficiency baseLanceLv = new WeaponProficiency();
+    private WeaponProficiency baseAxeLv = new WeaponProficiency();
+    private WeaponProficiency baseBowLv = new WeaponProficiency();
+    private WeaponProficiency baseStaffLv = new WeaponProficiency();
+    private WeaponProficiency baseFireLv = new WeaponProficiency();
+    private WeaponProficiency baseThunderLv = new WeaponProficiency();
+    private WeaponProficiency baseWindLv = new WeaponProficiency();
+    private WeaponProficiency baseLightLv = new WeaponProficiency();
+    private WeaponProficiency baseDarkLv = new WeaponProficiency();
     private Gender gender = Gender.MALE;
     private int skills1 = -1;
     private int skills2 = -1;
@@ -426,8 +428,9 @@ public enum Character {
     private static final int SKILL3_OFFSET = 0x2B;
     private static final int CLASS_OFFSET = 0x2C;
     private static final int LEADERSHIP_STARS_OFFSET = 0x2D;
+    PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
-    private Character(int offset, String name) {
+    private GameCharacter(int offset, String name) {
         this.offset = offset;
         this.name = name;
     }
@@ -435,7 +438,7 @@ public enum Character {
     public void readCharacter(Rom rom, int startingOffset) {
         int relOffset = startingOffset + (offset - 1) * CHARACTER_DATA_SIZE;
         baseHp = rom.getValueAt(relOffset + BASE_HP_OFFSET);
-        baseStr = rom.getValueAt(relOffset + BASE_STR_OFFSET);
+        baseAtk = rom.getValueAt(relOffset + BASE_STR_OFFSET);
         baseMag = rom.getValueAt(relOffset + BASE_MAG_OFFSET);
         baseSkl = rom.getValueAt(relOffset + BASE_SKL_OFFSET);
         baseSpd = rom.getValueAt(relOffset + BASE_SPD_OFFSET);
@@ -446,7 +449,7 @@ public enum Character {
         movementStars = MovementStars.findById(rom.getValueAt(relOffset + MOV_STARS_OFFSET));
         counterCritBoost = rom.getValueAt(relOffset + COUNTER_CRIT_BOOST_OFFSET);
         hpGrowth = rom.getValueAt(relOffset + HP_GROWTH_OFFSET);
-        strGrowth = rom.getValueAt(relOffset + STR_GROWTH_OFFSET);
+        atkGrowth = rom.getValueAt(relOffset + STR_GROWTH_OFFSET);
         magGrowth = rom.getValueAt(relOffset + MAG_GROWTH_OFFSET);
         sklGrowth = rom.getValueAt(relOffset + SKL_GROWTH_OFFSET);
         spdGrowth = rom.getValueAt(relOffset + SPD_GROWTH_OFFSET);
@@ -454,16 +457,16 @@ public enum Character {
         bldGrowth = rom.getValueAt(relOffset + BLD_GROWTH_OFFSET);
         lckGrowth = rom.getValueAt(relOffset + LCK_GROWTH_OFFSET);
         movGrowth = rom.getValueAt(relOffset + MOV_GROWTH_OFFSET);
-        baseSwordLv = rom.getValueAt(relOffset + BASE_SWORD_LV_OFFSET);
-        baseLanceLv = rom.getValueAt(relOffset + BASE_LANCE_LV_OFFSET);
-        baseAxeLv = rom.getValueAt(relOffset + BASE_AXE_LV_OFFSET);
-        baseBowLv = rom.getValueAt(relOffset + BASE_BOW_LV_OFFSET);
-        baseStaffLv = rom.getValueAt(relOffset + BASE_STAFF_LV_OFFSET);
-        baseFireLv = rom.getValueAt(relOffset + BASE_FIRE_LV_OFFSET);
-        baseThunderLv = rom.getValueAt(relOffset + BASE_THUNDER_LV_OFFSET);
-        baseWindLv = rom.getValueAt(relOffset + BASE_WIND_LV_OFFSET);
-        baseLightLv = rom.getValueAt(relOffset + BASE_LIGHT_LV_OFFSET);
-        baseDarkLv = rom.getValueAt(relOffset + BASE_DARK_LV_OFFSET);
+        baseSwordLv.setAmount(rom.getValueAt(relOffset + BASE_SWORD_LV_OFFSET));
+        baseLanceLv.setAmount(rom.getValueAt(relOffset + BASE_LANCE_LV_OFFSET));
+        baseAxeLv.setAmount(rom.getValueAt(relOffset + BASE_AXE_LV_OFFSET));
+        baseBowLv.setAmount(rom.getValueAt(relOffset + BASE_BOW_LV_OFFSET));
+        baseStaffLv.setAmount(rom.getValueAt(relOffset + BASE_STAFF_LV_OFFSET));
+        baseFireLv.setAmount(rom.getValueAt(relOffset + BASE_FIRE_LV_OFFSET));
+        baseThunderLv.setAmount(rom.getValueAt(relOffset + BASE_THUNDER_LV_OFFSET));
+        baseWindLv.setAmount(rom.getValueAt(relOffset + BASE_WIND_LV_OFFSET));
+        baseLightLv.setAmount(rom.getValueAt(relOffset + BASE_LIGHT_LV_OFFSET));
+        baseDarkLv.setAmount(rom.getValueAt(relOffset + BASE_DARK_LV_OFFSET));
         gender = Gender.findById(rom.getValueAt(relOffset + GENDER_OFFSET));
         skills1 = rom.getValueAt(relOffset + SKILL1_OFFSET);
         skills2 = rom.getValueAt(relOffset + SKILL2_OFFSET);
@@ -473,14 +476,378 @@ public enum Character {
         leadershipStars = rom.getValueAt(relOffset + LEADERSHIP_STARS_OFFSET);
     }
     
+    public int getOffset() {
+        return offset;
+    }
+    
     public String getName() {
         return name;
     }
+
+    public int getBaseHp() {
+        return baseHp;
+    }
+
+    public int getBaseAtk() {
+        return baseAtk;
+    }
+
+    public int getBaseMag() {
+        return baseMag;
+    }
+
+    public int getBaseSkl() {
+        return baseSkl;
+    }
+
+    public int getBaseSpd() {
+        return baseSpd;
+    }
+
+    public int getBaseDef() {
+        return baseDef;
+    }
+
+    public int getBaseBld() {
+        return baseBld;
+    }
+
+    public int getBaseLck() {
+        return baseLck;
+    }
+
+    public int getBaseMov() {
+        return baseMov;
+    }
+
+    public MovementStars getMovementStars() {
+        return movementStars;
+    }
+
+    public int getCounterCritBoost() {
+        return counterCritBoost;
+    }
+
+    public int getHpGrowth() {
+        return hpGrowth;
+    }
+
+    public int getAtkGrowth() {
+        return atkGrowth;
+    }
+
+    public int getMagGrowth() {
+        return magGrowth;
+    }
+
+    public int getSklGrowth() {
+        return sklGrowth;
+    }
+
+    public int getSpdGrowth() {
+        return spdGrowth;
+    }
+
+    public int getDefGrowth() {
+        return defGrowth;
+    }
+
+    public int getBldGrowth() {
+        return bldGrowth;
+    }
+
+    public int getLckGrowth() {
+        return lckGrowth;
+    }
+
+    public int getMovGrowth() {
+        return movGrowth;
+    }
+
+    public WeaponProficiency getBaseSwordLv() {
+        return baseSwordLv;
+    }
+
+    public WeaponProficiency getBaseLanceLv() {
+        return baseLanceLv;
+    }
+
+    public WeaponProficiency getBaseAxeLv() {
+        return baseAxeLv;
+    }
+
+    public WeaponProficiency getBaseBowLv() {
+        return baseBowLv;
+    }
+
+    public WeaponProficiency getBaseStaffLv() {
+        return baseStaffLv;
+    }
+
+    public WeaponProficiency getBaseFireLv() {
+        return baseFireLv;
+    }
+
+    public WeaponProficiency getBaseThunderLv() {
+        return baseThunderLv;
+    }
+
+    public WeaponProficiency getBaseWindLv() {
+        return baseWindLv;
+    }
+
+    public WeaponProficiency getBaseLightLv() {
+        return baseLightLv;
+    }
+
+    public WeaponProficiency getBaseDarkLv() {
+        return baseDarkLv;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public int getSkills1() {
+        return skills1;
+    }
+
+    public int getSkills2() {
+        return skills2;
+    }
+
+    public int getSkills3() {
+        return skills3;
+    }
+
+    public ArrayList<Skill> getSkills() {
+        return skills;
+    }
+
+    public CharacterClass getCharacterClass() {
+        return characterClass;
+    }
+
+    public int getLeadershipStars() {
+        return leadershipStars;
+    }
+
+    public void setBaseHp(int baseHp) {
+        int oldValue = this.baseHp;
+        this.baseHp = baseHp;
+        this.pcs.firePropertyChange("baseHp", oldValue, baseHp);
+    }
     
-    public static Character findById(int offset) {
-        Character character = null;
+    public void setBaseStr(int baseStr) {
+        int oldValue = this.baseAtk;
+        this.baseAtk = baseStr;
+        this.pcs.firePropertyChange("baseStr", oldValue, baseStr);
+    }
+
+    public void setBaseMag(int baseMag) {
+        int oldValue = this.baseMag;
+        this.baseMag = baseMag;
+        this.pcs.firePropertyChange("baseMag", oldValue, baseMag);
+    }
+
+    public void setBaseSkl(int baseSkl) {
+        int oldValue = this.baseSkl;
+        this.baseSkl = baseSkl;
+        this.pcs.firePropertyChange("baseSkl", oldValue, baseSkl);
+    }
+
+    public void setBaseSpd(int baseSpd) {
+        int oldValue = this.baseSpd;
+        this.baseSpd = baseSpd;
+        this.pcs.firePropertyChange("baseSpd", oldValue, baseSpd);
+    }
+
+    public void setBaseDef(int baseDef) {
+        int oldValue = this.baseDef;
+        this.baseDef = baseDef;
+        this.pcs.firePropertyChange("baseDef", oldValue, baseDef);
+    }
+
+    public void setBaseBld(int baseBld) {
+        int oldValue = this.baseBld;
+        this.baseBld = baseBld;
+        this.pcs.firePropertyChange("baseBld", oldValue, baseBld);
+    }
+
+    public void setBaseLck(int baseLck) {
+        int oldValue = this.baseLck;
+        this.baseLck = baseLck;
+        this.pcs.firePropertyChange("baseLck", oldValue, baseLck);
+    }
+
+    public void setBaseMov(int baseMov) {
+        int oldValue = this.baseMov;
+        this.baseMov = baseMov;
+        this.pcs.firePropertyChange("baseMov", oldValue, baseMov);
+    }
+
+    public void setMovementStars(MovementStars movementStars) {
+        MovementStars oldValue = this.movementStars;
+        this.movementStars = movementStars;
+        this.pcs.firePropertyChange("movementStars", oldValue, movementStars);
+    }
+
+    public void setCounterCritBoost(int counterCritBoost) {
+        int oldValue = this.counterCritBoost;
+        this.counterCritBoost = counterCritBoost;
+        this.pcs.firePropertyChange("counterCritBoost", oldValue, counterCritBoost);
+    }
+
+    public void setHpGrowth(int hpGrowth) {
+        int oldValue = this.hpGrowth;
+        this.hpGrowth = hpGrowth;
+        this.pcs.firePropertyChange("hpGrowth", oldValue, hpGrowth);
+    }
+
+    public void setStrGrowth(int strGrowth) {
+        int oldValue = this.atkGrowth;
+        this.atkGrowth = strGrowth;
+        this.pcs.firePropertyChange("strGrowth", oldValue, strGrowth);
+    }
+
+    public void setMagGrowth(int magGrowth) {
+        int oldValue = this.magGrowth;
+        this.magGrowth = magGrowth;
+        this.pcs.firePropertyChange("baseHp", oldValue, magGrowth);
+    }
+
+    public void setSklGrowth(int sklGrowth) {
+        int oldValue = this.sklGrowth;
+        this.sklGrowth = sklGrowth;
+        this.pcs.firePropertyChange("sklGrowth", oldValue, sklGrowth);
+    }
+
+    public void setSpdGrowth(int spdGrowth) {
+        int oldValue = this.spdGrowth;
+        this.spdGrowth = spdGrowth;
+        this.pcs.firePropertyChange("spdGrowth", oldValue, spdGrowth);
+    }
+
+    public void setDefGrowth(int defGrowth) {
+        int oldValue = this.defGrowth;
+        this.defGrowth = defGrowth;
+        this.pcs.firePropertyChange("defGrowth", oldValue, defGrowth);
+    }
+
+    public void setBldGrowth(int bldGrowth) {
+        int oldValue = this.bldGrowth;
+        this.bldGrowth = bldGrowth;
+        this.pcs.firePropertyChange("bldGrowth", oldValue, bldGrowth);
+    }
+
+    public void setLckGrowth(int lckGrowth) {
+        int oldValue = this.lckGrowth;
+        this.lckGrowth = lckGrowth;
+        this.pcs.firePropertyChange("lckGrowth", oldValue, lckGrowth);
+    }
+
+    public void setMovGrowth(int movGrowth) {
+        int oldValue = this.movGrowth;
+        this.movGrowth = movGrowth;
+        this.pcs.firePropertyChange("movGrowth", oldValue, movGrowth);
+    }
+
+    public void setBaseSwordLv(int baseSwordLv) {
+        int oldValue = this.baseSwordLv.getAmount();
+        this.baseSwordLv.setAmount(baseSwordLv);
+        this.pcs.firePropertyChange("baseSwordLv", oldValue, this.baseSwordLv);
+    }
+
+    public void setBaseLanceLv(int baseLanceLv) {
+        int oldValue = this.baseLanceLv.getAmount();
+        this.baseLanceLv.setAmount(baseLanceLv);
+        this.pcs.firePropertyChange("baseLanceLv", oldValue, this.baseLanceLv);
+    }
+
+    public void setBaseAxeLv(int baseAxeLv) {
+        int oldValue = this.baseAxeLv.getAmount();
+        this.baseAxeLv.setAmount(baseAxeLv);
+        this.pcs.firePropertyChange("baseAxeLv", oldValue, this.baseAxeLv);
+    }
+
+    public void setBaseBowLv(int baseBowLv) {
+        int oldValue = this.baseBowLv.getAmount();
+        this.baseBowLv.setAmount(baseBowLv);
+        this.pcs.firePropertyChange("baseBowLv", oldValue, this.baseBowLv);
+    }
+
+    public void setBaseStaffLv(int baseStaffLv) {
+        int oldValue = this.baseStaffLv.getAmount();
+        this.baseStaffLv.setAmount(baseStaffLv);
+        this.pcs.firePropertyChange("baseStaffLv", oldValue, this.baseStaffLv);
+    }
+
+    public void setBaseFireLv(int baseFireLv) {
+        int oldValue = this.baseFireLv.getAmount();
+        this.baseFireLv.setAmount(baseFireLv);
+        this.pcs.firePropertyChange("baseFireLv", oldValue, this.baseFireLv);
+    }
+
+    public void setBaseThunderLv(int baseThunderLv) {
+        int oldValue = this.baseThunderLv.getAmount();
+        this.baseThunderLv.setAmount(baseThunderLv);
+        this.pcs.firePropertyChange("baseThunderLv", oldValue, this.baseThunderLv);
+    }
+
+    public void setBaseWindLv(int baseWindLv) {
+        int oldValue = this.baseWindLv.getAmount();
+        this.baseWindLv.setAmount(baseWindLv);
+        this.pcs.firePropertyChange("baseWindLv", oldValue, this.baseWindLv);
+    }
+
+    public void setBaseLightLv(int baseLightLv) {
+        int oldValue = this.baseLightLv.getAmount();
+        this.baseLightLv.setAmount(baseLightLv);
+        this.pcs.firePropertyChange("baseLightLv", oldValue, this.baseLightLv);
+    }
+
+    public void setBaseDarkLv(int baseDarkLv) {
+        int oldValue = this.baseDarkLv.getAmount();
+        this.baseDarkLv.setAmount(baseDarkLv);
+        this.pcs.firePropertyChange("baseDarkLv", oldValue, this.baseDarkLv);
+    }
+
+    public void setGender(Gender gender) {
+        Gender oldValue = this.gender;
+        this.gender = gender;
+        this.pcs.firePropertyChange("gender", oldValue, gender);
+    }
+
+    public void setSkills(ArrayList<Skill> skills) {
+        int oldSkills1 = this.skills1;
+        int oldSkills2 = this.skills2;
+        int oldSkills3 = this.skills3;
+        int[] newSkills = Skill.getSkills(skills);
         
-        for(Character currentCharacter : Character.values()) {
+        this.skills1 = newSkills[0];
+        this.skills2 = newSkills[1];
+        this.skills3 = newSkills[2];
+        this.pcs.firePropertyChange("skills1", oldSkills1, newSkills[0]);
+        this.pcs.firePropertyChange("skills2", oldSkills2, newSkills[1]);
+        this.pcs.firePropertyChange("skills3", oldSkills3, newSkills[2]);
+    }
+
+    public void setCharacterClass(CharacterClass characterClass) {
+        CharacterClass oldValue = this.characterClass;
+        this.characterClass = characterClass;
+        this.pcs.firePropertyChange("characterClass", oldValue, characterClass);
+    }
+
+    public void setLeadershipStars(int leadershipStars) {
+        int oldValue = this.leadershipStars;
+        this.leadershipStars = leadershipStars;
+        this.pcs.firePropertyChange("leadershipStars", oldValue, leadershipStars);
+    }
+
+    public static GameCharacter findById(int offset) {
+        GameCharacter character = null;
+        
+        for(GameCharacter currentCharacter : GameCharacter.values()) {
             if(currentCharacter.offset == offset) {
                 character = currentCharacter;
                 break;
@@ -488,11 +855,20 @@ public enum Character {
         }
         
         if(character == null) {
-            System.out.println(String.format("WARNING: Offset 0x%04X in Character was not found.", offset));
-            character = Character.LEAF;
+            System.out.println(String.format("WARNING: Offset 0x%04X in GameCharacter was not found.", offset));
+            character = GameCharacter.LEAF;
         }
         
         return character;
+    }
+    
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
+    }
+
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.removePropertyChangeListener(listener);
     }
     
     @Override
@@ -511,11 +887,11 @@ public enum Character {
         
         text = String.format("[CHARACTER] Name: %s, Class: %s, Gender: %s\n", name, characterClass.getName(), gender.getName());
         text += String.format("Bases HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",
-                baseHp, baseStr, baseMag, baseSkl, baseSpd, baseDef, baseBld, baseLck, baseMov);
+                baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseDef, baseBld, baseLck, baseMov);
         text += String.format("Mov stars: %d, Counter crit bonus: %d, Leadership stars: %d\n",
                 movementStars.getAmmount(), counterCritBoost, leadershipStars);
         text += String.format("Growths HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",
-                hpGrowth, strGrowth, magGrowth, sklGrowth, spdGrowth, defGrowth, bldGrowth, lckGrowth, movGrowth);
+                hpGrowth, atkGrowth, magGrowth, sklGrowth, spdGrowth, defGrowth, bldGrowth, lckGrowth, movGrowth);
         text += String.format("Base Wpn level Sword: %d, Lance: %d Axe: %d, Bow: %d, Staff: %d, Fire: %d, Thunder: %d, Wind: %d, Light: %d, Dark: %d\n",
                 baseSwordLv, baseLanceLv, baseAxeLv, baseBowLv, baseStaffLv, baseFireLv, baseThunderLv, baseWindLv, baseLightLv, baseDarkLv);
         text += String.format("Skill1: 0x%02X, Skill2: 0x%02X, Skill3: 0x%02X, (%s)\n",

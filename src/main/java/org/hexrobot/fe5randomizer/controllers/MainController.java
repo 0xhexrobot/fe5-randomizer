@@ -2,6 +2,7 @@ package org.hexrobot.fe5randomizer.controllers;
 
 import java.io.IOException;
 
+import org.hexrobot.fe5randomizer.ChangesTracker;
 import org.hexrobot.fe5randomizer.RandomizeSummary;
 import org.hexrobot.fe5randomizer.Rom;
 
@@ -23,11 +24,22 @@ public class MainController {
     @FXML
     private LoadRomController loadRomController;
     
+    private static MainController instance;
     private Stage stage;
     private SectionsController sectionsController;
     private Parent vBox;
-    public static RandomizeSummary randomizeSummary;
-    public static Rom rom = null;
+    private RandomizeSummary randomizeSummary;
+    private Rom rom;
+    private ChangesTracker changesTracker;
+    
+    public MainController() {
+        instance = this;
+        changesTracker = new ChangesTracker();
+    }
+    
+    public static MainController getInstance() {
+        return instance;
+    }
     
     @FXML
     private void initialize()  throws IOException {
@@ -57,5 +69,21 @@ public class MainController {
     
     public ProgressBar getProgressBar() {
         return progressBar;
+    }
+    
+    public ChangesTracker getChangesTracker() {
+        return changesTracker;
+    }
+    
+    public RandomizeSummary getRandomizeSummary() {
+        return randomizeSummary;
+    }
+    
+    public Rom getRom() {
+        return rom;
+    }
+    
+    public void setRom(Rom rom) {
+        this.rom = rom;
     }
 }

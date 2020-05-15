@@ -48,6 +48,6 @@ public class SectionsController {
         stage.setResizable(true);
         lblTitle.setText(String.format("%s %s", rom.getName(), rom.isHeadered() ? "Headered" : "Headerless"));
         lblBytes.setText(String.format("%d bytes", rom.getSize()));
-        lblChecksum.setText("" + rom.getCrc32Checksum());
+        lblChecksum.setText(Long.toHexString(rom.getCrc32Checksum()));
     }
 }

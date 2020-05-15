@@ -58,6 +58,46 @@ public class RandomizeSummary {
         return growthsAbsoluteMax;
     }
     
+    public boolean getRandomizeBases() {
+        return randomizeBases.getValue();
+    }
+
+    public String getBasesRandomizationType() {
+        return (String) basesRandomizationType.getValue().getUserData();
+    }
+
+    public int getBasesVariance() {
+        return basesVariance.getValue();
+    }
+
+    public int getBasesRedistributeVar() {
+        return basesRedistributeVar.getValue();
+    }
+
+    public boolean getRandomizeGrowths() {
+        return randomizeGrowths.getValue();
+    }
+
+    public String getGrowthsRandomizationType() {
+        return (String) growthsRandomizationType.getValue().getUserData();
+    }
+
+    public int getGrowthsVariance() {
+        return growthsVariance.getValue();
+    }
+
+    public int getGrowthsRedistributeVar() {
+        return growthsRedistributeVar.getValue();
+    }
+
+    public int getGrowthsAbsoluteMin() {
+        return growthsAbsoluteMin.getValue();
+    }
+
+    public int getGrowthsAbsoluteMax() {
+        return growthsAbsoluteMax.getValue();
+    }
+    
     @Override
     public String toString() {
         String text = "[RandomizeSummary]\n";

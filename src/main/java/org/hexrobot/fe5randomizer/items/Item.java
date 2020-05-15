@@ -217,7 +217,75 @@ public enum Item {
 		return offset;
 	}
 	
-	public void readItem(Rom rom, int startingOffset) {
+	public String getName() {
+        return name;
+    }
+	
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getAccuracy() {
+        return accuracy;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public int getMaxUses() {
+        return maxUses;
+    }
+
+    public int getCritical() {
+        return critical;
+    }
+
+    public WeaponRange getWeaponRange() {
+        return weaponRange;
+    }
+
+    public WeaponRank getWeaponRank() {
+        return weaponRank;
+    }
+
+    public WeaponEffectiveness getWeaponEffectiveness() {
+        return weaponEffectiveness;
+    }
+
+    public WeaponStatBonus getWeaponStatBonus() {
+        return weaponStatBonus;
+    }
+
+    public int getCostPerUse() {
+        return costPerUse;
+    }
+
+    public ItemUseEffect getItemUseEffect() {
+        return itemUseEffect;
+    }
+
+    public WeaponBladeEffect getWeaponBladeEffect() {
+        return weaponBladeEffect;
+    }
+
+    public WeaponSkill1 getWeaponSkill1() {
+        return weaponSkill1;
+    }
+
+    public WeaponSkill2 getWeaponSkill2() {
+        return weaponSkill2;
+    }
+
+    public ItemClassification getItemClassification() {
+        return itemClassification;
+    }
+
+    public void readItem(Rom rom, int startingOffset) {
 		int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
 		
 		itemType = ItemType.findById(rom.getValueAt(relOffset + ITEM_TYPE_OFFSET));

@@ -81,13 +81,13 @@ public class UnitsController {
         rbGrowthsRedistribute.setUserData("redistribute");
         rbGrowthsAbsolute.setUserData("absolute");
         
-        RandomizeSummary randomizeSummary = MainController.randomizeSummary;
+        RandomizeSummary randomizeSummary = MainController.getInstance().getRandomizeSummary();
         
         // bases
         chkBases.selectedProperty().bindBidirectional(randomizeSummary.randomizeBasesProperty());
         randomizeSummary.basesRandomizationTypeProperty().bind(tgBases.selectedToggleProperty());
         spBasesDelta.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.basesVarianceProperty());
-        spBasesVar.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.basesVarianceProperty());
+        spBasesVar.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.basesRedistributeVarProperty());
         
         // growths
         chkGrowths.selectedProperty().bindBidirectional(randomizeSummary.randomizeGrowthsProperty());
