@@ -1,11 +1,9 @@
 package org.hexrobot.fe5randomizer;
 
-import java.beans.PropertyChangeListener;
 import java.util.Random;
 import java.util.zip.CRC32;
 
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
-import org.hexrobot.fe5randomizer.controllers.MainController;
 import org.hexrobot.fe5randomizer.items.Item;
 
 public class Rom {
@@ -110,24 +108,104 @@ public class Rom {
     }
 
     public void initializeCharacters() {
-        PropertyChangeListener changesTracker = MainController.getInstance().getChangesTracker();
-
         for(GameCharacter character : GameCharacter.values()) {
             character.readCharacter(this, CHARACTERS_OFFSET);
-            character.addPropertyChangeListener(changesTracker);
         }
     }
     
     public void randomizeUnitsBasesVariance(int delta) {
         GameCharacter[] characters = GameCharacter.values();
+        int baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseLck, baseDef, baseBld, baseMov;
+        int newBaseHp, newBaseAtk, newBaseMag, newBaseSkl, newBaseSpd, newBaseLck, newBaseDef, newBaseBld, newBaseMov;
         
         for(int i = 0; i < characters.length; i++) {
             GameCharacter character = characters[i];
             
-            int baseHp = character.getBaseHp();
-            int newBaseHp = baseHp + random.nextInt(delta * 2 + 1) - delta;
+            baseHp = character.getBaseHp();
+            baseAtk = character.getBaseAtk();
+            baseMag = character.getBaseMag();
+            baseSkl = character.getBaseSkl();
+            baseSpd = character.getBaseSpd();
+            baseLck = character.getBaseLck();
+            baseDef = character.getBaseDef();
+            baseBld = character.getBaseBld();
+            baseMov = character.getBaseMov();
+            
+            newBaseHp = Math.max(baseHp + random.nextInt(delta * 2 + 1) - delta, 0);
+            newBaseAtk = Math.max(baseAtk + random.nextInt(delta * 2 + 1) - delta, 0);
+            newBaseMag = Math.max(baseMag + random.nextInt(delta * 2 + 1) - delta, 0);
+            newBaseSkl = Math.max(baseSkl + random.nextInt(delta * 2 + 1) - delta, 0);
+            newBaseSpd = Math.max(baseSpd + random.nextInt(delta * 2 + 1) - delta, 0);
+            newBaseLck = Math.max(baseLck + random.nextInt(delta * 2 + 1) - delta, 0);
+            newBaseDef = Math.max(baseDef + random.nextInt(delta * 2 + 1) - delta, 0);
+            newBaseBld = Math.max(baseBld + random.nextInt(delta * 2 + 1) - delta, 0);
+            newBaseMov = Math.max(baseMov + random.nextInt(delta * 2 + 1) - delta, 0);
             
             character.setBaseHp(newBaseHp);
+            character.setBaseAtk(newBaseAtk);
+            character.setBaseMag(newBaseMag);
+            character.setBaseSkl(newBaseSkl);
+            character.setBaseSpd(newBaseSpd);
+            character.setBaseLck(newBaseLck);
+            character.setBaseDef(newBaseDef);
+            character.setBaseBld(newBaseBld);
+            character.setBaseMov(newBaseMov);
+        }
+    }
+    
+    public void randomizeUnitsBasesRedistribute(int variance) {
+        GameCharacter[] characters = GameCharacter.values();
+        
+        for(int i = 0; i < characters.length; i++) {
+            GameCharacter character = characters[i];
+            int totalBases = 0;
+            int baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseLck, baseDef, baseBld, baseMov;
+            float totalWeights = 0;
+            float hpWeight, atkWeight, magWeight, sklWeight, spdWeight, lckWeight, defWeight, bldWeight, movWeight;
+            
+            hpWeight = random.nextFloat() * 2.0f;
+            atkWeight = random.nextFloat();
+            magWeight = random.nextFloat();
+            sklWeight = random.nextFloat();
+            spdWeight = random.nextFloat();
+            lckWeight = random.nextFloat();
+            defWeight = random.nextFloat();
+            bldWeight = random.nextFloat() * 0.5f;
+            movWeight = random.nextFloat() * 0.5f;
+            
+            totalWeights = hpWeight + atkWeight + magWeight + sklWeight + spdWeight + lckWeight + defWeight + bldWeight + movWeight;
+            
+            totalBases += character.getBaseHp();
+            totalBases += character.getBaseAtk();
+            totalBases += character.getBaseMag();
+            totalBases += character.getBaseSkl();
+            totalBases += character.getBaseSpd();
+            totalBases += character.getBaseLck();
+            totalBases += character.getBaseDef();
+            totalBases += character.getBaseBld();
+            totalBases += character.getBaseMov();
+            
+            totalBases += random.nextInt(variance * 2 + 1) - variance;
+            
+            baseHp = Math.round(hpWeight * totalBases / totalWeights);
+            baseAtk = Math.round(atkWeight * totalBases / totalWeights);
+            baseMag = Math.round(magWeight * totalBases / totalWeights);
+            baseSkl = Math.round(sklWeight * totalBases / totalWeights);
+            baseSpd = Math.round(spdWeight * totalBases / totalWeights);
+            baseLck = Math.round(lckWeight * totalBases / totalWeights);
+            baseDef = Math.round(defWeight * totalBases / totalWeights);
+            baseBld = Math.round(bldWeight * totalBases / totalWeights);
+            baseMov = Math.round(movWeight * totalBases / totalWeights);
+            
+            character.setBaseHp(baseHp);
+            character.setBaseAtk(baseAtk);
+            character.setBaseMag(baseMag);
+            character.setBaseSkl(baseSkl);
+            character.setBaseSpd(baseSpd);
+            character.setBaseLck(baseLck);
+            character.setBaseDef(baseDef);
+            character.setBaseBld(baseBld);
+            character.setBaseMov(baseMov);
         }
     }
     

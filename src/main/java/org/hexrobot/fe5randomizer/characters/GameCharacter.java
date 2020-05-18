@@ -1,8 +1,8 @@
 package org.hexrobot.fe5randomizer.characters;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
@@ -428,7 +428,7 @@ public enum GameCharacter {
     private static final int SKILL3_OFFSET = 0x2B;
     private static final int CLASS_OFFSET = 0x2C;
     private static final int LEADERSHIP_STARS_OFFSET = 0x2D;
-    PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private Map<String, Object> oldValues = new HashMap<>();
     
     private GameCharacter(int offset, String name) {
         this.offset = offset;
@@ -631,217 +631,314 @@ public enum GameCharacter {
     public int getLeadershipStars() {
         return leadershipStars;
     }
+    
+    public Map<String, Object> getOldValues() {
+        return oldValues;
+    }
 
     public void setBaseHp(int baseHp) {
-        int oldValue = this.baseHp;
+        if(!oldValues.containsKey("baseHp") && this.baseHp != baseHp) {
+            int oldValue = this.baseHp;
+            oldValues.put("baseHp", oldValue);            
+        }
+        
         this.baseHp = baseHp;
-        this.pcs.firePropertyChange("baseHp", oldValue, baseHp);
     }
     
-    public void setBaseStr(int baseStr) {
-        int oldValue = this.baseAtk;
-        this.baseAtk = baseStr;
-        this.pcs.firePropertyChange("baseStr", oldValue, baseStr);
+    public void setBaseAtk(int baseAtk) {
+        if(!oldValues.containsKey("baseAtk") && this.baseAtk != baseAtk) {
+            int oldValue = this.baseAtk;
+            oldValues.put("baseAtk", oldValue);    
+        }
+        
+        this.baseAtk = baseAtk;
     }
 
     public void setBaseMag(int baseMag) {
-        int oldValue = this.baseMag;
+        if(!oldValues.containsKey("baseMag") && this.baseMag != baseMag) {
+            int oldValue = this.baseMag;
+            oldValues.put("baseMag", oldValue);
+        }
+        
         this.baseMag = baseMag;
-        this.pcs.firePropertyChange("baseMag", oldValue, baseMag);
     }
 
     public void setBaseSkl(int baseSkl) {
-        int oldValue = this.baseSkl;
+        if(!oldValues.containsKey("baseSkl") && this.baseSkl != baseSkl) {
+            int oldValue = this.baseSkl;
+            oldValues.put("baseSkl", oldValue);            
+        }
+        
         this.baseSkl = baseSkl;
-        this.pcs.firePropertyChange("baseSkl", oldValue, baseSkl);
     }
 
     public void setBaseSpd(int baseSpd) {
-        int oldValue = this.baseSpd;
+        if(!oldValues.containsKey("baseSpd") && this.baseSpd != baseSpd) {
+            int oldValue = this.baseSpd;
+            oldValues.put("baseSpd", oldValue);            
+        }
+        
         this.baseSpd = baseSpd;
-        this.pcs.firePropertyChange("baseSpd", oldValue, baseSpd);
     }
 
     public void setBaseDef(int baseDef) {
-        int oldValue = this.baseDef;
+        if(!oldValues.containsKey("baseDef") && this.baseDef != baseDef) {
+            int oldValue = this.baseDef;
+            oldValues.put("baseDef", oldValue);    
+        }
+        
         this.baseDef = baseDef;
-        this.pcs.firePropertyChange("baseDef", oldValue, baseDef);
     }
 
     public void setBaseBld(int baseBld) {
-        int oldValue = this.baseBld;
+        if(!oldValues.containsKey("baseBld") && this.baseBld != baseBld) {
+            int oldValue = this.baseBld;
+            oldValues.put("baseBld", oldValue);            
+        }
+        
         this.baseBld = baseBld;
-        this.pcs.firePropertyChange("baseBld", oldValue, baseBld);
     }
 
     public void setBaseLck(int baseLck) {
-        int oldValue = this.baseLck;
+        if(!oldValues.containsKey("baseLck") && this.baseLck != baseLck) {
+            int oldValue = this.baseLck;
+            oldValues.put("baseLck", oldValue);    
+        }
+        
         this.baseLck = baseLck;
-        this.pcs.firePropertyChange("baseLck", oldValue, baseLck);
     }
 
     public void setBaseMov(int baseMov) {
-        int oldValue = this.baseMov;
+        if(!oldValues.containsKey("baseMov") && this.baseMov != baseMov) {
+            int oldValue = this.baseMov;
+            oldValues.put("baseMov", oldValue);            
+        }
+        
         this.baseMov = baseMov;
-        this.pcs.firePropertyChange("baseMov", oldValue, baseMov);
     }
 
     public void setMovementStars(MovementStars movementStars) {
-        MovementStars oldValue = this.movementStars;
+        if(!oldValues.containsKey("movementStars") && !this.movementStars.equals(movementStars)) {
+            MovementStars oldValue = this.movementStars;
+            oldValues.put("movementStars", oldValue);    
+        }
+        
         this.movementStars = movementStars;
-        this.pcs.firePropertyChange("movementStars", oldValue, movementStars);
     }
 
     public void setCounterCritBoost(int counterCritBoost) {
-        int oldValue = this.counterCritBoost;
+        if(!oldValues.containsKey("counterCritBoost") && this.counterCritBoost != counterCritBoost) {
+            int oldValue = this.counterCritBoost;
+            oldValues.put("counterCritBoost", oldValue);    
+        }
+        
         this.counterCritBoost = counterCritBoost;
-        this.pcs.firePropertyChange("counterCritBoost", oldValue, counterCritBoost);
     }
 
     public void setHpGrowth(int hpGrowth) {
-        int oldValue = this.hpGrowth;
+        if(!oldValues.containsKey("hpGrowth") && this.hpGrowth != hpGrowth) {
+            int oldValue = this.hpGrowth;
+            oldValues.put("hpGrowth", oldValue);    
+        }
+        
         this.hpGrowth = hpGrowth;
-        this.pcs.firePropertyChange("hpGrowth", oldValue, hpGrowth);
     }
 
-    public void setStrGrowth(int strGrowth) {
-        int oldValue = this.atkGrowth;
-        this.atkGrowth = strGrowth;
-        this.pcs.firePropertyChange("strGrowth", oldValue, strGrowth);
+    public void setAtkGrowth(int atkGrowth) {
+        if(!oldValues.containsKey("atkGrowth") && this.atkGrowth != atkGrowth) {
+            int oldValue = this.atkGrowth;
+            oldValues.put("atkGrowth", oldValue);            
+        }
+        
+        this.atkGrowth = atkGrowth;
     }
 
     public void setMagGrowth(int magGrowth) {
-        int oldValue = this.magGrowth;
+        if(!oldValues.containsKey("magGrowth") && this.magGrowth != magGrowth) {
+            int oldValue = this.magGrowth;
+            oldValues.put("magGrowth", oldValue);            
+        }
+        
         this.magGrowth = magGrowth;
-        this.pcs.firePropertyChange("baseHp", oldValue, magGrowth);
     }
 
     public void setSklGrowth(int sklGrowth) {
-        int oldValue = this.sklGrowth;
+        if(!oldValues.containsKey("sklGrowth") && this.sklGrowth != sklGrowth) {
+            int oldValue = this.sklGrowth;
+            oldValues.put("sklGrowth", oldValue);
+        }
+        
         this.sklGrowth = sklGrowth;
-        this.pcs.firePropertyChange("sklGrowth", oldValue, sklGrowth);
     }
 
     public void setSpdGrowth(int spdGrowth) {
-        int oldValue = this.spdGrowth;
+        if(!oldValues.containsKey("spdGrowth") && this.spdGrowth != spdGrowth) {
+            int oldValue = this.spdGrowth;
+            oldValues.put("spdGrowth", oldValue);
+        }
+        
         this.spdGrowth = spdGrowth;
-        this.pcs.firePropertyChange("spdGrowth", oldValue, spdGrowth);
     }
 
     public void setDefGrowth(int defGrowth) {
-        int oldValue = this.defGrowth;
+        if(!oldValues.containsKey("defGrowth") && this.defGrowth != defGrowth) {
+            int oldValue = this.defGrowth;
+            oldValues.put("defGrowth", oldValue);
+        }
+        
         this.defGrowth = defGrowth;
-        this.pcs.firePropertyChange("defGrowth", oldValue, defGrowth);
     }
 
     public void setBldGrowth(int bldGrowth) {
-        int oldValue = this.bldGrowth;
+        if(!oldValues.containsKey("bldGrowth") && this.bldGrowth != bldGrowth) {
+            int oldValue = this.bldGrowth;
+            oldValues.put("bldGrowth", oldValue);    
+        }
+        
         this.bldGrowth = bldGrowth;
-        this.pcs.firePropertyChange("bldGrowth", oldValue, bldGrowth);
     }
 
     public void setLckGrowth(int lckGrowth) {
-        int oldValue = this.lckGrowth;
+        if(!oldValues.containsKey("lckGrowth") && this.lckGrowth != lckGrowth) {
+            int oldValue = this.lckGrowth;
+            oldValues.put("lckGrowth", oldValue);    
+        }
+        
         this.lckGrowth = lckGrowth;
-        this.pcs.firePropertyChange("lckGrowth", oldValue, lckGrowth);
     }
 
     public void setMovGrowth(int movGrowth) {
-        int oldValue = this.movGrowth;
+        if(!oldValues.containsKey("movGrowth") && this.movGrowth != movGrowth) {
+            int oldValue = this.movGrowth;
+            oldValues.put("movGrowth", oldValue);
+        }
+        
         this.movGrowth = movGrowth;
-        this.pcs.firePropertyChange("movGrowth", oldValue, movGrowth);
     }
 
     public void setBaseSwordLv(int baseSwordLv) {
-        int oldValue = this.baseSwordLv.getAmount();
+        if(!oldValues.containsKey("baseSwordLv") && this.baseSwordLv.getAmount() != baseSwordLv) {
+            oldValues.put("baseSwordLv", this.baseSwordLv.clone());            
+        }
+        
         this.baseSwordLv.setAmount(baseSwordLv);
-        this.pcs.firePropertyChange("baseSwordLv", oldValue, this.baseSwordLv);
     }
 
     public void setBaseLanceLv(int baseLanceLv) {
-        int oldValue = this.baseLanceLv.getAmount();
+        if(!oldValues.containsKey("baseLanceLv") && this.baseLanceLv.getAmount() != baseLanceLv) {
+            oldValues.put("baseLanceLv", this.baseLanceLv.clone());
+        }
+        
         this.baseLanceLv.setAmount(baseLanceLv);
-        this.pcs.firePropertyChange("baseLanceLv", oldValue, this.baseLanceLv);
     }
 
     public void setBaseAxeLv(int baseAxeLv) {
-        int oldValue = this.baseAxeLv.getAmount();
+        if(!oldValues.containsKey("baseAxeLv") && this.baseAxeLv.getAmount() != baseAxeLv) {
+            oldValues.put("baseAxeLv", this.baseAxeLv.clone());
+        }
+        
         this.baseAxeLv.setAmount(baseAxeLv);
-        this.pcs.firePropertyChange("baseAxeLv", oldValue, this.baseAxeLv);
     }
 
     public void setBaseBowLv(int baseBowLv) {
-        int oldValue = this.baseBowLv.getAmount();
+        if(!oldValues.containsKey("baseBowLv") && this.baseBowLv.getAmount() != baseBowLv) {
+            oldValues.put("baseBowLv", this.baseBowLv.clone());
+        }
+        
         this.baseBowLv.setAmount(baseBowLv);
-        this.pcs.firePropertyChange("baseBowLv", oldValue, this.baseBowLv);
     }
 
     public void setBaseStaffLv(int baseStaffLv) {
-        int oldValue = this.baseStaffLv.getAmount();
+        if(!oldValues.containsKey("baseStaffLv") && this.baseStaffLv.getAmount() != baseStaffLv) {
+            oldValues.put("baseStaffLv", this.baseStaffLv.clone());
+        }
+        
         this.baseStaffLv.setAmount(baseStaffLv);
-        this.pcs.firePropertyChange("baseStaffLv", oldValue, this.baseStaffLv);
     }
 
     public void setBaseFireLv(int baseFireLv) {
-        int oldValue = this.baseFireLv.getAmount();
+        if(!oldValues.containsKey("baseFireLv") && this.baseFireLv.getAmount() != baseFireLv) {
+            oldValues.put("baseFireLv", this.baseFireLv.clone());
+        }
+        
         this.baseFireLv.setAmount(baseFireLv);
-        this.pcs.firePropertyChange("baseFireLv", oldValue, this.baseFireLv);
     }
 
     public void setBaseThunderLv(int baseThunderLv) {
-        int oldValue = this.baseThunderLv.getAmount();
+        if(!oldValues.containsKey("baseThunderLv") && this.baseThunderLv.getAmount() != baseThunderLv) {
+            oldValues.put("baseThunderLv", this.baseThunderLv.clone());
+        }
+        
         this.baseThunderLv.setAmount(baseThunderLv);
-        this.pcs.firePropertyChange("baseThunderLv", oldValue, this.baseThunderLv);
     }
 
     public void setBaseWindLv(int baseWindLv) {
-        int oldValue = this.baseWindLv.getAmount();
+        if(!oldValues.containsKey("baseWindLv") && this.baseWindLv.getAmount() != baseWindLv) {
+            oldValues.put("baseWindLv", this.baseWindLv.clone());
+        }
+        
         this.baseWindLv.setAmount(baseWindLv);
-        this.pcs.firePropertyChange("baseWindLv", oldValue, this.baseWindLv);
     }
 
     public void setBaseLightLv(int baseLightLv) {
-        int oldValue = this.baseLightLv.getAmount();
+        if(!oldValues.containsKey("baseLightLv") && this.baseLightLv.getAmount() != baseLightLv) {
+            oldValues.put("baseLightLv", this.baseLightLv.clone());
+        }
+        
         this.baseLightLv.setAmount(baseLightLv);
-        this.pcs.firePropertyChange("baseLightLv", oldValue, this.baseLightLv);
     }
 
     public void setBaseDarkLv(int baseDarkLv) {
-        int oldValue = this.baseDarkLv.getAmount();
+        if(!oldValues.containsKey("baseDarkLv") && this.baseDarkLv.getAmount() != baseDarkLv) {
+            oldValues.put("baseDarkLv", this.baseDarkLv.clone());
+        }
+        
         this.baseDarkLv.setAmount(baseDarkLv);
-        this.pcs.firePropertyChange("baseDarkLv", oldValue, this.baseDarkLv);
     }
 
     public void setGender(Gender gender) {
-        Gender oldValue = this.gender;
+        if(!oldValues.containsKey("gender") && !this.gender.equals(gender)) {
+            Gender oldValue = this.gender;
+            oldValues.put("gender", oldValue);
+        }
+        
         this.gender = gender;
-        this.pcs.firePropertyChange("gender", oldValue, gender);
     }
 
     public void setSkills(ArrayList<Skill> skills) {
-        int oldSkills1 = this.skills1;
-        int oldSkills2 = this.skills2;
-        int oldSkills3 = this.skills3;
+        if(!oldValues.containsKey("skills1")) {
+            int oldSkills1 = this.skills1;
+            int oldSkills2 = this.skills2;
+            int oldSkills3 = this.skills3;
+            
+            oldValues.put("skills1", oldSkills1);
+            oldValues.put("skills2", oldSkills2);
+            oldValues.put("skills3", oldSkills3);
+        }
+        
         int[] newSkills = Skill.getSkills(skills);
         
         this.skills1 = newSkills[0];
         this.skills2 = newSkills[1];
         this.skills3 = newSkills[2];
-        this.pcs.firePropertyChange("skills1", oldSkills1, newSkills[0]);
-        this.pcs.firePropertyChange("skills2", oldSkills2, newSkills[1]);
-        this.pcs.firePropertyChange("skills3", oldSkills3, newSkills[2]);
     }
 
     public void setCharacterClass(CharacterClass characterClass) {
-        CharacterClass oldValue = this.characterClass;
+        if(!oldValues.containsKey("characterClass") && !this.characterClass.equals(characterClass)) {
+            CharacterClass oldValue = this.characterClass;
+            oldValues.put("characterClass", oldValue);
+        }
+        
         this.characterClass = characterClass;
-        this.pcs.firePropertyChange("characterClass", oldValue, characterClass);
     }
 
     public void setLeadershipStars(int leadershipStars) {
-        int oldValue = this.leadershipStars;
+        if(!oldValues.containsKey("leadershipStars") && this.leadershipStars != leadershipStars) {
+            int oldValue = this.leadershipStars;
+            oldValues.put("leadershipStars", oldValue);
+        }
+        
         this.leadershipStars = leadershipStars;
-        this.pcs.firePropertyChange("leadershipStars", oldValue, leadershipStars);
     }
 
     public static GameCharacter findById(int offset) {
@@ -860,15 +957,6 @@ public enum GameCharacter {
         }
         
         return character;
-    }
-    
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.pcs.addPropertyChangeListener(listener);
-    }
-
-    
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.pcs.removePropertyChangeListener(listener);
     }
     
     @Override
@@ -893,8 +981,8 @@ public enum GameCharacter {
         text += String.format("Growths HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",
                 hpGrowth, atkGrowth, magGrowth, sklGrowth, spdGrowth, defGrowth, bldGrowth, lckGrowth, movGrowth);
         text += String.format("Base Wpn level Sword: %d, Lance: %d Axe: %d, Bow: %d, Staff: %d, Fire: %d, Thunder: %d, Wind: %d, Light: %d, Dark: %d\n",
-                baseSwordLv, baseLanceLv, baseAxeLv, baseBowLv, baseStaffLv, baseFireLv, baseThunderLv, baseWindLv, baseLightLv, baseDarkLv);
-        text += String.format("Skill1: 0x%02X, Skill2: 0x%02X, Skill3: 0x%02X, (%s)\n",
+                baseSwordLv.getAmount(), baseLanceLv.getAmount(), baseAxeLv.getAmount(), baseBowLv.getAmount(), baseStaffLv.getAmount(), baseFireLv.getAmount(), baseThunderLv.getAmount(), baseWindLv.getAmount(), baseLightLv.getAmount(), baseDarkLv.getAmount());
+        text += String.format("Skill1: 0x%02X, Skill2: 0x%02X, Skill3: 0x%02X, (%s)",
                 skills1, skills2, skills3, skillsText);
         
         return text; 

@@ -6,6 +6,7 @@ import org.hexrobot.fe5randomizer.Rom;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 public class RandomizeController {
@@ -21,9 +22,11 @@ public class RandomizeController {
         RandomizeRomService randomizeRomService = new RandomizeRomService(rom, randomizeSummary);
         Label statusLabel = mainController.getStatusLabel();
         ProgressBar progressBar = mainController.getProgressBar();
+        ScrollPane content = mainController.getContent();
         
         statusLabel.textProperty().bind(randomizeRomService.messageProperty());
         progressBar.progressProperty().bind(randomizeRomService.progressProperty());
+        content.disableProperty().bind(randomizeRomService.runningProperty());
         statusLabel.setVisible(true);
         progressBar.setVisible(true);
 
@@ -32,8 +35,15 @@ public class RandomizeController {
         randomizeRomService.setOnSucceeded((e) -> {
             mainController.getStatusLabel().textProperty().unbind();
             mainController.getProgressBar().progressProperty().unbind();
+            content.disableProperty().unbind();
             statusLabel.setVisible(false);
             progressBar.setVisible(false);
+            content.setDisable(false);
+        });
+        
+        randomizeRomService.setOnFailed((e) -> {            
+            Throwable throwable = randomizeRomService.getException(); 
+            throwable.printStackTrace();
         });
     }
 }

@@ -1,6 +1,6 @@
 package org.hexrobot.fe5randomizer.characters;
 
-public enum MovementStars {
+public enum MovementStars implements Cloneable {
     MOV_STARS_0(0x00, 0),
     MOV_STARS_1(0x05, 1),
     MOV_STARS_2(0x0A, 2),

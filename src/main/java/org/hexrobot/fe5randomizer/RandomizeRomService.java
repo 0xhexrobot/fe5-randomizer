@@ -41,6 +41,16 @@ public class RandomizeRomService extends Service<Void> {
             @Override
             protected Void call() throws Exception {
                 Map<String, Object> input = new HashMap<String, Object>();
+                
+                if(randomizeSummary.getRandomizeBases()) {
+                    updateMessage("Randomize unit bases...");
+                    
+                    if(randomizeSummary.getBasesRandomizationType().equals("variance")) {
+                        rom.randomizeUnitsBasesVariance(randomizeSummary.getBasesVariance());
+                    } else if(randomizeSummary.getBasesRandomizationType().equals("redistribute")) {
+                        rom.randomizeUnitsBasesRedistribute(randomizeSummary.getBasesRedistributeVar());
+                    }
+                }
 
                 updateMessage("Writing log...");
                 
