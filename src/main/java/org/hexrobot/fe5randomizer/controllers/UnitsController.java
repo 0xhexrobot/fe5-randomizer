@@ -55,6 +55,14 @@ public class UnitsController {
     private ToggleGroup tgBases;
     @FXML
     private ToggleGroup tgGrowths;
+    @FXML
+    private CheckBox chkClasses;
+    @FXML
+    private VBox parClassesControls;
+    @FXML
+    private CheckBox chkExcludeHealers;
+    @FXML
+    private CheckBox chkExcludeThieves;
         
     @FXML
     private void initialize() {
@@ -96,5 +104,12 @@ public class UnitsController {
         spGrowthsVar.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsRedistributeVarProperty());
         spGrowthsAbsMin.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsAbsoluteMinProperty());
         spGrowthsAbsMax.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsAbsoluteMaxProperty());
+        
+        // classes
+        chkExcludeHealers.disableProperty().bind(chkClasses.selectedProperty().not());
+        chkExcludeThieves.disableProperty().bind(chkClasses.selectedProperty().not());
+        chkClasses.selectedProperty().bindBidirectional(randomizeSummary.randomizeUnitClassesProperty());
+        chkExcludeHealers.selectedProperty().bindBidirectional(randomizeSummary.excludeHealersProperty());
+        chkExcludeThieves.selectedProperty().bindBidirectional(randomizeSummary.excludeThievesProperty());
     }
 }

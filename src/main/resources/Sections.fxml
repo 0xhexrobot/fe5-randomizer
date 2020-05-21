@@ -140,7 +140,7 @@
 					</content>
 				</Tab>
 				<Tab closable="false" disable="true" text="Classes" />
-				<Tab closable="false" disable="true" text="Items" />
+				<Tab closable="false" text="Items" />
 				<Tab closable="false" text="Randomize">
                <content>
                   <fx:include source="Randomize.fxml" />

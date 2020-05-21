@@ -17,6 +17,10 @@ public class RandomizeSummary {
     private final SimpleObjectProperty<Integer> growthsRedistributeVar = new SimpleObjectProperty<Integer>(30);
     private final SimpleObjectProperty<Integer> growthsAbsoluteMin = new SimpleObjectProperty<Integer>(5);
     private final SimpleObjectProperty<Integer> growthsAbsoluteMax = new SimpleObjectProperty<Integer>(90);
+    // unit classes
+    private final SimpleBooleanProperty randomizeUnitClasses = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty excludeHealers = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty excludeThieves = new SimpleBooleanProperty(false);
     
     public SimpleBooleanProperty randomizeBasesProperty() {
         return randomizeBases;
@@ -58,6 +62,18 @@ public class RandomizeSummary {
         return growthsAbsoluteMax;
     }
     
+    public SimpleBooleanProperty randomizeUnitClassesProperty() {
+        return randomizeUnitClasses;
+    }
+    
+    public SimpleBooleanProperty excludeHealersProperty() {
+        return excludeHealers;
+    }
+    
+    public SimpleBooleanProperty excludeThievesProperty() {
+        return excludeThieves;
+    }
+    
     public boolean getRandomizeBases() {
         return randomizeBases.getValue();
     }
@@ -96,6 +112,18 @@ public class RandomizeSummary {
 
     public int getGrowthsAbsoluteMax() {
         return growthsAbsoluteMax.getValue();
+    }
+    
+    public boolean getRandomizeUnitClasses() {
+        return randomizeUnitClasses.getValue();
+    }
+    
+    public boolean getExcludeHealers() {
+        return excludeHealers.getValue();
+    }
+    
+    public boolean getExcludeThieves() {
+        return excludeThieves.getValue();
     }
     
     @Override

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <CheckBox mnemonicParsing="false" text="Randomize items" />
+      <VBox spacing="5.0">
+         <children>
+            <CheckBox mnemonicParsing="false" text="Might" />
+            <CheckBox mnemonicParsing="false" text="Accuracy" />
+            <CheckBox mnemonicParsing="false" text="Weight" />
+            <CheckBox mnemonicParsing="false" text="Critical" />
+            <CheckBox mnemonicParsing="false" text="Uses" />
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" />
+         </VBox.margin>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

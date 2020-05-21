@@ -1,5 +1,8 @@
 package org.hexrobot.fe5randomizer.characters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum CharacterClass {
     NOTHING(0x00, "Nothing/Separator"),
     SOCIAL_KNIGHT(0x01, "Social Knight"),
@@ -124,6 +127,40 @@ public enum CharacterClass {
     
     private int offset;
     private String name;
+    private static final ArrayList<CharacterClass> THIEVES = new ArrayList<>(List.of(THIEF, THIEF_F));
+    private static final ArrayList<CharacterClass> HEALERS = new ArrayList<>(List.of(
+            TROUBADOUR, PALADIN, PALADIN_F, PRIEST, PRIEST_F, SISTER, SAGE, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED, HIGH_PRIEST,
+            HIGH_PRIEST_F, BISHOP, DARK_BISHOP, LOPTO_MAGE, LOPTO_MAGE_F, DARK_MAGE));
+    private static final ArrayList<CharacterClass> UNPROMOTED = new ArrayList<>(List.of(
+            SOCIAL_KNIGHT, LANCE_KNIGHT, ARCH_KNIGHT, AXE_KNIGHT, FREE_KNIGHT, TROUBADOUR, BOW_KNIGHT, PEGASUS_KNIGHT,
+            DRAGON_RIDER, DRAGON_KNIGHT, BOW_FIGHTER, SWORD_FIGHTER, FORREST, LANCE_ARMOR,
+            AXE_ARMOR, BOW_ARMOUR, SWORD_ARMOR, MOUNTAIN_THIEF, MOUNTAIN_THIEF2, HUNTER, PIRATE, MAGE_KNIGHT2,
+            LORD, DANCER, PRIEST, MAGE, LOPTO_MAGE, THUNDER_MAGE, WIND_MAGE, BARD, SISTER, THIEF, AXE_FIGHTER,
+            SOCIALKNIGHT_DISMOUNTED, LANCE_KNIGHT_DISMOUNTED, ARCH_KNIGHT_DISMOUNTED, AXE_KNIGHT_DISMOUNTED,
+            FREE_KNIGHT_DISMOUNTED, TROUBADOUR_DISMOUNTED, BOW_KNIGHT_DISMOUNTED, PEGASUS_KNIGHT_DISMOUNTED,
+            DRAGON_RIDER_DISMOUNTED, DRAGON_KNIGHT_DISMOUNTED, ARCH_KNIGHT_F, ARCH_KNIGHT_F_DISMOUNTED, BOW_KNIGHT_F,
+            BOW_KNIGHT_F_DISMOUNTED, DRAGON_RIDER_F, DRAGON_RIDER_F_DISMOUNTED, DRAGON_KNIGHT_F,
+            DRAGON_KNIGHT_F_DISMOUNTED, MAGE_F, THUNDER_MAGE_F, LOPTO_MAGE_F, WIND_MAGE_F, PRIEST_F, SWORD_FIGHTER_F,
+            BOW_FIGHTER_F, THIEF_F, MERCENARY, PEGASUS_RIDER, PEGASUS_RIDER_DISMOUNTED, SOLDIER, ARCHER, MERCENARY_F));
+    private static final ArrayList<CharacterClass> PROMOTED = new ArrayList<>(List.of(
+            PALADIN, PALADIN_F, FORREST_KNIGHT, MAGE_KNIGHT, GREAT_KNIGHT, FALCON_KNIGHT, DRAGON_MASTER, SWORDMASTER, SNIPER,
+            FORREST, GENERAL, EMPEROR, BARON, BERSERKER, WARRIOR, HUNTER, MAGE_KNIGHT2, PRINCE, MAGE_KNIGHT_F, BARON2,
+            HIGH_PRIEST, BISHOP, SAGE, DARK_MAGE, DARK_BISHOP, THIEF_FIGHTER, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED,
+            FORREST_KNIGHT_DISMOUNTED, GREAT_KNIGHT_DISMOUNTED, FALCON_KNIGHT_DISMOUNTED, DRAGON_MASTER_DISMOUNTED,
+            DRAGON_MASTER_F, DRAGON_MASTER_F_DISMOUNTED, MAGE_KNIGHT_F2, MAGE_KNIGHT_F_DISMOUNTED, HIGH_PRIEST_F,
+            FORREST_F, SWORD_MASTER_F, SNIPER_F, THIEF_FIGHTER_F, THIEF_FIGHTER_SPRITE));
+    private static final ArrayList<CharacterClass> UNUSED_PROMOTED = new ArrayList<>(List.of(
+            LORD_KNIGHT, DUKE_KNIGHT, MASTER_KNIGHT, GENERAL, EMPEROR, BARON, JUNIOR_LORD, BARON2, KILLER_ARCH,
+            DARK_PRINCE, LORD_KNIGHT_DISMOUNTED, DUKE_KNIGHT_DISMOUNTED, MASTER_KNIGHT_DISMOUNTED, MASTER_KNIGHT_F,
+            MASTER_KNIGHT_F_DISMOUNTED));
+    private static final ArrayList<CharacterClass> FEMALE_CLASSES = new ArrayList<>(List.of(
+            TROUBADOUR, PALADIN_F, PEGASUS_KNIGHT, FALCON_KNIGHT, MAGE_KNIGHT_F, DANCER, SISTER, PALADIN_F_DISMOUNTED,
+            ARCH_KNIGHT_F, ARCH_KNIGHT_F_DISMOUNTED, BOW_KNIGHT_F, BOW_KNIGHT_F_DISMOUNTED, MASTER_KNIGHT_F,
+            MASTER_KNIGHT_F_DISMOUNTED, DRAGON_RIDER_F, DRAGON_RIDER_F_DISMOUNTED, DRAGON_KNIGHT_F,
+            DRAGON_KNIGHT_F_DISMOUNTED, DRAGON_MASTER_F, DRAGON_MASTER_F_DISMOUNTED, MAGE_F, THUNDER_MAGE_F,
+            LOPTO_MAGE_F, WIND_MAGE_F, TROUBADOUR_DISMOUNTED, MAGE_KNIGHT_F2, MAGE_KNIGHT_F_DISMOUNTED, PRIEST_F, HIGH_PRIEST_F,
+            SWORD_FIGHTER_F, FORREST_F, SWORD_MASTER_F, BOW_FIGHTER_F, SNIPER_F, THIEF_F, THIEF_FIGHTER_F,
+            PEGASUS_RIDER, PEGASUS_RIDER_DISMOUNTED, MERCENARY_F));
     
     private CharacterClass(int offset, String name) {
         this.offset = offset;
@@ -136,6 +173,38 @@ public enum CharacterClass {
     
     public String getName() {
         return name;
+    }
+    
+    public boolean isPromoted() {
+        return PROMOTED.contains(this);
+    }
+    
+    public boolean isUnpromoted() {
+        return UNPROMOTED.contains(this);
+    }
+    
+    public boolean isThief() {
+        return THIEVES.contains(this);
+    }
+    
+    public boolean isHealer() {
+        return HEALERS.contains(this);
+    }
+    
+    public boolean isFemaleClass() {
+        return FEMALE_CLASSES.contains(this);
+    }
+
+    public static ArrayList<CharacterClass> getUnpromotedClasses() {
+        return new ArrayList<CharacterClass>(UNPROMOTED);
+    }
+    
+    public static ArrayList<CharacterClass> getPromotedClasses() {
+        return new ArrayList<CharacterClass>(PROMOTED);
+    }
+    
+    public static ArrayList<CharacterClass> getUnusedPromotedClasses() {
+        return new ArrayList<CharacterClass>(UNUSED_PROMOTED);
     }
     
     public static CharacterClass findById(int offset) {

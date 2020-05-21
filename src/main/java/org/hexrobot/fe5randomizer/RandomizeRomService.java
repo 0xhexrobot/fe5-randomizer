@@ -42,6 +42,12 @@ public class RandomizeRomService extends Service<Void> {
             protected Void call() throws Exception {
                 Map<String, Object> input = new HashMap<String, Object>();
                 
+                if(randomizeSummary.getRandomizeUnitClasses()) {
+                    updateMessage("Randomize unit classes...");
+                    
+                    rom.randomizeUnitClasses(randomizeSummary.getExcludeHealers(), randomizeSummary.getExcludeThieves());
+                }
+                
                 if(randomizeSummary.getRandomizeBases()) {
                     updateMessage("Randomize unit bases...");
                     
@@ -49,6 +55,18 @@ public class RandomizeRomService extends Service<Void> {
                         rom.randomizeUnitsBasesVariance(randomizeSummary.getBasesVariance());
                     } else if(randomizeSummary.getBasesRandomizationType().equals("redistribute")) {
                         rom.randomizeUnitsBasesRedistribute(randomizeSummary.getBasesRedistributeVar());
+                    }
+                }
+                
+                if(randomizeSummary.getRandomizeGrowths()) {
+                    updateMessage("Randomize unit growths...");
+                    
+                    if(randomizeSummary.getGrowthsRandomizationType().equals("variance")) {
+                        rom.randomizeUnitsGrowthsVariance(randomizeSummary.getGrowthsVariance());
+                    } else if(randomizeSummary.getGrowthsRandomizationType().equals("redistribute")) {
+                        rom.randomizeUnitsGrowthsRedistribute(randomizeSummary.getBasesRedistributeVar());
+                    } else if(randomizeSummary.getGrowthsRandomizationType().equals("absolute")) {
+                        rom.randomizeUnitsGrowthsAbsolute(randomizeSummary.getGrowthsAbsoluteMin(), randomizeSummary.getGrowthsAbsoluteMax());
                     }
                 }
 

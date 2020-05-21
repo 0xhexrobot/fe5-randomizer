@@ -22,7 +22,7 @@ Randomize growths: <#if randomizeSummary.randomizeGrowths>**Yes**<#else>No</#if>
 <#list units as unit>
 ### ${unit.getName()}
 
-**Offset:** ${unit.offset?string.@hex_4} **Class:** ${unit.characterClass.getName()} *(${unit.characterClass.offset?string.@hex_2})*
+**Offset:** ${unit.offset?string.@hex_4} **Class:** <#if unit.oldValues["characterClass"]??>${unit.oldValues["characterClass"].getName()} (${unit.oldValues["characterClass"].offset?string.@hex_2}) → **${unit.characterClass.getName()} _(${unit.characterClass.offset?string.@hex_2})_**<#else>${unit.characterClass.getName()} *(${unit.characterClass.offset?string.@hex_2})*</#if>
 
 #### Bases
 
@@ -34,7 +34,7 @@ HP | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov | Lead * | Mov * | P Crit |
 
 HP | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov |
 -- | --- | --- | --- | --- | --- | --- | --- | --- |
-${unit.hpGrowth} | ${unit.atkGrowth} | ${unit.magGrowth} | ${unit.sklGrowth} | ${unit.sklGrowth} | ${unit.spdGrowth} | ${unit.lckGrowth} | ${unit.defGrowth} | ${unit.bldGrowth} | ${unit.movGrowth} |
+<#if unit.oldValues["hpGrowth"]??>${unit.oldValues["hpGrowth"]} → **${unit.hpGrowth}**<#else>${unit.hpGrowth}</#if> | <#if unit.oldValues["atkGrowth"]??>${unit.oldValues["atkGrowth"]} → **${unit.atkGrowth}**<#else>${unit.atkGrowth}</#if> | <#if unit.oldValues["magGrowth"]??>${unit.oldValues["magGrowth"]} → **${unit.magGrowth}**<#else>${unit.magGrowth}</#if> | <#if unit.oldValues["sklGrowth"]??>${unit.oldValues["sklGrowth"]} → **${unit.sklGrowth}**<#else>${unit.sklGrowth}</#if> | <#if unit.oldValues["sklGrowth"]??>${unit.oldValues["sklGrowth"]} → **${unit.sklGrowth}**<#else>${unit.sklGrowth}</#if> | <#if unit.oldValues["spdGrowth"]??>${unit.oldValues["spdGrowth"]} → **${unit.spdGrowth}**<#else>${unit.spdGrowth}</#if> | <#if unit.oldValues["lckGrowth"]??>${unit.oldValues["lckGrowth"]} → **${unit.lckGrowth}**<#else>${unit.lckGrowth}</#if> | <#if unit.oldValues["defGrowth"]??>${unit.oldValues["defGrowth"]} → **${unit.defGrowth}**<#else>${unit.defGrowth}</#if> | <#if unit.oldValues["bldGrowth"]??>${unit.oldValues["bldGrowth"]} → **${unit.bldGrowth}**<#else>${unit.bldGrowth}</#if> | <#if unit.oldValues["movGrowth"]??>${unit.oldValues["movGrowth"]} → **${unit.movGrowth}**<#else>${unit.movGrowth}</#if> |
 
 #### Weapon Proficiency
 

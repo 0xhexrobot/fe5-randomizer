@@ -1,9 +1,14 @@
 package org.hexrobot.fe5randomizer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.zip.CRC32;
 
+import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
+import org.hexrobot.fe5randomizer.characters.Gender;
 import org.hexrobot.fe5randomizer.items.Item;
 
 public class Rom {
@@ -114,13 +119,11 @@ public class Rom {
     }
     
     public void randomizeUnitsBasesVariance(int delta) {
-        GameCharacter[] characters = GameCharacter.values();
+        ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
         int baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseLck, baseDef, baseBld, baseMov;
         int newBaseHp, newBaseAtk, newBaseMag, newBaseSkl, newBaseSpd, newBaseLck, newBaseDef, newBaseBld, newBaseMov;
         
-        for(int i = 0; i < characters.length; i++) {
-            GameCharacter character = characters[i];
-            
+        for(GameCharacter character : characters) {
             baseHp = character.getBaseHp();
             baseAtk = character.getBaseAtk();
             baseMag = character.getBaseMag();
@@ -154,14 +157,14 @@ public class Rom {
     }
     
     public void randomizeUnitsBasesRedistribute(int variance) {
-        GameCharacter[] characters = GameCharacter.values();
+        ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
         
-        for(int i = 0; i < characters.length; i++) {
-            GameCharacter character = characters[i];
+        for(GameCharacter character : characters) {
             int totalBases = 0;
             int baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseLck, baseDef, baseBld, baseMov;
             float totalWeights = 0;
             float hpWeight, atkWeight, magWeight, sklWeight, spdWeight, lckWeight, defWeight, bldWeight, movWeight;
+            int originalBases, newBases, basesDiff;
             
             hpWeight = random.nextFloat() * 2.0f;
             atkWeight = random.nextFloat();
@@ -185,6 +188,7 @@ public class Rom {
             totalBases += character.getBaseBld();
             totalBases += character.getBaseMov();
             
+            originalBases = totalBases;
             totalBases += random.nextInt(variance * 2 + 1) - variance;
             
             baseHp = Math.round(hpWeight * totalBases / totalWeights);
@@ -197,6 +201,9 @@ public class Rom {
             baseBld = Math.round(bldWeight * totalBases / totalWeights);
             baseMov = Math.round(movWeight * totalBases / totalWeights);
             
+            newBases = baseHp + baseAtk + baseMag + baseSkl + baseSpd + baseLck + baseDef + baseBld + baseMov;
+            basesDiff = newBases - originalBases;
+            
             character.setBaseHp(baseHp);
             character.setBaseAtk(baseAtk);
             character.setBaseMag(baseMag);
@@ -206,11 +213,226 @@ public class Rom {
             character.setBaseDef(baseDef);
             character.setBaseBld(baseBld);
             character.setBaseMov(baseMov);
+            
+            System.out.println(String.format("%s bases(%+d): %d → %d", character.getName(), basesDiff, originalBases, newBases));
         }
     }
     
-    public void randomizeUnitsGrowths() {
+    public void randomizeUnitsGrowthsVariance(int delta) {
+        ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
         
+        for(GameCharacter character : characters) {
+            int hpGrowth, atkGrowth, magGrowth, sklGrowth, spdGrowth, lckGrowth, defGrowth, bldGrowth, movGrowth;
+            int newHpGrowth, newAtkGrowth, newMagGrowth, newSklGrowth, newSpdGrowth, newLckGrowth, newDefGrowth, newBldGrowth, newMovGrowth;
+            
+            hpGrowth = character.getHpGrowth();
+            atkGrowth = character.getAtkGrowth();
+            magGrowth = character.getMagGrowth();
+            sklGrowth = character.getSklGrowth();
+            spdGrowth = character.getSpdGrowth();
+            lckGrowth = character.getLckGrowth();
+            defGrowth = character.getDefGrowth();
+            bldGrowth = character.getBldGrowth();
+            movGrowth = character.getMovGrowth();
+            
+            newHpGrowth = Math.max(hpGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            newAtkGrowth = Math.max(atkGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            newMagGrowth = Math.max(magGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            newSklGrowth = Math.max(sklGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            newSpdGrowth = Math.max(spdGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            newLckGrowth = Math.max(lckGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            newDefGrowth = Math.max(defGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            newBldGrowth = Math.max(bldGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            newMovGrowth = Math.max(movGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            
+            character.setHpGrowth(newHpGrowth);
+            character.setAtkGrowth(newAtkGrowth);
+            character.setMagGrowth(newMagGrowth);
+            character.setSklGrowth(newSklGrowth);
+            character.setSpdGrowth(newSpdGrowth);
+            character.setLckGrowth(newLckGrowth);
+            character.setDefGrowth(newDefGrowth);
+            character.setBldGrowth(newBldGrowth);
+            character.setMovGrowth(newMovGrowth);
+        }
+    }
+    
+    public void randomizeUnitsGrowthsRedistribute(int variance) {
+        ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        
+        for(GameCharacter character : characters) {
+            int totalGrowths = 0;
+            int hpGrowth, atkGrowth, magGrowth, sklGrowth, spdGrowth, lckGrowth, defGrowth, bldGrowth, movGrowth;
+            float totalWeights = 0;
+            float hpWeight, atkWeight, magWeight, sklWeight, spdWeight, lckWeight, defWeight, bldWeight, movWeight;
+            int originalGrowths, newGrowths, growthsDiff;
+            
+            hpWeight = random.nextFloat() * 2.0f;
+            atkWeight = random.nextFloat();
+            magWeight = random.nextFloat();
+            sklWeight = random.nextFloat();
+            spdWeight = random.nextFloat();
+            lckWeight = random.nextFloat();
+            defWeight = random.nextFloat();
+            bldWeight = random.nextFloat() * 0.5f;
+            movWeight = random.nextFloat() * 0.5f;
+            
+            totalWeights = hpWeight + atkWeight + magWeight + sklWeight + spdWeight + lckWeight + defWeight + bldWeight + movWeight;
+            
+            totalGrowths += character.getHpGrowth();
+            totalGrowths += character.getAtkGrowth();
+            totalGrowths += character.getMagGrowth();
+            totalGrowths += character.getSklGrowth();
+            totalGrowths += character.getSpdGrowth();
+            totalGrowths += character.getLckGrowth();
+            totalGrowths += character.getDefGrowth();
+            totalGrowths += character.getBldGrowth();
+            totalGrowths += character.getMovGrowth();
+            
+            originalGrowths = totalGrowths;
+            totalGrowths += random.nextInt(variance * 2 + 1) - variance;
+            
+            hpGrowth = Math.round(hpWeight * totalGrowths / totalWeights);
+            atkGrowth = Math.round(atkWeight * totalGrowths / totalWeights);
+            magGrowth = Math.round(magWeight * totalGrowths / totalWeights);
+            sklGrowth = Math.round(sklWeight * totalGrowths / totalWeights);
+            spdGrowth = Math.round(spdWeight * totalGrowths / totalWeights);
+            lckGrowth = Math.round(lckWeight * totalGrowths / totalWeights);
+            defGrowth = Math.round(defWeight * totalGrowths / totalWeights);
+            bldGrowth = Math.round(bldWeight * totalGrowths / totalWeights);
+            movGrowth = Math.round(movWeight * totalGrowths / totalWeights);
+            
+            newGrowths = hpGrowth + atkGrowth + magGrowth + sklGrowth + spdGrowth + lckGrowth + defGrowth + bldGrowth + movGrowth;
+            growthsDiff = newGrowths - originalGrowths;
+            
+            character.setHpGrowth(hpGrowth);
+            character.setAtkGrowth(atkGrowth);
+            character.setMagGrowth(magGrowth);
+            character.setSklGrowth(sklGrowth);
+            character.setSpdGrowth(spdGrowth);
+            character.setLckGrowth(lckGrowth);
+            character.setDefGrowth(defGrowth);
+            character.setBldGrowth(bldGrowth);
+            character.setMovGrowth(movGrowth);
+            
+            System.out.println(String.format("%s growths(%+d%%): %d%% → %d%%", character.getName(), growthsDiff, originalGrowths, newGrowths));
+        }
+    }
+    
+    public void randomizeUnitsGrowthsAbsolute(int min, int max) {
+        ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        int newHpGrowth, newAtkGrowth, newMagGrowth, newSklGrowth, newSpdGrowth, newLckGrowth, newDefGrowth, newBldGrowth, newMovGrowth;
+        int maxDiff = max - min;
+        
+        for(GameCharacter character : characters) {
+            newHpGrowth = min + random.nextInt(maxDiff + 1);
+            newAtkGrowth = min + random.nextInt(maxDiff + 1);
+            newMagGrowth = min + random.nextInt(maxDiff + 1);
+            newSklGrowth = min + random.nextInt(maxDiff + 1);
+            newSpdGrowth = min + random.nextInt(maxDiff + 1);
+            newLckGrowth = min + random.nextInt(maxDiff + 1);
+            newDefGrowth = min + random.nextInt(maxDiff + 1);
+            newBldGrowth = min + random.nextInt(maxDiff + 1);
+            newMovGrowth = min + random.nextInt(maxDiff + 1);
+            
+            character.setHpGrowth(newHpGrowth);
+            character.setAtkGrowth(newAtkGrowth);
+            character.setMagGrowth(newMagGrowth);
+            character.setSklGrowth(newSklGrowth);
+            character.setSpdGrowth(newSpdGrowth);
+            character.setLckGrowth(newLckGrowth);
+            character.setDefGrowth(newDefGrowth);
+            character.setBldGrowth(newBldGrowth);
+            character.setMovGrowth(newMovGrowth);
+        }
+    }
+    
+    public void randomizeUnitClasses(boolean excludeHealers, boolean excludeThieves) {
+        ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        ArrayList<CharacterClass> unpromotedClasses = CharacterClass.getUnpromotedClasses();
+        ArrayList<CharacterClass> promotedClasses = CharacterClass.getPromotedClasses();
+        
+        Map<CharacterClass, Integer> classCount = new HashMap<>();
+        
+        for(GameCharacter character : characters) {
+            classCount.put(character.getCharacterClass(), 0);
+        }
+        
+        for(GameCharacter character : characters) {
+            CharacterClass characterClass = character.getCharacterClass();
+            CharacterClass newCharacterClass = characterClass;
+            
+            if(excludeHealers && characterClass.isHealer() || excludeThieves && characterClass.isThief()) {
+                continue;
+            }
+            
+            if(characterClass.isPromoted()) {
+                newCharacterClass = getSelectedClass(character, promotedClasses);
+            } else if(characterClass.isUnpromoted()) {
+                newCharacterClass = getSelectedClass(character, unpromotedClasses);
+            }
+            
+            character.setCharacterClass(newCharacterClass);
+            
+            System.out.println(String.format("%s class %s(0x%02X) → %s(0x%02X)", 
+                    character.getName(), characterClass.getName(), characterClass.getOffset(), newCharacterClass.getName(), newCharacterClass.getOffset()));
+            
+            if(classCount.containsKey(characterClass)) {
+                int count = classCount.get(characterClass);
+                count++;
+                classCount.put(characterClass, count);
+            } else {
+                System.out.println("WTF!");
+            }
+            
+        }
+        
+        for (Map.Entry<CharacterClass, Integer> entry : classCount.entrySet()) {
+            System.out.println(String.format("%s(0x%04X) → %d",
+                    entry.getKey().getName(), entry.getKey().getOffset(), entry.getValue()));
+        }
+    }
+    
+    private float assignClassWeight(GameCharacter character, CharacterClass characterClass) {
+        float value = 1.0f;
+        
+        if(character.getGender() == Gender.MALE) {
+            if(characterClass.isFemaleClass()) {
+                value = 0;
+            }
+        } else if(character.getGender() == Gender.FEMALE) {
+            if(!characterClass.isFemaleClass()) {
+                value = 0;
+            }
+        }
+        
+        return value;
+    }
+    
+    private CharacterClass getSelectedClass(GameCharacter character, ArrayList<CharacterClass> classesList) {
+        CharacterClass selectedClass = character.getCharacterClass();
+        Map<CharacterClass, Float> classWeights = new HashMap<>();
+        float totalWeights = 0;
+        float randomNumber;
+        
+        for(CharacterClass characterClass : classesList) {
+            float weight = assignClassWeight(character, characterClass);
+            totalWeights += weight;
+            classWeights.put(characterClass, weight);
+        }
+        
+        randomNumber = random.nextFloat() * totalWeights;
+        
+        for (Map.Entry<CharacterClass, Float> entry : classWeights.entrySet()) {
+            if(randomNumber < entry.getValue()) {
+                selectedClass = entry.getKey();
+                break;
+            } else {
+                randomNumber -= entry.getValue();
+            }
+        }
+        
+        return selectedClass;
     }
 
     @Override
