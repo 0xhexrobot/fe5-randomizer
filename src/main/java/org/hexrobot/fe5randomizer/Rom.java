@@ -118,6 +118,21 @@ public class Rom {
         }
     }
     
+    public void initializeArmyData() {
+        Army[] armies = Army.values();
+        
+        for(int i = 0; i < armies.length; i++) {
+            Army army = armies[i];
+            int separation = army.getSeparation();
+            System.out.println(army.getName());
+            
+            for(int j = 0; j < army.getUnitCount(); j++) {
+                ArmyUnit armyUnit = new ArmyUnit(this, army.getOffset() + j * separation);
+                System.out.println(armyUnit);
+            }            
+        }
+    }
+    
     public void randomizeUnitsBasesVariance(int delta) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
         int baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseLck, baseDef, baseBld, baseMov;

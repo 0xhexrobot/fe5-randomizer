@@ -35,11 +35,13 @@ public class LoadRomService extends Service<Rom> {
 
                     if(rom.isFireEmblem5()) {
                         updateProgress(0.4, 1.0);
-                        updateMessage("Reading Items...");
+                        updateMessage("Reading items...");
                         rom.initializeItems();
                         updateProgress(0.7, 1.0);
                         updateMessage("Reading characters...");
                         rom.initializeCharacters();
+                        updateMessage("Reading army data...");
+                        rom.initializeArmyData();
                     }
                     
                     updateMessage("Finished loading.");
