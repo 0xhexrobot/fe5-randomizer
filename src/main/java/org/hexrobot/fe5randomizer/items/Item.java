@@ -305,6 +305,24 @@ public enum Item {
 		weaponSkill2 = WeaponSkill2.findById(rom.getValueAt(relOffset + WEAPON_SKILL2_OFFSET));
 		itemClassification = ItemClassification.findById(rom.getValueAt(relOffset + ITEM_CLASSIFICATION_OFFSET));
 	}
+    
+    public static Item findById(int offset) {
+        Item item = null;
+        
+        for(Item currentItem : Item.values()) {
+            if(currentItem.offset == offset) {
+                item = currentItem;
+                break;
+            }
+        }
+        
+        if(item == null) {
+            System.out.println(String.format("WARNING: Offset 0x%02X in Item was not found.", offset));
+            item = Item.IRON_SWORD;
+        }
+        
+        return item;
+    }
 	
 	@Override
 	public String toString() {
