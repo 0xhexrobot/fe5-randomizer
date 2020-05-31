@@ -8,7 +8,6 @@ import java.util.zip.CRC32;
 
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
-import org.hexrobot.fe5randomizer.characters.Gender;
 import org.hexrobot.fe5randomizer.items.Item;
 
 public class Rom {
@@ -19,6 +18,7 @@ public class Rom {
     private static final int GAME_TITLE_OFFSET = 0x81C0;
     private static final int ITEMS_OFFSET = 0x1802C2;
     private static final int CHARACTERS_OFFSET = 0x31C2D;
+    private static final int CHARACTER_CLASSES_OFFSET = 0x30200;
     private byte[] bytes;
     private String name = "Fire Emblem 5 (Unknown)";
     private boolean headered;
@@ -26,6 +26,8 @@ public class Rom {
     private long crc32Checksum;
     private boolean fireEmblem5;
     private Random random;
+    private RandomizationLogic logic = new RandomizationLogic();
+    private ArrayList<ArmyUnit> armyUnits = new ArrayList<ArmyUnit>();
 
     public Rom(byte[] bytes) {
         this.bytes = bytes;
@@ -111,6 +113,12 @@ public class Rom {
             item.readItem(this, ITEMS_OFFSET);
         }
     }
+    
+    public void initializeCharacterClasses() {
+        for(CharacterClass characterClass : CharacterClass.values()) {
+            characterClass.readCharacterClass(this, CHARACTER_CLASSES_OFFSET);
+        }
+    }
 
     public void initializeCharacters() {
         for(GameCharacter character : GameCharacter.values()) {
@@ -123,13 +131,19 @@ public class Rom {
         
         for(int i = 0; i < armies.length; i++) {
             Army army = armies[i];
+            ArrayList<ArmyUnit> chapterUnits = new ArrayList<>();
             int separation = army.getSeparation();
-            System.out.println(army.getName());
             
             for(int j = 0; j < army.getUnitCount(); j++) {
                 ArmyUnit armyUnit = new ArmyUnit(this, army.getOffset() + j * separation);
-                System.out.println(armyUnit);
-            }            
+                armyUnits.add(armyUnit);
+                chapterUnits.add(armyUnit);
+            }
+            
+            String chName = army.getName().split(" ")[0];
+            Chapter chapter = Chapter.findByShortName(chName);
+            
+            chapter.addArmyData(chapterUnits);
         }
     }
     
@@ -362,24 +376,37 @@ public class Rom {
         }
     }
     
-    public void randomizeUnitClasses(boolean excludeHealers, boolean excludeThieves) {
+    public void randomizePlayableUnitClasses(boolean excludeHealers, boolean excludeThieves) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        
+        if(excludeHealers) {
+            characters.removeIf(unit -> unit.getCharacterClass().isHealer());
+        }
+        
+        if(excludeThieves) {
+            characters.removeIf(unit -> unit.getCharacterClass().isThief());
+        }
+
+        assignNewClasses(characters);
+    }
+    
+    public void randomizeEnemyUnitClasses(boolean excludeBosses) {
+        ArrayList<GameCharacter> characters = GameCharacter.getEnemyUnits();
+        
+        if(excludeBosses) {
+            characters.removeAll(GameCharacter.getBossUnits());
+        }
+
+        assignNewClasses(characters);
+    }
+    
+    private void assignNewClasses(ArrayList<GameCharacter> characters) {
         ArrayList<CharacterClass> unpromotedClasses = CharacterClass.getUnpromotedClasses();
         ArrayList<CharacterClass> promotedClasses = CharacterClass.getPromotedClasses();
-        
-        Map<CharacterClass, Integer> classCount = new HashMap<>();
-        
-        for(GameCharacter character : characters) {
-            classCount.put(character.getCharacterClass(), 0);
-        }
         
         for(GameCharacter character : characters) {
             CharacterClass characterClass = character.getCharacterClass();
             CharacterClass newCharacterClass = characterClass;
-            
-            if(excludeHealers && characterClass.isHealer() || excludeThieves && characterClass.isThief()) {
-                continue;
-            }
             
             if(characterClass.isPromoted()) {
                 newCharacterClass = getSelectedClass(character, promotedClasses);
@@ -388,40 +415,60 @@ public class Rom {
             }
             
             character.setCharacterClass(newCharacterClass);
-            
-            System.out.println(String.format("%s class %s(0x%02X) → %s(0x%02X)", 
-                    character.getName(), characterClass.getName(), characterClass.getOffset(), newCharacterClass.getName(), newCharacterClass.getOffset()));
-            
-            if(classCount.containsKey(characterClass)) {
-                int count = classCount.get(characterClass);
-                count++;
-                classCount.put(characterClass, count);
-            } else {
-                System.out.println("WTF!");
-            }
-            
         }
         
-        for (Map.Entry<CharacterClass, Integer> entry : classCount.entrySet()) {
-            System.out.println(String.format("%s(0x%04X) → %d",
-                    entry.getKey().getName(), entry.getKey().getOffset(), entry.getValue()));
+        assignUnitInventories(characters);
+    }
+    
+    private void assignUnitInventories(ArrayList<GameCharacter> characters) {
+        ArrayList<ArmyUnit> unitsToModify = new ArrayList<>(armyUnits);
+        unitsToModify.removeIf(unit -> !characters.contains(unit.getCharacter()));
+        
+        for(ArmyUnit armyUnit : unitsToModify) {
+            ArrayList<Item> inventory = armyUnit.getInventory();
+            
+            for(int i = 0; i < inventory.size(); i++) {
+                Item item = inventory.get(i);
+                
+                if(item.isItem() || armyUnit.canUseWeapon(item)) {
+                    continue;
+                }
+                
+                inventory.set(i, getSelectedItem(armyUnit));
+            }
+            
+            armyUnit.setInventory(inventory);
         }
     }
     
-    private float assignClassWeight(GameCharacter character, CharacterClass characterClass) {
-        float value = 1.0f;
+    private Item getSelectedItem(ArmyUnit unit) {
+        Item selectedItem = Item.BROKEN_SWORD;
+        Map<Item, Float> itemWeights = new HashMap<>();
+        float totalWeights = 0;
+        float randomNumber;
+        ArrayList<Item> items = Item.getItems(true, true);
         
-        if(character.getGender() == Gender.MALE) {
-            if(characterClass.isFemaleClass()) {
-                value = 0;
-            }
-        } else if(character.getGender() == Gender.FEMALE) {
-            if(!characterClass.isFemaleClass()) {
-                value = 0;
+        for(Item item : items) {
+            float weight = logic.assignItemWeight(unit, item);
+            
+            if(weight > 0) {
+                totalWeights += weight;
+                itemWeights.put(item, weight);
             }
         }
         
-        return value;
+        randomNumber = random.nextFloat() * totalWeights;
+        
+        for (Map.Entry<Item, Float> entry : itemWeights.entrySet()) {
+            if(randomNumber < entry.getValue()) {
+                selectedItem = entry.getKey();
+                break;
+            } else {
+                randomNumber -= entry.getValue();
+            }
+        }
+        
+        return selectedItem;
     }
     
     private CharacterClass getSelectedClass(GameCharacter character, ArrayList<CharacterClass> classesList) {
@@ -431,9 +478,12 @@ public class Rom {
         float randomNumber;
         
         for(CharacterClass characterClass : classesList) {
-            float weight = assignClassWeight(character, characterClass);
-            totalWeights += weight;
-            classWeights.put(characterClass, weight);
+            float weight = logic.assignClassWeight(character, characterClass);
+            
+            if(weight > 0) {
+                totalWeights += weight;
+                classWeights.put(characterClass, weight);    
+            }
         }
         
         randomNumber = random.nextFloat() * totalWeights;
@@ -448,6 +498,20 @@ public class Rom {
         }
         
         return selectedClass;
+    }
+    
+    public ArrayList<ArmyUnit> getArmyUnits() {
+        return armyUnits;
+    }
+    
+    public void reset() {
+        for(GameCharacter character : GameCharacter.values()) {
+            character.reset();
+        }
+        
+        for(ArmyUnit armyUnits : armyUnits) {
+            armyUnits.reset();
+        }
     }
 
     @Override

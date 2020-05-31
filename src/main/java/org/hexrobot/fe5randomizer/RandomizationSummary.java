@@ -4,23 +4,29 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Toggle;
 
-public class RandomizeSummary {
-    // units bases 
+public class RandomizationSummary {
+    // playable units bases 
     private final SimpleBooleanProperty randomizeBases = new SimpleBooleanProperty(false);
     private final SimpleObjectProperty<Toggle> basesRandomizationType = new SimpleObjectProperty<Toggle>();
     private final SimpleObjectProperty<Integer> basesVariance = new SimpleObjectProperty<Integer>(3);
     private final SimpleObjectProperty<Integer> basesRedistributeVar = new SimpleObjectProperty<Integer>(5);
-    // units growths
+    // playable units growths
     private final SimpleBooleanProperty randomizeGrowths = new SimpleBooleanProperty(false);
     private final SimpleObjectProperty<Toggle> growthsRandomizationType = new SimpleObjectProperty<Toggle>();
     private final SimpleObjectProperty<Integer> growthsVariance = new SimpleObjectProperty<Integer>(30);
     private final SimpleObjectProperty<Integer> growthsRedistributeVar = new SimpleObjectProperty<Integer>(30);
     private final SimpleObjectProperty<Integer> growthsAbsoluteMin = new SimpleObjectProperty<Integer>(5);
     private final SimpleObjectProperty<Integer> growthsAbsoluteMax = new SimpleObjectProperty<Integer>(90);
-    // unit classes
-    private final SimpleBooleanProperty randomizeUnitClasses = new SimpleBooleanProperty(false);
+    // playable unit classes
+    private final SimpleBooleanProperty randomizePlayableUnitClasses = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty excludeHealers = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty excludeThieves = new SimpleBooleanProperty(false);
+    // enemy unit classes
+    private final SimpleBooleanProperty randomizeEnemyUnitClasses = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty randomizeEnemyUnitClassesExcludeBosses = new SimpleBooleanProperty(false);
+    
+    // other
+    private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
     
     public SimpleBooleanProperty randomizeBasesProperty() {
         return randomizeBases;
@@ -62,8 +68,8 @@ public class RandomizeSummary {
         return growthsAbsoluteMax;
     }
     
-    public SimpleBooleanProperty randomizeUnitClassesProperty() {
-        return randomizeUnitClasses;
+    public SimpleBooleanProperty randomizePlayableUnitClassesProperty() {
+        return randomizePlayableUnitClasses;
     }
     
     public SimpleBooleanProperty excludeHealersProperty() {
@@ -74,6 +80,18 @@ public class RandomizeSummary {
         return excludeThieves;
     }
     
+    public SimpleBooleanProperty randomizeEnemyUnitClassesProperty() {
+        return randomizeEnemyUnitClasses;
+    }
+
+    public SimpleBooleanProperty randomizeEnemyUnitClassesExcludeBossesProperty() {
+        return randomizeEnemyUnitClassesExcludeBosses;
+    }
+    
+    public SimpleBooleanProperty writeDebugLogProperty() {
+        return writeDebugLog;
+    }
+
     public boolean getRandomizeBases() {
         return randomizeBases.getValue();
     }
@@ -114,8 +132,8 @@ public class RandomizeSummary {
         return growthsAbsoluteMax.getValue();
     }
     
-    public boolean getRandomizeUnitClasses() {
-        return randomizeUnitClasses.getValue();
+    public boolean getRandomizePlayableUnitClasses() {
+        return randomizePlayableUnitClasses.getValue();
     }
     
     public boolean getExcludeHealers() {
@@ -126,14 +144,27 @@ public class RandomizeSummary {
         return excludeThieves.getValue();
     }
     
+    public boolean getRandomizeEnemyUnitClasses() {
+        return randomizeEnemyUnitClasses.getValue();
+    }
+
+    public boolean getRandomizeEnemyUnitClassesExcludeBosses() {
+        return randomizeEnemyUnitClassesExcludeBosses.getValue();
+    }
+    
+    public boolean getWriteDebugLog() {
+        return writeDebugLog.getValue();
+    }
+    
     @Override
     public String toString() {
-        String text = "[RandomizeSummary]\n";
+        String text = "[RandomizationSummary]\n";
         
         text += String.format("Randomize bases? %b, Randomize type: %s, Delta: %d, Variance: %d\n",
                 randomizeBases.getValue(), (String) basesRandomizationType.getValue().getUserData(), basesVariance.getValue(), basesRedistributeVar.getValue());
         text += String.format("Randomize growths? %b, Randomize type: %s, Delta: %d, Variance: %d, Absolute: [%d - %d]\n",
                 randomizeGrowths.getValue(), (String) growthsRandomizationType.getValue().getUserData(), growthsVariance.getValue(), growthsRedistributeVar.getValue(), growthsAbsoluteMin.getValue(), growthsAbsoluteMax.getValue());
+        text += String.format("Randomize enemy classes: %b, Exclude bosses: %b", randomizeEnemyUnitClasses.getValue(), randomizeEnemyUnitClassesExcludeBosses.getValue());
         
         return text;
     }

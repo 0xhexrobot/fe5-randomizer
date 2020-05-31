@@ -1,5 +1,12 @@
 package org.hexrobot.fe5randomizer.items;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.hexrobot.fe5randomizer.characters.GameCharacter;
+
 public enum WeaponRank {
 	NOPE(0x0000, "-"),
 	E(0x0032, "E"),
@@ -32,6 +39,28 @@ public enum WeaponRank {
 	SAPHY(0x9A36, "Saphy"),
 	TINA_LOPUTO(0x9A28, "Tina/Loputo"),
 	TINA_FREEGE_LOPUTO(0x9A2E, "Tina/Freege/Loputo");
+    
+    private static final ArrayList<WeaponRank> STD_RANKS = new ArrayList<>(List.of(A, B, C, D, E));
+    private static final Map<WeaponRank, ArrayList<GameCharacter>> SPECIAL_LOCKS = new HashMap<>() {
+        private static final long serialVersionUID = 4851225412623073952L;
+        {
+            put(NANNA, new ArrayList<GameCharacter>(List.of(GameCharacter.NANNA)));
+            put(ASVEL, new ArrayList<GameCharacter>(List.of(GameCharacter.ASVEL)));
+            put(SARA, new ArrayList<GameCharacter>(List.of(GameCharacter.SARA)));
+            put(SETY, new ArrayList<GameCharacter>(List.of(GameCharacter.SETY_CH4X)));
+            put(NANNA_DELMUD_FERGUS_LEAF, new ArrayList<GameCharacter>(List.of(GameCharacter.NANNA,GameCharacter.DELMUD,GameCharacter.FELGUS,GameCharacter.LEAF)));
+            put(LEIDRICK_AINS, new ArrayList<GameCharacter>(List.of(GameCharacter.LEIDRICK_1,GameCharacter.LEIDRICK_2, GameCharacter.EINS)));
+            put(FERGUS_DELMUD, new ArrayList<GameCharacter>(List.of(GameCharacter.FELGUS, GameCharacter.DELMUD)));
+            put(OLWEN_REINHARDT, new ArrayList<GameCharacter>(List.of(GameCharacter.ORUEN, GameCharacter.REINHARDT)));
+            put(LEAF, new ArrayList<GameCharacter>(List.of(GameCharacter.LEAF)));
+            put(MAREETA, new ArrayList<GameCharacter>(List.of(GameCharacter.MAREETA)));
+            put(ALTHENNA_DEAN, new ArrayList<GameCharacter>(List.of(GameCharacter.ALTHENNA_ENEMY_ONLY, GameCharacter.DEAN)));
+            put(FINN, new ArrayList<GameCharacter>(List.of(GameCharacter.FINN)));
+            put(OTHIN_BERSERKER, new ArrayList<GameCharacter>(List.of(GameCharacter.OTHIN, GameCharacter.BERSERKER)));
+            put(SAPHY, new ArrayList<GameCharacter>(List.of(GameCharacter.SAPHY)));
+            put(TINA_LOPUTO, new ArrayList<GameCharacter>(List.of(GameCharacter.TINA)));
+            }
+        };
 
 	private int offset;
 	private String name;
@@ -47,6 +76,20 @@ public enum WeaponRank {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public boolean isStdRank() {
+	    return STD_RANKS.contains(this);
+	}
+	
+	public boolean isUnlockedFor(GameCharacter gameCharacter) {
+	    boolean unlocked = false;
+	    
+	    if(SPECIAL_LOCKS.containsKey(this)) {
+	        unlocked = SPECIAL_LOCKS.get(this).contains(gameCharacter);
+	    }
+	    
+	    return unlocked;
 	}
 	
 	public static WeaponRank findById(int offset) {

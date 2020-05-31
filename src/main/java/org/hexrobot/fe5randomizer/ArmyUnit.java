@@ -1,9 +1,14 @@
 package org.hexrobot.fe5randomizer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.items.Item;
+import org.hexrobot.fe5randomizer.items.ItemType;
+import org.hexrobot.fe5randomizer.items.WeaponRank;
 
 public class ArmyUnit {    
     private GameCharacter character;
@@ -17,6 +22,7 @@ public class ArmyUnit {
     private int unknown2;
     private int unknown3;
     private int unknown4;
+    private Map<String, Object> oldValues = new HashMap<>();
     
     private static final int CHARACTER_NUMBER_OFFSET = 0x0;
     private static final int X_COORD_OFFSET = 0x04;
@@ -67,9 +73,146 @@ public class ArmyUnit {
         unknown4 = rom.getValueAt(relOffset + UNKNOWN_4_OFFSET);
     }
     
+    public GameCharacter getCharacter() {
+        return character;
+    }
+
+    public int getXCoord() {
+        return xCoord;
+    }
+
+    public int getYCoord() {
+        return yCoord;
+    }
+
+    public int getArmyOrigin() {
+        return armyOrigin;
+    }
+
+    public ArrayList<Item> getInventory() {
+        return new ArrayList<Item>(inventory);
+    }
+
+    public int getLevel() {
+        return level;
+    }
+    
+    public boolean isPromoted() {
+        return promoted;
+    }
+
+    public int getUnknown1() {
+        return unknown1;
+    }
+
+    public int getUnknown2() {
+        return unknown2;
+    }
+
+    public int getUnknown3() {
+        return unknown3;
+    }
+    
+    public int getUnknown4() {
+        return unknown4;
+    }
+    
+    public void setInventory(ArrayList<Item> inventory) {
+        if(!oldValues.containsKey("inventory") && !this.inventory.equals(inventory)) {
+            oldValues.put("inventory", this.inventory);
+        }
+        
+        this.inventory = inventory;
+    }
+    
+    public boolean canUseWeapon(Item item) {
+        boolean canUseItem = false;
+        WeaponRank rank = item.getWeaponRank();
+        ItemType type = item.getItemType();
+        CharacterClass chClass = character.getCharacterClass();
+        
+        if(rank.isStdRank()) {
+            switch(type) {
+            case SWORD:
+            case FIRE_SWORD:
+            case THUNDER_SWORD:
+            case WIND_SWORD:
+            case LIGHT_SWORD:
+                canUseItem = chClass.getBaseSwordLv().getAmount() + character.getBaseSwordLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            case LANCE:
+                canUseItem = chClass.getBaseLanceLv().getAmount() + character.getBaseLanceLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            case AXE:
+                canUseItem = chClass.getBaseAxeLv().getAmount() + character.getBaseAxeLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            case BOW:
+                canUseItem = chClass.getBaseBowLv().getAmount() + character.getBaseBowLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            case STAFF:
+                canUseItem = chClass.getBaseStaffLv().getAmount() + character.getBaseStaffLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            case FIRE:
+                canUseItem = chClass.getBaseFireLv().getAmount() + character.getBaseFireLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            case THUNDER:
+                canUseItem = chClass.getBaseThunderLv().getAmount() + character.getBaseThunderLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            case WIND:
+                canUseItem = chClass.getBaseWindLv().getAmount() + character.getBaseWindLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            case LIGHT:
+                canUseItem = chClass.getBaseLightLv().getAmount() + character.getBaseLightLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            case DARK:
+                canUseItem = chClass.getBaseDarkLv().getAmount() + character.getBaseDarkLv().getAmount() >= rank
+                        .getOffset();
+                break;
+            default:
+                break;
+            }
+        } else {
+            canUseItem = rank.isUnlockedFor(character);
+        }
+        
+        return canUseItem;
+    }
+    
     private void addToInventory(int offset) {
         if(offset > 0) {
             inventory.add(Item.findById(offset - 1));
+        }
+    }
+    
+    public Map<String, Object> getOldValues() {
+        return oldValues;
+    }
+    
+    public void reset() {
+        if(!oldValues.isEmpty()) {
+            if(oldValues.containsKey("inventory")) {
+                ArrayList<?> result = (ArrayList<?>) oldValues.get("inventory");
+                ArrayList<Item> inventory = new ArrayList<>();
+                
+                for (Object object : result) {
+                    if (object instanceof Item) {
+                        inventory.add((Item) object);
+                    }
+                }
+                
+                this.inventory = inventory;
+            }
+            
+            oldValues.clear();
         }
     }
     

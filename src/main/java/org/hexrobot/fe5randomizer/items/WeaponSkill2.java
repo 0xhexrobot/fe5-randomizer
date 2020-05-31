@@ -6,8 +6,8 @@ public enum WeaponSkill2 {
 	ELITE(0x10, "Elite"),
 	SCROLL(0x20, "Scroll"),
 	DOUBLE_ATTACK(0x40, "2x Attack"),
-	GAE_BOLG(0x41, "Gae Bolg?"), //TODO find Gae Bolg
-	GUNGNIR(0x51, "Gungnir?"); //TODO find Gungnir
+	GAE_BOLG(0x41, "Gae Bolg?"),
+	GUNGNIR(0x51, "Gungnir?");
 
 	private int offset;
 	private String name;

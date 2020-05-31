@@ -1,10 +1,13 @@
 package org.hexrobot.fe5randomizer.characters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.hexrobot.fe5randomizer.Rom;
 
 public enum CharacterClass {
-    NOTHING(0x00, "Nothing/Separator"),
     SOCIAL_KNIGHT(0x01, "Social Knight"),
     LANCE_KNIGHT(0x02, "Lance Knight"),
     ARCH_KNIGHT(0x03, "Arch Knight"),
@@ -127,9 +130,33 @@ public enum CharacterClass {
     
     private int offset;
     private String name;
-    private static final ArrayList<CharacterClass> THIEVES = new ArrayList<>(List.of(THIEF, THIEF_F));
+    private int baseHp = -1;
+    private int baseAtk = -1;
+    private int baseMag = -1;
+    private int baseSkl = -1;
+    private int baseSpd = -1;
+    private int baseDef = -1;
+    private int baseBld = -1;
+    private int baseMov = -1; 
+    private WeaponProficiency baseSwordLv = new WeaponProficiency();
+    private WeaponProficiency baseLanceLv = new WeaponProficiency();
+    private WeaponProficiency baseAxeLv = new WeaponProficiency();
+    private WeaponProficiency baseBowLv = new WeaponProficiency();
+    private WeaponProficiency baseStaffLv = new WeaponProficiency();
+    private WeaponProficiency baseFireLv = new WeaponProficiency();
+    private WeaponProficiency baseThunderLv = new WeaponProficiency();
+    private WeaponProficiency baseWindLv = new WeaponProficiency();
+    private WeaponProficiency baseLightLv = new WeaponProficiency();
+    private WeaponProficiency baseDarkLv = new WeaponProficiency();
+    private int skills1 = -1;
+    private int skills2 = -1;
+    private int skills3 = -1;
+    private ArrayList<Skill> skills = new ArrayList<Skill>();
+    private Map<String, Object> oldValues = new HashMap<>();
+    
+    private static final ArrayList<CharacterClass> THIEVES = new ArrayList<>(List.of(THIEF, THIEF_F, THIEF_FIGHTER, THIEF_FIGHTER_F));
     private static final ArrayList<CharacterClass> HEALERS = new ArrayList<>(List.of(
-            TROUBADOUR, PALADIN, PALADIN_F, PRIEST, PRIEST_F, SISTER, SAGE, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED, HIGH_PRIEST,
+            TROUBADOUR, TROUBADOUR_DISMOUNTED, PALADIN, PALADIN_F, PRIEST, PRIEST_F, SISTER, SAGE, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED, HIGH_PRIEST,
             HIGH_PRIEST_F, BISHOP, DARK_BISHOP, LOPTO_MAGE, LOPTO_MAGE_F, DARK_MAGE));
     private static final ArrayList<CharacterClass> UNPROMOTED = new ArrayList<>(List.of(
             SOCIAL_KNIGHT, LANCE_KNIGHT, ARCH_KNIGHT, AXE_KNIGHT, FREE_KNIGHT, TROUBADOUR, BOW_KNIGHT, PEGASUS_KNIGHT,
@@ -145,26 +172,75 @@ public enum CharacterClass {
     private static final ArrayList<CharacterClass> PROMOTED = new ArrayList<>(List.of(
             PALADIN, PALADIN_F, FORREST_KNIGHT, MAGE_KNIGHT, GREAT_KNIGHT, FALCON_KNIGHT, DRAGON_MASTER, SWORDMASTER, SNIPER,
             FORREST, GENERAL, EMPEROR, BARON, BERSERKER, WARRIOR, HUNTER, MAGE_KNIGHT2, PRINCE, MAGE_KNIGHT_F, BARON2,
-            HIGH_PRIEST, BISHOP, SAGE, DARK_MAGE, DARK_BISHOP, THIEF_FIGHTER, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED,
+            HIGH_PRIEST, BISHOP, SAGE, DARK_MAGE, DARK_BISHOP, THIEF_FIGHTER, DUKE_KNIGHT, DUKE_KNIGHT_DISMOUNTED, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED,
             FORREST_KNIGHT_DISMOUNTED, GREAT_KNIGHT_DISMOUNTED, FALCON_KNIGHT_DISMOUNTED, DRAGON_MASTER_DISMOUNTED,
             DRAGON_MASTER_F, DRAGON_MASTER_F_DISMOUNTED, MAGE_KNIGHT_F2, MAGE_KNIGHT_F_DISMOUNTED, HIGH_PRIEST_F,
-            FORREST_F, SWORD_MASTER_F, SNIPER_F, THIEF_FIGHTER_F, THIEF_FIGHTER_SPRITE));
+            FORREST_F, SWORD_MASTER_F, SNIPER_F, THIEF_FIGHTER_F));
     private static final ArrayList<CharacterClass> UNUSED_PROMOTED = new ArrayList<>(List.of(
-            LORD_KNIGHT, DUKE_KNIGHT, MASTER_KNIGHT, GENERAL, EMPEROR, BARON, JUNIOR_LORD, BARON2, KILLER_ARCH,
-            DARK_PRINCE, LORD_KNIGHT_DISMOUNTED, DUKE_KNIGHT_DISMOUNTED, MASTER_KNIGHT_DISMOUNTED, MASTER_KNIGHT_F,
+            LORD_KNIGHT, MASTER_KNIGHT, GENERAL, EMPEROR, BARON, JUNIOR_LORD, BARON2, KILLER_ARCH,
+            DARK_PRINCE, LORD_KNIGHT_DISMOUNTED, MASTER_KNIGHT_DISMOUNTED, MASTER_KNIGHT_F,
             MASTER_KNIGHT_F_DISMOUNTED));
     private static final ArrayList<CharacterClass> FEMALE_CLASSES = new ArrayList<>(List.of(
             TROUBADOUR, PALADIN_F, PEGASUS_KNIGHT, FALCON_KNIGHT, MAGE_KNIGHT_F, DANCER, SISTER, PALADIN_F_DISMOUNTED,
             ARCH_KNIGHT_F, ARCH_KNIGHT_F_DISMOUNTED, BOW_KNIGHT_F, BOW_KNIGHT_F_DISMOUNTED, MASTER_KNIGHT_F,
             MASTER_KNIGHT_F_DISMOUNTED, DRAGON_RIDER_F, DRAGON_RIDER_F_DISMOUNTED, DRAGON_KNIGHT_F,
             DRAGON_KNIGHT_F_DISMOUNTED, DRAGON_MASTER_F, DRAGON_MASTER_F_DISMOUNTED, MAGE_F, THUNDER_MAGE_F,
-            LOPTO_MAGE_F, WIND_MAGE_F, TROUBADOUR_DISMOUNTED, MAGE_KNIGHT_F2, MAGE_KNIGHT_F_DISMOUNTED, PRIEST_F, HIGH_PRIEST_F,
+            LOPTO_MAGE_F, WIND_MAGE_F, PEGASUS_KNIGHT_DISMOUNTED, TROUBADOUR_DISMOUNTED, MAGE_KNIGHT_F2, MAGE_KNIGHT_F_DISMOUNTED, PRIEST_F, HIGH_PRIEST_F,
             SWORD_FIGHTER_F, FORREST_F, SWORD_MASTER_F, BOW_FIGHTER_F, SNIPER_F, THIEF_F, THIEF_FIGHTER_F,
             PEGASUS_RIDER, PEGASUS_RIDER_DISMOUNTED, MERCENARY_F));
+    
+    private static final int CLASS_DATA_SIZE = 36;
+    private static final int BASE_HP_OFFSET = 0x0;
+    private static final int BASE_ATK_OFFSET = 0x01;
+    private static final int BASE_MAG_OFFSET = 0x02;
+    private static final int BASE_SKL_OFFSET = 0x03;
+    private static final int BASE_SPD_OFFSET = 0x04;
+    private static final int BASE_DEF_OFFSET = 0x05;
+    private static final int BASE_BLD_OFFSET = 0x06;
+    private static final int BASE_MOV_OFFSET = 0x07;
+    private static final int BASE_SWORD_LV_OFFSET = 0x09;
+    private static final int BASE_LANCE_LV_OFFSET = 0x0A;
+    private static final int BASE_AXE_LV_OFFSET = 0x0B;
+    private static final int BASE_BOW_LV_OFFSET = 0x0C;
+    private static final int BASE_STAFF_LV_OFFSET = 0x0D;
+    private static final int BASE_FIRE_LV_OFFSET = 0x0E;
+    private static final int BASE_THUNDER_LV_OFFSET = 0x0F;
+    private static final int BASE_WIND_LV_OFFSET = 0x10;
+    private static final int BASE_LIGHT_LV_OFFSET = 0x11;
+    private static final int BASE_DARK_LV_OFFSET = 0x12;
+    private static final int SKILLS_1_OFFSET = 0x13;
+    private static final int SKILLS_2_OFFSET = 0x14;
+    private static final int SKILLS_3_OFFSET = 0x15;
     
     private CharacterClass(int offset, String name) {
         this.offset = offset;
         this.name = name;
+    }
+    
+    public void readCharacterClass(Rom rom, int startingOffset) {
+        int relOffset = startingOffset + (offset - 1) * CLASS_DATA_SIZE;
+        baseHp = rom.getValueAt(relOffset + BASE_HP_OFFSET);
+        baseAtk = rom.getValueAt(relOffset + BASE_ATK_OFFSET);
+        baseMag = rom.getValueAt(relOffset + BASE_MAG_OFFSET);
+        baseSkl = rom.getValueAt(relOffset + BASE_SKL_OFFSET);
+        baseSpd = rom.getValueAt(relOffset + BASE_SPD_OFFSET);
+        baseDef = rom.getValueAt(relOffset + BASE_DEF_OFFSET);
+        baseBld = rom.getValueAt(relOffset + BASE_BLD_OFFSET);
+        baseMov = rom.getValueAt(relOffset + BASE_MOV_OFFSET);
+        baseSwordLv.setAmount(rom.getValueAt(relOffset + BASE_SWORD_LV_OFFSET));
+        baseLanceLv.setAmount(rom.getValueAt(relOffset + BASE_LANCE_LV_OFFSET));
+        baseAxeLv.setAmount(rom.getValueAt(relOffset + BASE_AXE_LV_OFFSET));
+        baseBowLv.setAmount(rom.getValueAt(relOffset + BASE_BOW_LV_OFFSET));
+        baseStaffLv.setAmount(rom.getValueAt(relOffset + BASE_STAFF_LV_OFFSET));
+        baseFireLv.setAmount(rom.getValueAt(relOffset + BASE_FIRE_LV_OFFSET));
+        baseThunderLv.setAmount(rom.getValueAt(relOffset + BASE_THUNDER_LV_OFFSET));
+        baseWindLv.setAmount(rom.getValueAt(relOffset + BASE_WIND_LV_OFFSET));
+        baseLightLv.setAmount(rom.getValueAt(relOffset + BASE_LIGHT_LV_OFFSET));
+        baseDarkLv.setAmount(rom.getValueAt(relOffset + BASE_DARK_LV_OFFSET));
+        skills1 = rom.getValueAt(relOffset + SKILLS_1_OFFSET);
+        skills2 = rom.getValueAt(relOffset + SKILLS_2_OFFSET);
+        skills3 = rom.getValueAt(relOffset + SKILLS_3_OFFSET);
+        skills = Skill.getSkills(skills1, skills2, skills3);
     }
     
     public int getOffset() {
@@ -175,6 +251,98 @@ public enum CharacterClass {
         return name;
     }
     
+    public int getBaseHp() {
+        return baseHp;
+    }
+
+    public int getBaseAtk() {
+        return baseAtk;
+    }
+
+    public int getBaseMag() {
+        return baseMag;
+    }
+
+    public int getBaseSkl() {
+        return baseSkl;
+    }
+
+    public int getBaseSpd() {
+        return baseSpd;
+    }
+
+    public int getBaseDef() {
+        return baseDef;
+    }
+
+    public int getBaseBld() {
+        return baseBld;
+    }
+
+    public int getBaseMov() {
+        return baseMov;
+    }
+
+    public WeaponProficiency getBaseSwordLv() {
+        return baseSwordLv;
+    }
+
+    public WeaponProficiency getBaseLanceLv() {
+        return baseLanceLv;
+    }
+
+    public WeaponProficiency getBaseAxeLv() {
+        return baseAxeLv;
+    }
+
+    public WeaponProficiency getBaseBowLv() {
+        return baseBowLv;
+    }
+
+    public WeaponProficiency getBaseStaffLv() {
+        return baseStaffLv;
+    }
+
+    public WeaponProficiency getBaseFireLv() {
+        return baseFireLv;
+    }
+
+    public WeaponProficiency getBaseThunderLv() {
+        return baseThunderLv;
+    }
+
+    public WeaponProficiency getBaseWindLv() {
+        return baseWindLv;
+    }
+
+    public WeaponProficiency getBaseLightLv() {
+        return baseLightLv;
+    }
+
+    public WeaponProficiency getBaseDarkLv() {
+        return baseDarkLv;
+    }
+
+    public int getSkills1() {
+        return skills1;
+    }
+
+    public int getSkills2() {
+        return skills2;
+    }
+
+    public int getSkills3() {
+        return skills3;
+    }
+
+    public ArrayList<Skill> getSkills() {
+        return skills;
+    }
+    
+    public Map<String, Object> getOldValues() {
+        return oldValues;
+    }
+
     public boolean isPromoted() {
         return PROMOTED.contains(this);
     }
@@ -219,9 +387,34 @@ public enum CharacterClass {
         
         if(characterClass == null) {
             System.out.println(String.format("WARNING: Offset 0x%02X in CharacterClass was not found.", offset));
-            characterClass = CharacterClass.NOTHING;
+            characterClass = CharacterClass.POISON_ARCH;
         }
         
         return characterClass;
+    }
+    
+    @Override
+    public String toString() {
+        String text = "[CharacterClass]";
+        
+        String skillsText = "";
+        
+        for(int i = 0; i < skills.size(); i++) {
+            skillsText += skills.get(i).getName();
+                    
+            if(i < skills.size() - 1) {
+                 skillsText += ", ";
+            }
+        }
+        
+        text += String.format("%s(0x%04X)", name, offset);
+        text += String.format("Bases HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Mov: %d\n",
+                baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseDef, baseBld, baseMov);
+        text += String.format("Base Wpn level Sword: %d, Lance: %d Axe: %d, Bow: %d, Staff: %d, Fire: %d, Thunder: %d, Wind: %d, Light: %d, Dark: %d\n",
+                baseSwordLv.getAmount(), baseLanceLv.getAmount(), baseAxeLv.getAmount(), baseBowLv.getAmount(), baseStaffLv.getAmount(), baseFireLv.getAmount(), baseThunderLv.getAmount(), baseWindLv.getAmount(), baseLightLv.getAmount(), baseDarkLv.getAmount());
+        text += String.format("Skill1: 0x%02X, Skill2: 0x%02X, Skill3: 0x%02X, (%s)",
+                skills1, skills2, skills3, skillsText);
+        
+        return text;
     }
 }

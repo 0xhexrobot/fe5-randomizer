@@ -1,6 +1,6 @@
 package org.hexrobot.fe5randomizer.controllers;
 
-import org.hexrobot.fe5randomizer.RandomizeSummary;
+import org.hexrobot.fe5randomizer.RandomizationSummary;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -89,7 +89,7 @@ public class UnitsController {
         rbGrowthsRedistribute.setUserData("redistribute");
         rbGrowthsAbsolute.setUserData("absolute");
         
-        RandomizeSummary randomizeSummary = MainController.getInstance().getRandomizeSummary();
+        RandomizationSummary randomizeSummary = MainController.getInstance().getRandomizeSummary();
         
         // bases
         chkBases.selectedProperty().bindBidirectional(randomizeSummary.randomizeBasesProperty());
@@ -108,7 +108,7 @@ public class UnitsController {
         // classes
         chkExcludeHealers.disableProperty().bind(chkClasses.selectedProperty().not());
         chkExcludeThieves.disableProperty().bind(chkClasses.selectedProperty().not());
-        chkClasses.selectedProperty().bindBidirectional(randomizeSummary.randomizeUnitClassesProperty());
+        chkClasses.selectedProperty().bindBidirectional(randomizeSummary.randomizePlayableUnitClassesProperty());
         chkExcludeHealers.selectedProperty().bindBidirectional(randomizeSummary.excludeHealersProperty());
         chkExcludeThieves.selectedProperty().bindBidirectional(randomizeSummary.excludeThievesProperty());
     }

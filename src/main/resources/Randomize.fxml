@@ -2,15 +2,17 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="randomize" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.RandomizeController">
+<VBox fx:id="randomize" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.RandomizeController">
    <children>
       <Label text="Randomization summary" VBox.vgrow="NEVER" />
       <Pane VBox.vgrow="ALWAYS" />
+      <CheckBox fx:id="chkWriteDebugLog" mnemonicParsing="false" text="Write log" />
       <HBox VBox.vgrow="NEVER">
          <children>
             <Pane HBox.hgrow="ALWAYS" />

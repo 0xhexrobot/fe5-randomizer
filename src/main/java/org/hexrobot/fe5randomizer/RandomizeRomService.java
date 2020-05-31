@@ -18,12 +18,12 @@ import javafx.concurrent.Task;
 
 public class RandomizeRomService extends Service<Void> {
     private Rom rom;
-    private RandomizeSummary randomizeSummary;
+    private RandomizationSummary summary;
     private Configuration cfg;
     
-    public RandomizeRomService(Rom rom, RandomizeSummary randomizeSummary) {
+    public RandomizeRomService(Rom rom, RandomizationSummary randomizeSummary) {
         this.rom = rom;
-        this.randomizeSummary = randomizeSummary;
+        this.summary = randomizeSummary;
         
         cfg = new Configuration(Configuration.VERSION_2_3_28);
         cfg.setClassForTemplateLoading(getClass(), "/");
@@ -42,54 +42,65 @@ public class RandomizeRomService extends Service<Void> {
             protected Void call() throws Exception {
                 Map<String, Object> input = new HashMap<String, Object>();
                 
-                if(randomizeSummary.getRandomizeUnitClasses()) {
-                    updateMessage("Randomize unit classes...");
-                    
-                    rom.randomizeUnitClasses(randomizeSummary.getExcludeHealers(), randomizeSummary.getExcludeThieves());
+                rom.reset();
+                
+                if(summary.getRandomizePlayableUnitClasses()) {
+                    updateMessage("Randomize playable unit classes...");
+                    rom.randomizePlayableUnitClasses(summary.getExcludeHealers(), summary.getExcludeThieves());
                 }
                 
-                if(randomizeSummary.getRandomizeBases()) {
+                if(summary.getRandomizeEnemyUnitClasses()) {
+                    updateMessage("Randomize enemy classes...");
+                    rom.randomizeEnemyUnitClasses(summary.getRandomizeEnemyUnitClassesExcludeBosses());
+                }
+                
+                if(summary.getRandomizeBases()) {
                     updateMessage("Randomize unit bases...");
                     
-                    if(randomizeSummary.getBasesRandomizationType().equals("variance")) {
-                        rom.randomizeUnitsBasesVariance(randomizeSummary.getBasesVariance());
-                    } else if(randomizeSummary.getBasesRandomizationType().equals("redistribute")) {
-                        rom.randomizeUnitsBasesRedistribute(randomizeSummary.getBasesRedistributeVar());
+                    if(summary.getBasesRandomizationType().equals("variance")) {
+                        rom.randomizeUnitsBasesVariance(summary.getBasesVariance());
+                    } else if(summary.getBasesRandomizationType().equals("redistribute")) {
+                        rom.randomizeUnitsBasesRedistribute(summary.getBasesRedistributeVar());
                     }
                 }
                 
-                if(randomizeSummary.getRandomizeGrowths()) {
+                if(summary.getRandomizeGrowths()) {
                     updateMessage("Randomize unit growths...");
                     
-                    if(randomizeSummary.getGrowthsRandomizationType().equals("variance")) {
-                        rom.randomizeUnitsGrowthsVariance(randomizeSummary.getGrowthsVariance());
-                    } else if(randomizeSummary.getGrowthsRandomizationType().equals("redistribute")) {
-                        rom.randomizeUnitsGrowthsRedistribute(randomizeSummary.getBasesRedistributeVar());
-                    } else if(randomizeSummary.getGrowthsRandomizationType().equals("absolute")) {
-                        rom.randomizeUnitsGrowthsAbsolute(randomizeSummary.getGrowthsAbsoluteMin(), randomizeSummary.getGrowthsAbsoluteMax());
+                    if(summary.getGrowthsRandomizationType().equals("variance")) {
+                        rom.randomizeUnitsGrowthsVariance(summary.getGrowthsVariance());
+                    } else if(summary.getGrowthsRandomizationType().equals("redistribute")) {
+                        rom.randomizeUnitsGrowthsRedistribute(summary.getBasesRedistributeVar());
+                    } else if(summary.getGrowthsRandomizationType().equals("absolute")) {
+                        rom.randomizeUnitsGrowthsAbsolute(summary.getGrowthsAbsoluteMin(), summary.getGrowthsAbsoluteMax());
                     }
                 }
 
-                updateMessage("Writing log...");
-                
-                input.put("romHeadered", rom.isHeadered());
-                input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
-                input.put("randomizeSummary", randomizeSummary);
-                input.put("units", GameCharacter.values());
-                // input.put("items", Item.values());
-
-                try {
-                    Writer fileWriter = new FileWriter(new File("output.md"));
-                    Template template = cfg.getTemplate("md.ftl");
+                if(summary.getWriteDebugLog()) {
+                    updateMessage("Writing log...");
                     
-                    template.process(input, fileWriter);
-                    fileWriter.close();
-                } catch(IOException e) {
-                    e.printStackTrace();
-                } catch(TemplateException e) {
-                    e.printStackTrace();
-                } finally {
-                    updateMessage("Log created!");
+                    input.put("romHeadered", rom.isHeadered());
+                    input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
+                    input.put("randomizeSummary", summary);
+                    input.put("units", GameCharacter.values());
+                    //input.put("classes", CharacterClass.values());
+                    //input.put("items", Item.values());
+                    input.put("armyData", rom.getArmyUnits());
+                    input.put("chapterData", Chapter.values());
+
+                    try {
+                        Writer fileWriter = new FileWriter(new File("output.md"));
+                        Template template = cfg.getTemplate("md.ftl");
+                        
+                        template.process(input, fileWriter);
+                        fileWriter.close();
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    } catch(TemplateException e) {
+                        e.printStackTrace();
+                    } finally {
+                        updateMessage("Log created!");
+                    }
                 }
                 
                 return null;

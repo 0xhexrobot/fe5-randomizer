@@ -139,11 +139,16 @@
 						<fx:include fx:id="units" source="Units.fxml" />
 					</content>
 				</Tab>
+            <Tab text="Enemies">
+               <content>
+                  <fx:include fx:id="enemies" source="Enemies.fxml" />
+               </content>
+            </Tab>
 				<Tab closable="false" disable="true" text="Classes" />
-				<Tab closable="false" text="Items" />
+				<Tab closable="false" disable="true" text="Items" />
 				<Tab closable="false" text="Randomize">
                <content>
-                  <fx:include source="Randomize.fxml" />
+                  <fx:include fx:id="randomize" source="Randomize.fxml" />
                </content></Tab>
 			</tabs>
 		</TabPane>

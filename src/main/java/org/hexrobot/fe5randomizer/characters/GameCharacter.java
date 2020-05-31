@@ -39,7 +39,7 @@ public enum GameCharacter {
     ROBERTO(0x001C, "Roberto"),
     FRED(0x001D, "Fred"),
     ORUEN(0x001E, "Oruen"),
-    SETY_CH23(0x001F, "Sety (Chapter 23)"),
+    SETY_CH23(0x001F, "Sety Ch23"),
     RIFIS(0x0020, "Rifis"),
     KARIN(0x0021, "Karin"),
     DEAN(0x0022, "Dean"),
@@ -59,7 +59,7 @@ public enum GameCharacter {
     DELMUD(0x0030, "Delmud"),
     SARA(0x0031, "Sara"),
     CYAS(0x0032, "Cyas"),
-    LEIDRICK(0x0033, "Leidrick"),
+    LEIDRICK_1(0x0033, "Leidrick 1"),
     YURIUS(0x0034, "Yurius (Dark Mage with Cyas portrait and Life...)"),
     BELDO(0x0035, "Beldo"),
     WEISSMAN(0x0036, "Weissman (Boss)"),
@@ -77,7 +77,7 @@ public enum GameCharacter {
     LUCHEA_NPC(0x0042, "Luchea (NPC)"),
     YUBEL_NPC(0x0043, "Yubel (NPC)"),
     CORPLE_NPC(0x0044, "Corple (NPC,FE4 cameo)"),
-    SETY(0x0045, "Sety (Chapter 4G appearance)"),
+    SETY_CH4X(0x0045, "Sety Ch4x"),
     ISHTAR(0x0046, "Ishtar"),
     REINHART_WEAK_VERSION(0x0047, "Reinhart (Weak version,probably dialogue)"),
     RIFIS_GANG_SWORD_FIGHTER(0x0048, "Rifis' Gang - Sword Fighter"),
@@ -331,7 +331,7 @@ public enum GameCharacter {
     LOPTO_BOW_ARMOR(0x0140, "Lopto - Bow Armor"),
     LOPTO_LANCE_ARMOR(0x0141, "Lopto - Lance Armor"),
     MANSTER_POISON_ARCH(0x0142, "Manster - Poison Arch"),
-    LEIDRICK_AGAIN(0x0143, "Leidrick (again)"),
+    LEIDRICK_2(0x0143, "Leidrick 2"),
     MANSTER_SWORD_ARMOR(0x0144, "Manster - Sword Armor"),
     MANSTER_SOLDIER(0x0145, "Manster - Soldier"),
     FREEGE_IRON_ARCH(0x0146, "Freege - Iron Arch"),
@@ -435,12 +435,12 @@ public enum GameCharacter {
             LEAF, FINN, OTHIN, HALVAN, EYVEL, DAGUDAR, RALF, MARTY, RONAN, MIRANDA, SAPHY, LARA, BRIGHTON, FELGUS, EDA,
             ASVEL, MACHYUA, HICKS, NANNA, SELFINA, DALSHEIN, CARRION, SHIVA, PAHN, GLADE, KEIN, ALBA, ROBERTO, FRED,
             ORUEN, SETY_CH23, RIFIS, KARIN, DEAN, SHANAM, TREWD, TANYA, LINONAN, MISHA, SEIRAM, SLEUF, MAREETA, TINA,
-            GUNNA, AMALDA, CONOMORE, HOMEROS, DELMUD, SARA, CYAS));
+            AMALDA, CONOMORE, HOMEROS, DELMUD, SARA, CYAS, EYRIOS, XAVIER));
     private static final ArrayList<GameCharacter> ENEMY_UNITS = new ArrayList<>(List.of(
-            LEIDRICK, YURIUS, BELDO, WEISSMAN, MANSTER_ARCHER, BUGS, JABAL, RIFIS_GANG_PIRATE, RIFIS_GANG_HUNTER,
-            RIFIS_GANG_WARRIOR, ROBOS, MANSTER_BOW_ARMOR, MANSTER_THUNDER_MAGE, MANSTER_BISHOP, ISHTAR,
+            LEIDRICK_1, BELDO, WEISSMAN, MANSTER_ARCHER, BUGS, JABAL, RIFIS_GANG_PIRATE, RIFIS_GANG_HUNTER,
+            RIFIS_GANG_WARRIOR, ROBOS, MANSTER_BOW_ARMOR, MANSTER_THUNDER_MAGE, MANSTER_BISHOP,
             REINHART_WEAK_VERSION, RIFIS_GANG_SWORD_FIGHTER, MERCENARY_SWORD_FIGHTER, GALZUS, MANSTER_SOCIAL_KNIGHT,
-            MANSTER_PALADIN, MANSTER_ARCH_KNIGHT, MANSTER_TROUBADOUR, IZENAU_BOSS, HANNIBAL_DIALOGUE,
+            MANSTER_PALADIN, MANSTER_ARCH_KNIGHT, MANSTER_TROUBADOUR, IZENAU_BOSS,
             MANSTER_AXE_KNIGHT, BANDIT_MOUNTAIN_THIEF, BANDIT_HUNTER, BANDIT_WARRIOR, LUMEI_BOSS, GOMEZ_BOSS,
             MALLOCK_BOSS, THRACIA_DRAGON_KNIGHT, THRACIA_SWORD_FIGHTER, THRACIA_AXE_FIGHTER, RALGO_BOSS,
             MANSTER_LONG_ARCH, MANSTER_AXE_ARMOR, KEMPF_BOSS, OLTOV_BOSS, KOLHO_MINI_BOSS, RIST_BOSS, PALUCE_BOSS,
@@ -451,18 +451,18 @@ public enum GameCharacter {
             SEMITOL_BOSS, ZAOM_BOSS, KOEN_BOSS, ALPHAN_BOSS, OPISU_BOSS, FERDEN_BOSS, KORUTA_BOSS, REINHARDT,
             MERCENARY_SWORD_FIGHTER3, FREEGE_LONG_ARCH, FREEGE_SOCIAL_KNIGHT, FREEGE_TROUBADOUR, FREEGE_BOW_ARMOR,
             FREEGE_LANCE_ARMOR, FREEGE_AXE_ARMOR, FREEGE_ARCHER, FREEGE_MAGE, RILKE_KEMPF_PORTRAIT, MANSTER_LANCE_ARMOR,
-            MANSTER_MAGE, MANSTER_PRIEST, YURIUS_YURIA_PORTRAIT, MANFROY_MACHYUA_PORTRAIT, MANSTER_MAGE2,
+            MANSTER_MAGE, MANSTER_PRIEST, MANSTER_MAGE2,
             MANSTER_SWORD_FIGHTER, ENVOY_MERCENARY, ENVOY_WARRIOR, ENVOY_GENERAL, ENVOY_SWORDMASTER, ENVOY_BERSERKER,
             MANSTER_PRIEST2, BANTOL_BOSS, LOPTO_DARK_BISHOP, TORMAN_BOSS, MANSTER_SOLDIER2, BANDIT_BERSERKER,
             MERCENARY_SWORD_FIGHTER4, MAGI_SQUAD_SWORD_FIGHTER, MAGI_SQUAD_AXE_FIGHTER, MAGI_SQUAD_BOW_FIGHTER,
             MAGI_SQUAD_SWORD_FIGHTER2, DRAGON_RIDER, BISHOP, TOBOLZARK_BOSS, MANSTER_BISHOP2, FREEGE_LONG_ARCH2,
             BANDIT_MOUNTAIN_THIEF_2, THIEF2, BOW_FIGHTER, FREEGE_BISHOP, FREEGE_LANCE_ARMOR2, FREEGE_BOW_ARMOR2,
             FREEGE_MAGE2, IRON_ARCH, FREEGE_AXE_ARMOR2, AIGHTMAN_BOSS, ZAIL_BOSS, SWORD_ARMOR, SOLDIER,
-            FREEGE_LONG_ARCH3, EYRIOS, SILESIA_PEGASUS_RIDER2, FREEGE_MAGE_KNIGHT1, PALADIN, FREEGE_GREAT_KNIGHT,
+            FREEGE_LONG_ARCH3, SILESIA_PEGASUS_RIDER2, FREEGE_MAGE_KNIGHT1, PALADIN, FREEGE_GREAT_KNIGHT,
             BOW_KNIGHT, SWORD_ARMOR2, FREEGE_SOLDIER1, FREEGE_ARCH_KNIGHT1, FREEGE_TROUBADOUR2, FREEGE_LANCE_KNIGHT1,
             FREEGE_SOCIALKNIGHT, MERCENARY1, SWORDMASTER, BERSERKER, BERSERKER1, SILESIA_PEGASUS_RIDER1,
             FREEGE_AXE_ARMOR1, FREEGE_SWORD_ARMOR1, FREEGE_LANCE_ARMOR1, FREEGE_LONG_ARCH1, BOW_FIGHTER1, SWORD_FIGHTER,
-            MERCENARY2, XAVIER, XAVIER_LENSTER_ARMOR1, XAVIER_LENSTER_ARMOR2, XAVIER_LENSTER_ARMOR3,
+            MERCENARY2, XAVIER_LENSTER_ARMOR1, XAVIER_LENSTER_ARMOR2, XAVIER_LENSTER_ARMOR3,
             XAVIER_LENSTER_ARMOR4, XAVIER_LENSTER_ARMOR5, XAVIER_LENSTER_ARMOR6, XAVIER_LENSTER_ARMOR7,
             XAVIER_LENSTER_ARMOR8, FREEGE_SOLDIER, LENSTER_SOLDIER, AUGUST, RESISTANCE_SWORD_FIGHTER1, BARRAT_BOSS,
             FREEGE_GENERAL1, FREEGE_SWORD_ARMOR2, FREEGE_PRIEST2, FREEGE_POISON_ARCH, THRACIA_DRAGON_KNIGHT2,
@@ -473,10 +473,18 @@ public enum GameCharacter {
             MANSTER_DUKE_KNIGHT, MANSTER_BOW_KNIGHT, MANSTER_GREAT_KNIGHT, THRACIA_DRAGON_KNIGHT3, MERCENARY,
             MERCENARY3, MERCENARY4, SNIPER, EINS, DREI_DAGUDAR, DREI, ELF_SARA, ELF, ZWEI_GALZUS, ZWEI, ZWÖLF_LIFIS,
             ZWÖLF, FÜNF_EYVEL, FÜNF, LOPTO_DARK_MAGE2, LOPTO_AXE_ARMOR, LOPTO_BOW_ARMOR, LOPTO_LANCE_ARMOR,
-            MANSTER_POISON_ARCH, LEIDRICK_AGAIN, MANSTER_SWORD_ARMOR, MANSTER_SOLDIER, FREEGE_IRON_ARCH, THRACIA_ARCHER,
+            MANSTER_POISON_ARCH, LEIDRICK_2, MANSTER_SWORD_ARMOR, MANSTER_SOLDIER, FREEGE_IRON_ARCH, THRACIA_ARCHER,
             THRACIA_BISHOP, THRACIA_DRAGON_RIDER, THRACIA_SOLDIER, ALSTER_SOCIALKNIGHT, PIRATE, RESISTANCE_BOW_FIGHTER,
             RESISTANCE_PRIEST, RESISTANCE_AXE_FIGHTER, RESISTANCE_BOW_FIGHTER2, RESISTANCE_SWORD_FIGHTER,
             RESISTANCE_MAGE, MANSTER_GENERAL, LOPTO_DARK_MAGE, THRACIA_SWORD_ARMOR, WOLF_BOSS));
+    private static final ArrayList<GameCharacter> BOSSES = new ArrayList<>(List.of(
+            LEIDRICK_1, BELDO, WEISSMAN, BUGS, JABAL, ROBOS, ISHTAR, IZENAU_BOSS, LUMEI_BOSS, GOMEZ_BOSS,
+            MALLOCK_BOSS, RALGO_BOSS, KEMPF_BOSS, OLTOV_BOSS, KOLHO_MINI_BOSS, RIST_BOSS, PALUCE_BOSS, BALDACK_BOSS,
+            MAKROI_BOSS, KODDA_BOSS, SHUPEL_BOSS, BLUKE_BOSS, NIKOLAF_BOSS, MUUA_BOSS, MYURA_BOSS, REINCOCK_BOSS,
+            PALMAN_BOSS, KANTO_BOSS, GUSTAF_BOSS, MANHEIM_BOSS, PHLAUS_BOSS, SEMITOL_BOSS, ZAOM_BOSS, KOEN_BOSS,
+            ALPHAN_BOSS, OPISU_BOSS, FERDEN_BOSS, KORUTA_BOSS, REINHARDT, BANTOL_BOSS, TORMAN_BOSS, TOBOLZARK_BOSS,
+            AIGHTMAN_BOSS, BARRAT_BOSS, EINS, DREI_DAGUDAR, DREI, ELF_SARA, ELF, ZWEI_GALZUS, ZWEI, ZWÖLF_LIFIS, ZWÖLF,
+            FÜNF_EYVEL, FÜNF, LEIDRICK_2, WOLF_BOSS));
     
     private GameCharacter(int offset, String name) {
         this.offset = offset;
@@ -977,6 +985,18 @@ public enum GameCharacter {
             oldValues.put("characterClass", oldValue);
         }
         
+        //TODO Reassign weapon levels
+        setBaseSwordLv(0);
+        setBaseLanceLv(0);
+        setBaseAxeLv(0);
+        setBaseBowLv(0);
+        setBaseStaffLv(0);
+        setBaseFireLv(0);
+        setBaseThunderLv(0);
+        setBaseWindLv(0);
+        setBaseLightLv(0);
+        setBaseDarkLv(0);
+        
         this.characterClass = characterClass;
     }
 
@@ -989,12 +1009,168 @@ public enum GameCharacter {
         this.leadershipStars = leadershipStars;
     }
     
+    public void reset() {
+        if(isModified()) {
+            if(oldValues.containsKey("baseHP")) {
+                baseHp = (int)oldValues.get("baseHp");
+            }
+            
+            if(oldValues.containsKey("baseAtk")) {
+                baseAtk = (int)oldValues.get("baseAtk");
+            }
+            
+            if(oldValues.containsKey("baseMag")) {
+                baseMag = (int)oldValues.get("baseMag");
+            }
+            
+            if(oldValues.containsKey("baseSkl")) {
+                baseSkl = (int)oldValues.get("baseSkl");
+            }
+            
+            if(oldValues.containsKey("baseSpd")) {
+                baseSpd = (int)oldValues.get("baseSpd");
+            }
+            
+            if(oldValues.containsKey("baseDef")) {
+                baseDef = (int)oldValues.get("baseDef");
+            }
+            
+            if(oldValues.containsKey("baseBld")) {
+                baseBld = (int)oldValues.get("baseBld");
+            }
+            
+            if(oldValues.containsKey("baseLck")) {
+                baseLck = (int)oldValues.get("baseLck");
+            }
+            
+            if(oldValues.containsKey("baseMov")) {
+                baseMov = (int)oldValues.get("baseMov");
+            }
+            
+            if(oldValues.containsKey("movementStars")) {
+                movementStars = (MovementStars)oldValues.get("movementStars");
+            }
+            
+            if(oldValues.containsKey("counterCritBoost")) {
+                counterCritBoost = (int)oldValues.get("counterCritBoost");
+            }
+            
+            if(oldValues.containsKey("hpGrowth")) {
+                hpGrowth = (int)oldValues.get("hpGrowth");
+            }
+            
+            if(oldValues.containsKey("atkGrowth")) {
+                atkGrowth = (int)oldValues.get("atkGrowth");
+            }
+            
+            if(oldValues.containsKey("magGrowth")) {
+                magGrowth = (int)oldValues.get("magGrowth");
+            }
+            
+            if(oldValues.containsKey("sklGrowth")) {
+                sklGrowth = (int)oldValues.get("sklGrowth");
+            }
+            
+            if(oldValues.containsKey("spdGrowth")) {
+                spdGrowth = (int)oldValues.get("spdGrowth");
+            }
+            
+            if(oldValues.containsKey("defGrowth")) {
+                defGrowth = (int)oldValues.get("defGrowth");
+            }
+            
+            if(oldValues.containsKey("bldGrowth")) {
+                bldGrowth = (int)oldValues.get("bldGrowth");
+            }
+            
+            if(oldValues.containsKey("lckGrowth")) {
+                lckGrowth = (int)oldValues.get("lckGrowth");
+            }
+            
+            if(oldValues.containsKey("movGrowth")) {
+                movGrowth = (int)oldValues.get("movGrowth");
+            }
+            
+            if(oldValues.containsKey("baseSwordLv")) {
+                baseSwordLv = (WeaponProficiency)oldValues.get("baseSwordLv");
+            }
+            
+            if(oldValues.containsKey("baseLanceLv")) {
+                baseLanceLv = (WeaponProficiency)oldValues.get("baseLanceLv");
+            }
+            
+            if(oldValues.containsKey("baseAxeLv")) {
+                baseAxeLv = (WeaponProficiency)oldValues.get("baseAxeLv");
+            }
+            
+            if(oldValues.containsKey("baseBowLv")) {
+                baseBowLv = (WeaponProficiency)oldValues.get("baseBowLv");
+            }
+            
+            if(oldValues.containsKey("baseStaffLv")) {
+                baseStaffLv = (WeaponProficiency)oldValues.get("baseStaffLv");
+            }
+            
+            if(oldValues.containsKey("baseFireLv")) {
+                baseFireLv = (WeaponProficiency)oldValues.get("baseFireLv");
+            }
+            
+            if(oldValues.containsKey("baseThunderLv")) {
+                baseThunderLv = (WeaponProficiency)oldValues.get("baseThunderLv");
+            }
+            
+            if(oldValues.containsKey("baseWindLv")) {
+                baseWindLv = (WeaponProficiency)oldValues.get("baseWindLv");
+            }
+            
+            if(oldValues.containsKey("baseLightLv")) {
+                baseLightLv = (WeaponProficiency)oldValues.get("baseLightLv");
+            }
+            
+            if(oldValues.containsKey("baseDarkLv")) {
+                baseDarkLv = (WeaponProficiency)oldValues.get("baseDarkLv");
+            }
+            
+            if(oldValues.containsKey("skills1")) {
+                skills1 = (int)oldValues.get("skills1");
+            }
+            
+            if(oldValues.containsKey("skills2")) {
+                skills2 = (int)oldValues.get("skills2");
+            }
+            
+            if(oldValues.containsKey("skills3")) {
+                skills3 = (int)oldValues.get("skills3");
+            }
+            
+            skills = Skill.getSkills(skills1, skills2, skills3);
+            
+            if(oldValues.containsKey("characterClass")) {
+                characterClass = (CharacterClass)oldValues.get("characterClass");
+            }
+            
+            if(oldValues.containsKey("leadershipStars")) {
+                leadershipStars = (int)oldValues.get("leadershipStars");
+            }
+            
+            oldValues.clear();
+        }
+    }
+    
+    public boolean isModified() {
+        return !oldValues.isEmpty();
+    }
+    
     public boolean isPlayableUnit() {
         return PLAYABLE_UNITS.contains(this);
     }
     
     public boolean isEnemyUnit() {
         return ENEMY_UNITS.contains(this);
+    }
+    
+    public boolean isBoss() {
+        return BOSSES.contains(this);
     }
 
     public static GameCharacter findById(int offset) {
@@ -1021,6 +1197,10 @@ public enum GameCharacter {
     
     public static ArrayList<GameCharacter> getEnemyUnits() {
         return new ArrayList<GameCharacter>(ENEMY_UNITS);
+    }
+    
+    public static ArrayList<GameCharacter> getBossUnits() {
+        return new ArrayList<GameCharacter>(BOSSES);
     }
     
     @Override

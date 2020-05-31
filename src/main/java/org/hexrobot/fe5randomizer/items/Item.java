@@ -1,5 +1,9 @@
 package org.hexrobot.fe5randomizer.items;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.hexrobot.fe5randomizer.Rom;
 
 public enum Item {
@@ -93,7 +97,7 @@ public enum Item {
 	TORNADO(0x57, "Tornado"),
 	HOLSETY2(0x58, "Holsety"),
 	LIGHTNING(0x59, "Lightning"),
-	RIZZIAH(0x5A, "Rizziah"),
+	RESIRE(0x5A, "Resire"),
 	AURA(0x5B, "Aura"),
 	YOTSMUNGAND(0x5C, "Yotsmungand"),
 	FENRIR(0x5D, "Fenrir"),
@@ -179,48 +183,89 @@ public enum Item {
 	private int weight = -1;
 	private int maxUses = -1;
 	private int critical = -1;
-	private WeaponRange weaponRange = WeaponRange.R_1;
-	private WeaponRank weaponRank = WeaponRank.NOPE;
-	private WeaponEffectiveness weaponEffectiveness = WeaponEffectiveness.NONE;
-	private WeaponStatBonus weaponStatBonus = WeaponStatBonus.NONE;
-	private int costPerUse = -1;
-	private ItemUseEffect itemUseEffect = ItemUseEffect.NOTHING;
-	private WeaponBladeEffect weaponBladeEffect = WeaponBladeEffect.NOTHING;
-	private WeaponSkill1 weaponSkill1 = WeaponSkill1.NOTHING;
-	private WeaponSkill2 weaponSkill2 = WeaponSkill2.NOTHING;
-	private ItemClassification itemClassification = ItemClassification.ITEM;
-	
-	private static final int ITEM_DATA_SIZE = 23;
-	private static final int ITEM_TYPE_OFFSET = 0x0;
-	private static final int POWER_OFFSET = 0x01;
-	private static final int ACCURACY_OFFSET = 0x02;
-	private static final int WEIGHT_OFFSET = 0x03;
-	private static final int MAX_USES_OFFSET = 0x04;
-	private static final int CRITICAL_OFFSET = 0x05;
-	private static final int RANGE_OFFSET = 0x06;
-	private static final int WEAPON_RANK_OFFSET = 0x07;
-	private static final int WPN_EFFECTIVENESS_OFFSET = 0x09;
-	private static final int STAT_BONUSES_OFFSET = 0x0B;
-	private static final int COST_PER_USE_OFFSET = 0x0D;
-	private static final int USE_EFFECT_OFFSET = 0x11;
-	private static final int BLADE_EFFECT_OFFSET = 0x12;
-	private static final int WEAPON_SKILL1_OFFSET = 0x13;
-	private static final int WEAPON_SKILL2_OFFSET = 0x14;
-	private static final int ITEM_CLASSIFICATION_OFFSET = 0x15;
-	
-	private Item(int offset, String name) {
-		this.offset = offset;
-		this.name = name;
-	}
-	
-	public int getOffset() {
-		return offset;
-	}
-	
-	public String getName() {
+    private WeaponRange weaponRange = WeaponRange.R_1;
+    private WeaponRank weaponRank = WeaponRank.NOPE;
+    private WeaponEffectiveness weaponEffectiveness = WeaponEffectiveness.NONE;
+    private WeaponStatBonus weaponStatBonus = WeaponStatBonus.NONE;
+    private int costPerUse = -1;
+    private ItemUseEffect itemUseEffect = ItemUseEffect.NOTHING;
+    private WeaponBladeEffect weaponBladeEffect = WeaponBladeEffect.NOTHING;
+    private WeaponSkill1 weaponSkill1 = WeaponSkill1.NOTHING;
+    private WeaponSkill2 weaponSkill2 = WeaponSkill2.NOTHING;
+    private ItemClassification itemClassification = ItemClassification.ITEM;
+
+    private static final int ITEM_DATA_SIZE = 23;
+    private static final int ITEM_TYPE_OFFSET = 0x0;
+    private static final int POWER_OFFSET = 0x01;
+    private static final int ACCURACY_OFFSET = 0x02;
+    private static final int WEIGHT_OFFSET = 0x03;
+    private static final int MAX_USES_OFFSET = 0x04;
+    private static final int CRITICAL_OFFSET = 0x05;
+    private static final int RANGE_OFFSET = 0x06;
+    private static final int WEAPON_RANK_OFFSET = 0x07;
+    private static final int WPN_EFFECTIVENESS_OFFSET = 0x09;
+    private static final int STAT_BONUSES_OFFSET = 0x0B;
+    private static final int COST_PER_USE_OFFSET = 0x0D;
+    private static final int USE_EFFECT_OFFSET = 0x11;
+    private static final int BLADE_EFFECT_OFFSET = 0x12;
+    private static final int WEAPON_SKILL1_OFFSET = 0x13;
+    private static final int WEAPON_SKILL2_OFFSET = 0x14;
+    private static final int ITEM_CLASSIFICATION_OFFSET = 0x15;
+
+    private static final ArrayList<Item> SWORDS = new ArrayList<Item>(List.of(IRON_SWORD, STEEL_SWORD, SILVER_SWORD,
+            THIN_SWORD, IRON_BROADSWORD, KILLER_SWORD, POISON_SWORD, BERSERK_SWORD, SLEEP_SWORD, BEOSWORD, HOLY_SWORD,
+            LOPUTOUS_SWORD, BLAGI_SWORD, LIGHT_SWORD, HERO_SWORD, KING_SWORD, EARTH_SWORD, WIND_SWORD, FIRE_SWORD,
+            THUNDER_SWORD, ELITE_SWORD, ARMOUR_KILLER, RAPIER, SHORT_SWORD, LONG_SWORD, GREAT_SWORD, MASTER_SWORD,
+            DARKNESS_SWORD, MAREETAS_SWORD));
+    private static final ArrayList<Item> LANCES = new ArrayList<Item>(List.of(IRON_LANCE, STEEL_LANCE, SILVER_LANCE,
+            THIN_LANCE, POISON_LANCE, DRAGON_LANCE, DARKNESS_LANCE, HERO_LANCE, SHORT_LANCE, LONG_LANCE, GREAT_LANCE,
+            JAVELIN, MASTER_LANCE, KNIGHT_KILLER, KILLER_LANCE, GAE_BOLG, GUNGNIR));
+    private static final ArrayList<Item> AXES = new ArrayList<Item>(List.of(IRON_AXE, POISON_AXE, STEEL_AXE, SILVER_AXE,
+            HAND_AXE, HAMMER, KILLER_AXE, PUGI, HERO_AXE, DEVIL_AXE, BATTLE_AXE, POLEAXE, MASTER_AXE));
+    private static final ArrayList<Item> BOWS = new ArrayList<Item>(List.of(IRON_BOW, STEEL_BOW, SILVER_BOW, POISON_BOW,
+            KILLER_BOW, HERO_BOW, SHORT_BOW, LONG_BOW, GREAT_BOW, MASTER_BOW));
+    private static final ArrayList<Item> STAVES = new ArrayList<Item>(
+            List.of(LIVE, RELIVE, RECOVER, LIBRO, RESERVE, RESCUE, WARP, REST, SILENCE, SLEEP, TORCH2, RETURN, REPAIR,
+                    THIEF, WATCH, BERSERK, UNLOCK, MAGIC_SHIELD, REWARP, CURE));
+    private static final ArrayList<Item> FIRE_MAGIC = new ArrayList<Item>(
+            List.of(FIRE, ELFIRE, VOLCANNON, FALAFLAME, METEO));
+    private static final ArrayList<Item> THUNDER_MAGIC = new ArrayList<Item>(
+            List.of(THUNDER, DAIM_THUNDER, TRON, THUNDERSTORM, TORHAMMER));
+    private static final ArrayList<Item> WIND_MAGIC = new ArrayList<Item>(
+            List.of(WIND, GRAFUCALIBUR, TORNADO, HOLSETY2, BLIZZARD));
+    private static final ArrayList<Item> LIGHT_MAGIC = new ArrayList<Item>(List.of(LIGHTNING, RESIRE, AURA));
+    private static final ArrayList<Item> DARK_MAGIC = new ArrayList<Item>(
+            List.of(YOTSMUNGAND, FENRIR, HELL, LOPUTOUS, POISON, STONE));
+    private static final ArrayList<Item> ITEMS = new ArrayList<Item>(
+            List.of(LUCK_RING, LIVE_RING, SPEED_RING, MAGIC_RING, POWER_RING, BODY_RING, SHIELD_RING, SKILL_RING,
+                    LEG_RING, KNIGHT_PROOF, MASTER_PROOF, TREASURE_KEY, DOOR_KEY, BRIDGE_KEY, THIEF_KEY, S_DRINK,
+                    MEDICINE, HOLY_WATER, TORCH, ANTIDOTE, MEMBER_CARD, ODO_SCROLL, BALDO_SCROLL, HEZUL_SCROLL,
+                    DAIN_SCROLL, NOBA_SCROLL, NEIR_SCROLL, ULIR_SCROLL, TORDO_SCROLL, FALA_SCROLL, SETY_SCROLL,
+                    BLAGI_SCROLL, HEIM_SCROLL, ELITE_MANUAL, DUEL_MANUAL, BARGAIN_MANUAL, AMBUSH_MANUAL, WRATH_MANUAL,
+                    CONTINUE_MANUAL, PRAYER_MANUAL, AWARENESS_MANUAL, SUNLIGHT_MANUAL, MOONLIGHT_MANUAL));
+    private static final ArrayList<Item> SCROLLS = new ArrayList<Item>(
+            List.of(ODO_SCROLL, BALDO_SCROLL, HEZUL_SCROLL, DAIN_SCROLL, NOBA_SCROLL, NEIR_SCROLL, ULIR_SCROLL,
+                    TORDO_SCROLL, FALA_SCROLL, SETY_SCROLL, BLAGI_SCROLL, HEIM_SCROLL));
+    private static final ArrayList<Item> UNUSED = new ArrayList<Item>(
+            List.of(VOLCANNON, FALAFLAME, TORHAMMER, AURA, LOPUTOUS, WATCH, RETURN));
+    private static final ArrayList<Item> ENEMY_ONLY = new ArrayList<Item>(
+            List.of(POISON_SWORD, POISON_LANCE, POISON_AXE, POISON_BOW));
+    private static final ArrayList<Item> BROKEN = new ArrayList<Item>(
+            List.of(BROKEN_SWORD, BROKEN_LANCE, BROKEN_AXE, BROKEN_BOW, BROKEN_STAFF, BROKEN_BOOK));
+
+    private Item(int offset, String name) {
+        this.offset = offset;
+        this.name = name;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public String getName() {
         return name;
     }
-	
+
     public ItemType getItemType() {
         return itemType;
     }
@@ -285,52 +330,138 @@ public enum Item {
         return itemClassification;
     }
 
-    public void readItem(Rom rom, int startingOffset) {
-		int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
-		
-		itemType = ItemType.findById(rom.getValueAt(relOffset + ITEM_TYPE_OFFSET));
-		power = rom.getValueAt(relOffset + POWER_OFFSET);
-		accuracy = rom.getValueAt(relOffset + ACCURACY_OFFSET);
-		weight = rom.getValueAt(relOffset + WEIGHT_OFFSET);
-		maxUses = rom.getValueAt(relOffset + MAX_USES_OFFSET);
-		critical = rom.getValueAt(relOffset + CRITICAL_OFFSET);
-		weaponRange = WeaponRange.findById(rom.getValueAt(relOffset + RANGE_OFFSET));
-		weaponRank = WeaponRank.findById(rom.getValueAt(relOffset + WEAPON_RANK_OFFSET, -2));
-		weaponEffectiveness = WeaponEffectiveness.findById(rom.getValueAt(relOffset + WPN_EFFECTIVENESS_OFFSET, -2));
-		weaponStatBonus = WeaponStatBonus.findById(rom.getValueAt(relOffset + STAT_BONUSES_OFFSET, -2));
-		costPerUse = rom.getValueAt(relOffset + COST_PER_USE_OFFSET, -2);
-		itemUseEffect = ItemUseEffect.findById(rom.getValueAt(relOffset + USE_EFFECT_OFFSET));
-		weaponBladeEffect = WeaponBladeEffect.findById(rom.getValueAt(relOffset + BLADE_EFFECT_OFFSET));
-		weaponSkill1 = WeaponSkill1.findById(rom.getValueAt(relOffset + WEAPON_SKILL1_OFFSET));
-		weaponSkill2 = WeaponSkill2.findById(rom.getValueAt(relOffset + WEAPON_SKILL2_OFFSET));
-		itemClassification = ItemClassification.findById(rom.getValueAt(relOffset + ITEM_CLASSIFICATION_OFFSET));
-	}
+    public boolean isSword() {
+        return SWORDS.contains(this);
+    }
+
+    public boolean isLance() {
+        return LANCES.contains(this);
+    }
+
+    public boolean isAxe() {
+        return AXES.contains(this);
+    }
+
+    public boolean isBow() {
+        return BOWS.contains(this);
+    }
+
+    public boolean isStaff() {
+        return STAVES.contains(this);
+    }
+
+    public boolean isFireMagic() {
+        return FIRE_MAGIC.contains(this);
+    }
+
+    public boolean isThunderMagic() {
+        return THUNDER_MAGIC.contains(this);
+    }
+
+    public boolean isWindMagic() {
+        return WIND_MAGIC.contains(this);
+    }
+
+    public boolean isLightMagic() {
+        return LIGHT_MAGIC.contains(this);
+    }
+
+    public boolean isDarkMagic() {
+        return DARK_MAGIC.contains(this);
+    }
+
+    public boolean isItem() {
+        return ITEMS.contains(this);
+    }
+
+    public boolean isScroll() {
+        return SCROLLS.contains(this);
+    }
+
+    public boolean isUnused() {
+        return UNUSED.contains(this);
+    }
+
+    public boolean isEnemyOnly() {
+        return ENEMY_ONLY.contains(this);
+    }
     
+    public ArrayList<Item> getUnusedItems() {
+        return new ArrayList<Item>(UNUSED);
+    }
+    
+    public ArrayList<Item> getBrokenItems() {
+        return new ArrayList<Item>(BROKEN);
+    }
+    
+    public ArrayList<Item> getNonWeaponItems() {
+        return new ArrayList<Item>(ITEMS);
+    }
+    
+    public static ArrayList<Item> getItems(boolean excludeUnused, boolean excludeBroken) {
+        ArrayList<Item> items = new ArrayList<>(Arrays.asList(Item.values()));
+        
+        if(excludeUnused) {
+            items.removeAll(UNUSED);
+        }
+        
+        if(excludeBroken) {
+            items.removeAll(BROKEN);
+        }
+        
+        return new ArrayList<Item>(items);
+    }
+
+    public void readItem(Rom rom, int startingOffset) {
+        int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
+
+        itemType = ItemType.findById(rom.getValueAt(relOffset + ITEM_TYPE_OFFSET));
+        power = rom.getValueAt(relOffset + POWER_OFFSET);
+        accuracy = rom.getValueAt(relOffset + ACCURACY_OFFSET);
+        weight = rom.getValueAt(relOffset + WEIGHT_OFFSET);
+        maxUses = rom.getValueAt(relOffset + MAX_USES_OFFSET);
+        critical = rom.getValueAt(relOffset + CRITICAL_OFFSET);
+        weaponRange = WeaponRange.findById(rom.getValueAt(relOffset + RANGE_OFFSET));
+        weaponRank = WeaponRank.findById(rom.getValueAt(relOffset + WEAPON_RANK_OFFSET, -2));
+        weaponEffectiveness = WeaponEffectiveness.findById(rom.getValueAt(relOffset + WPN_EFFECTIVENESS_OFFSET, -2));
+        weaponStatBonus = WeaponStatBonus.findById(rom.getValueAt(relOffset + STAT_BONUSES_OFFSET, -2));
+        costPerUse = rom.getValueAt(relOffset + COST_PER_USE_OFFSET, -2);
+        itemUseEffect = ItemUseEffect.findById(rom.getValueAt(relOffset + USE_EFFECT_OFFSET));
+        weaponBladeEffect = WeaponBladeEffect.findById(rom.getValueAt(relOffset + BLADE_EFFECT_OFFSET));
+        weaponSkill1 = WeaponSkill1.findById(rom.getValueAt(relOffset + WEAPON_SKILL1_OFFSET));
+        weaponSkill2 = WeaponSkill2.findById(rom.getValueAt(relOffset + WEAPON_SKILL2_OFFSET));
+        itemClassification = ItemClassification.findById(rom.getValueAt(relOffset + ITEM_CLASSIFICATION_OFFSET));
+    }
+
     public static Item findById(int offset) {
         Item item = null;
-        
+
         for(Item currentItem : Item.values()) {
             if(currentItem.offset == offset) {
                 item = currentItem;
                 break;
             }
         }
-        
+
         if(item == null) {
             System.out.println(String.format("WARNING: Offset 0x%02X in Item was not found.", offset));
             item = Item.IRON_SWORD;
         }
-        
+
         return item;
     }
-	
-	@Override
-	public String toString() {
-		String itemData = "";
-		
-		itemData += String.format("[Item] Name: %s, Item type: %s, Power: %d, Acc: %d, Weight: %d, Max uses: %d, Crit: %d, Wpn Rng: %s, Wpn Rank: %s, Wpn Effectiveness: %s, Wpn stat bonus: %s, Cost x use: %d, Use effect: %s, Blade eff: %s, Wpn skill1: %s, Wpn skill2: %s, Item class: %s", 
-				name, itemType.getName(), power, accuracy, weight, maxUses, critical, weaponRange.getName(), weaponRank.getName(), weaponEffectiveness.getName(), weaponStatBonus.getName(), costPerUse, itemUseEffect.getName(), weaponBladeEffect.getName(), weaponSkill1.getName(), weaponSkill2.getName(), itemClassification.getName());
-		
-		return itemData;
-	}
+
+    @Override
+    public String toString() {
+        String itemData = "";
+
+        itemData += String.format(
+                "[Item] Name: %s, Item type: %s, Power: %d, Acc: %d, Weight: %d, Max uses: %d, Crit: %d, Wpn Rng: %s, Wpn Rank: %s, Wpn Effectiveness: %s, Wpn stat bonus: %s, Cost x use: %d, Use effect: %s, Blade eff: %s, Wpn skill1: %s, Wpn skill2: %s, Item class: %s",
+                name, itemType.getName(), power, accuracy, weight, maxUses, critical, weaponRange.getName(),
+                weaponRank.getName(), weaponEffectiveness.getName(), weaponStatBonus.getName(), costPerUse,
+                itemUseEffect.getName(), weaponBladeEffect.getName(), weaponSkill1.getName(), weaponSkill2.getName(),
+                itemClassification.getName());
+
+        return itemData;
+    }
 }

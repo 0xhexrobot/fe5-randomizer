@@ -6,8 +6,8 @@ public enum WeaponSkill1 {
 	PRAYER(0x08, "Prayer"),
 	WRATH(0x10, "Wrath"),
 	AWARENESS(0x80, "Awareness"),
-	GUNGNIR(0x90, "Gungnir?"), //TODO find Gungnir
-	GAE_BOLG(0x92, "Gae Bolg?"); //TODO find Gae Bolg
+	GUNGNIR(0x90, "Gungnir?"),
+	GAE_BOLG(0x92, "Gae Bolg?");
 
 	private int offset;
 	private String name;
