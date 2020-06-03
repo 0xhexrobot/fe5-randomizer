@@ -1,9 +1,10 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.chapters;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.items.Item;

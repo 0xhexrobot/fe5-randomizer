@@ -1,8 +1,10 @@
 package org.hexrobot.fe5randomizer.controllers;
 
 import java.io.File;
-import org.hexrobot.fe5randomizer.LoadRomService;
+
 import org.hexrobot.fe5randomizer.Rom;
+import org.hexrobot.fe5randomizer.service.LoadRomService;
+
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -66,6 +68,13 @@ public class LoadRomController {
                 }
             });
 
+            loadRomService.setOnFailed(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent arg0) {
+                    Throwable throwable = loadRomService.getException(); 
+                    throwable.printStackTrace();
+                }
+            });
         }
     }
 

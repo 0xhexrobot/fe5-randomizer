@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.chapters;
 
 public enum Army {
     CH1_MANSTER_1(0x18FE0D, "Ch1 Manster 1", 1),

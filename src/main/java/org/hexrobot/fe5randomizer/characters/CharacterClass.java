@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hexrobot.fe5randomizer.Rom;
+import org.hexrobot.fe5randomizer.items.ItemType;
 
 public enum CharacterClass {
     SOCIAL_KNIGHT(0x01, "Social Knight"),
@@ -154,28 +155,31 @@ public enum CharacterClass {
     private ArrayList<Skill> skills = new ArrayList<Skill>();
     private Map<String, Object> oldValues = new HashMap<>();
     
-    private static final ArrayList<CharacterClass> THIEVES = new ArrayList<>(List.of(THIEF, THIEF_F, THIEF_FIGHTER, THIEF_FIGHTER_F));
+    private static final ArrayList<CharacterClass> THIEVES = new ArrayList<>(List.of(
+            THIEF, THIEF_F, THIEF_FIGHTER, THIEF_FIGHTER_F));
     private static final ArrayList<CharacterClass> HEALERS = new ArrayList<>(List.of(
-            TROUBADOUR, TROUBADOUR_DISMOUNTED, PALADIN, PALADIN_F, PRIEST, PRIEST_F, SISTER, SAGE, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED, HIGH_PRIEST,
-            HIGH_PRIEST_F, BISHOP, DARK_BISHOP, LOPTO_MAGE, LOPTO_MAGE_F, DARK_MAGE));
+            TROUBADOUR, TROUBADOUR_DISMOUNTED, PALADIN, PALADIN_F, PRIEST, PRIEST_F, SISTER, SAGE, PALADIN_DISMOUNTED,
+            PALADIN_F_DISMOUNTED, HIGH_PRIEST, HIGH_PRIEST_F, BISHOP, DARK_BISHOP, LOPTO_MAGE, LOPTO_MAGE_F,
+            DARK_MAGE));
     private static final ArrayList<CharacterClass> UNPROMOTED = new ArrayList<>(List.of(
             SOCIAL_KNIGHT, LANCE_KNIGHT, ARCH_KNIGHT, AXE_KNIGHT, FREE_KNIGHT, TROUBADOUR, BOW_KNIGHT, PEGASUS_KNIGHT,
-            DRAGON_RIDER, DRAGON_KNIGHT, BOW_FIGHTER, SWORD_FIGHTER, FORREST, LANCE_ARMOR,
-            AXE_ARMOR, BOW_ARMOUR, SWORD_ARMOR, MOUNTAIN_THIEF, MOUNTAIN_THIEF2, HUNTER, PIRATE, MAGE_KNIGHT2,
-            LORD, DANCER, PRIEST, MAGE, LOPTO_MAGE, THUNDER_MAGE, WIND_MAGE, BARD, SISTER, THIEF, AXE_FIGHTER,
-            SOCIALKNIGHT_DISMOUNTED, LANCE_KNIGHT_DISMOUNTED, ARCH_KNIGHT_DISMOUNTED, AXE_KNIGHT_DISMOUNTED,
-            FREE_KNIGHT_DISMOUNTED, TROUBADOUR_DISMOUNTED, BOW_KNIGHT_DISMOUNTED, PEGASUS_KNIGHT_DISMOUNTED,
-            DRAGON_RIDER_DISMOUNTED, DRAGON_KNIGHT_DISMOUNTED, ARCH_KNIGHT_F, ARCH_KNIGHT_F_DISMOUNTED, BOW_KNIGHT_F,
-            BOW_KNIGHT_F_DISMOUNTED, DRAGON_RIDER_F, DRAGON_RIDER_F_DISMOUNTED, DRAGON_KNIGHT_F,
-            DRAGON_KNIGHT_F_DISMOUNTED, MAGE_F, THUNDER_MAGE_F, LOPTO_MAGE_F, WIND_MAGE_F, PRIEST_F, SWORD_FIGHTER_F,
-            BOW_FIGHTER_F, THIEF_F, MERCENARY, PEGASUS_RIDER, PEGASUS_RIDER_DISMOUNTED, SOLDIER, ARCHER, MERCENARY_F));
+            DRAGON_RIDER, DRAGON_KNIGHT, BOW_FIGHTER, SWORD_FIGHTER, FORREST, LANCE_ARMOR, AXE_ARMOR, BOW_ARMOUR,
+            SWORD_ARMOR, MOUNTAIN_THIEF, MOUNTAIN_THIEF2, HUNTER, PIRATE, MAGE_KNIGHT2, LORD, DANCER, PRIEST, MAGE,
+            LOPTO_MAGE, THUNDER_MAGE, WIND_MAGE, BARD, SISTER, THIEF, AXE_FIGHTER, SOCIALKNIGHT_DISMOUNTED,
+            LANCE_KNIGHT_DISMOUNTED, ARCH_KNIGHT_DISMOUNTED, AXE_KNIGHT_DISMOUNTED, FREE_KNIGHT_DISMOUNTED,
+            TROUBADOUR_DISMOUNTED, BOW_KNIGHT_DISMOUNTED, PEGASUS_KNIGHT_DISMOUNTED, DRAGON_RIDER_DISMOUNTED,
+            DRAGON_KNIGHT_DISMOUNTED, ARCH_KNIGHT_F, ARCH_KNIGHT_F_DISMOUNTED, BOW_KNIGHT_F, BOW_KNIGHT_F_DISMOUNTED,
+            DRAGON_RIDER_F, DRAGON_RIDER_F_DISMOUNTED, DRAGON_KNIGHT_F, DRAGON_KNIGHT_F_DISMOUNTED, MAGE_F,
+            THUNDER_MAGE_F, LOPTO_MAGE_F, WIND_MAGE_F, PRIEST_F, SWORD_FIGHTER_F, BOW_FIGHTER_F, THIEF_F, MERCENARY,
+            PEGASUS_RIDER, PEGASUS_RIDER_DISMOUNTED, SOLDIER, ARCHER, MERCENARY_F));
     private static final ArrayList<CharacterClass> PROMOTED = new ArrayList<>(List.of(
-            PALADIN, PALADIN_F, FORREST_KNIGHT, MAGE_KNIGHT, GREAT_KNIGHT, FALCON_KNIGHT, DRAGON_MASTER, SWORDMASTER, SNIPER,
-            FORREST, GENERAL, EMPEROR, BARON, BERSERKER, WARRIOR, HUNTER, MAGE_KNIGHT2, PRINCE, MAGE_KNIGHT_F, BARON2,
-            HIGH_PRIEST, BISHOP, SAGE, DARK_MAGE, DARK_BISHOP, THIEF_FIGHTER, DUKE_KNIGHT, DUKE_KNIGHT_DISMOUNTED, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED,
-            FORREST_KNIGHT_DISMOUNTED, GREAT_KNIGHT_DISMOUNTED, FALCON_KNIGHT_DISMOUNTED, DRAGON_MASTER_DISMOUNTED,
-            DRAGON_MASTER_F, DRAGON_MASTER_F_DISMOUNTED, MAGE_KNIGHT_F2, MAGE_KNIGHT_F_DISMOUNTED, HIGH_PRIEST_F,
-            FORREST_F, SWORD_MASTER_F, SNIPER_F, THIEF_FIGHTER_F));
+            PALADIN, PALADIN_F, FORREST_KNIGHT, MAGE_KNIGHT, GREAT_KNIGHT, FALCON_KNIGHT, DRAGON_MASTER, SWORDMASTER,
+            SNIPER, FORREST, GENERAL, EMPEROR, BARON, BERSERKER, WARRIOR, HUNTER, MAGE_KNIGHT2, PRINCE, MAGE_KNIGHT_F,
+            BARON2, HIGH_PRIEST, BISHOP, SAGE, DARK_MAGE, DARK_BISHOP, THIEF_FIGHTER, DUKE_KNIGHT,
+            DUKE_KNIGHT_DISMOUNTED, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED, FORREST_KNIGHT_DISMOUNTED,
+            GREAT_KNIGHT_DISMOUNTED, FALCON_KNIGHT_DISMOUNTED, DRAGON_MASTER_DISMOUNTED, DRAGON_MASTER_F,
+            DRAGON_MASTER_F_DISMOUNTED, MAGE_KNIGHT_F2, MAGE_KNIGHT_F_DISMOUNTED, HIGH_PRIEST_F, FORREST_F,
+            SWORD_MASTER_F, SNIPER_F, THIEF_FIGHTER_F));
     private static final ArrayList<CharacterClass> UNUSED_PROMOTED = new ArrayList<>(List.of(
             LORD_KNIGHT, MASTER_KNIGHT, GENERAL, EMPEROR, BARON, JUNIOR_LORD, BARON2, KILLER_ARCH,
             DARK_PRINCE, LORD_KNIGHT_DISMOUNTED, MASTER_KNIGHT_DISMOUNTED, MASTER_KNIGHT_F,
@@ -185,9 +189,9 @@ public enum CharacterClass {
             ARCH_KNIGHT_F, ARCH_KNIGHT_F_DISMOUNTED, BOW_KNIGHT_F, BOW_KNIGHT_F_DISMOUNTED, MASTER_KNIGHT_F,
             MASTER_KNIGHT_F_DISMOUNTED, DRAGON_RIDER_F, DRAGON_RIDER_F_DISMOUNTED, DRAGON_KNIGHT_F,
             DRAGON_KNIGHT_F_DISMOUNTED, DRAGON_MASTER_F, DRAGON_MASTER_F_DISMOUNTED, MAGE_F, THUNDER_MAGE_F,
-            LOPTO_MAGE_F, WIND_MAGE_F, PEGASUS_KNIGHT_DISMOUNTED, TROUBADOUR_DISMOUNTED, MAGE_KNIGHT_F2, MAGE_KNIGHT_F_DISMOUNTED, PRIEST_F, HIGH_PRIEST_F,
-            SWORD_FIGHTER_F, FORREST_F, SWORD_MASTER_F, BOW_FIGHTER_F, SNIPER_F, THIEF_F, THIEF_FIGHTER_F,
-            PEGASUS_RIDER, PEGASUS_RIDER_DISMOUNTED, MERCENARY_F));
+            LOPTO_MAGE_F, WIND_MAGE_F, PEGASUS_KNIGHT_DISMOUNTED, TROUBADOUR_DISMOUNTED, MAGE_KNIGHT_F2,
+            MAGE_KNIGHT_F_DISMOUNTED, PRIEST_F, HIGH_PRIEST_F, SWORD_FIGHTER_F, FORREST_F, SWORD_MASTER_F,
+            BOW_FIGHTER_F, SNIPER_F, THIEF_F, THIEF_FIGHTER_F, PEGASUS_RIDER, PEGASUS_RIDER_DISMOUNTED, MERCENARY_F));
     
     private static final int CLASS_DATA_SIZE = 36;
     private static final int BASE_HP_OFFSET = 0x0;
@@ -361,6 +365,64 @@ public enum CharacterClass {
     
     public boolean isFemaleClass() {
         return FEMALE_CLASSES.contains(this);
+    }
+    
+    public boolean canUseWeaponType(ItemType weaponType) {
+        boolean canUse = false;
+        final int MIN_SKILL_LV = 50;
+        
+        switch(weaponType) {
+        case SWORD:
+        case FIRE_SWORD:
+        case THUNDER_SWORD:
+        case WIND_SWORD:
+        case LIGHT_SWORD:
+            canUse = baseSwordLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        case LANCE:
+            canUse = baseLanceLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        case AXE:
+            canUse = baseAxeLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        case BOW:
+            canUse = baseBowLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        case STAFF:
+            canUse = baseStaffLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        case FIRE:
+            canUse = baseFireLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        case THUNDER:
+            canUse = baseThunderLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        case WIND:
+            canUse = baseWindLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        case LIGHT:
+            canUse = baseLightLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        case DARK:
+            canUse = baseDarkLv.getAmount() >= MIN_SKILL_LV;
+            break;
+        default:
+            break;
+        }
+        
+        return canUse;
+    }
+    
+    public ArrayList<ItemType> getUsableWeaponTypes() {
+        ArrayList<ItemType> weaponTypes = new ArrayList<>();
+        
+        for(ItemType itemType : ItemType.getWeaponTypes()) {
+            if(canUseWeaponType(itemType)) {
+                weaponTypes.add(itemType);
+            }
+        }
+        
+        return weaponTypes;
     }
 
     public static ArrayList<CharacterClass> getUnpromotedClasses() {

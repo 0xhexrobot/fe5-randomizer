@@ -1,5 +1,8 @@
 package org.hexrobot.fe5randomizer.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum ItemType {
 	SWORD(0x00, "Sword"),
 	LANCE(0x01, "Lance"),
@@ -20,6 +23,9 @@ public enum ItemType {
 	private int offset;
 	private String name;
 	
+	private static final ArrayList<ItemType> WEAPON_TYPES = new ArrayList<>(List.of(
+	        SWORD, LANCE, AXE, BOW, STAFF, FIRE, THUNDER, WIND, LIGHT, DARK));
+	
 	private ItemType(int offset, String name) {
 		this.offset = offset;
 		this.name = name;
@@ -31,6 +37,10 @@ public enum ItemType {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public static ArrayList<ItemType> getWeaponTypes() {
+	    return new ArrayList<>(WEAPON_TYPES);
 	}
 	
 	public static ItemType findById(int offset) {

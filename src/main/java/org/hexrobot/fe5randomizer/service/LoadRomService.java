@@ -1,9 +1,11 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.service;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.hexrobot.fe5randomizer.Rom;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -31,19 +33,12 @@ public class LoadRomService extends Service<Rom> {
                     rom = new Rom(inputStream.readAllBytes());
                     inputStream.close();
                     
-                    updateProgress(0.1, 1.0);
+                    updateProgress(0.2, 1.0);
 
                     if(rom.isFireEmblem5()) {
-                        updateProgress(0.4, 1.0);
-                        updateMessage("Reading items...");
-                        rom.initializeItems();
-                        updateMessage("Reading classes...");
-                        rom.initializeCharacterClasses();
-                        updateProgress(0.7, 1.0);
-                        updateMessage("Reading characters...");
-                        rom.initializeCharacters();
-                        updateMessage("Reading army data...");
-                        rom.initializeArmyData();
+                        updateMessage("Reading rom...");
+                        rom.initialize();
+                        updateProgress(0.5, 1.0);
                     }
                     
                     updateMessage("Finished loading.");

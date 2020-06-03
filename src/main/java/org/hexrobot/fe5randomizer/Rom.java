@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.zip.CRC32;
 
+import org.hexrobot.fe5randomizer.chapters.Army;
+import org.hexrobot.fe5randomizer.chapters.ArmyUnit;
+import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.items.Item;
@@ -19,6 +22,7 @@ public class Rom {
     private static final int ITEMS_OFFSET = 0x1802C2;
     private static final int CHARACTERS_OFFSET = 0x31C2D;
     private static final int CHARACTER_CLASSES_OFFSET = 0x30200;
+    private static final int MOUNT_TABLE_OFFSET = 0x40200;
     private byte[] bytes;
     private String name = "Fire Emblem 5 (Unknown)";
     private boolean headered;
@@ -28,6 +32,7 @@ public class Rom {
     private Random random;
     private RandomizationLogic logic = new RandomizationLogic();
     private ArrayList<ArmyUnit> armyUnits = new ArrayList<ArmyUnit>();
+    private MountData mountData;
 
     public Rom(byte[] bytes) {
         this.bytes = bytes;
@@ -107,26 +112,34 @@ public class Rom {
     public int getSize() {
         return bytes.length;
     }
+    
+    public void initialize() {
+        initializeItems();
+        initializeCharacterClasses();
+        initializeMountData();
+        initializeCharacters();
+        initializeArmyData();
+    }
 
-    public void initializeItems() {
+    private void initializeItems() {
         for(Item item : Item.values()) {
             item.readItem(this, ITEMS_OFFSET);
         }
     }
     
-    public void initializeCharacterClasses() {
+    private void initializeCharacterClasses() {
         for(CharacterClass characterClass : CharacterClass.values()) {
             characterClass.readCharacterClass(this, CHARACTER_CLASSES_OFFSET);
         }
     }
 
-    public void initializeCharacters() {
+    private void initializeCharacters() {
         for(GameCharacter character : GameCharacter.values()) {
             character.readCharacter(this, CHARACTERS_OFFSET);
         }
     }
     
-    public void initializeArmyData() {
+    private void initializeArmyData() {
         Army[] armies = Army.values();
         
         for(int i = 0; i < armies.length; i++) {
@@ -145,6 +158,11 @@ public class Rom {
             
             chapter.addArmyData(chapterUnits);
         }
+    }
+    
+    private void initializeMountData() {
+        mountData = new MountData(this, MOUNT_TABLE_OFFSET);
+        System.out.println(mountData);
     }
     
     public void randomizeUnitsBasesVariance(int delta) {
@@ -414,7 +432,7 @@ public class Rom {
                 newCharacterClass = getSelectedClass(character, unpromotedClasses);
             }
             
-            character.setCharacterClass(newCharacterClass);
+            character.setCharacterClass(newCharacterClass, random);
         }
         
         assignUnitInventories(characters);
@@ -512,6 +530,10 @@ public class Rom {
         for(ArmyUnit armyUnits : armyUnits) {
             armyUnits.reset();
         }
+    }
+    
+    public MountData getMountData() {
+        return mountData;
     }
 
     @Override

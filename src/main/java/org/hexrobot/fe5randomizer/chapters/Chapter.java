@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.chapters;
 
 import java.util.ArrayList;
 import java.util.HashMap;

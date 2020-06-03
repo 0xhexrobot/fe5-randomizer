@@ -1,8 +1,9 @@
 package org.hexrobot.fe5randomizer.controllers;
 
-import org.hexrobot.fe5randomizer.RandomizeRomService;
 import org.hexrobot.fe5randomizer.RandomizationSummary;
 import org.hexrobot.fe5randomizer.Rom;
+import org.hexrobot.fe5randomizer.service.RandomizeRomService;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;

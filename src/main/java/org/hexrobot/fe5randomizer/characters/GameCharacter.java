@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import org.hexrobot.fe5randomizer.MountData;
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
+import org.hexrobot.fe5randomizer.items.ItemType;
 
 public enum GameCharacter {
     LEAF(0x0001, "Leaf"),
@@ -430,6 +433,7 @@ public enum GameCharacter {
     private static final int CLASS_OFFSET = 0x2C;
     private static final int LEADERSHIP_STARS_OFFSET = 0x2D;
     private Map<String, Object> oldValues = new HashMap<>();
+    private static MountData mountData = null;
     
     private static final ArrayList<GameCharacter> PLAYABLE_UNITS = new ArrayList<>(List.of(
             LEAF, FINN, OTHIN, HALVAN, EYVEL, DAGUDAR, RALF, MARTY, RONAN, MIRANDA, SAPHY, LARA, BRIGHTON, FELGUS, EDA,
@@ -492,6 +496,10 @@ public enum GameCharacter {
     }
     
     public void readCharacter(Rom rom, int startingOffset) {
+        if(mountData == null) {
+            mountData = rom.getMountData();
+        }
+
         int relOffset = startingOffset + (offset - 1) * CHARACTER_DATA_SIZE;
         baseHp = rom.getValueAt(relOffset + BASE_HP_OFFSET);
         baseAtk = rom.getValueAt(relOffset + BASE_STR_OFFSET);
@@ -874,7 +882,7 @@ public enum GameCharacter {
 
     public void setBaseSwordLv(int baseSwordLv) {
         if(!oldValues.containsKey("baseSwordLv") && this.baseSwordLv.getAmount() != baseSwordLv) {
-            oldValues.put("baseSwordLv", this.baseSwordLv.clone());            
+            oldValues.put("baseSwordLv", this.baseSwordLv.getAmount());
         }
         
         this.baseSwordLv.setAmount(baseSwordLv);
@@ -882,7 +890,7 @@ public enum GameCharacter {
 
     public void setBaseLanceLv(int baseLanceLv) {
         if(!oldValues.containsKey("baseLanceLv") && this.baseLanceLv.getAmount() != baseLanceLv) {
-            oldValues.put("baseLanceLv", this.baseLanceLv.clone());
+            oldValues.put("baseLanceLv", this.baseLanceLv.getAmount());
         }
         
         this.baseLanceLv.setAmount(baseLanceLv);
@@ -890,7 +898,7 @@ public enum GameCharacter {
 
     public void setBaseAxeLv(int baseAxeLv) {
         if(!oldValues.containsKey("baseAxeLv") && this.baseAxeLv.getAmount() != baseAxeLv) {
-            oldValues.put("baseAxeLv", this.baseAxeLv.clone());
+            oldValues.put("baseAxeLv", this.baseAxeLv.getAmount());
         }
         
         this.baseAxeLv.setAmount(baseAxeLv);
@@ -898,7 +906,7 @@ public enum GameCharacter {
 
     public void setBaseBowLv(int baseBowLv) {
         if(!oldValues.containsKey("baseBowLv") && this.baseBowLv.getAmount() != baseBowLv) {
-            oldValues.put("baseBowLv", this.baseBowLv.clone());
+            oldValues.put("baseBowLv", this.baseBowLv.getAmount());
         }
         
         this.baseBowLv.setAmount(baseBowLv);
@@ -906,7 +914,7 @@ public enum GameCharacter {
 
     public void setBaseStaffLv(int baseStaffLv) {
         if(!oldValues.containsKey("baseStaffLv") && this.baseStaffLv.getAmount() != baseStaffLv) {
-            oldValues.put("baseStaffLv", this.baseStaffLv.clone());
+            oldValues.put("baseStaffLv", this.baseStaffLv.getAmount());
         }
         
         this.baseStaffLv.setAmount(baseStaffLv);
@@ -914,7 +922,7 @@ public enum GameCharacter {
 
     public void setBaseFireLv(int baseFireLv) {
         if(!oldValues.containsKey("baseFireLv") && this.baseFireLv.getAmount() != baseFireLv) {
-            oldValues.put("baseFireLv", this.baseFireLv.clone());
+            oldValues.put("baseFireLv", this.baseFireLv.getAmount());
         }
         
         this.baseFireLv.setAmount(baseFireLv);
@@ -922,7 +930,7 @@ public enum GameCharacter {
 
     public void setBaseThunderLv(int baseThunderLv) {
         if(!oldValues.containsKey("baseThunderLv") && this.baseThunderLv.getAmount() != baseThunderLv) {
-            oldValues.put("baseThunderLv", this.baseThunderLv.clone());
+            oldValues.put("baseThunderLv", this.baseThunderLv.getAmount());
         }
         
         this.baseThunderLv.setAmount(baseThunderLv);
@@ -930,7 +938,7 @@ public enum GameCharacter {
 
     public void setBaseWindLv(int baseWindLv) {
         if(!oldValues.containsKey("baseWindLv") && this.baseWindLv.getAmount() != baseWindLv) {
-            oldValues.put("baseWindLv", this.baseWindLv.clone());
+            oldValues.put("baseWindLv", this.baseWindLv.getAmount());
         }
         
         this.baseWindLv.setAmount(baseWindLv);
@@ -938,7 +946,7 @@ public enum GameCharacter {
 
     public void setBaseLightLv(int baseLightLv) {
         if(!oldValues.containsKey("baseLightLv") && this.baseLightLv.getAmount() != baseLightLv) {
-            oldValues.put("baseLightLv", this.baseLightLv.clone());
+            oldValues.put("baseLightLv", this.baseLightLv.getAmount());
         }
         
         this.baseLightLv.setAmount(baseLightLv);
@@ -946,7 +954,7 @@ public enum GameCharacter {
 
     public void setBaseDarkLv(int baseDarkLv) {
         if(!oldValues.containsKey("baseDarkLv") && this.baseDarkLv.getAmount() != baseDarkLv) {
-            oldValues.put("baseDarkLv", this.baseDarkLv.clone());
+            oldValues.put("baseDarkLv", this.baseDarkLv.getAmount());
         }
         
         this.baseDarkLv.setAmount(baseDarkLv);
@@ -979,25 +987,81 @@ public enum GameCharacter {
         this.skills3 = newSkills[2];
     }
 
-    public void setCharacterClass(CharacterClass characterClass) {
+    public void setCharacterClass(CharacterClass characterClass, Random random) {
         if(!oldValues.containsKey("characterClass") && !this.characterClass.equals(characterClass)) {
             CharacterClass oldValue = this.characterClass;
             oldValues.put("characterClass", oldValue);
         }
         
-        //TODO Reassign weapon levels
-        setBaseSwordLv(0);
-        setBaseLanceLv(0);
-        setBaseAxeLv(0);
-        setBaseBowLv(0);
-        setBaseStaffLv(0);
-        setBaseFireLv(0);
-        setBaseThunderLv(0);
-        setBaseWindLv(0);
-        setBaseLightLv(0);
-        setBaseDarkLv(0);
-        
+        reassignWeaponLevels(characterClass, random);
         this.characterClass = characterClass;
+    }
+    
+    private void reassignWeaponLevels(CharacterClass newClass, Random random) {
+        ArrayList<ItemType> usableWeapons = newClass.getUsableWeaponTypes();
+        CharacterClass mountComplement = mountData.getComplement(newClass);
+        
+        if(mountComplement != null) {
+            ArrayList<ItemType> complementWeapons = mountComplement.getUsableWeaponTypes();
+            
+            for(ItemType currentItem : complementWeapons) {
+                if(!usableWeapons.contains(currentItem)) {
+                    usableWeapons.add(currentItem);
+                }
+            }
+        }
+
+        int totalWpnLv = 0;
+        Map<ItemType, Integer> newWpnLevels = new HashMap<>();
+        
+        for(ItemType itemType : ItemType.getWeaponTypes()) {
+            newWpnLevels.put(itemType, 0);
+        }
+        
+        totalWpnLv += baseSwordLv.getAmount();
+        totalWpnLv += baseLanceLv.getAmount();
+        totalWpnLv += baseAxeLv.getAmount();
+        totalWpnLv += baseBowLv.getAmount();
+        totalWpnLv += baseStaffLv.getAmount();
+        totalWpnLv += baseFireLv.getAmount();
+        totalWpnLv += baseThunderLv.getAmount();
+        totalWpnLv += baseWindLv.getAmount();
+        totalWpnLv += baseLightLv.getAmount();
+        totalWpnLv += baseDarkLv.getAmount();
+                
+        while(totalWpnLv > 0 && usableWeapons.size() > 0) {
+            ItemType wpnType = usableWeapons.get(random.nextInt(usableWeapons.size()));
+            int amount;
+            
+            if(totalWpnLv >= 50) {
+                amount = 50;
+                totalWpnLv -= 50;
+            } else {
+                amount = totalWpnLv;
+                totalWpnLv = 0;
+            }
+            
+            int prevValue = newWpnLevels.get(wpnType);
+            prevValue += amount;
+            
+            if(prevValue >= 250) {
+                prevValue = 250;
+                usableWeapons.remove(wpnType);
+            }
+            
+            newWpnLevels.put(wpnType, prevValue);
+        }
+         
+        setBaseSwordLv(newWpnLevels.get(ItemType.SWORD));
+        setBaseLanceLv(newWpnLevels.get(ItemType.LANCE));
+        setBaseAxeLv(newWpnLevels.get(ItemType.AXE));
+        setBaseBowLv(newWpnLevels.get(ItemType.BOW));
+        setBaseStaffLv(newWpnLevels.get(ItemType.STAFF));
+        setBaseFireLv(newWpnLevels.get(ItemType.FIRE));
+        setBaseThunderLv(newWpnLevels.get(ItemType.THUNDER));
+        setBaseWindLv(newWpnLevels.get(ItemType.WIND));
+        setBaseLightLv(newWpnLevels.get(ItemType.LIGHT));
+        setBaseDarkLv(newWpnLevels.get(ItemType.DARK));
     }
 
     public void setLeadershipStars(int leadershipStars) {
@@ -1092,43 +1156,43 @@ public enum GameCharacter {
             }
             
             if(oldValues.containsKey("baseSwordLv")) {
-                baseSwordLv = (WeaponProficiency)oldValues.get("baseSwordLv");
+                baseSwordLv.setAmount((int)oldValues.get("baseSwordLv"));
             }
             
             if(oldValues.containsKey("baseLanceLv")) {
-                baseLanceLv = (WeaponProficiency)oldValues.get("baseLanceLv");
+                baseLanceLv.setAmount((int)oldValues.get("baseLanceLv"));
             }
             
             if(oldValues.containsKey("baseAxeLv")) {
-                baseAxeLv = (WeaponProficiency)oldValues.get("baseAxeLv");
+                baseAxeLv.setAmount((int)oldValues.get("baseAxeLv"));
             }
             
             if(oldValues.containsKey("baseBowLv")) {
-                baseBowLv = (WeaponProficiency)oldValues.get("baseBowLv");
+                baseBowLv.setAmount((int)oldValues.get("baseBowLv"));
             }
             
             if(oldValues.containsKey("baseStaffLv")) {
-                baseStaffLv = (WeaponProficiency)oldValues.get("baseStaffLv");
+                baseStaffLv.setAmount((int)oldValues.get("baseStaffLv"));
             }
             
             if(oldValues.containsKey("baseFireLv")) {
-                baseFireLv = (WeaponProficiency)oldValues.get("baseFireLv");
+                baseFireLv.setAmount((int)oldValues.get("baseFireLv"));
             }
             
             if(oldValues.containsKey("baseThunderLv")) {
-                baseThunderLv = (WeaponProficiency)oldValues.get("baseThunderLv");
+                baseThunderLv.setAmount((int)oldValues.get("baseThunderLv"));
             }
             
             if(oldValues.containsKey("baseWindLv")) {
-                baseWindLv = (WeaponProficiency)oldValues.get("baseWindLv");
+                baseWindLv.setAmount((int)oldValues.get("baseWindLv"));
             }
             
             if(oldValues.containsKey("baseLightLv")) {
-                baseLightLv = (WeaponProficiency)oldValues.get("baseLightLv");
+                baseLightLv.setAmount((int)oldValues.get("baseLightLv"));
             }
             
             if(oldValues.containsKey("baseDarkLv")) {
-                baseDarkLv = (WeaponProficiency)oldValues.get("baseDarkLv");
+                baseDarkLv.setAmount((int)oldValues.get("baseDarkLv"));
             }
             
             if(oldValues.containsKey("skills1")) {
@@ -1206,7 +1270,6 @@ public enum GameCharacter {
     @Override
     public String toString() {
         String text;
-        
         String skillsText = "";
         
         for(int i = 0; i < skills.size(); i++) {

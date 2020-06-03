@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer;
+package org.hexrobot.fe5randomizer.service;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,6 +7,10 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hexrobot.fe5randomizer.HexTemplateNumberFormatFactory;
+import org.hexrobot.fe5randomizer.RandomizationSummary;
+import org.hexrobot.fe5randomizer.Rom;
+import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 
 import freemarker.core.TemplateNumberFormatFactory;
