@@ -12,6 +12,8 @@ import javafx.scene.layout.VBox;
 
 public class UnitsController {
     @FXML
+    private VBox units;
+    @FXML
     private CheckBox chkBases;
     @FXML
     private CheckBox chkGrowths;
@@ -56,6 +58,14 @@ public class UnitsController {
     @FXML
     private ToggleGroup tgGrowths;
     @FXML
+    private CheckBox chkRandomizeMovStars;
+    @FXML
+    private CheckBox chkMovExcludeZero;
+    @FXML
+    private CheckBox chkRandomizeLeadershipStars;
+    @FXML
+    private CheckBox chkLeadershipExcludeZero;
+    @FXML
     private CheckBox chkClasses;
     @FXML
     private VBox parClassesControls;
@@ -81,6 +91,7 @@ public class UnitsController {
         parGrowthsRedistributeOptions.visibleProperty().bind(rbGrowthsRedistribute.selectedProperty());
         parGrowthsAbsoluteOptions.visibleProperty().bind(rbGrowthsAbsolute.selectedProperty());
         parGrowthsControls.disableProperty().bind(chkGrowths.selectedProperty().not());
+        // TODO spinner set min and max values
         
         // radiobuttons user data
         rbBasesVariance.setUserData("variance");
@@ -89,27 +100,37 @@ public class UnitsController {
         rbGrowthsRedistribute.setUserData("redistribute");
         rbGrowthsAbsolute.setUserData("absolute");
         
-        RandomizationSummary randomizeSummary = MainController.getInstance().getRandomizeSummary();
+        // Movement & Leadership stars
+        chkMovExcludeZero.disableProperty().bind(chkRandomizeMovStars.selectedProperty().not());
+        chkLeadershipExcludeZero.disableProperty().bind(chkRandomizeLeadershipStars.selectedProperty().not());
+        
+        RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
         
         // bases
-        chkBases.selectedProperty().bindBidirectional(randomizeSummary.randomizeBasesProperty());
-        randomizeSummary.basesRandomizationTypeProperty().bind(tgBases.selectedToggleProperty());
-        spBasesDelta.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.basesVarianceProperty());
-        spBasesVar.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.basesRedistributeVarProperty());
+        chkBases.selectedProperty().bindBidirectional(summary.randomizeBasesProperty());
+        summary.basesRandomizationTypeProperty().bind(tgBases.selectedToggleProperty());
+        spBasesDelta.getValueFactory().valueProperty().bindBidirectional(summary.basesVarianceProperty());
+        spBasesVar.getValueFactory().valueProperty().bindBidirectional(summary.basesRedistributeVarProperty());
         
         // growths
-        chkGrowths.selectedProperty().bindBidirectional(randomizeSummary.randomizeGrowthsProperty());
-        randomizeSummary.growthsRandomizationTypeProperty().bind(tgGrowths.selectedToggleProperty());
-        spGrowthsDelta.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsVarianceProperty());
-        spGrowthsVar.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsRedistributeVarProperty());
-        spGrowthsAbsMin.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsAbsoluteMinProperty());
-        spGrowthsAbsMax.getValueFactory().valueProperty().bindBidirectional(randomizeSummary.growthsAbsoluteMaxProperty());
+        chkGrowths.selectedProperty().bindBidirectional(summary.randomizeGrowthsProperty());
+        summary.growthsRandomizationTypeProperty().bind(tgGrowths.selectedToggleProperty());
+        spGrowthsDelta.getValueFactory().valueProperty().bindBidirectional(summary.growthsVarianceProperty());
+        spGrowthsVar.getValueFactory().valueProperty().bindBidirectional(summary.growthsRedistributeVarProperty());
+        spGrowthsAbsMin.getValueFactory().valueProperty().bindBidirectional(summary.growthsAbsoluteMinProperty());
+        spGrowthsAbsMax.getValueFactory().valueProperty().bindBidirectional(summary.growthsAbsoluteMaxProperty());
+        
+        // Movement & Leadership stars
+        chkRandomizeMovStars.selectedProperty().bindBidirectional(summary.randomizeMovStarsProperty());
+        chkMovExcludeZero.selectedProperty().bindBidirectional(summary.movStarsExcludeZeroProperty());
+        chkRandomizeLeadershipStars.selectedProperty().bindBidirectional(summary.randomizeLeadershipStarsProperty());
+        chkLeadershipExcludeZero.selectedProperty().bindBidirectional(summary.leadershipExcludeZeroProperty());
         
         // classes
         chkExcludeHealers.disableProperty().bind(chkClasses.selectedProperty().not());
         chkExcludeThieves.disableProperty().bind(chkClasses.selectedProperty().not());
-        chkClasses.selectedProperty().bindBidirectional(randomizeSummary.randomizePlayableUnitClassesProperty());
-        chkExcludeHealers.selectedProperty().bindBidirectional(randomizeSummary.excludeHealersProperty());
-        chkExcludeThieves.selectedProperty().bindBidirectional(randomizeSummary.excludeThievesProperty());
+        chkClasses.selectedProperty().bindBidirectional(summary.randomizePlayableUnitClassesProperty());
+        chkExcludeHealers.selectedProperty().bindBidirectional(summary.excludeHealersProperty());
+        chkExcludeThieves.selectedProperty().bindBidirectional(summary.excludeThievesProperty());
     }
 }

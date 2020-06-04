@@ -1284,7 +1284,7 @@ public enum GameCharacter {
         text += String.format("Bases HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",
                 baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseDef, baseBld, baseLck, baseMov);
         text += String.format("Mov stars: %d, Counter crit bonus: %d, Leadership stars: %d\n",
-                movementStars.getAmmount(), counterCritBoost, leadershipStars);
+                movementStars.getAmount(), counterCritBoost, leadershipStars);
         text += String.format("Growths HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",
                 hpGrowth, atkGrowth, magGrowth, sklGrowth, spdGrowth, defGrowth, bldGrowth, lckGrowth, movGrowth);
         text += String.format("Base Wpn level Sword: %d, Lance: %d Axe: %d, Bow: %d, Staff: %d, Fire: %d, Thunder: %d, Wind: %d, Light: %d, Dark: %d\n",

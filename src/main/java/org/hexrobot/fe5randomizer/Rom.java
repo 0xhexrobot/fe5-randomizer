@@ -11,6 +11,7 @@ import org.hexrobot.fe5randomizer.chapters.ArmyUnit;
 import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
+import org.hexrobot.fe5randomizer.characters.MovementStars;
 import org.hexrobot.fe5randomizer.items.Item;
 
 public class Rom {
@@ -162,7 +163,6 @@ public class Rom {
     
     private void initializeMountData() {
         mountData = new MountData(this, MOUNT_TABLE_OFFSET);
-        System.out.println(mountData);
     }
     
     public void randomizeUnitsBasesVariance(int delta) {
@@ -516,6 +516,111 @@ public class Rom {
         }
         
         return selectedClass;
+    }
+    
+    public void randomizeMoveStars(boolean excludeZeroStars) {
+        ArrayList<GameCharacter> playableCharacters = GameCharacter.getPlayableUnits();
+        
+        if(excludeZeroStars) {
+            playableCharacters.removeIf(unit -> unit.getMovementStars().getAmount() == 0);
+        }
+        
+        assignMoveStars(playableCharacters);
+    }
+    
+    public void randomizeEnemyMoveStars(boolean excludeZeroStars) {
+        ArrayList<GameCharacter> enemyCharacters = GameCharacter.getEnemyUnits();
+
+        if(excludeZeroStars) {
+            enemyCharacters.removeIf(unit -> unit.getMovementStars().getAmount() == 0);
+        }
+
+        assignMoveStars(enemyCharacters);
+    }
+    
+    private void assignMoveStars(ArrayList<GameCharacter> characters) {
+        float[] starWeights = new float[6];
+        float totalWeights = 0;
+
+        for(int i = 0; i < 6; i++) {
+            starWeights[i] = 100 - 40 * (float)Math.sqrt(i);
+            totalWeights += starWeights[i];
+        }
+
+        for(GameCharacter character : characters) {
+            float randomNumber = random.nextFloat() * totalWeights;
+            int selectedAmount = 0;
+
+            for(int i = 0; i < starWeights.length; i++) {
+                if(randomNumber < starWeights[i]) {
+                    selectedAmount = i;
+                    break;
+                } else {
+                    randomNumber -= starWeights[i];
+                }
+            }
+
+            character.setMovementStars(MovementStars.findByAmount(selectedAmount));
+            System.out.println(String.format("%s Move *s -> %d", character.getName(), selectedAmount));
+        }
+    }
+    
+    public void randomizeLeadershipStars(boolean excludeZeroStars) {
+        ArrayList<GameCharacter> playableCharacters = GameCharacter.getPlayableUnits();
+        
+        if(excludeZeroStars) {
+            playableCharacters.removeIf(unit -> unit.getLeadershipStars() == 0);
+        }
+
+        assignLeadershipStars(playableCharacters, false);
+    }
+    
+    public void randomizeEnemyLeadershipStars(boolean excludeZeroStars) {
+        ArrayList<GameCharacter> enemyCharacters = GameCharacter.getEnemyUnits();
+
+        if(excludeZeroStars) {
+            enemyCharacters.removeIf(unit -> unit.getLeadershipStars() == 0);
+        }
+
+        assignLeadershipStars(enemyCharacters, true);
+    }
+    
+    private void assignLeadershipStars(ArrayList<GameCharacter> characters, boolean capAt10) {
+        int cap = 5;;
+        
+        if(capAt10) {
+            cap = 10;
+        }
+        
+        float[] starWeights = new float[cap + 1];
+        float totalWeights = 0;
+
+        for(int i = 0; i < cap + 1; i++) {
+            if(capAt10) {
+                starWeights[i] = 101 - (float)Math.sqrt(10000 - Math.pow(10 * i - 100, 2));
+            } else {
+                starWeights[i] = 100 - 40 * (float) Math.sqrt(i);
+            }
+            
+            totalWeights += starWeights[i];
+        }
+        
+        for(GameCharacter character : characters) {
+            float randomNumber = random.nextFloat() * totalWeights;
+            int selectedAmount = 0;
+
+            for(int i = 0; i < starWeights.length; i++) {
+                if(randomNumber < starWeights[i]) {
+                    selectedAmount = i;
+                    break;
+                } else {
+                    randomNumber -= starWeights[i];
+                }
+            }
+
+            character.setLeadershipStars(selectedAmount);
+            System.out.println(String.format("%s Leadership *s -> %d", character.getName(), selectedAmount));
+        }
     }
     
     public ArrayList<ArmyUnit> getArmyUnits() {

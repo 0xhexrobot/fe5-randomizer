@@ -27,13 +27,10 @@ public class LoadRomService extends Service<Rom> {
 
                 try {
                     updateMessage("Loading file...");
-                    updateProgress(0, 1.0);
                     InputStream inputStream = new FileInputStream(file);
 
                     rom = new Rom(inputStream.readAllBytes());
                     inputStream.close();
-                    
-                    updateProgress(0.2, 1.0);
 
                     if(rom.isFireEmblem5()) {
                         updateMessage("Reading rom...");
@@ -42,7 +39,6 @@ public class LoadRomService extends Service<Rom> {
                     }
                     
                     updateMessage("Finished loading.");
-                    updateProgress(1.0, 1.0);
                 } catch(IOException e) {
                     e.printStackTrace();
                 }

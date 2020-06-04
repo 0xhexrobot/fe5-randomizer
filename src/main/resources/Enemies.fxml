@@ -22,14 +22,14 @@
             <Spinner fx:id="spExtraInventory" prefHeight="26.0" prefWidth="70.0" />
          </children>
       </HBox>
-      <CheckBox fx:id="chkMovementStars" disable="true" mnemonicParsing="false" text="Randomize Movement stars" />
-      <CheckBox fx:id="chkMovementExcludeZero" disable="true" mnemonicParsing="false" text="Exclude units with 0 stars">
+      <CheckBox fx:id="chkMovementStars" mnemonicParsing="false" text="Randomize Movement stars" />
+      <CheckBox fx:id="chkMovementExcludeZero" mnemonicParsing="false" text="Exclude units with 0 stars">
          <padding>
             <Insets left="20.0" />
          </padding>
       </CheckBox>
-      <CheckBox fx:id="chkLeadershipStars" disable="true" mnemonicParsing="false" text="Randomize Leadership stars" />
-      <CheckBox fx:id="chkLeadershipExcludeZero" disable="true" mnemonicParsing="false" text="Exclude units with 0 stars">
+      <CheckBox fx:id="chkLeadershipStars" mnemonicParsing="false" text="Randomize Leadership stars" />
+      <CheckBox fx:id="chkLeadershipExcludeZero" mnemonicParsing="false" text="Exclude units with 0 stars">
          <padding>
             <Insets left="20.0" />
          </padding>

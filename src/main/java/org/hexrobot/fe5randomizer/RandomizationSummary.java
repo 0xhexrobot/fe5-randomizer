@@ -17,6 +17,11 @@ public class RandomizationSummary {
     private final SimpleObjectProperty<Integer> growthsRedistributeVar = new SimpleObjectProperty<Integer>(30);
     private final SimpleObjectProperty<Integer> growthsAbsoluteMin = new SimpleObjectProperty<Integer>(5);
     private final SimpleObjectProperty<Integer> growthsAbsoluteMax = new SimpleObjectProperty<Integer>(90);
+    // Movement & Leadership stars
+    private final SimpleBooleanProperty randomizeMovStars = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty movStarsExcludeZero = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeLeadershipStars = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty leadershipExcludeZero = new SimpleBooleanProperty();
     // playable unit classes
     private final SimpleBooleanProperty randomizePlayableUnitClasses = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty excludeHealers = new SimpleBooleanProperty(false);
@@ -24,6 +29,11 @@ public class RandomizationSummary {
     // enemy unit classes
     private final SimpleBooleanProperty randomizeEnemyUnitClasses = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty randomizeEnemyUnitClassesExcludeBosses = new SimpleBooleanProperty(false);
+    // Enemy movement & Leadership stars
+    private final SimpleBooleanProperty randomizeEnemyMovStars = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty enemyMovStarsExcludeZero = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeEnemyLeadershipStars = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty enemyLeadershipExcludeZero = new SimpleBooleanProperty();
     
     // other
     private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
@@ -68,6 +78,22 @@ public class RandomizationSummary {
         return growthsAbsoluteMax;
     }
     
+    public SimpleBooleanProperty randomizeMovStarsProperty() {
+        return randomizeMovStars;
+    }
+
+    public SimpleBooleanProperty movStarsExcludeZeroProperty() {
+        return movStarsExcludeZero;
+    }
+
+    public SimpleBooleanProperty randomizeLeadershipStarsProperty() {
+        return randomizeLeadershipStars;
+    }
+
+    public SimpleBooleanProperty leadershipExcludeZeroProperty() {
+        return leadershipExcludeZero;
+    }
+
     public SimpleBooleanProperty randomizePlayableUnitClassesProperty() {
         return randomizePlayableUnitClasses;
     }
@@ -88,6 +114,22 @@ public class RandomizationSummary {
         return randomizeEnemyUnitClassesExcludeBosses;
     }
     
+    public SimpleBooleanProperty randomizeEnemyMovStarsProperty() {
+        return randomizeEnemyMovStars;
+    }
+
+    public SimpleBooleanProperty enemyMovStarsExcludeZeroProperty() {
+        return enemyMovStarsExcludeZero;
+    }
+
+    public SimpleBooleanProperty randomizeEnemyLeadershipStarsProperty() {
+        return randomizeEnemyLeadershipStars;
+    }
+
+    public SimpleBooleanProperty enemyLeadershipExcludeZeroProperty() {
+        return enemyLeadershipExcludeZero;
+    }
+
     public SimpleBooleanProperty writeDebugLogProperty() {
         return writeDebugLog;
     }
@@ -144,12 +186,44 @@ public class RandomizationSummary {
         return excludeThieves.getValue();
     }
     
+    public boolean getRandomizeMovStars() {
+        return randomizeMovStars.getValue();
+    }
+
+    public boolean getMovStarsExcludeZero() {
+        return movStarsExcludeZero.getValue();
+    }
+
+    public boolean getRandomizeLeadershipStars() {
+        return randomizeLeadershipStars.getValue();
+    }
+
+    public boolean getLeadershipExcludeZero() {
+        return leadershipExcludeZero.getValue();
+    }
+    
     public boolean getRandomizeEnemyUnitClasses() {
         return randomizeEnemyUnitClasses.getValue();
     }
 
     public boolean getRandomizeEnemyUnitClassesExcludeBosses() {
         return randomizeEnemyUnitClassesExcludeBosses.getValue();
+    }
+    
+    public boolean getRandomizeEnemyMovStars() {
+        return randomizeEnemyMovStars.getValue();
+    }
+
+    public boolean getEnemyMovStarsExcludeZero() {
+        return enemyMovStarsExcludeZero.getValue();
+    }
+
+    public boolean getRandomizeEnemyLeadershipStars() {
+        return randomizeEnemyLeadershipStars.getValue();
+    }
+
+    public boolean getEnemyLeadershipExcludeZero() {
+        return enemyLeadershipExcludeZero.getValue();
     }
     
     public boolean getWriteDebugLog() {
@@ -164,7 +238,12 @@ public class RandomizationSummary {
                 randomizeBases.getValue(), (String) basesRandomizationType.getValue().getUserData(), basesVariance.getValue(), basesRedistributeVar.getValue());
         text += String.format("Randomize growths? %b, Randomize type: %s, Delta: %d, Variance: %d, Absolute: [%d - %d]\n",
                 randomizeGrowths.getValue(), (String) growthsRandomizationType.getValue().getUserData(), growthsVariance.getValue(), growthsRedistributeVar.getValue(), growthsAbsoluteMin.getValue(), growthsAbsoluteMax.getValue());
-        text += String.format("Randomize enemy classes: %b, Exclude bosses: %b", randomizeEnemyUnitClasses.getValue(), randomizeEnemyUnitClassesExcludeBosses.getValue());
+        text += String.format("Randomize Mov stars? %b, Exclude units with zero stars: %b, Randomize Leadership stars? %b, Exclude units with 0 stars: %b\n",
+                randomizeMovStars.getValue(), movStarsExcludeZero.getValue(), randomizeLeadershipStars.getValue(), leadershipExcludeZero.getValue());
+        text += String.format("Randomize enemy classes: %b, Exclude bosses: %b\n",
+                randomizeEnemyUnitClasses.getValue(), randomizeEnemyUnitClassesExcludeBosses.getValue());
+        text += String.format("Randomize enemy Mov stars? %b, Exclude units with zero stars: %b, Randomize enemy Leadership stars? %b, Exclude units with zero stars: %b\n",
+                randomizeEnemyMovStars.getValue(), enemyMovStarsExcludeZero.getValue(), randomizeEnemyLeadershipStars.getValue(), enemyLeadershipExcludeZero.getValue());
         
         return text;
     }

@@ -6,15 +6,21 @@ ROM: Fire Emblem 5 <#if romHeadered>Headered<#else>Headerless</#if> *(${romCheck
 
 Seed: [${"Iron sword"}][${3 + 2}][${"11111101"}][0][0]
 
-### Playable Units options
+Randomize bases: <#if summary.randomizeBases>**Yes**<#else>No</#if><#if summary.randomizeBases>, by <#if summary.basesRandomizationType == "variance">**Variance**: **±${summary.basesVariance}%**<#elseif summary.basesRandomizationType == "redistribute">**Redistribute**: **±${summary.basesRedistributeVar}%**</#if></#if>
 
-Randomize bases: <#if randomizeSummary.randomizeBases>**Yes**<#else>No</#if><#if randomizeSummary.randomizeBases>, by <#if randomizeSummary.basesRandomizationType == "variance">**Variance**: **±${randomizeSummary.basesVariance}%**<#elseif randomizeSummary.basesRandomizationType == "redistribute">**Redistribute**: **±${randomizeSummary.basesRedistributeVar}%**</#if></#if>
+Randomize growths: <#if summary.randomizeGrowths>**Yes**<#else>No</#if><#if summary.randomizeGrowths>, by <#if summary.growthsRandomizationType == "variance">**Variance**: **±${summary.growthsVariance}%**<#elseif summary.growthsRandomizationType == "redistribute">**Redistribute**: **±${summary.growthsRedistributeVar}%**<#elseif summary.growthsRandomizationType == "absolute">**Absolute**: [**${summary.growthsAbsoluteMin}%** - **${summary.growthsAbsoluteMax}%**]</#if></#if>
 
-Randomize growths: <#if randomizeSummary.randomizeGrowths>**Yes**<#else>No</#if><#if randomizeSummary.randomizeGrowths>, by <#if randomizeSummary.growthsRandomizationType == "variance">**Variance**: **±${randomizeSummary.growthsVariance}%**<#elseif randomizeSummary.growthsRandomizationType == "redistribute">**Redistribute**: **±${randomizeSummary.growthsRedistributeVar}%**<#elseif randomizeSummary.growthsRandomizationType == "absolute">**Absolute**: [**${randomizeSummary.growthsAbsoluteMin}%** - **${randomizeSummary.growthsAbsoluteMax}%**]</#if></#if>
+Randomize playable unit classes: <#if summary.randomizePlayableUnitClasses>**Yes**, Exclude healers: <#if summary.excludeHealers>**Yes**<#else>No</#if>, Exclude thieves: <#if summary.excludeThieves>**Yes**<#else>No</#if><#else>No</#if>
 
-Randomize playable unit classes: <#if randomizeSummary.randomizePlayableUnitClasses>**Yes**, Exclude healers: <#if randomizeSummary.excludeHealers>**Yes**<#else>No</#if>, Exclude thieves: <#if randomizeSummary.excludeThieves>**Yes**<#else>No</#if><#else>No</#if>
+Randomize movement stars: <#if summary.randomizeMovStars>**Yes**, Exclude units with zero stars: <#if summary.movStarsExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
 
-Randomize enemy classes: <#if randomizeSummary.randomizeEnemyUnitClasses>**Yes**, Exclude bosses: <#if randomizeSummary.randomizeEnemyUnitClassesExcludeBosses>**Yes**<#else>No</#if><#else>No</#if>
+Randomize leadership stars: <#if summary.randomizeLeadershipStars>**Yes**, Exclude units with zero stars: <#if summary.leadershipExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
+
+Randomize enemy classes: <#if summary.randomizeEnemyUnitClasses>**Yes**, Exclude bosses: <#if summary.randomizeEnemyUnitClassesExcludeBosses>**Yes**<#else>No</#if><#else>No</#if>
+
+Randomize movement stars: <#if summary.randomizeEnemyMovStars>**Yes**, Exclude units with zero stars: <#if summary.enemyMovStarsExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
+
+Randomize leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Yes**, Exclude units with zero stars: <#if summary.enemyLeadershipExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
 
 <#if units??>
 ## Units
@@ -32,7 +38,7 @@ Randomize enemy classes: <#if randomizeSummary.randomizeEnemyUnitClasses>**Yes**
 
 HP | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov | Lead * | Mov * | P Crit |
 -- | --- | --- | --- | --- | --- | --- | --- | --- | ------ | ----- | ------ |
-<#if unit.oldValues["baseHp"]??>${unit.oldValues["baseHp"]} → **${unit.baseHp}**<#else>${unit.baseHp}</#if> | <#if unit.oldValues["baseAtk"]??>${unit.oldValues["baseAtk"]} → **${unit.baseAtk}**<#else>${unit.baseAtk}</#if> | <#if unit.oldValues["baseMag"]??>${unit.oldValues["baseMag"]} → **${unit.baseMag}**<#else>${unit.baseMag}</#if> | <#if unit.oldValues["baseSkl"]??>${unit.oldValues["baseSkl"]} → **${unit.baseSkl}**<#else>${unit.baseSkl}</#if> | <#if unit.oldValues["baseSpd"]??>${unit.oldValues["baseSpd"]} → **${unit.baseSpd}**<#else>${unit.baseSpd}</#if> | <#if unit.oldValues["baseLck"]??>${unit.oldValues["baseLck"]} → **${unit.baseLck}**<#else>${unit.baseLck}</#if> | <#if unit.oldValues["baseDef"]??>${unit.oldValues["baseDef"]} → **${unit.baseDef}**<#else>${unit.baseDef}</#if> | <#if unit.oldValues["baseBld"]??>${unit.oldValues["baseBld"]} → **${unit.baseBld}**<#else>${unit.baseBld}</#if> | <#if unit.oldValues["baseMov"]??>${unit.oldValues["baseMov"]} → **${unit.baseMov}**<#else>${unit.baseMov}</#if> | <#if unit.oldValues["leadershipStars"]??>${unit.oldValues["leadershipStars"]} → **${unit.leadershipStars}**<#else>${unit.leadershipStars}</#if> | <#if unit.oldValues["movementStars"]??>${unit.oldValues["movementStars"].amount} → **${unit.movementStars.ammount}**<#else>${unit.movementStars.ammount}</#if> | <#if unit.oldValues["counterCritBoost"]??>${unit.oldValues["counterCritBoost"]} → **${unit.counterCritBoost}**<#else>${unit.counterCritBoost}</#if> |
+<#if unit.oldValues["baseHp"]??>${unit.oldValues["baseHp"]} → **${unit.baseHp}**<#else>${unit.baseHp}</#if> | <#if unit.oldValues["baseAtk"]??>${unit.oldValues["baseAtk"]} → **${unit.baseAtk}**<#else>${unit.baseAtk}</#if> | <#if unit.oldValues["baseMag"]??>${unit.oldValues["baseMag"]} → **${unit.baseMag}**<#else>${unit.baseMag}</#if> | <#if unit.oldValues["baseSkl"]??>${unit.oldValues["baseSkl"]} → **${unit.baseSkl}**<#else>${unit.baseSkl}</#if> | <#if unit.oldValues["baseSpd"]??>${unit.oldValues["baseSpd"]} → **${unit.baseSpd}**<#else>${unit.baseSpd}</#if> | <#if unit.oldValues["baseLck"]??>${unit.oldValues["baseLck"]} → **${unit.baseLck}**<#else>${unit.baseLck}</#if> | <#if unit.oldValues["baseDef"]??>${unit.oldValues["baseDef"]} → **${unit.baseDef}**<#else>${unit.baseDef}</#if> | <#if unit.oldValues["baseBld"]??>${unit.oldValues["baseBld"]} → **${unit.baseBld}**<#else>${unit.baseBld}</#if> | <#if unit.oldValues["baseMov"]??>${unit.oldValues["baseMov"]} → **${unit.baseMov}**<#else>${unit.baseMov}</#if> | <#if unit.oldValues["leadershipStars"]??>${unit.oldValues["leadershipStars"]} → **${unit.leadershipStars}**<#else>${unit.leadershipStars}</#if> | <#if unit.oldValues["movementStars"]??>${unit.oldValues["movementStars"].amount} → **${unit.movementStars.amount}**<#else>${unit.movementStars.amount}</#if> | <#if unit.oldValues["counterCritBoost"]??>${unit.oldValues["counterCritBoost"]} → **${unit.counterCritBoost}**<#else>${unit.counterCritBoost}</#if> |
 
 #### Growths
 

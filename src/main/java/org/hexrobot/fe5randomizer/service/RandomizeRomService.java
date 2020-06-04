@@ -79,13 +79,29 @@ public class RandomizeRomService extends Service<Void> {
                         rom.randomizeUnitsGrowthsAbsolute(summary.getGrowthsAbsoluteMin(), summary.getGrowthsAbsoluteMax());
                     }
                 }
+                
+                if(summary.getRandomizeMovStars()) {
+                    rom.randomizeMoveStars(summary.getMovStarsExcludeZero());
+                }
+                
+                if(summary.getRandomizeLeadershipStars()) {
+                    rom.randomizeLeadershipStars(summary.getLeadershipExcludeZero());
+                }
+                
+                if(summary.getRandomizeEnemyMovStars() ) {
+                    rom.randomizeEnemyMoveStars(summary.getEnemyMovStarsExcludeZero());
+                }
+                
+                if(summary.getRandomizeEnemyLeadershipStars()) {
+                    rom.randomizeEnemyLeadershipStars(summary.getEnemyLeadershipExcludeZero());
+                }
 
                 if(summary.getWriteDebugLog()) {
                     updateMessage("Writing log...");
                     
                     input.put("romHeadered", rom.isHeadered());
                     input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
-                    input.put("randomizeSummary", summary);
+                    input.put("summary", summary);
                     input.put("units", GameCharacter.values());
                     //input.put("classes", CharacterClass.values());
                     //input.put("items", Item.values());

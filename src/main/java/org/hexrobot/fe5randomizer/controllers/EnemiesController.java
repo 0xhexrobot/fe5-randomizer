@@ -34,10 +34,18 @@ public class EnemiesController {
     private void initialize() {
         chkClassExcludeBosses.disableProperty().bind(chkClasses.selectedProperty().not());
         parExtraInventory.disableProperty().bind(chkExtraInventory.selectedProperty().not());
+        chkMovementExcludeZero.disableProperty().bind(chkMovementStars.selectedProperty().not());
         chkLeadershipExcludeZero.disableProperty().bind(chkLeadershipStars.selectedProperty().not());
         
         RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
+        // classes
         chkClasses.selectedProperty().bindBidirectional(summary.randomizeEnemyUnitClassesProperty());
         chkClassExcludeBosses.selectedProperty().bindBidirectional(summary.randomizeEnemyUnitClassesExcludeBossesProperty());
+        // movement
+        chkMovementStars.selectedProperty().bindBidirectional(summary.randomizeEnemyMovStarsProperty());
+        chkMovementExcludeZero.selectedProperty().bindBidirectional(summary.enemyMovStarsExcludeZeroProperty());
+        // leadership
+        chkLeadershipStars.selectedProperty().bindBidirectional(summary.randomizeEnemyLeadershipStarsProperty());
+        chkLeadershipExcludeZero.selectedProperty().bindBidirectional(summary.enemyLeadershipExcludeZeroProperty());
     }
 }
