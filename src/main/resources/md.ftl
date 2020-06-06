@@ -16,11 +16,15 @@ Randomize movement stars: <#if summary.randomizeMovStars>**Yes**, Exclude units 
 
 Randomize leadership stars: <#if summary.randomizeLeadershipStars>**Yes**, Exclude units with zero stars: <#if summary.leadershipExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
 
+Randomize skills: <#if summary.randomizeSkills>**Yes**, Max skill count: ${summary.maxSkillCount}<#else>No</#if> 
+
 Randomize enemy classes: <#if summary.randomizeEnemyUnitClasses>**Yes**, Exclude bosses: <#if summary.randomizeEnemyUnitClassesExcludeBosses>**Yes**<#else>No</#if><#else>No</#if>
 
-Randomize movement stars: <#if summary.randomizeEnemyMovStars>**Yes**, Exclude units with zero stars: <#if summary.enemyMovStarsExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
+Randomize enemy movement stars: <#if summary.randomizeEnemyMovStars>**Yes**, Exclude units with zero stars: <#if summary.enemyMovStarsExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
 
-Randomize leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Yes**, Exclude units with zero stars: <#if summary.enemyLeadershipExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
+Randomize enemy leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Yes**, Exclude units with zero stars: <#if summary.enemyLeadershipExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
+
+Randomize Boss skills: <#if summary.randomizeBossSkills>**Yes**, Max skill count: ${summary.maxBossSkillCount}<#else> No</#if>, Randomize Enemy skills: <#if summary.randomizeEnemySkills>**Yes**, Max skill count: ${summary.maxEnemySkillCount}<#else>No</#if>
 
 <#if units??>
 ## Units
@@ -58,9 +62,15 @@ Staff | <#if unit.oldValues["baseStaffLv"]??>${unit.oldValues["baseStaffLv"]} �
 
 #### Skills
 
-**Skills1:** *${unit.skills1?string.@hex_2}*, **Skills2:** *${unit.skills2?string.@hex_2}*, **Skills3:** *${unit.skills3?string.@hex_2}*
+**Skills1** | **Skills2** | **Skills3** |
+----------- | ----------- | ----------- |
+<#if unit.oldValues["skills1"]??>*${unit.oldValues["skills1"]?string.@hex_2}* → _**${unit.skills1?string.@hex_2}**_<#else>*${unit.skills1?string.@hex_2}*</#if> | <#if unit.oldValues["skills2"]??>*${unit.oldValues["skills2"]?string.@hex_2}* → _**${unit.skills2?string.@hex_2}**_<#else>*${unit.skills2?string.@hex_2}*</#if> | <#if unit.oldValues["skills3"]??>*${unit.oldValues["skills3"]?string.@hex_2}* → _**${unit.skills3?string.@hex_2}**_<#else>*${unit.skills3?string.@hex_2}*</#if> |
 
+<#if unit.oldValues["skills1"]?? || unit.oldValues["skills2"]?? || unit.oldValues["skills3"]??>
+**<#list unit.skills as skill>${skill.getName()}<#sep>, </#list>**
+<#else>
 <#list unit.skills as skill>${skill.getName()}<#sep>, </#list>
+</#if>
 
 </#list>
 </#if>

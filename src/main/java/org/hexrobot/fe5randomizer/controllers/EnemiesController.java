@@ -29,13 +29,31 @@ public class EnemiesController {
     private CheckBox chkLeadershipStars;
     @FXML
     private CheckBox chkLeadershipExcludeZero;
+    @FXML
+    private CheckBox chkRandomizeBossSkills;
+    @FXML
+    private HBox parBossMaxSkillCount;
+    @FXML
+    private Spinner<Integer> spBossMaxSkillCount;
+    @FXML
+    private CheckBox chkRandomizeEnemiesSkills;
+    @FXML
+    private HBox parEnemiesSkillCount;
+    @FXML
+    private Spinner<Integer> spEnemiesMaxSkillCount;
     
     @FXML
     private void initialize() {
+        // classes
         chkClassExcludeBosses.disableProperty().bind(chkClasses.selectedProperty().not());
+        // inventory
         parExtraInventory.disableProperty().bind(chkExtraInventory.selectedProperty().not());
+        // movement & leadership
         chkMovementExcludeZero.disableProperty().bind(chkMovementStars.selectedProperty().not());
         chkLeadershipExcludeZero.disableProperty().bind(chkLeadershipStars.selectedProperty().not());
+        // skills
+        parBossMaxSkillCount.disableProperty().bind(chkRandomizeBossSkills.selectedProperty().not());
+        parEnemiesSkillCount.disableProperty().bind(chkRandomizeEnemiesSkills.selectedProperty().not());
         
         RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
         // classes
@@ -47,5 +65,10 @@ public class EnemiesController {
         // leadership
         chkLeadershipStars.selectedProperty().bindBidirectional(summary.randomizeEnemyLeadershipStarsProperty());
         chkLeadershipExcludeZero.selectedProperty().bindBidirectional(summary.enemyLeadershipExcludeZeroProperty());
+        // skills
+        chkRandomizeBossSkills.selectedProperty().bindBidirectional(summary.randomizeBossSkillsProperty());
+        spBossMaxSkillCount.getValueFactory().valueProperty().bindBidirectional(summary.maxBossSkillCountProperty());
+        chkRandomizeEnemiesSkills.selectedProperty().bindBidirectional(summary.randomizeEnemySkillsProperty());
+        spEnemiesMaxSkillCount.getValueFactory().valueProperty().bindBidirectional(summary.maxEnemySkillCountProperty());
     }
 }

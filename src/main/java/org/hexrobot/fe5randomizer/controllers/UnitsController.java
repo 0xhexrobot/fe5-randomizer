@@ -73,6 +73,12 @@ public class UnitsController {
     private CheckBox chkExcludeHealers;
     @FXML
     private CheckBox chkExcludeThieves;
+    @FXML
+    private CheckBox chkRandomizeSkills;
+    @FXML
+    private HBox parSkillCount;
+    @FXML
+    private Spinner<Integer> spMaxSkillCount;
         
     @FXML
     private void initialize() {
@@ -104,6 +110,9 @@ public class UnitsController {
         chkMovExcludeZero.disableProperty().bind(chkRandomizeMovStars.selectedProperty().not());
         chkLeadershipExcludeZero.disableProperty().bind(chkRandomizeLeadershipStars.selectedProperty().not());
         
+        // skills
+        parSkillCount.disableProperty().bind(chkRandomizeSkills.selectedProperty().not());
+        
         RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
         
         // bases
@@ -132,5 +141,9 @@ public class UnitsController {
         chkClasses.selectedProperty().bindBidirectional(summary.randomizePlayableUnitClassesProperty());
         chkExcludeHealers.selectedProperty().bindBidirectional(summary.excludeHealersProperty());
         chkExcludeThieves.selectedProperty().bindBidirectional(summary.excludeThievesProperty());
+        
+        // skills
+        chkRandomizeSkills.selectedProperty().bindBidirectional(summary.RandomizeSkillsProperty());
+        spMaxSkillCount.getValueFactory().valueProperty().bindBidirectional(summary.maxSkillCountProperty());
     }
 }

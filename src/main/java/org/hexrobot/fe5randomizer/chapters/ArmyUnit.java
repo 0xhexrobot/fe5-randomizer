@@ -182,7 +182,9 @@ public class ArmyUnit {
                 break;
             }
         } else {
-            canUseItem = rank.isUnlockedFor(character);
+            if(chClass.canUseWeaponType(type)) {
+                canUseItem = rank.isUnlockedFor(character);
+            }
         }
         
         return canUseItem;

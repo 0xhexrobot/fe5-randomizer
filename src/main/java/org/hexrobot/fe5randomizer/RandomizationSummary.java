@@ -26,14 +26,22 @@ public class RandomizationSummary {
     private final SimpleBooleanProperty randomizePlayableUnitClasses = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty excludeHealers = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty excludeThieves = new SimpleBooleanProperty(false);
+    // skills
+    private final SimpleBooleanProperty randomizeSkills = new SimpleBooleanProperty(false);
+    private final SimpleObjectProperty<Integer> maxSkillCount = new SimpleObjectProperty<Integer>(3);
     // enemy unit classes
     private final SimpleBooleanProperty randomizeEnemyUnitClasses = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty randomizeEnemyUnitClassesExcludeBosses = new SimpleBooleanProperty(false);
-    // Enemy movement & Leadership stars
+    // enemy movement & Leadership stars
     private final SimpleBooleanProperty randomizeEnemyMovStars = new SimpleBooleanProperty();
     private final SimpleBooleanProperty enemyMovStarsExcludeZero = new SimpleBooleanProperty();
     private final SimpleBooleanProperty randomizeEnemyLeadershipStars = new SimpleBooleanProperty();
     private final SimpleBooleanProperty enemyLeadershipExcludeZero = new SimpleBooleanProperty();
+    // enemy skills
+    private final SimpleBooleanProperty randomizeBossSkills = new SimpleBooleanProperty();
+    private final SimpleObjectProperty<Integer> maxBossSkillCount = new SimpleObjectProperty<Integer>(3);
+    private final SimpleBooleanProperty randomizeEnemySkills = new SimpleBooleanProperty();
+    private final SimpleObjectProperty<Integer> maxEnemySkillCount = new SimpleObjectProperty<Integer>(1);
     
     // other
     private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
@@ -106,6 +114,14 @@ public class RandomizationSummary {
         return excludeThieves;
     }
     
+    public SimpleBooleanProperty RandomizeSkillsProperty() {
+        return randomizeSkills;
+    }
+
+    public SimpleObjectProperty<Integer> maxSkillCountProperty() {
+        return maxSkillCount;
+    }
+    
     public SimpleBooleanProperty randomizeEnemyUnitClassesProperty() {
         return randomizeEnemyUnitClasses;
     }
@@ -128,6 +144,22 @@ public class RandomizationSummary {
 
     public SimpleBooleanProperty enemyLeadershipExcludeZeroProperty() {
         return enemyLeadershipExcludeZero;
+    }
+    
+    public SimpleBooleanProperty randomizeBossSkillsProperty() {
+        return randomizeBossSkills;
+    }
+
+    public SimpleObjectProperty<Integer> maxBossSkillCountProperty() {
+        return maxBossSkillCount;
+    }
+
+    public SimpleBooleanProperty randomizeEnemySkillsProperty() {
+        return randomizeEnemySkills;
+    }
+
+    public SimpleObjectProperty<Integer> maxEnemySkillCountProperty() {
+        return maxEnemySkillCount;
     }
 
     public SimpleBooleanProperty writeDebugLogProperty() {
@@ -186,6 +218,14 @@ public class RandomizationSummary {
         return excludeThieves.getValue();
     }
     
+    public boolean getRandomizeSkills() {
+        return randomizeSkills.getValue();
+    }
+
+    public int getMaxSkillCount() {
+        return maxSkillCount.getValue();
+    }
+
     public boolean getRandomizeMovStars() {
         return randomizeMovStars.getValue();
     }
@@ -226,6 +266,22 @@ public class RandomizationSummary {
         return enemyLeadershipExcludeZero.getValue();
     }
     
+    public boolean getRandomizeBossSkills() {
+        return randomizeBossSkills.getValue();
+    }
+
+    public int getMaxBossSkillCount() {
+        return maxBossSkillCount.getValue();
+    }
+
+    public boolean getRandomizeEnemySkills() {
+        return randomizeEnemySkills.getValue();
+    }
+
+    public int getMaxEnemySkillCount() {
+        return maxEnemySkillCount.getValue();
+    }
+    
     public boolean getWriteDebugLog() {
         return writeDebugLog.getValue();
     }
@@ -244,6 +300,8 @@ public class RandomizationSummary {
                 randomizeEnemyUnitClasses.getValue(), randomizeEnemyUnitClassesExcludeBosses.getValue());
         text += String.format("Randomize enemy Mov stars? %b, Exclude units with zero stars: %b, Randomize enemy Leadership stars? %b, Exclude units with zero stars: %b\n",
                 randomizeEnemyMovStars.getValue(), enemyMovStarsExcludeZero.getValue(), randomizeEnemyLeadershipStars.getValue(), enemyLeadershipExcludeZero.getValue());
+        text += String.format("Randomize boss skills? %b, Max skill count: %d, Randomize normal enemy skills? %b, Max skill count: %d\n",
+                randomizeBossSkills.getValue(), maxBossSkillCount.getValue(), randomizeEnemySkills.getValue(), maxEnemySkillCount.getValue());
         
         return text;
     }

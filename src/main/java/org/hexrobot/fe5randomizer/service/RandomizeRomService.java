@@ -95,6 +95,14 @@ public class RandomizeRomService extends Service<Void> {
                 if(summary.getRandomizeEnemyLeadershipStars()) {
                     rom.randomizeEnemyLeadershipStars(summary.getEnemyLeadershipExcludeZero());
                 }
+                
+                if(summary.getRandomizeSkills()) {
+                    rom.randomizeSkills(summary.getMaxSkillCount());
+                }
+                
+                if(summary.getRandomizeBossSkills() | summary.getRandomizeEnemySkills()) {
+                    rom.randomizeEnemySkills(summary.getRandomizeBossSkills(), summary.getMaxBossSkillCount(), summary.getRandomizeEnemySkills(), summary.getMaxEnemySkillCount());
+                }
 
                 if(summary.getWriteDebugLog()) {
                     updateMessage("Writing log...");

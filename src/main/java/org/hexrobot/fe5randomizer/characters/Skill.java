@@ -34,12 +34,15 @@ public enum Skill {
 
     private int offset;
     private String name;
-    private static ArrayList<Skill> skills1 = new ArrayList<Skill>(
+    private static final ArrayList<Skill> SKILLS1 = new ArrayList<Skill>(
             List.of(DANCE, STEAL, BARGAIN, LIFE, MOUNT_DISMOUNT, MOUNTED_MOV, UNKNOWN_1A, UNKNOWN_1B));
-    private static ArrayList<Skill> skills2 = new ArrayList<Skill>(
+    private static final ArrayList<Skill> SKILLS2 = new ArrayList<Skill>(
             List.of(CONTINUE, CHARISMA, PRAYER, AMBUSH, DUEL, BIG_SHIELD, AWARENESS, UNKNOWN2));
-    private static ArrayList<Skill> skills3 = new ArrayList<Skill>(
+    private static final ArrayList<Skill> SKILLS3 = new ArrayList<Skill>(
             List.of(WRATH, METEOR_SWORD, MOONLIGHT_SWORD, SUNLIGHT_SWORD, ELITE, UNKNOWN_3A, UNKNOWN_3B, UNKNOWN_3C));
+    private static final ArrayList<Skill> RANDOMIZABLE_SKILLS = new ArrayList<Skill>(
+            List.of(BARGAIN, LIFE, CONTINUE, CHARISMA, PRAYER, AMBUSH, DUEL, BIG_SHIELD, AWARENESS, WRATH, METEOR_SWORD,
+                    MOONLIGHT_SWORD, SUNLIGHT_SWORD, ELITE));
     
     private Skill(int offset, String name) {
         this.offset = offset;
@@ -54,8 +57,8 @@ public enum Skill {
         ArrayList<Skill> skills = new ArrayList<Skill>();
         
         if(skills1 > 0) {
-            for(int i = 0; i < Skill.skills1.size(); i++) {
-                Skill skill = Skill.skills1.get(i);
+            for(int i = 0; i < Skill.SKILLS1.size(); i++) {
+                Skill skill = Skill.SKILLS1.get(i);
                 
                 if((skills1 & skill.offset) == skill.offset) {
                     skills.add(skill);
@@ -64,8 +67,8 @@ public enum Skill {
         }
         
         if(skills2 > 0) {
-            for(int i = 0; i < Skill.skills2.size(); i++) {
-                Skill skill = Skill.skills2.get(i);
+            for(int i = 0; i < Skill.SKILLS2.size(); i++) {
+                Skill skill = Skill.SKILLS2.get(i);
                 
                 if((skills2 & skill.offset) == skill.offset) {
                     skills.add(skill);
@@ -74,8 +77,8 @@ public enum Skill {
         }
         
         if(skills3 > 0) {
-            for(int i = 0; i < Skill.skills3.size(); i++) {
-                Skill skill = Skill.skills3.get(i);
+            for(int i = 0; i < Skill.SKILLS3.size(); i++) {
+                Skill skill = Skill.SKILLS3.get(i);
                 
                 if((skills3 & skill.offset) == skill.offset) {
                     skills.add(skill);
@@ -90,15 +93,23 @@ public enum Skill {
         int[] skills = new int[3];
         
         for(Skill skill : list) {
-            if(skills1.contains(skill)) {
+            if(SKILLS1.contains(skill)) {
                 skills[0] |= skill.offset;
-            } else if(skills2.contains(skill)) {
+            } else if(SKILLS2.contains(skill)) {
                 skills[1] |= skill.offset;
-            } else if(skills3.contains(skill)) {
+            } else if(SKILLS3.contains(skill)) {
                 skills[2] |= skill.offset;
             }
         }
         
         return skills;
+    }
+    
+    public static ArrayList<Skill> getRandomizableSkills() {
+        return new ArrayList<Skill>(RANDOMIZABLE_SKILLS);
+    }
+    
+    public boolean isRandomizableSkill() {
+        return RANDOMIZABLE_SKILLS.contains(this);
     }
 }

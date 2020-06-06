@@ -1,8 +1,6 @@
 package org.hexrobot.fe5randomizer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.zip.CRC32;
 
@@ -12,6 +10,7 @@ import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.characters.MovementStars;
+import org.hexrobot.fe5randomizer.characters.Skill;
 import org.hexrobot.fe5randomizer.items.Item;
 
 public class Rom {
@@ -461,59 +460,32 @@ public class Rom {
     
     private Item getSelectedItem(ArmyUnit unit) {
         Item selectedItem = Item.BROKEN_SWORD;
-        Map<Item, Float> itemWeights = new HashMap<>();
-        float totalWeights = 0;
-        float randomNumber;
+        WeightedList<Item> itemWeights = new WeightedList<>();
         ArrayList<Item> items = Item.getItems(true, true);
         
         for(Item item : items) {
             float weight = logic.assignItemWeight(unit, item);
-            
-            if(weight > 0) {
-                totalWeights += weight;
-                itemWeights.put(item, weight);
-            }
+            itemWeights.add(item, weight);
         }
         
-        randomNumber = random.nextFloat() * totalWeights;
-        
-        for (Map.Entry<Item, Float> entry : itemWeights.entrySet()) {
-            if(randomNumber < entry.getValue()) {
-                selectedItem = entry.getKey();
-                break;
-            } else {
-                randomNumber -= entry.getValue();
-            }
-        }
+        selectedItem = itemWeights.getSelection(random.nextFloat());
         
         return selectedItem;
     }
     
     private CharacterClass getSelectedClass(GameCharacter character, ArrayList<CharacterClass> classesList) {
         CharacterClass selectedClass = character.getCharacterClass();
-        Map<CharacterClass, Float> classWeights = new HashMap<>();
-        float totalWeights = 0;
-        float randomNumber;
+        WeightedList<CharacterClass> classWeights = new WeightedList<>();
         
         for(CharacterClass characterClass : classesList) {
             float weight = logic.assignClassWeight(character, characterClass);
             
             if(weight > 0) {
-                totalWeights += weight;
-                classWeights.put(characterClass, weight);    
+                classWeights.add(characterClass, weight);
             }
         }
         
-        randomNumber = random.nextFloat() * totalWeights;
-        
-        for (Map.Entry<CharacterClass, Float> entry : classWeights.entrySet()) {
-            if(randomNumber < entry.getValue()) {
-                selectedClass = entry.getKey();
-                break;
-            } else {
-                randomNumber -= entry.getValue();
-            }
-        }
+        selectedClass = classWeights.getSelection(random.nextFloat());
         
         return selectedClass;
     }
@@ -539,29 +511,16 @@ public class Rom {
     }
     
     private void assignMoveStars(ArrayList<GameCharacter> characters) {
-        float[] starWeights = new float[6];
-        float totalWeights = 0;
+        WeightedList<Integer> starWeights = new WeightedList<>();
 
         for(int i = 0; i < 6; i++) {
-            starWeights[i] = 100 - 40 * (float)Math.sqrt(i);
-            totalWeights += starWeights[i];
+            float weight = 100 - 40 * (float)Math.sqrt(i);
+            starWeights.add(i, weight);
         }
 
         for(GameCharacter character : characters) {
-            float randomNumber = random.nextFloat() * totalWeights;
-            int selectedAmount = 0;
-
-            for(int i = 0; i < starWeights.length; i++) {
-                if(randomNumber < starWeights[i]) {
-                    selectedAmount = i;
-                    break;
-                } else {
-                    randomNumber -= starWeights[i];
-                }
-            }
-
+            int selectedAmount = starWeights.getSelection(random.nextFloat());
             character.setMovementStars(MovementStars.findByAmount(selectedAmount));
-            System.out.println(String.format("%s Move *s -> %d", character.getName(), selectedAmount));
         }
     }
     
@@ -586,40 +545,87 @@ public class Rom {
     }
     
     private void assignLeadershipStars(ArrayList<GameCharacter> characters, boolean capAt10) {
-        int cap = 5;;
+        int cap = 5;
         
         if(capAt10) {
             cap = 10;
         }
         
-        float[] starWeights = new float[cap + 1];
-        float totalWeights = 0;
+        WeightedList<Integer> starWeights = new WeightedList<>();
 
         for(int i = 0; i < cap + 1; i++) {
+            float weight;
+            
             if(capAt10) {
-                starWeights[i] = 101 - (float)Math.sqrt(10000 - Math.pow(10 * i - 100, 2));
+                weight = 101 - (float)Math.sqrt(10000 - Math.pow(10 * i - 100, 2));
             } else {
-                starWeights[i] = 100 - 40 * (float) Math.sqrt(i);
+                weight = 100 - 40 * (float) Math.sqrt(i);
             }
             
-            totalWeights += starWeights[i];
+            starWeights.add(i, weight);
         }
         
         for(GameCharacter character : characters) {
-            float randomNumber = random.nextFloat() * totalWeights;
-            int selectedAmount = 0;
-
-            for(int i = 0; i < starWeights.length; i++) {
-                if(randomNumber < starWeights[i]) {
-                    selectedAmount = i;
-                    break;
-                } else {
-                    randomNumber -= starWeights[i];
-                }
-            }
-
+            int selectedAmount = starWeights.getSelection(random.nextFloat());
             character.setLeadershipStars(selectedAmount);
-            System.out.println(String.format("%s Leadership *s -> %d", character.getName(), selectedAmount));
+        }
+    }
+    
+    public void randomizeSkills(int maxSkillCount) {
+        ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        
+        for(GameCharacter character : characters) {
+            ArrayList<Skill> skills = character.getSkills();
+            ArrayList<Skill> availableSkills = Skill.getRandomizableSkills();
+            int newSkillCount = random.nextInt(maxSkillCount + 1);
+            
+            skills.removeIf(skill -> skill.isRandomizableSkill());
+            
+            for(int i = 0; i < newSkillCount; i++) {
+                Skill skill = availableSkills.get(random.nextInt(availableSkills.size()));
+                
+                availableSkills.remove(skill);
+                skills.add(skill);
+            }
+            
+            character.setSkills(skills);
+        }
+    }
+    
+    public void randomizeEnemySkills(boolean randomizeBossSkills, int maxBossSkillCount, boolean randomizeEnemySkills, int maxEnemySkillCount) {
+        ArrayList<GameCharacter> characters = GameCharacter.getEnemyUnits();
+        
+        for(GameCharacter character : characters) {
+            if(!randomizeBossSkills && character.isBoss()) {
+                continue;
+            }
+            
+            if(!randomizeEnemySkills && !character.isBoss()) {
+                continue;
+            }
+            
+            ArrayList<Skill> skills = character.getSkills();
+            ArrayList<Skill> availableSkills = Skill.getRandomizableSkills();
+            int maxSkillCount;
+            
+            if(character.isBoss()) {
+                maxSkillCount = maxBossSkillCount;
+            } else {
+                maxSkillCount = maxEnemySkillCount;
+            }
+            
+            int newSkillCount = random.nextInt(maxSkillCount + 1);
+            
+            skills.removeIf(skill -> skill.isRandomizableSkill());
+            
+            for(int i = 0; i < newSkillCount; i++) {
+                Skill skill = availableSkills.get(random.nextInt(availableSkills.size()));
+                
+                availableSkills.remove(skill);
+                skills.add(skill);
+            }
+            
+            character.setSkills(skills);
         }
     }
     
