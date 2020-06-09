@@ -59,6 +59,9 @@ public class EnemiesController {
         // classes
         chkClasses.selectedProperty().bindBidirectional(summary.randomizeEnemyUnitClassesProperty());
         chkClassExcludeBosses.selectedProperty().bindBidirectional(summary.randomizeEnemyUnitClassesExcludeBossesProperty());
+        // inventory
+        chkExtraInventory.selectedProperty().bindBidirectional(summary.enemiesAddExtraInventoryProperty());
+        spExtraInventory.getValueFactory().valueProperty().bindBidirectional(summary.enemiesMaxExtraInventoryCountProperty());
         // movement
         chkMovementStars.selectedProperty().bindBidirectional(summary.randomizeEnemyMovStarsProperty());
         chkMovementExcludeZero.selectedProperty().bindBidirectional(summary.enemyMovStarsExcludeZeroProperty());

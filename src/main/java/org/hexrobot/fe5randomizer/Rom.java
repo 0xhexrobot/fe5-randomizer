@@ -490,6 +490,27 @@ public class Rom {
         return selectedClass;
     }
     
+    public void enemiesAddExtraInventory(int maxExtraItems) {
+        // TODO add extra inventory
+        ArrayList<ArmyUnit> enemies = new ArrayList<>(armyUnits);
+        enemies.removeIf(unit -> !unit.getCharacter().isEnemyUnit());
+        
+        for(ArmyUnit unit : enemies) {
+            ArrayList<Item> inventory = unit.getInventory();
+            maxExtraItems = Math.min(maxExtraItems, 7 - inventory.size());
+            int extraInventoryCount = random.nextInt(maxExtraItems + 1);
+            ArrayList<Item> extraInventory = new ArrayList<>(); 
+            
+            while(extraInventory.size() < extraInventoryCount) {
+                Item item = getSelectedItem(unit);
+                extraInventory.add(item);
+            }
+            
+            inventory.addAll(extraInventory);
+            unit.setInventory(inventory);
+        }
+    }
+    
     public void randomizeMoveStars(boolean excludeZeroStars) {
         ArrayList<GameCharacter> playableCharacters = GameCharacter.getPlayableUnits();
         
@@ -512,8 +533,9 @@ public class Rom {
     
     private void assignMoveStars(ArrayList<GameCharacter> characters) {
         WeightedList<Integer> starWeights = new WeightedList<>();
+        int cap = 5;
 
-        for(int i = 0; i < 6; i++) {
+        for(int i = 0; i < cap + 1; i++) {
             float weight = 100 - 40 * (float)Math.sqrt(i);
             starWeights.add(i, weight);
         }

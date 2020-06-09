@@ -132,57 +132,57 @@ public class ArmyUnit {
         ItemType type = item.getItemType();
         CharacterClass chClass = character.getCharacterClass();
         
-        if(rank.isStdRank()) {
-            switch(type) {
-            case SWORD:
-            case FIRE_SWORD:
-            case THUNDER_SWORD:
-            case WIND_SWORD:
-            case LIGHT_SWORD:
-                canUseItem = chClass.getBaseSwordLv().getAmount() + character.getBaseSwordLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            case LANCE:
-                canUseItem = chClass.getBaseLanceLv().getAmount() + character.getBaseLanceLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            case AXE:
-                canUseItem = chClass.getBaseAxeLv().getAmount() + character.getBaseAxeLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            case BOW:
-                canUseItem = chClass.getBaseBowLv().getAmount() + character.getBaseBowLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            case STAFF:
-                canUseItem = chClass.getBaseStaffLv().getAmount() + character.getBaseStaffLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            case FIRE:
-                canUseItem = chClass.getBaseFireLv().getAmount() + character.getBaseFireLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            case THUNDER:
-                canUseItem = chClass.getBaseThunderLv().getAmount() + character.getBaseThunderLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            case WIND:
-                canUseItem = chClass.getBaseWindLv().getAmount() + character.getBaseWindLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            case LIGHT:
-                canUseItem = chClass.getBaseLightLv().getAmount() + character.getBaseLightLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            case DARK:
-                canUseItem = chClass.getBaseDarkLv().getAmount() + character.getBaseDarkLv().getAmount() >= rank
-                        .getOffset();
-                break;
-            default:
-                break;
-            }
-        } else {
-            if(chClass.canUseWeaponType(type)) {
+        if(chClass.canUseWeaponType(type)) {
+            if(rank.isStdRank()) {
+                switch(type) {
+                case SWORD:
+                case FIRE_SWORD:
+                case THUNDER_SWORD:
+                case WIND_SWORD:
+                case LIGHT_SWORD:
+                    canUseItem = chClass.getBaseSwordLv().getAmount() + character.getBaseSwordLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                case LANCE:
+                    canUseItem = chClass.getBaseLanceLv().getAmount() + character.getBaseLanceLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                case AXE:
+                    canUseItem = chClass.getBaseAxeLv().getAmount() + character.getBaseAxeLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                case BOW:
+                    canUseItem = chClass.getBaseBowLv().getAmount() + character.getBaseBowLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                case STAFF:
+                    canUseItem = chClass.getBaseStaffLv().getAmount() + character.getBaseStaffLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                case FIRE:
+                    canUseItem = chClass.getBaseFireLv().getAmount() + character.getBaseFireLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                case THUNDER:
+                    canUseItem = chClass.getBaseThunderLv().getAmount() + character.getBaseThunderLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                case WIND:
+                    canUseItem = chClass.getBaseWindLv().getAmount() + character.getBaseWindLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                case LIGHT:
+                    canUseItem = chClass.getBaseLightLv().getAmount() + character.getBaseLightLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                case DARK:
+                    canUseItem = chClass.getBaseDarkLv().getAmount() + character.getBaseDarkLv().getAmount() >= rank
+                            .getOffset();
+                    break;
+                default:
+                    break;
+                }
+            } else {
                 canUseItem = rank.isUnlockedFor(character);
             }
         }

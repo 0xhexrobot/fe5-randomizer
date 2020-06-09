@@ -15,11 +15,11 @@
             <Insets left="20.0" />
          </padding>
       </CheckBox>
-      <CheckBox fx:id="chkExtraInventory" disable="true" mnemonicParsing="false" text="Add extra inventory" />
+      <CheckBox fx:id="chkExtraInventory" mnemonicParsing="false" text="Add extra inventory" />
       <HBox fx:id="parExtraInventory" alignment="CENTER_RIGHT" spacing="10.0">
          <children>
             <Label text="Max extra items" />
-            <Spinner fx:id="spExtraInventory" prefHeight="26.0" prefWidth="70.0" />
+            <Spinner fx:id="spExtraInventory" min="1" max="7" prefHeight="26.0" prefWidth="70.0" />
          </children>
       </HBox>
       <CheckBox fx:id="chkMovementStars" mnemonicParsing="false" text="Randomize Movement stars" />

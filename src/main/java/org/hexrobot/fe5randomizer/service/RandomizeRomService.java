@@ -11,6 +11,7 @@ import org.hexrobot.fe5randomizer.HexTemplateNumberFormatFactory;
 import org.hexrobot.fe5randomizer.RandomizationSummary;
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.chapters.Chapter;
+import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 
 import freemarker.core.TemplateNumberFormatFactory;
@@ -103,6 +104,10 @@ public class RandomizeRomService extends Service<Void> {
                 if(summary.getRandomizeBossSkills() | summary.getRandomizeEnemySkills()) {
                     rom.randomizeEnemySkills(summary.getRandomizeBossSkills(), summary.getMaxBossSkillCount(), summary.getRandomizeEnemySkills(), summary.getMaxEnemySkillCount());
                 }
+                
+                if(summary.getEnemiesAddExtraInventory()) {
+                    rom.enemiesAddExtraInventory(summary.getEnemiesMaxExtraInventoryCount());
+                }
 
                 if(summary.getWriteDebugLog()) {
                     updateMessage("Writing log...");
@@ -111,7 +116,7 @@ public class RandomizeRomService extends Service<Void> {
                     input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
                     input.put("summary", summary);
                     input.put("units", GameCharacter.values());
-                    //input.put("classes", CharacterClass.values());
+                    input.put("classes", CharacterClass.values());
                     //input.put("items", Item.values());
                     input.put("armyData", rom.getArmyUnits());
                     input.put("chapterData", Chapter.values());

@@ -32,6 +32,9 @@ public class RandomizationSummary {
     // enemy unit classes
     private final SimpleBooleanProperty randomizeEnemyUnitClasses = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty randomizeEnemyUnitClassesExcludeBosses = new SimpleBooleanProperty(false);
+    // extra inventory
+    private final SimpleBooleanProperty enemiesAddExtraInventory = new SimpleBooleanProperty(false);
+    private final SimpleObjectProperty<Integer> enemiesMaxExtraInventoryCount = new SimpleObjectProperty<Integer>(2);
     // enemy movement & Leadership stars
     private final SimpleBooleanProperty randomizeEnemyMovStars = new SimpleBooleanProperty();
     private final SimpleBooleanProperty enemyMovStarsExcludeZero = new SimpleBooleanProperty();
@@ -130,6 +133,14 @@ public class RandomizationSummary {
         return randomizeEnemyUnitClassesExcludeBosses;
     }
     
+    public SimpleBooleanProperty enemiesAddExtraInventoryProperty() {
+        return enemiesAddExtraInventory;
+    }
+
+    public SimpleObjectProperty<Integer> enemiesMaxExtraInventoryCountProperty() {
+        return enemiesMaxExtraInventoryCount;
+    }
+
     public SimpleBooleanProperty randomizeEnemyMovStarsProperty() {
         return randomizeEnemyMovStars;
     }
@@ -248,6 +259,14 @@ public class RandomizationSummary {
 
     public boolean getRandomizeEnemyUnitClassesExcludeBosses() {
         return randomizeEnemyUnitClassesExcludeBosses.getValue();
+    }
+    
+    public boolean getEnemiesAddExtraInventory() {
+        return enemiesAddExtraInventory.getValue();
+    }
+
+    public int getEnemiesMaxExtraInventoryCount() {
+        return enemiesMaxExtraInventoryCount.getValue();
     }
     
     public boolean getRandomizeEnemyMovStars() {

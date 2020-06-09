@@ -20,6 +20,8 @@ Randomize skills: <#if summary.randomizeSkills>**Yes**, Max skill count: ${summa
 
 Randomize enemy classes: <#if summary.randomizeEnemyUnitClasses>**Yes**, Exclude bosses: <#if summary.randomizeEnemyUnitClassesExcludeBosses>**Yes**<#else>No</#if><#else>No</#if>
 
+Add enemy inventory: <#if summary.enemiesAddExtraInventory>**Yes**, Max new items: ${summary.enemiesMaxExtraInventoryCount}<#else>No</#if>
+
 Randomize enemy movement stars: <#if summary.randomizeEnemyMovStars>**Yes**, Exclude units with zero stars: <#if summary.enemyMovStarsExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
 
 Randomize enemy leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Yes**, Exclude units with zero stars: <#if summary.enemyLeadershipExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
@@ -76,9 +78,9 @@ Staff | <#if unit.oldValues["baseStaffLv"]??>${unit.oldValues["baseStaffLv"]} â†
 </#if>
 
 <#if classes??>
-<#list classes as class>
-## Classes
 
+## Classes
+<#list classes as class>
 ### ${class.getName()}
 
 **Offset**: ${class.offset?string.@hex_2}

@@ -247,7 +247,7 @@ public enum Item {
             List.of(ODO_SCROLL, BALDO_SCROLL, HEZUL_SCROLL, DAIN_SCROLL, NOBA_SCROLL, NEIR_SCROLL, ULIR_SCROLL,
                     TORDO_SCROLL, FALA_SCROLL, SETY_SCROLL, BLAGI_SCROLL, HEIM_SCROLL));
     private static final ArrayList<Item> UNUSED = new ArrayList<Item>(
-            List.of(VOLCANNON, FALAFLAME, TORHAMMER, AURA, LOPUTOUS, WATCH, RETURN));
+            List.of(VOLCANNON, FALAFLAME, TORHAMMER, AURA, LOPUTOUS, WATCH, RETURN, GUNGNIR, GAE_BOLG));
     private static final ArrayList<Item> ENEMY_ONLY = new ArrayList<Item>(
             List.of(POISON_SWORD, POISON_LANCE, POISON_AXE, POISON_BOW));
     private static final ArrayList<Item> BROKEN = new ArrayList<Item>(
