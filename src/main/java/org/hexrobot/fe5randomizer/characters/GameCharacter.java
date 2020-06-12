@@ -394,10 +394,12 @@ public enum GameCharacter {
     private ArrayList<Skill> skills = new ArrayList<Skill>();
     private CharacterClass characterClass = CharacterClass.LORD;
     private int leadershipStars = -1;
+    private int mapSprite = -1;
+    private boolean randomBases = false;
     
     private static final int CHARACTER_DATA_SIZE = 48;
     private static final int BASE_HP_OFFSET = 0x0;
-    private static final int BASE_STR_OFFSET = 0x01;
+    private static final int BASE_ATK_OFFSET = 0x01;
     private static final int BASE_MAG_OFFSET = 0x02;
     private static final int BASE_SKL_OFFSET = 0x03;
     private static final int BASE_SPD_OFFSET = 0x04;
@@ -408,7 +410,7 @@ public enum GameCharacter {
     private static final int MOV_STARS_OFFSET = 0x09;
     private static final int COUNTER_CRIT_BOOST_OFFSET = 0x0A;
     private static final int HP_GROWTH_OFFSET = 0x0B;
-    private static final int STR_GROWTH_OFFSET = 0x0C;
+    private static final int ATK_GROWTH_OFFSET = 0x0C;
     private static final int MAG_GROWTH_OFFSET = 0x0D;
     private static final int SKL_GROWTH_OFFSET = 0x0E;
     private static final int SPD_GROWTH_OFFSET = 0x0F;
@@ -432,6 +434,7 @@ public enum GameCharacter {
     private static final int SKILL3_OFFSET = 0x2B;
     private static final int CLASS_OFFSET = 0x2C;
     private static final int LEADERSHIP_STARS_OFFSET = 0x2D;
+    private static final int MAP_SPRITE_OFFSET = 0x2E;
     private Map<String, Object> oldValues = new HashMap<>();
     private static MountData mountData = null;
     
@@ -501,7 +504,7 @@ public enum GameCharacter {
 
         int relOffset = startingOffset + (offset - 1) * CHARACTER_DATA_SIZE;
         baseHp = rom.getValueAt(relOffset + BASE_HP_OFFSET);
-        baseAtk = rom.getValueAt(relOffset + BASE_STR_OFFSET);
+        baseAtk = rom.getValueAt(relOffset + BASE_ATK_OFFSET);
         baseMag = rom.getValueAt(relOffset + BASE_MAG_OFFSET);
         baseSkl = rom.getValueAt(relOffset + BASE_SKL_OFFSET);
         baseSpd = rom.getValueAt(relOffset + BASE_SPD_OFFSET);
@@ -512,7 +515,7 @@ public enum GameCharacter {
         movementStars = MovementStars.findById(rom.getValueAt(relOffset + MOV_STARS_OFFSET));
         counterCritBoost = rom.getValueAt(relOffset + COUNTER_CRIT_BOOST_OFFSET);
         hpGrowth = rom.getValueAt(relOffset + HP_GROWTH_OFFSET);
-        atkGrowth = rom.getValueAt(relOffset + STR_GROWTH_OFFSET);
+        atkGrowth = rom.getValueAt(relOffset + ATK_GROWTH_OFFSET);
         magGrowth = rom.getValueAt(relOffset + MAG_GROWTH_OFFSET);
         sklGrowth = rom.getValueAt(relOffset + SKL_GROWTH_OFFSET);
         spdGrowth = rom.getValueAt(relOffset + SPD_GROWTH_OFFSET);
@@ -537,6 +540,156 @@ public enum GameCharacter {
         skills = Skill.getSkills(skills1, skills2, skills3);
         characterClass = CharacterClass.findById(rom.getValueAt(relOffset + CLASS_OFFSET));
         leadershipStars = rom.getValueAt(relOffset + LEADERSHIP_STARS_OFFSET);
+        mapSprite = rom.getValueAt(relOffset + MAP_SPRITE_OFFSET);
+        randomBases = baseHp > 0x7F;
+    }
+    
+    public void writeCharacter(Rom rom, int startingOffset) {
+        int relOffset = startingOffset + (offset - 1) * CHARACTER_DATA_SIZE;
+        
+        if(oldValues.containsKey("baseHp")) {
+            rom.setValueAt(relOffset + BASE_HP_OFFSET, baseHp);
+        }
+        
+        if(oldValues.containsKey("baseAtk")) {
+            rom.setValueAt(relOffset + BASE_ATK_OFFSET, baseAtk);
+        }
+        
+        if(oldValues.containsKey("baseMag")) {
+            rom.setValueAt(relOffset + BASE_MAG_OFFSET, baseMag);
+        }
+        
+        if(oldValues.containsKey("baseSkl")) {
+            rom.setValueAt(relOffset + BASE_SKL_OFFSET, baseSkl);
+        }
+        
+        if(oldValues.containsKey("baseSpd")) {
+            rom.setValueAt(relOffset + BASE_SPD_OFFSET, baseSpd);
+        }
+        
+        if(oldValues.containsKey("baseDef")) {
+            rom.setValueAt(relOffset + BASE_DEF_OFFSET, baseDef);
+        }
+        
+        if(oldValues.containsKey("baseBld")) {
+            rom.setValueAt(relOffset + BASE_BLD_OFFSET, baseBld);
+        }
+        
+        if(oldValues.containsKey("baseLck")) {
+            rom.setValueAt(relOffset + BASE_LCK_OFFSET, baseLck);
+        }
+        
+        if(oldValues.containsKey("baseMov")) {
+            rom.setValueAt(relOffset + BASE_MOV_OFFSET, baseMov);
+        }
+        
+        if(oldValues.containsKey("movementStars")) {
+            rom.setValueAt(relOffset + MOV_STARS_OFFSET, movementStars.getOffset());
+        }
+        
+        if(oldValues.containsKey("counterCritBoost")) {
+            rom.setValueAt(relOffset + MOV_STARS_OFFSET, counterCritBoost);
+        }
+        
+        if(oldValues.containsKey("hpGrowth")) {
+            rom.setValueAt(relOffset + HP_GROWTH_OFFSET, hpGrowth);
+        }
+        
+        if(oldValues.containsKey("atkGrowth")) {
+            rom.setValueAt(relOffset + ATK_GROWTH_OFFSET, atkGrowth);
+        }
+        
+        if(oldValues.containsKey("magGrowth")) {
+            rom.setValueAt(relOffset + MAG_GROWTH_OFFSET, magGrowth);
+        }
+        
+        if(oldValues.containsKey("sklGrowth")) {
+            rom.setValueAt(relOffset + SKL_GROWTH_OFFSET, sklGrowth);
+        }
+        
+        if(oldValues.containsKey("spdGrowth")) {
+            rom.setValueAt(relOffset + SPD_GROWTH_OFFSET, spdGrowth);
+        }
+        
+        if(oldValues.containsKey("defGrowth")) {
+            rom.setValueAt(relOffset + DEF_GROWTH_OFFSET, defGrowth);
+        }
+        
+        if(oldValues.containsKey("bldGrowth")) {
+            rom.setValueAt(relOffset + BLD_GROWTH_OFFSET, bldGrowth);
+        }
+        
+        if(oldValues.containsKey("lckGrowth")) {
+            rom.setValueAt(relOffset + LCK_GROWTH_OFFSET, lckGrowth);
+        }
+        
+        if(oldValues.containsKey("movGrowth")) {
+            rom.setValueAt(relOffset + MOV_GROWTH_OFFSET, movGrowth);
+        }
+
+        if(oldValues.containsKey("baseSwordLv")) {
+            rom.setValueAt(relOffset + BASE_SWORD_LV_OFFSET, baseSwordLv.getAmount());
+        }
+
+        if(oldValues.containsKey("baseLanceLv")) {
+            rom.setValueAt(relOffset + BASE_LANCE_LV_OFFSET, baseLanceLv.getAmount());
+        }
+        
+        if(oldValues.containsKey("baseAxeLv")) {
+            rom.setValueAt(relOffset + BASE_AXE_LV_OFFSET, baseAxeLv.getAmount());
+        }
+        
+        if(oldValues.containsKey("baseBowLv")) {
+            rom.setValueAt(relOffset + BASE_BOW_LV_OFFSET, baseBowLv.getAmount());
+        }
+        
+        if(oldValues.containsKey("baseStaffLv")) {
+            rom.setValueAt(relOffset + BASE_STAFF_LV_OFFSET, baseStaffLv.getAmount());
+        }
+        
+        if(oldValues.containsKey("baseFireLv")) {
+            rom.setValueAt(relOffset + BASE_FIRE_LV_OFFSET, baseFireLv.getAmount());
+        }
+        
+        if(oldValues.containsKey("baseThunderLv")) {
+            rom.setValueAt(relOffset + BASE_THUNDER_LV_OFFSET, baseThunderLv.getAmount());
+        }
+        
+        if(oldValues.containsKey("baseWindLv")) {
+            rom.setValueAt(relOffset + BASE_WIND_LV_OFFSET, baseWindLv.getAmount());
+        }
+        
+        if(oldValues.containsKey("baseLightLv")) {
+            rom.setValueAt(relOffset + BASE_LIGHT_LV_OFFSET, baseLightLv.getAmount());
+        }
+        
+        if(oldValues.containsKey("baseDarkLv")) {
+            rom.setValueAt(relOffset + BASE_DARK_LV_OFFSET, baseDarkLv.getAmount());
+        }
+
+        if(oldValues.containsKey("skills1")) {
+            rom.setValueAt(relOffset + SKILL1_OFFSET, skills1);
+        }
+        
+        if(oldValues.containsKey("skills2")) {
+            rom.setValueAt(relOffset + SKILL2_OFFSET, skills2);
+        }
+        
+        if(oldValues.containsKey("skills3")) {
+            rom.setValueAt(relOffset + SKILL3_OFFSET, skills3);
+        }
+
+        if(oldValues.containsKey("characterClass")) {
+            rom.setValueAt(relOffset + CLASS_OFFSET, characterClass.getOffset());
+        }
+        
+        if(oldValues.containsKey("leadershipStars")) {
+            rom.setValueAt(relOffset + LEADERSHIP_STARS_OFFSET, leadershipStars);
+        }
+        
+        if(oldValues.containsKey("mapSprite")) {
+            rom.setValueAt(relOffset + MAP_SPRITE_OFFSET, mapSprite);
+        }
     }
     
     public int getOffset() {
@@ -545,6 +698,10 @@ public enum GameCharacter {
     
     public String getName() {
         return name;
+    }
+    
+    public boolean hasRandomBases() {
+        return randomBases;
     }
 
     public int getBaseHp() {
@@ -693,6 +850,10 @@ public enum GameCharacter {
 
     public int getLeadershipStars() {
         return leadershipStars;
+    }
+    
+    public int getMapSprite() {
+        return mapSprite;
     }
     
     public Map<String, Object> getOldValues() {
@@ -1001,9 +1162,26 @@ public enum GameCharacter {
         
         reassignWeaponLevels(characterClass, random);
         this.characterClass = characterClass;
+        
+        setMapSprite(characterClass.getMapSprite());
     }
     
     private void reassignWeaponLevels(CharacterClass newClass, Random random) {
+        if(randomBases) {
+            setBaseSwordLv(0);
+            setBaseLanceLv(0);
+            setBaseAxeLv(0);
+            setBaseBowLv(0);
+            setBaseStaffLv(0);
+            setBaseFireLv(0);
+            setBaseThunderLv(0);
+            setBaseWindLv(0);
+            setBaseLightLv(0);
+            setBaseDarkLv(0);
+            
+            return;
+        }
+        
         ArrayList<ItemType> usableWeapons = newClass.getUsableWeaponTypes();
         CharacterClass mountComplement = mountData.getComplement(newClass);
         
@@ -1077,6 +1255,15 @@ public enum GameCharacter {
         }
         
         this.leadershipStars = leadershipStars;
+    }
+    
+    public void setMapSprite(int mapSprite) {
+        if(!oldValues.containsKey("mapSprite") && this.mapSprite != mapSprite) {
+            int oldValue = this.mapSprite;
+            oldValues.put("mapSprite", oldValue);
+        }
+        
+        this.mapSprite = mapSprite;
     }
     
     public void reset() {
@@ -1223,6 +1410,10 @@ public enum GameCharacter {
                 leadershipStars = (int)oldValues.get("leadershipStars");
             }
             
+            if(oldValues.containsKey("mapSprite")) {
+                mapSprite = (int)oldValues.get("mapSprite");
+            }
+            
             oldValues.clear();
         }
     }
@@ -1287,8 +1478,8 @@ public enum GameCharacter {
         }
         
         text = String.format("[CHARACTER] Name: %s, Class: %s, Gender: %s\n", name, characterClass.getName(), gender.getName());
-        text += String.format("Bases HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",
-                baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseDef, baseBld, baseLck, baseMov);
+        text += String.format("Bases Rnd bases: %b, HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",
+                randomBases, baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseDef, baseBld, baseLck, baseMov);
         text += String.format("Mov stars: %d, Counter crit bonus: %d, Leadership stars: %d\n",
                 movementStars.getAmount(), counterCritBoost, leadershipStars);
         text += String.format("Growths HP: %d, Str: %d, Mag: %d, Skl: %d, Spd: %d, Def: %d, Bld: %d, Lck: %d, Mov: %d\n",

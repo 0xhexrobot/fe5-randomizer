@@ -10,6 +10,8 @@ public class RandomizationLogic {
     public float assignItemWeight(ArmyUnit unit, Item item) {
         float value = 0;
 
+        // repeated item formula: value = 1/(4^n);
+        
         if(unit.canUseWeapon(item)) {
             value = 1.0f;
         }

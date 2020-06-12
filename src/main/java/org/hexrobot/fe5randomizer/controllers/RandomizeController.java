@@ -16,11 +16,14 @@ public class RandomizeController {
     private VBox randomize;
     @FXML
     private CheckBox chkWriteDebugLog;
+    @FXML
+    private CheckBox chkWriteRom;
     
     @FXML
     private void initialize() {
         RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
         chkWriteDebugLog.selectedProperty().bindBidirectional(summary.writeDebugLogProperty());
+        chkWriteRom.selectedProperty().bindBidirectional(summary.writeToFileProperty());
     }
 
     @FXML

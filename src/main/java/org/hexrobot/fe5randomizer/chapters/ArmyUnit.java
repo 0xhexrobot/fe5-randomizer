@@ -11,14 +11,15 @@ import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.ItemType;
 import org.hexrobot.fe5randomizer.items.WeaponRank;
 
-public class ArmyUnit {    
+public class ArmyUnit {
+    private int offset;
     private GameCharacter character;
     private int xCoord;
     private int yCoord;
     private int armyOrigin;
     private ArrayList<Item> inventory = new ArrayList<>();
     private int level;
-    private boolean promoted;
+    private boolean autoLeveled;
     private int unknown1;
     private int unknown2;
     private int unknown3;
@@ -44,10 +45,11 @@ public class ArmyUnit {
     
     public ArmyUnit(Rom rom, int startingOffset) {
         int relOffset = startingOffset;
-        character = GameCharacter.findById(rom.getValueAt(relOffset + CHARACTER_NUMBER_OFFSET, -2));
+        offset = relOffset;
+        character = GameCharacter.findById(rom.getValueAt(relOffset + CHARACTER_NUMBER_OFFSET, 2));
         xCoord = rom.getValueAt(relOffset + X_COORD_OFFSET);
         yCoord = rom.getValueAt(relOffset + Y_COORD_OFFSET);
-        armyOrigin = rom.getValueAt(relOffset + ARMY_ORIGIN_OFFSET, -2);
+        armyOrigin = rom.getValueAt(relOffset + ARMY_ORIGIN_OFFSET, 2);
         
         int inventory1 = rom.getValueAt(relOffset + INVENTORY_SLOT_1_OFFSET);
         int inventory2 = rom.getValueAt(relOffset + INVENTORY_SLOT_2_OFFSET);
@@ -66,12 +68,30 @@ public class ArmyUnit {
         addToInventory(inventory7);
         
         level = rom.getValueAt(relOffset + LEVEL_OFFSET);
-        promoted = (level & 0x80) == 0x80;
+        autoLeveled = (level & 0x80) == 0x80;
         level &= 0x1F; 
         unknown1 = rom.getValueAt(relOffset + UNKNOWN_1_OFFSET);
         unknown2 = rom.getValueAt(relOffset + UNKNOWN_2_OFFSET);
         unknown3 = rom.getValueAt(relOffset + UNKNOWN_3_OFFSET);
         unknown4 = rom.getValueAt(relOffset + UNKNOWN_4_OFFSET);
+    }
+    
+    public void writeArmyUnit(Rom rom) {
+        if(oldValues.containsKey("inventory")) {
+            for(int i = 0; i < 7; i++) {
+                int itemOffset = 0;
+                
+                if(i < inventory.size()) {
+                    itemOffset = inventory.get(i).getOffset() + 1;
+                }
+                
+                rom.setValueAt(offset + INVENTORY_SLOT_1_OFFSET + i, itemOffset);
+            }
+        }
+    }
+    
+    public int getOffset() {
+        return offset;
     }
     
     public GameCharacter getCharacter() {
@@ -98,8 +118,8 @@ public class ArmyUnit {
         return level;
     }
     
-    public boolean isPromoted() {
-        return promoted;
+    public boolean isAutoLeveled() {
+        return autoLeveled;
     }
 
     public int getUnknown1() {
@@ -238,7 +258,7 @@ public class ArmyUnit {
                 "Character: %s(0x%04X), X: %d, Y: %d, Army: 0x%04X\n"
                 + "Inventory -> %s\n"
                 + "Level: %d%s, Unknown1: 0x%02X, Unknown2: 0x%02X, Unknown3: 0x%02X, Unknown4: 0x%02X",
-                character.getName(), character.getOffset(), xCoord, yCoord, armyOrigin, textInventory, level, promoted ? "(P)" : "", unknown1, unknown2, unknown3, unknown4);
+                character.getName(), character.getOffset(), xCoord, yCoord, armyOrigin, textInventory, level, autoLeveled ? "(Auto)" : "", unknown1, unknown2, unknown3, unknown4);
         
         return text;
     }

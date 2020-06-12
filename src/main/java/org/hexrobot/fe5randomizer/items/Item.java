@@ -422,10 +422,10 @@ public enum Item {
         maxUses = rom.getValueAt(relOffset + MAX_USES_OFFSET);
         critical = rom.getValueAt(relOffset + CRITICAL_OFFSET);
         weaponRange = WeaponRange.findById(rom.getValueAt(relOffset + RANGE_OFFSET));
-        weaponRank = WeaponRank.findById(rom.getValueAt(relOffset + WEAPON_RANK_OFFSET, -2));
-        weaponEffectiveness = WeaponEffectiveness.findById(rom.getValueAt(relOffset + WPN_EFFECTIVENESS_OFFSET, -2));
-        weaponStatBonus = WeaponStatBonus.findById(rom.getValueAt(relOffset + STAT_BONUSES_OFFSET, -2));
-        costPerUse = rom.getValueAt(relOffset + COST_PER_USE_OFFSET, -2);
+        weaponRank = WeaponRank.findById(rom.getValueAt(relOffset + WEAPON_RANK_OFFSET, 2));
+        weaponEffectiveness = WeaponEffectiveness.findById(rom.getValueAt(relOffset + WPN_EFFECTIVENESS_OFFSET, 2));
+        weaponStatBonus = WeaponStatBonus.findById(rom.getValueAt(relOffset + STAT_BONUSES_OFFSET, 2));
+        costPerUse = rom.getValueAt(relOffset + COST_PER_USE_OFFSET, 2);
         itemUseEffect = ItemUseEffect.findById(rom.getValueAt(relOffset + USE_EFFECT_OFFSET));
         weaponBladeEffect = WeaponBladeEffect.findById(rom.getValueAt(relOffset + BLADE_EFFECT_OFFSET));
         weaponSkill1 = WeaponSkill1.findById(rom.getValueAt(relOffset + WEAPON_SKILL1_OFFSET));

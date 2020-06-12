@@ -1,8 +1,10 @@
 package org.hexrobot.fe5randomizer.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,6 +110,20 @@ public class RandomizeRomService extends Service<Void> {
                 if(summary.getEnemiesAddExtraInventory()) {
                     rom.enemiesAddExtraInventory(summary.getEnemiesMaxExtraInventoryCount());
                 }
+                
+                if(summary.getWriteToFile()) {
+                    updateMessage("Writing rom...");
+                    
+                    rom.applyChanges();
+                    
+                    try {
+                        OutputStream os = new FileOutputStream("test.sfc");
+                        os.write(rom.getBytes());
+                        os.close();
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 if(summary.getWriteDebugLog()) {
                     updateMessage("Writing log...");
@@ -131,8 +147,6 @@ public class RandomizeRomService extends Service<Void> {
                         e.printStackTrace();
                     } catch(TemplateException e) {
                         e.printStackTrace();
-                    } finally {
-                        updateMessage("Log created!");
                     }
                 }
                 

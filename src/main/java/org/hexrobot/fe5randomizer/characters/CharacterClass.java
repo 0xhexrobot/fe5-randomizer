@@ -9,128 +9,129 @@ import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.items.ItemType;
 
 public enum CharacterClass {
-    SOCIAL_KNIGHT(0x01, "Social Knight"),
-    LANCE_KNIGHT(0x02, "Lance Knight"),
-    ARCH_KNIGHT(0x03, "Arch Knight"),
-    AXE_KNIGHT(0x04, "Axe Knight"),
-    FREE_KNIGHT(0x05, "Free Knight"),
-    TROUBADOUR(0x06, "Troubadour"),
-    LORD_KNIGHT(0x07, "Lord Knight"),
-    DUKE_KNIGHT(0x08, "Duke Knight"),
-    MASTER_KNIGHT(0x09, "Master Knight"),
-    PALADIN(0x0A, "Paladin"),
-    PALADIN_F(0x0B, "Paladin (F)"),
-    BOW_KNIGHT(0x0C, "Bow Knight"),
-    FORREST_KNIGHT(0x0D, "Forrest Knight"),
-    MAGE_KNIGHT(0x0E, "Mage Knight"),
-    GREAT_KNIGHT(0x0F, "Great Knight"),
-    PEGASUS_KNIGHT(0x10, "Pegasus Knight"),
-    FALCON_KNIGHT(0x11, "Falcon Knight"),
-    DRAGON_RIDER(0x12, "Dragon Rider"),
-    DRAGON_KNIGHT(0x13, "Dragon Knight"),
-    DRAGON_MASTER(0x14, "Dragon Master"),
-    BOW_FIGHTER(0x15, "Bow Fighter"),
-    SWORD_FIGHTER(0x16, "Sword Fighter"),
-    SWORDMASTER(0x17, "Swordmaster"),
-    SNIPER(0x18, "Sniper"),
-    FORREST(0x19, "Forrest"),
-    GENERAL(0x1A, "General"),
-    EMPEROR(0x1B, "Emperor"),
-    BARON(0x1C, "Baron"),
-    LANCE_ARMOR(0x1D, "Lance Armor"),
-    AXE_ARMOR(0x1E, "Axe Armor"),
-    BOW_ARMOUR(0x1F, "Bow Armor"),
-    SWORD_ARMOR(0x20, "Sword Armor"),
-    BERSERKER(0x21, "Berserker"),
-    MOUNTAIN_THIEF(0x22, "Mountain Thief"),
-    MOUNTAIN_THIEF2(0x23, "Mountain Thief (2)"),
-    WARRIOR(0x24, "Warrior"),
-    HUNTER(0x25, "Hunter"),
-    PIRATE(0x26, "Pirate"),
-    JUNIOR_LORD(0x27, "Junior Lord"),
-    MAGE_KNIGHT2(0x28, "Mage Knight"),
-    LORD(0x29, "Lord"),
-    PRINCE(0x2A, "Prince"),
-    MAGE_KNIGHT_F(0x2B, "Mage Knight (F)"),
-    BARON2(0x2C, "Baron (messed up battle sprite)"),
-    DANCER(0x2D, "Dancer"),
-    PRIEST(0x2E, "Priest"),
-    MAGE(0x2F, "Mage"),
-    LOPTO_MAGE(0x30, "Lopto Mage"),
-    THUNDER_MAGE(0x31, "(Thunder) Mage"),
-    WIND_MAGE(0x32, "(Wind) Mage"),
-    HIGH_PRIEST(0x33, "High Priest"),
-    BISHOP(0x34, "Bishop"),
-    SAGE(0x35, "Sage"),
-    BARD(0x36, "Bard"),
-    SISTER(0x37, "Sister"),
-    DARK_MAGE(0x38, "Dark Mage"),
-    DARK_BISHOP(0x39, "Dark Bishop"),
-    THIEF(0x3A, "Thief"),
-    THIEF_FIGHTER(0x3B, "Thief Fighter"),
-    CIVILIAN(0x3C, "Civilian"),
-    LONG_ARCH(0x3D, "Long Arch"),
-    IRON_ARCH(0x3E, "Iron Arch"),
-    KILLER_ARCH(0x3F, "Killer Arch"),
-    DARK_PRINCE(0x40, "Dark Prince"),
-    AXE_FIGHTER(0x41, "Axe Fighter"),
-    SOCIALKNIGHT_DISMOUNTED(0x42, "Socialknight (dismounted)"),
-    LANCE_KNIGHT_DISMOUNTED(0x43, "Lance Knight (dismounted)"),
-    ARCH_KNIGHT_DISMOUNTED(0x44, "Arch Knight (dismounted)"),
-    AXE_KNIGHT_DISMOUNTED(0x45, "Axe Knight (dismounted)"),
-    FREE_KNIGHT_DISMOUNTED(0x46, "Free Knight (dismounted)"),
-    TROUBADOUR_DISMOUNTED(0x47, "Troubadour (dismounted)"),
-    LORD_KNIGHT_DISMOUNTED(0x48, "Lord Knight (dismounted)"),
-    DUKE_KNIGHT_DISMOUNTED(0x49, "Duke Knight (dismounted)"),
-    MASTER_KNIGHT_DISMOUNTED(0x4A, "Master Knight (dismounted)"),
-    PALADIN_DISMOUNTED(0x4B, "Paladin (dismounted)"),
-    PALADIN_F_DISMOUNTED(0x4C, "Paladin (F) (dismounted)"),
-    BOW_KNIGHT_DISMOUNTED(0x4D, "Bow Knight (dismounted)"),
-    FORREST_KNIGHT_DISMOUNTED(0x4E, "Forrest Knight (dismounted)"),
-    GREAT_KNIGHT_DISMOUNTED(0x4F, "Great Knight (dismounted)"),
-    PEGASUS_KNIGHT_DISMOUNTED(0x50, "Pegasus Knight (dismounted)"),
-    FALCON_KNIGHT_DISMOUNTED(0x51, "Falcon Knight (dismounted)"),
-    DRAGON_RIDER_DISMOUNTED(0x52, "Dragon Rider (dismounted)"),
-    DRAGON_KNIGHT_DISMOUNTED(0x53, "Dragon Knight (dismounted)"),
-    DRAGON_MASTER_DISMOUNTED(0x54, "Dragon Master (dismounted)"),
-    ARCH_KNIGHT_F(0x55, "Arch Knight (F)"),
-    ARCH_KNIGHT_F_DISMOUNTED(0x56, "Arch Knight (F) (dismounted)"),
-    BOW_KNIGHT_F(0x57, "Bow Knight (F)"),
-    BOW_KNIGHT_F_DISMOUNTED(0x58, "Bow Knight (F) (dismounted)"),
-    MASTER_KNIGHT_F(0x59, "Master Knight (F)"),
-    MASTER_KNIGHT_F_DISMOUNTED(0x5A, "Master Knight (F) (dismounted)"),
-    DRAGON_RIDER_F(0x5B, "Dragon Rider (F)"),
-    DRAGON_RIDER_F_DISMOUNTED(0x5C, "Dragon Rider (F) (dismounted)"),
-    DRAGON_KNIGHT_F(0x5D, "Dragon Knight (F)"),
-    DRAGON_KNIGHT_F_DISMOUNTED(0x5E, "Dragon Knight (F) (dismounted)"),
-    DRAGON_MASTER_F(0x5F, "Dragon Master (F)"),
-    DRAGON_MASTER_F_DISMOUNTED(0x60, "Dragon Master (F) (dismounted)"),
-    POISON_ARCH(0x61, "Poison Arch"),
-    MAGE_F(0x62, "Mage (F)"),
-    THUNDER_MAGE_F(0x63, "(Thunder) Mage (F)"),
-    LOPTO_MAGE_F(0x64, "Lopto Mage (F)"),
-    WIND_MAGE_F(0x65, "(Wind) Mage (F)"),
-    MAGE_KNIGHT_F2(0x66, "Mage Knight (F)"),
-    MAGE_KNIGHT_F_DISMOUNTED(0x67, "Mage Knight (F) (dismounted)"),
-    PRIEST_F(0x68, "Priest (F)"),
-    HIGH_PRIEST_F(0x69, "High Priest (F)"),
-    SWORD_FIGHTER_F(0x6A, "Sword Fighter (F)"),
-    FORREST_F(0x6B, "Forrest (F)"),
-    SWORD_MASTER_F(0x6C, "Sword Master (F)"),
-    BOW_FIGHTER_F(0x6D, "Bow Fighter (F)"),
-    SNIPER_F(0x6E, "Sniper (F)"),
-    THIEF_F(0x6F, "Thief (F)"),
-    THIEF_FIGHTER_F(0x70, "Thief Fighter (F)"),
-    MERCENARY(0x71, "Mercenary"),
-    THIEF_FIGHTER_SPRITE(0x72, "Thief (Thief Fighter battle sprite)"),
-    PEGASUS_RIDER(0x73, "Pegasus Rider"),
-    PEGASUS_RIDER_DISMOUNTED(0x74, "Pegasus Rider (dismounted)"),
-    SOLDIER(0x75, "Soldier"),
-    ARCHER(0x76, "Archer"),
-    MERCENARY_F(0x77, "Mercenary (F)");
+    SOCIAL_KNIGHT(0x01, "Social Knight", 0x81),
+    LANCE_KNIGHT(0x02, "Lance Knight", 0x87),
+    ARCH_KNIGHT(0x03, "Arch Knight", 0x86),
+    AXE_KNIGHT(0x04, "Axe Knight", 0x84),
+    FREE_KNIGHT(0x05, "Free Knight", 0x85),
+    TROUBADOUR(0x06, "Troubadour", 0x89),
+    LORD_KNIGHT(0x07, "Lord Knight", 0x88),
+    DUKE_KNIGHT(0x08, "Duke Knight", 0x83),
+    MASTER_KNIGHT(0x09, "Master Knight", 0x93),
+    PALADIN(0x0A, "Paladin", 0x8B),
+    PALADIN_F(0x0B, "Paladin (F)", 0x9C),
+    BOW_KNIGHT(0x0C, "Bow Knight", 0x8D),
+    FORREST_KNIGHT(0x0D, "Forrest Knight", 0x94),
+    MAGE_KNIGHT(0x0E, "Mage Knight", 0x8F),
+    GREAT_KNIGHT(0x0F, "Great Knight", 0x8E),
+    PEGASUS_KNIGHT(0x10, "Pegasus Knight", 0x91),
+    FALCON_KNIGHT(0x11, "Falcon Knight", 0x92),
+    DRAGON_RIDER(0x12, "Dragon Rider", 0x80),
+    DRAGON_KNIGHT(0x13, "Dragon Knight", 0x90),
+    DRAGON_MASTER(0x14, "Dragon Master", 0x8C),
+    BOW_FIGHTER(0x15, "Bow Fighter", 0x07),
+    SWORD_FIGHTER(0x16, "Sword Fighter", 0x04),
+    SWORDMASTER(0x17, "Swordmaster", 0x17),
+    SNIPER(0x18, "Sniper", 0x21),
+    FORREST(0x19, "Forrest", 0x46),
+    GENERAL(0x1A, "General", 0x10),
+    EMPEROR(0x1B, "Emperor", 0x22),
+    BARON(0x1C, "Baron", 0x1D),
+    LANCE_ARMOR(0x1D, "Lance Armor", 0x05),
+    AXE_ARMOR(0x1E, "Axe Armor", 0x0A),
+    BOW_ARMOR(0x1F, "Bow Armor", 0x27),
+    SWORD_ARMOR(0x20, "Sword Armor", 0x26),
+    BERSERKER(0x21, "Berserker", 0x06),
+    MOUNTAIN_THIEF(0x22, "Mountain Thief", 0x12),
+    MOUNTAIN_THIEF2(0x23, "Mountain Thief (2)", 0x12),
+    WARRIOR(0x24, "Warrior", 0x19),
+    HUNTER(0x25, "Hunter", 0x16),
+    PIRATE(0x26, "Pirate", 0x1B),
+    JUNIOR_LORD(0x27, "Junior Lord", 0x03),
+    MAGE_KNIGHT2(0x28, "Mage Knight", 0x31),
+    LORD(0x29, "Lord", 0x30),
+    PRINCE(0x2A, "Prince", 0x30),
+    MAGE_KNIGHT_F(0x2B, "Mage Knight (F)", 0x9D),
+    BARON2(0x2C, "Baron (messed up battle sprite)", 0x1D),
+    DANCER(0x2D, "Dancer", 0x0C),
+    PRIEST(0x2E, "Priest", 0x15),
+    MAGE(0x2F, "Mage", 0x01),
+    LOPTO_MAGE(0x30, "Lopto Mage", 0x29),
+    THUNDER_MAGE(0x31, "(Thunder) Mage", 0x2B),
+    WIND_MAGE(0x32, "(Wind) Mage", 0x13),
+    HIGH_PRIEST(0x33, "High Priest", 0x2C),
+    BISHOP(0x34, "Bishop", 0x35),
+    SAGE(0x35, "Sage", 0x3C),
+    BARD(0x36, "Bard", 0x39),
+    SISTER(0x37, "Sister", 0x11),
+    DARK_MAGE(0x38, "Dark Mage", 0x2F),
+    DARK_BISHOP(0x39, "Dark Bishop", 0x2E),
+    THIEF(0x3A, "Thief", 0x0F),
+    THIEF_FIGHTER(0x3B, "Thief Fighter", 0x3B),
+    CIVILIAN(0x3C, "Civilian", -1),
+    LONG_ARCH(0x3D, "Long Arch", 0x95),
+    IRON_ARCH(0x3E, "Iron Arch", 0x96),
+    KILLER_ARCH(0x3F, "Killer Arch", 0x97),
+    DARK_PRINCE(0x40, "Dark Prince", 0x3E),
+    AXE_FIGHTER(0x41, "Axe Fighter", 0x45),
+    SOCIALKNIGHT_DISMOUNTED(0x42, "Socialknight (dismounted)", 0x3F),
+    LANCE_KNIGHT_DISMOUNTED(0x43, "Lance Knight (dismounted)", 0x3F),
+    ARCH_KNIGHT_DISMOUNTED(0x44, "Arch Knight (dismounted)", 0x43),
+    AXE_KNIGHT_DISMOUNTED(0x45, "Axe Knight (dismounted)", 0x3F),
+    FREE_KNIGHT_DISMOUNTED(0x46, "Free Knight (dismounted)", 0x49),
+    TROUBADOUR_DISMOUNTED(0x47, "Troubadour (dismounted)", 0x40),
+    LORD_KNIGHT_DISMOUNTED(0x48, "Lord Knight (dismounted)", 0x41), //?
+    DUKE_KNIGHT_DISMOUNTED(0x49, "Duke Knight (dismounted)", 0x41), //?
+    MASTER_KNIGHT_DISMOUNTED(0x4A, "Master Knight (dismounted)", 0x41), //?
+    PALADIN_DISMOUNTED(0x4B, "Paladin (dismounted)", 0x41),
+    PALADIN_F_DISMOUNTED(0x4C, "Paladin (F) (dismounted)", 0x42),
+    BOW_KNIGHT_DISMOUNTED(0x4D, "Bow Knight (dismounted)", 0x44),
+    FORREST_KNIGHT_DISMOUNTED(0x4E, "Forrest Knight (dismounted)", 0x4A),
+    GREAT_KNIGHT_DISMOUNTED(0x4F, "Great Knight (dismounted)", 0x49), //?
+    PEGASUS_KNIGHT_DISMOUNTED(0x50, "Pegasus Knight (dismounted)", 0x40), //?
+    FALCON_KNIGHT_DISMOUNTED(0x51, "Falcon Knight (dismounted)", 0x40), //?
+    DRAGON_RIDER_DISMOUNTED(0x52, "Dragon Rider (dismounted)", 0x49), //?
+    DRAGON_KNIGHT_DISMOUNTED(0x53, "Dragon Knight (dismounted)", 0x4A), //?
+    DRAGON_MASTER_DISMOUNTED(0x54, "Dragon Master (dismounted)", 0x49), //?
+    ARCH_KNIGHT_F(0x55, "Arch Knight (F)", 0x9F),
+    ARCH_KNIGHT_F_DISMOUNTED(0x56, "Arch Knight (F) (dismounted)", 0x47),
+    BOW_KNIGHT_F(0x57, "Bow Knight (F)", 0xA0),
+    BOW_KNIGHT_F_DISMOUNTED(0x58, "Bow Knight (F) (dismounted)", 0x48),
+    MASTER_KNIGHT_F(0x59, "Master Knight (F)", 0x9E),
+    MASTER_KNIGHT_F_DISMOUNTED(0x5A, "Master Knight (F) (dismounted)", 0x42), //?
+    DRAGON_RIDER_F(0x5B, "Dragon Rider (F)", 0x99),
+    DRAGON_RIDER_F_DISMOUNTED(0x5C, "Dragon Rider (F) (dismounted)", 0x40), //?
+    DRAGON_KNIGHT_F(0x5D, "Dragon Knight (F)", 0x9A),
+    DRAGON_KNIGHT_F_DISMOUNTED(0x5E, "Dragon Knight (F) (dismounted)", 0x40), //?
+    DRAGON_MASTER_F(0x5F, "Dragon Master (F)", 0x9B),
+    DRAGON_MASTER_F_DISMOUNTED(0x60, "Dragon Master (F) (dismounted)", 0x42), //?
+    POISON_ARCH(0x61, "Poison Arch", 0xA1),
+    MAGE_F(0x62, "Mage (F)", 0),
+    THUNDER_MAGE_F(0x63, "(Thunder) Mage (F)", 0x2A),
+    LOPTO_MAGE_F(0x64, "Lopto Mage (F)", 0x28),
+    WIND_MAGE_F(0x65, "(Wind) Mage (F)", 0x14),
+    MAGE_KNIGHT_F2(0x66, "Mage Knight (F)", 0x9D),
+    MAGE_KNIGHT_F_DISMOUNTED(0x67, "Mage Knight (F) (dismounted)", 0x3D),
+    PRIEST_F(0x68, "Priest (F)", 0x02),
+    HIGH_PRIEST_F(0x69, "High Priest (F)", 0x1E),
+    SWORD_FIGHTER_F(0x6A, "Sword Fighter (F)", 0x0D),
+    FORREST_F(0x6B, "Forrest (F)", 0x94), //?
+    SWORD_MASTER_F(0x6C, "Sword Master (F)", 0x1F),
+    BOW_FIGHTER_F(0x6D, "Bow Fighter (F)", 0x09),
+    SNIPER_F(0x6E, "Sniper (F)", 0x20),
+    THIEF_F(0x6F, "Thief (F)", 0x3A),
+    THIEF_FIGHTER_F(0x70, "Thief Fighter (F)", 0x38),
+    MERCENARY(0x71, "Mercenary", 0x18),
+    THIEF_FIGHTER_SPRITE(0x72, "Thief (Thief Fighter battle sprite)", 0x3B),
+    PEGASUS_RIDER(0x73, "Pegasus Rider", 0x82),
+    PEGASUS_RIDER_DISMOUNTED(0x74, "Pegasus Rider (dismounted)", 0x40),
+    SOLDIER(0x75, "Soldier", 0x08),
+    ARCHER(0x76, "Archer", 0x0B),
+    MERCENARY_F(0x77, "Mercenary (F)", 0x1C);
     
     private int offset;
     private String name;
+    private int mapSprite;
     private int baseHp = -1;
     private int baseAtk = -1;
     private int baseMag = -1;
@@ -162,8 +163,8 @@ public enum CharacterClass {
             PALADIN_F_DISMOUNTED, HIGH_PRIEST, HIGH_PRIEST_F, BISHOP, DARK_BISHOP, LOPTO_MAGE, LOPTO_MAGE_F,
             DARK_MAGE));
     private static final ArrayList<CharacterClass> UNPROMOTED = new ArrayList<>(List.of(
-            SOCIAL_KNIGHT, LANCE_KNIGHT, ARCH_KNIGHT, AXE_KNIGHT, FREE_KNIGHT, TROUBADOUR, BOW_KNIGHT, PEGASUS_KNIGHT,
-            DRAGON_RIDER, DRAGON_KNIGHT, BOW_FIGHTER, SWORD_FIGHTER, FORREST, LANCE_ARMOR, AXE_ARMOR, BOW_ARMOUR,
+            SOCIAL_KNIGHT, LANCE_KNIGHT, ARCH_KNIGHT, AXE_KNIGHT, FREE_KNIGHT, TROUBADOUR, PEGASUS_KNIGHT,
+            DRAGON_RIDER, DRAGON_KNIGHT, BOW_FIGHTER, SWORD_FIGHTER, FORREST, LANCE_ARMOR, AXE_ARMOR, BOW_ARMOR,
             SWORD_ARMOR, MOUNTAIN_THIEF, MOUNTAIN_THIEF2, HUNTER, PIRATE, MAGE_KNIGHT2, LORD, DANCER, PRIEST, MAGE,
             LOPTO_MAGE, THUNDER_MAGE, WIND_MAGE, BARD, SISTER, THIEF, AXE_FIGHTER, SOCIALKNIGHT_DISMOUNTED,
             LANCE_KNIGHT_DISMOUNTED, ARCH_KNIGHT_DISMOUNTED, AXE_KNIGHT_DISMOUNTED, FREE_KNIGHT_DISMOUNTED,
@@ -173,7 +174,7 @@ public enum CharacterClass {
             THUNDER_MAGE_F, LOPTO_MAGE_F, WIND_MAGE_F, PRIEST_F, SWORD_FIGHTER_F, BOW_FIGHTER_F, THIEF_F, MERCENARY,
             PEGASUS_RIDER, PEGASUS_RIDER_DISMOUNTED, SOLDIER, ARCHER, MERCENARY_F));
     private static final ArrayList<CharacterClass> PROMOTED = new ArrayList<>(List.of(
-            PALADIN, PALADIN_F, FORREST_KNIGHT, MAGE_KNIGHT, GREAT_KNIGHT, FALCON_KNIGHT, DRAGON_MASTER, SWORDMASTER,
+            PALADIN, PALADIN_F, FORREST_KNIGHT, BOW_KNIGHT, MAGE_KNIGHT, GREAT_KNIGHT, FALCON_KNIGHT, DRAGON_MASTER, SWORDMASTER,
             SNIPER, FORREST, GENERAL, EMPEROR, BARON, BERSERKER, WARRIOR, MAGE_KNIGHT2, PRINCE, MAGE_KNIGHT_F,
             BARON2, HIGH_PRIEST, BISHOP, SAGE, DARK_MAGE, DARK_BISHOP, THIEF_FIGHTER, DUKE_KNIGHT,
             DUKE_KNIGHT_DISMOUNTED, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED, FORREST_KNIGHT_DISMOUNTED,
@@ -216,9 +217,10 @@ public enum CharacterClass {
     private static final int SKILLS_2_OFFSET = 0x14;
     private static final int SKILLS_3_OFFSET = 0x15;
     
-    private CharacterClass(int offset, String name) {
+    private CharacterClass(int offset, String name, int mapSprite) {
         this.offset = offset;
         this.name = name;
+        this.mapSprite = mapSprite;
     }
     
     public void readCharacterClass(Rom rom, int startingOffset) {
@@ -246,7 +248,7 @@ public enum CharacterClass {
         skills3 = rom.getValueAt(relOffset + SKILLS_3_OFFSET);
         skills = Skill.getSkills(skills1, skills2, skills3);
     }
-    
+        
     public int getOffset() {
         return offset;
     }
@@ -341,6 +343,10 @@ public enum CharacterClass {
 
     public ArrayList<Skill> getSkills() {
         return skills;
+    }
+    
+    public int getMapSprite() {
+        return mapSprite;
     }
     
     public Map<String, Object> getOldValues() {

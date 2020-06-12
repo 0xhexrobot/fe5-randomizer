@@ -48,6 +48,7 @@ public class RandomizationSummary {
     
     // other
     private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
+    private final SimpleBooleanProperty writeToFile = new SimpleBooleanProperty(false);
     
     public SimpleBooleanProperty randomizeBasesProperty() {
         return randomizeBases;
@@ -177,6 +178,10 @@ public class RandomizationSummary {
         return writeDebugLog;
     }
 
+    public SimpleBooleanProperty writeToFileProperty() {
+        return writeToFile;
+    }
+
     public boolean getRandomizeBases() {
         return randomizeBases.getValue();
     }
@@ -303,6 +308,10 @@ public class RandomizationSummary {
     
     public boolean getWriteDebugLog() {
         return writeDebugLog.getValue();
+    }
+    
+    public boolean getWriteToFile() {
+        return writeToFile.getValue();
     }
     
     @Override

@@ -25,11 +25,14 @@ proguard/
 *.iws
 .idea/
 
-#Gradle
+# Gradle
 .gradletasknamecache
 .gradle/
 build/
 bin/
 
+# Test output files
 *.md
-*..html
+*.html
+*.sfc
+*.srm

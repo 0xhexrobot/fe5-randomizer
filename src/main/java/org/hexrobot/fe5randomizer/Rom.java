@@ -24,6 +24,7 @@ public class Rom {
     private static final int CHARACTER_CLASSES_OFFSET = 0x30200;
     private static final int MOUNT_TABLE_OFFSET = 0x40200;
     private byte[] bytes;
+    private byte[] bytesBackup = new byte[0];
     private String name = "Fire Emblem 5 (Unknown)";
     private boolean headered;
     private boolean validFileSize;
@@ -74,7 +75,7 @@ public class Rom {
     }
 
     public int getValueAt(int offset, int length) {
-        if(Math.abs(length) != 2) {
+        if(length != 2) {
             throw new IllegalArgumentException("Only retrieving 2 bytes are supported.");
         }
 
@@ -85,12 +86,35 @@ public class Rom {
         int value = 0;
 
         if(length == 2) {
-            value = (bytes[offset] & 0xFF) << 8 | (bytes[offset + 1] & 0xFF);
-        } else if(length == -2) {
             value = (bytes[offset + 1] & 0xFF) << 8 | (bytes[offset] & 0xFF);
         }
 
         return value;
+    }
+    
+    public void setValueAt(int offset, int value) {
+        if(value > 0xFF) {
+            throw new IllegalArgumentException("Value exceeds 1 byte");
+        }
+        
+        if(!headered) {
+            offset -= HEADER_SIZE;
+        }
+
+        bytes[offset] = (byte)(value & 0xFF);
+    }
+    
+    public void set2ByteValueAt(int offset, int value) {
+        if(value > 0xFFFF) {
+            throw new IllegalArgumentException("Value exceeds 2 bytes");
+        }
+
+        if(!headered) {
+            offset -= HEADER_SIZE;
+        }
+
+        bytes[offset] = (byte) (value & 0xFF);
+        bytes[offset + 1] = (byte) ((value >> 8) & 0xFF);
     }
 
     public boolean isHeadered() {
@@ -491,7 +515,6 @@ public class Rom {
     }
     
     public void enemiesAddExtraInventory(int maxExtraItems) {
-        // TODO add extra inventory
         ArrayList<ArmyUnit> enemies = new ArrayList<>(armyUnits);
         enemies.removeIf(unit -> !unit.getCharacter().isEnemyUnit());
         
@@ -656,6 +679,11 @@ public class Rom {
     }
     
     public void reset() {
+        if(bytesBackup.length > 0) {
+            bytes = bytesBackup;
+            bytesBackup = new byte[0];
+        }
+        
         for(GameCharacter character : GameCharacter.values()) {
             character.reset();
         }
@@ -667,6 +695,22 @@ public class Rom {
     
     public MountData getMountData() {
         return mountData;
+    }
+    
+    public void applyChanges() {
+        bytesBackup = bytes.clone();
+        
+        for(GameCharacter character : GameCharacter.values()) {
+            character.writeCharacter(this, CHARACTERS_OFFSET);
+        }
+
+        for(ArmyUnit unit : armyUnits) {
+            unit.writeArmyUnit(this);
+        }
+    }
+    
+    public byte[] getBytes() {
+        return bytes;
     }
 
     @Override

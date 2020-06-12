@@ -21,6 +21,10 @@ public enum MovementStars {
         amount = offset / 5;
     }
     
+    public int getOffset() {
+        return offset;
+    }
+    
     public int getAmount() {
         return amount;
     }

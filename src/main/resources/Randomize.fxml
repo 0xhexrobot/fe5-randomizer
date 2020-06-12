@@ -12,7 +12,12 @@
    <children>
       <Label text="Randomization summary" VBox.vgrow="NEVER" />
       <Pane VBox.vgrow="ALWAYS" />
-      <CheckBox fx:id="chkWriteDebugLog" mnemonicParsing="false" text="Write log" />
+      <HBox spacing="10.0">
+         <children>
+            <CheckBox fx:id="chkWriteDebugLog" mnemonicParsing="false" text="Write log" />
+            <CheckBox fx:id="chkWriteRom" mnemonicParsing="false" text="Write rom" />
+         </children>
+      </HBox>
       <HBox VBox.vgrow="NEVER">
          <children>
             <Pane HBox.hgrow="ALWAYS" />
