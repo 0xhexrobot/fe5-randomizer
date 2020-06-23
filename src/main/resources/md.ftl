@@ -28,6 +28,8 @@ Randomize enemy leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Y
 
 Randomize Boss skills: <#if summary.randomizeBossSkills>**Yes**, Max skill count: ${summary.maxBossSkillCount}<#else> No</#if>, Randomize Enemy skills: <#if summary.randomizeEnemySkills>**Yes**, Max skill count: ${summary.maxEnemySkillCount}<#else>No</#if>
 
+Randomize items: <#if summary.randomizeItems><#if summary.randomizeItemsMight>Might: ±${summary.itemsMightDelta}, </#if><#if summary.randomizeItemsAccuracy>Accuracy ±${summary.itemsAccuracyDelta}, </#if><#if summary.randomizeItemsWeight>Weight ±${summary.itemsWeightDelta}, </#if><#if summary.randomizeItemsCritical>Critical ±${summary.itemsCriticalDelta}, </#if><#else>No</#if>
+
 <#if units??>
 ## Units
 
@@ -116,10 +118,10 @@ Staff | ${class.baseStaffLv.amount} | ${class.baseStaffLv.name} | Dark | ${class
 <#if items??>
 ## Items
 
-Name | Mt | Acc | Wt | Crt | Rng | Rank | Uses |
----- | -- | --- | -- | --- | --- | ---- | ---- |
+Name | Mt | Acc | Wt | Crt | Rng | Rank | Uses | Skills1 | Skills2 | Skills |
+---- | -- | --- | -- | --- | --- | ---- | ---- | ------- | ------- | ------ |
 <#list items as item>
-${item.getName()} | ${item.power} | ${item.accuracy} | ${item.weight} | ${item.critical} | ${item.weaponRange.getName()} | ${item.weaponRank.getName()} | ${item.maxUses} | 
+${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} → **${item.power}**<#else>${item.power}</#if> | <#if item.oldValues["accuracy"]??>${item.oldValues["accuracy"]} → **${item.accuracy}**<#else>${item.accuracy}</#if> | <#if item.oldValues["weight"]??>${item.oldValues["weight"]} → **${item.weight}**<#else>${item.weight}</#if> | <#if item.oldValues["critical"]??>${item.oldValues["critical"]} → **${item.critical}**<#else>${item.critical}</#if> | <#if item.oldValues["weaponRange"]??>${item.olValues["weaponRange"].getName()} → **${item.weaponRange.getName()}**<#else>${item.weaponRange.getName()}</#if> | <#if item.oldValues["weaponRank"]??>${item.oldValues["weaponRank"].getName()} → **${item.weaponRank.getName()}**<#else>${item.weaponRank.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} → **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["skills1"]??>*${item.oldValues["skills"]?string.@hex_2}* → _**${item.skills1?string.@hex_2}**_<#else>*${item.skills1?string.@hex_2}*</#if> | <#if item.oldValues["skills2"]??>*${item.oldValues["skills2"]?string.@hex_2}* → _**${item.skills2?string.@hex_2}**_<#else>*${item.skills2?string.@hex_2}*</#if> | <#if item.oldValues["skills"]??>**<#list item.skills as skill>${skill.getName()}<#sep>, </#list>**<#else><#list item.skills as skill>${skill.getName()}<#sep>, </#list></#if> | 
 </#list>
 </#if>
 

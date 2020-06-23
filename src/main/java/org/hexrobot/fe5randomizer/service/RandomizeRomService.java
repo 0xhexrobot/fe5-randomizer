@@ -15,6 +15,7 @@ import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
+import org.hexrobot.fe5randomizer.items.Item;
 
 import freemarker.core.TemplateNumberFormatFactory;
 import freemarker.template.Configuration;
@@ -111,6 +112,14 @@ public class RandomizeRomService extends Service<Void> {
                     rom.enemiesAddExtraInventory(summary.getEnemiesMaxExtraInventoryCount());
                 }
                 
+                if(summary.getRandomizeItems()) {
+                    rom.randomizeItems(
+                            summary.getRandomizeItemsMight(), summary.getItemsMightDelta(),
+                            summary.getRandomizeItemsAccuracy(), summary.getItemsAccuracyDelta(),
+                            summary.getRandomizeItemsWeight(), summary.getItemsWeightDelta(),
+                            summary.getRandomizeItemsCritical(), summary.getItemsCriticalDelta());
+                }
+                
                 if(summary.getWriteToFile()) {
                     updateMessage("Writing rom...");
                     
@@ -131,11 +140,11 @@ public class RandomizeRomService extends Service<Void> {
                     input.put("romHeadered", rom.isHeadered());
                     input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
                     input.put("summary", summary);
-                    input.put("units", GameCharacter.values());
-                    input.put("classes", CharacterClass.values());
-                    //input.put("items", Item.values());
-                    input.put("armyData", rom.getArmyUnits());
-                    input.put("chapterData", Chapter.values());
+                    //input.put("units", GameCharacter.values());
+                    //input.put("classes", CharacterClass.values());
+                    input.put("items", Item.values());
+                    //input.put("armyData", rom.getArmyUnits());
+                    //input.put("chapterData", Chapter.values());
 
                     try {
                         Writer fileWriter = new FileWriter(new File("output.md"));

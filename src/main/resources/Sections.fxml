@@ -34,94 +34,10 @@
 		<HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
 			<children>
 				<Label text="Seed" />
-				<ComboBox fx:id="cbSeed1" prefHeight="34.0" prefWidth="65.0">
-					<items>
-						<FXCollections fx:factory="observableArrayList">
-							<Integer fx:value="0" />
-							<Integer fx:value="1" />
-							<Integer fx:value="2" />
-							<Integer fx:value="3" />
-							<Integer fx:value="4" />
-							<Integer fx:value="5" />
-							<Integer fx:value="6" />
-							<Integer fx:value="7" />
-							<Integer fx:value="8" />
-							<Integer fx:value="9" />
-							<Integer fx:value="10" />
-							<Integer fx:value="11" />
-							<Integer fx:value="12" />
-							<Integer fx:value="13" />
-							<Integer fx:value="14" />
-							<Integer fx:value="15" />
-						</FXCollections>
-					</items>
-				</ComboBox>
-				<ComboBox fx:id="cbSeed2" prefHeight="34.0" prefWidth="65.0">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <Integer fx:value="0" />
-                            <Integer fx:value="1" />
-                            <Integer fx:value="2" />
-                            <Integer fx:value="3" />
-                            <Integer fx:value="4" />
-                            <Integer fx:value="5" />
-                            <Integer fx:value="6" />
-                            <Integer fx:value="7" />
-                            <Integer fx:value="8" />
-                            <Integer fx:value="9" />
-                            <Integer fx:value="10" />
-                            <Integer fx:value="11" />
-                            <Integer fx:value="12" />
-                            <Integer fx:value="13" />
-                            <Integer fx:value="14" />
-                            <Integer fx:value="15" />
-                        </FXCollections>
-                    </items>
-                </ComboBox>
-				<ComboBox fx:id="cbSeed3" prefHeight="34.0" prefWidth="65.0">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <Integer fx:value="0" />
-                            <Integer fx:value="1" />
-                            <Integer fx:value="2" />
-                            <Integer fx:value="3" />
-                            <Integer fx:value="4" />
-                            <Integer fx:value="5" />
-                            <Integer fx:value="6" />
-                            <Integer fx:value="7" />
-                            <Integer fx:value="8" />
-                            <Integer fx:value="9" />
-                            <Integer fx:value="10" />
-                            <Integer fx:value="11" />
-                            <Integer fx:value="12" />
-                            <Integer fx:value="13" />
-                            <Integer fx:value="14" />
-                            <Integer fx:value="15" />
-                        </FXCollections>
-                    </items>
-                </ComboBox>
-				<ComboBox fx:id="cbSeed4" prefHeight="34.0" prefWidth="65.0">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <Integer fx:value="0" />
-                            <Integer fx:value="1" />
-                            <Integer fx:value="2" />
-                            <Integer fx:value="3" />
-                            <Integer fx:value="4" />
-                            <Integer fx:value="5" />
-                            <Integer fx:value="6" />
-                            <Integer fx:value="7" />
-                            <Integer fx:value="8" />
-                            <Integer fx:value="9" />
-                            <Integer fx:value="10" />
-                            <Integer fx:value="11" />
-                            <Integer fx:value="12" />
-                            <Integer fx:value="13" />
-                            <Integer fx:value="14" />
-                            <Integer fx:value="15" />
-                        </FXCollections>
-                    </items>
-                </ComboBox>
+				<ComboBox fx:id="cbSeed1" prefHeight="34.0" prefWidth="65.0" />
+				<ComboBox fx:id="cbSeed2" prefHeight="34.0" prefWidth="65.0" />
+				<ComboBox fx:id="cbSeed3" prefHeight="34.0" prefWidth="65.0" />
+				<ComboBox fx:id="cbSeed4" prefHeight="34.0" prefWidth="65.0" />
 				<Button mnemonicParsing="false" onAction="#generateRandomSeed" text="Random seed">
 					<HBox.margin>
 						<Insets left="20.0" />
@@ -145,7 +61,10 @@
                </content>
             </Tab>
 				<Tab closable="false" disable="true" text="Classes" />
-				<Tab closable="false" disable="true" text="Items" />
+				<Tab closable="false" text="Items">
+               <content>
+                  <fx:include fx:id="items" source="Items.fxml" />
+               </content></Tab>
 				<Tab closable="false" text="Randomize">
                <content>
                   <fx:include fx:id="randomize" source="Randomize.fxml" />

@@ -83,4 +83,8 @@ public class MainController {
     public void setRom(Rom rom) {
         this.rom = rom;
     }
+    
+    public long getSeed() {
+        return sectionsController.getSeed();
+    }
 }

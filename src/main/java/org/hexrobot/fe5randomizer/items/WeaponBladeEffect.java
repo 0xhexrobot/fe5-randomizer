@@ -18,6 +18,10 @@ public enum WeaponBladeEffect {
 		this.name = name;
 	}
 	
+	public int getOffset() {
+	    return offset;
+	}
+	
 	public String getName() {
 		return name;
 	}

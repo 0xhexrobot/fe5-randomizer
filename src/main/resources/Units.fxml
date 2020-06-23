@@ -27,13 +27,13 @@
             <HBox fx:id="parBasesVarianceOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Delta" />
-                  <Spinner fx:id="spBasesDelta" editable="true" max="20" min="0" prefWidth="70.0" />
+                  <Spinner fx:id="spBasesDelta" max="20" min="0" prefWidth="70.0" />
                </children>
             </HBox>
             <HBox fx:id="parBasesRedistributeOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Variance" />
-                  <Spinner fx:id="spBasesVar" editable="true" max="20" min="0" prefWidth="70.0" />
+                  <Spinner fx:id="spBasesVar" max="20" min="0" prefWidth="70.0" />
                </children>
             </HBox>
          </children>
@@ -58,21 +58,21 @@
             <HBox fx:id="parGrowthsVarianceOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Delta" />
-                  <Spinner fx:id="spGrowthsDelta" amountToStepBy="5" editable="true" max="100" min="0" prefWidth="70.0" />
+                  <Spinner fx:id="spGrowthsDelta" amountToStepBy="5" max="100" min="0" prefWidth="70.0" />
                </children>
             </HBox>
             <HBox fx:id="parGrowthsRedistributeOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Variance" />
-                  <Spinner fx:id="spGrowthsVar" amountToStepBy="5" editable="true" max="100" min="0" prefWidth="70.0" />
+                  <Spinner fx:id="spGrowthsVar" amountToStepBy="5" max="100" min="0" prefWidth="70.0" />
                </children>
             </HBox>
             <HBox fx:id="parGrowthsAbsoluteOptions" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Min growths" />
-                  <Spinner fx:id="spGrowthsAbsMin" amountToStepBy="5" editable="true" max="200" min="0" prefWidth="70.0" />
+                  <Spinner fx:id="spGrowthsAbsMin" amountToStepBy="5" max="200" min="0" prefWidth="70.0" />
                   <Label text="Max growths" />
-                  <Spinner fx:id="spGrowthsAbsMax" amountToStepBy="5" editable="true" max="200" min="0" prefWidth="70.0" />
+                  <Spinner fx:id="spGrowthsAbsMax" amountToStepBy="5" max="200" min="0" prefWidth="70.0" />
                </children>
             </HBox>
          </children>

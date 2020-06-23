@@ -2,7 +2,9 @@ package org.hexrobot.fe5randomizer.items;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hexrobot.fe5randomizer.Rom;
 
@@ -188,11 +190,14 @@ public enum Item {
     private WeaponEffectiveness weaponEffectiveness = WeaponEffectiveness.NONE;
     private WeaponStatBonus weaponStatBonus = WeaponStatBonus.NONE;
     private int costPerUse = -1;
+    private int descriptionPointer = -1;
     private ItemUseEffect itemUseEffect = ItemUseEffect.NOTHING;
     private WeaponBladeEffect weaponBladeEffect = WeaponBladeEffect.NOTHING;
-    private WeaponSkill1 weaponSkill1 = WeaponSkill1.NOTHING;
-    private WeaponSkill2 weaponSkill2 = WeaponSkill2.NOTHING;
+    private int skills1 = -1;
+    private int skills2 = -1;
+    private ArrayList<WeaponSkill> skills = new ArrayList<>();
     private ItemClassification itemClassification = ItemClassification.ITEM;
+    private Map<String, Object> oldValues = new HashMap<>();
 
     private static final int ITEM_DATA_SIZE = 23;
     private static final int ITEM_TYPE_OFFSET = 0x0;
@@ -206,6 +211,7 @@ public enum Item {
     private static final int WPN_EFFECTIVENESS_OFFSET = 0x09;
     private static final int STAT_BONUSES_OFFSET = 0x0B;
     private static final int COST_PER_USE_OFFSET = 0x0D;
+    private static final int DESCRIPTION_OFFSET = 0x0F;
     private static final int USE_EFFECT_OFFSET = 0x11;
     private static final int BLADE_EFFECT_OFFSET = 0x12;
     private static final int WEAPON_SKILL1_OFFSET = 0x13;
@@ -247,7 +253,7 @@ public enum Item {
             List.of(ODO_SCROLL, BALDO_SCROLL, HEZUL_SCROLL, DAIN_SCROLL, NOBA_SCROLL, NEIR_SCROLL, ULIR_SCROLL,
                     TORDO_SCROLL, FALA_SCROLL, SETY_SCROLL, BLAGI_SCROLL, HEIM_SCROLL));
     private static final ArrayList<Item> UNUSED = new ArrayList<Item>(
-            List.of(VOLCANNON, FALAFLAME, TORHAMMER, AURA, LOPUTOUS, WATCH, RETURN, GUNGNIR, GAE_BOLG));
+            List.of(DARKNESS_LANCE, VOLCANNON, FALAFLAME, TORHAMMER, AURA, LOPUTOUS, WATCH, RETURN, GUNGNIR, GAE_BOLG));
     private static final ArrayList<Item> ENEMY_ONLY = new ArrayList<Item>(
             List.of(POISON_SWORD, POISON_LANCE, POISON_AXE, POISON_BOW));
     private static final ArrayList<Item> BROKEN = new ArrayList<Item>(
@@ -309,6 +315,10 @@ public enum Item {
     public int getCostPerUse() {
         return costPerUse;
     }
+    
+    public int getDescriptionPointer() {
+        return descriptionPointer;
+    }
 
     public ItemUseEffect getItemUseEffect() {
         return itemUseEffect;
@@ -318,16 +328,126 @@ public enum Item {
         return weaponBladeEffect;
     }
 
-    public WeaponSkill1 getWeaponSkill1() {
-        return weaponSkill1;
+    public int getSkills1() {
+        return skills1;
     }
 
-    public WeaponSkill2 getWeaponSkill2() {
-        return weaponSkill2;
+    public int getSkills2() {
+        return skills2;
+    }
+    
+    public ArrayList<WeaponSkill> getSkills() {
+        return skills;
     }
 
     public ItemClassification getItemClassification() {
         return itemClassification;
+    }
+
+    public void setPower(int power) {
+        if(!oldValues.containsKey("power") && this.power != power) {
+            oldValues.put("power", this.power);
+        }
+        
+        this.power = power;
+    }
+
+    public void setAccuracy(int accuracy) {
+        if(!oldValues.containsKey("accuracy") && this.accuracy != accuracy) {
+            oldValues.put("accuracy", this.accuracy);
+        }
+        
+        this.accuracy = accuracy;
+    }
+
+    public void setWeight(int weight) {
+        if(!oldValues.containsKey("weight") && this.weight != weight) {
+            oldValues.put("weight", this.weight);
+        }
+        
+        this.weight = weight;
+    }
+
+    public void setMaxUses(int maxUses) {
+        if(!oldValues.containsKey("maxUses") && this.maxUses != maxUses) {
+            oldValues.put("maxUses", this.maxUses);
+        }
+        
+        this.maxUses = maxUses;
+    }
+
+    public void setCritical(int critical) {
+        if(!oldValues.containsKey("critical") && this.critical != critical) {
+            oldValues.put("critical", this.critical);
+        }
+        
+        this.critical = critical;
+    }
+
+    public void setWeaponRank(WeaponRank weaponRank) {
+        if(!oldValues.containsKey("weaponRank") && this.weaponRank != weaponRank) {
+            oldValues.put("weaponRank", this.power);
+        }
+        
+        this.weaponRank = weaponRank;
+    }
+
+    public void setWeaponEffectiveness(WeaponEffectiveness weaponEffectiveness) {
+        if(!oldValues.containsKey("weaponEffectiveness") && this.weaponEffectiveness != weaponEffectiveness) {
+            oldValues.put("weaponEffectiveness", this.weaponEffectiveness);
+        }
+        
+        this.weaponEffectiveness = weaponEffectiveness;
+    }
+
+    public void setWeaponStatBonus(WeaponStatBonus weaponStatBonus) {
+        if(!oldValues.containsKey("weaponStatBonus") && this.weaponStatBonus != weaponStatBonus) {
+            oldValues.put("weaponStatBonus", this.weaponStatBonus);
+        }
+        
+        this.weaponStatBonus = weaponStatBonus;
+    }
+
+    public void setCostPerUse(int costPerUse) {
+        if(!oldValues.containsKey("costPerUse") && this.costPerUse != costPerUse) {
+            oldValues.put("costPerUse", this.costPerUse);
+        }
+        
+        this.costPerUse = costPerUse;
+    }
+
+    public void setItemUseEffect(ItemUseEffect itemUseEffect) {
+        if(!oldValues.containsKey("itemUseEffect") && this.itemUseEffect != itemUseEffect) {
+            oldValues.put("itemUseEffect", this.itemUseEffect);
+        }
+        
+        this.itemUseEffect = itemUseEffect;
+    }
+
+    public void setWeaponBladeEffect(WeaponBladeEffect weaponBladeEffect) {
+        if(!oldValues.containsKey("weaponBladeEffect") && this.weaponBladeEffect != weaponBladeEffect) {
+            oldValues.put("weaponBladeEffect", this.weaponBladeEffect);
+        }
+        
+        this.weaponBladeEffect = weaponBladeEffect;
+    }
+    
+    public void setSkills(ArrayList<WeaponSkill> skills) {
+        int[] newSkills = WeaponSkill.getSkills(skills);
+        
+        if(!oldValues.containsKey("skills1") && skills1 != newSkills[0]) {
+            int oldSkills1 = this.skills1;
+            oldValues.put("skills1", oldSkills1);
+        }
+        
+        if(!oldValues.containsKey("skills2") && skills2 != newSkills[1]) {
+            int oldSkills2 = this.skills2;
+            oldValues.put("skills2", oldSkills2);
+        }
+        
+        this.skills1 = newSkills[0];
+        this.skills2 = newSkills[1];
+        this.skills = skills;
     }
 
     public boolean isSword() {
@@ -411,6 +531,31 @@ public enum Item {
         
         return new ArrayList<Item>(items);
     }
+    
+    public static ArrayList<Item> getWeapons(boolean excludeUnused, boolean excludeBroken) {
+        ArrayList<Item> weapons = new ArrayList<>();
+        
+        weapons.addAll(SWORDS);
+        weapons.addAll(LANCES);
+        weapons.addAll(AXES);
+        weapons.addAll(BOWS);
+        weapons.addAll(STAVES);
+        weapons.addAll(FIRE_MAGIC);
+        weapons.addAll(THUNDER_MAGIC);
+        weapons.addAll(WIND_MAGIC);
+        weapons.addAll(LIGHT_MAGIC);
+        weapons.addAll(DARK_MAGIC);
+        
+        if(excludeUnused) {
+            weapons.removeAll(UNUSED);
+        }
+        
+        if(excludeBroken) {
+            weapons.removeAll(BROKEN);
+        }
+        
+        return weapons;
+    }
 
     public void readItem(Rom rom, int startingOffset) {
         int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
@@ -426,11 +571,118 @@ public enum Item {
         weaponEffectiveness = WeaponEffectiveness.findById(rom.getValueAt(relOffset + WPN_EFFECTIVENESS_OFFSET, 2));
         weaponStatBonus = WeaponStatBonus.findById(rom.getValueAt(relOffset + STAT_BONUSES_OFFSET, 2));
         costPerUse = rom.getValueAt(relOffset + COST_PER_USE_OFFSET, 2);
+        descriptionPointer = rom.getValueAt(relOffset + DESCRIPTION_OFFSET, 2);
         itemUseEffect = ItemUseEffect.findById(rom.getValueAt(relOffset + USE_EFFECT_OFFSET));
         weaponBladeEffect = WeaponBladeEffect.findById(rom.getValueAt(relOffset + BLADE_EFFECT_OFFSET));
-        weaponSkill1 = WeaponSkill1.findById(rom.getValueAt(relOffset + WEAPON_SKILL1_OFFSET));
-        weaponSkill2 = WeaponSkill2.findById(rom.getValueAt(relOffset + WEAPON_SKILL2_OFFSET));
+        skills1 = rom.getValueAt(relOffset + WEAPON_SKILL1_OFFSET);
+        skills2 = rom.getValueAt(relOffset + WEAPON_SKILL2_OFFSET);
+        skills = WeaponSkill.getSkills(skills1, skills2);
         itemClassification = ItemClassification.findById(rom.getValueAt(relOffset + ITEM_CLASSIFICATION_OFFSET));
+    }
+    
+    public void writeItem(Rom rom, int startingOffset) {
+        // TODO writeItem
+        int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
+
+        if(oldValues.containsKey("power")) {
+            rom.setValueAt(relOffset + POWER_OFFSET, power);
+        }
+
+        if(oldValues.containsKey("accuracy")) {
+            rom.setValueAt(relOffset + ACCURACY_OFFSET, accuracy);
+        }
+
+        if(oldValues.containsKey("weight")) {
+            rom.setValueAt(relOffset + WEIGHT_OFFSET, weight);
+        }
+
+        if(oldValues.containsKey("maxUses")) {
+            rom.setValueAt(relOffset + MAX_USES_OFFSET, maxUses);
+        }
+
+        if(oldValues.containsKey("critical")) {
+            rom.setValueAt(relOffset + CRITICAL_OFFSET, critical);
+        }
+
+        if(oldValues.containsKey("weaponRank")) {
+            rom.set2ByteValueAt(relOffset + WEAPON_RANK_OFFSET, weaponRank.getOffset());
+        }
+
+        if(oldValues.containsKey("weaponEffectiveness")) {
+            rom.set2ByteValueAt(relOffset + WPN_EFFECTIVENESS_OFFSET, weaponEffectiveness.getOffset());
+        }
+
+        if(oldValues.containsKey("weaponStatBonus")) {
+            rom.set2ByteValueAt(relOffset + STAT_BONUSES_OFFSET, weaponStatBonus.getOffset());
+        }
+
+        if(oldValues.containsKey("costPerUse")) {
+            rom.setValueAt(relOffset + COST_PER_USE_OFFSET, costPerUse);
+        }
+
+        if(oldValues.containsKey("weaponBladeEffect")) {
+            rom.setValueAt(relOffset + BLADE_EFFECT_OFFSET, weaponBladeEffect.getOffset());
+        }
+
+        if(oldValues.containsKey("skills1")) {
+            rom.setValueAt(relOffset + WEAPON_SKILL1_OFFSET, skills1);
+        }
+
+        if(oldValues.containsKey("skills2")) {
+            rom.setValueAt(relOffset + WEAPON_SKILL2_OFFSET, skills2);
+        }
+
+        if(oldValues.containsKey("itemClassification")) {
+            rom.setValueAt(relOffset + ITEM_CLASSIFICATION_OFFSET, itemClassification.getOffset());
+        }
+    }
+    
+    public void reset() {
+        if(oldValues.containsKey("power")) {
+            power = (int)oldValues.get("power");
+        }
+        
+        if(oldValues.containsKey("accuracy")) {
+            accuracy = (int)oldValues.get("accuracy");
+        }
+        
+        if(oldValues.containsKey("weight")) {
+            weight = (int)oldValues.get("weight");
+        }
+        
+        if(oldValues.containsKey("critical")) {
+            critical = (int)oldValues.get("critical");
+        }
+        
+        if(oldValues.containsKey("weaponRange")) {
+            weaponRange = (WeaponRange)oldValues.get("weaponRange");
+        }
+        
+        if(oldValues.containsKey("weaponRank")) {
+            weaponRank = (WeaponRank)oldValues.get("weaponRank");
+        }
+        
+        if(oldValues.containsKey("weaponEffectiveness")) {
+            weaponEffectiveness = (WeaponEffectiveness)oldValues.get("weaponEffectiveness");
+        }
+        
+        if(oldValues.containsKey("costPerUse")) {
+            costPerUse = (int)oldValues.get("costPerUse");
+        }
+        
+        if(oldValues.containsKey("weaponBladeEffect")) {
+            weaponBladeEffect = (WeaponBladeEffect)oldValues.get("weaponBladeEffect");
+        }
+        
+        if(oldValues.containsKey("skills1")) {
+            skills1 = (int)oldValues.get("skills1");
+        }
+        
+        if(oldValues.containsKey("skills2")) {
+            skills2 = (int)oldValues.get("skills2");
+        }
+        
+        oldValues.clear();
     }
 
     public static Item findById(int offset) {
@@ -450,16 +702,20 @@ public enum Item {
 
         return item;
     }
+    
+    public Map<String, Object> getOldValues() {
+        return oldValues;
+    }
 
     @Override
     public String toString() {
         String itemData = "";
 
         itemData += String.format(
-                "[Item] Name: %s, Item type: %s, Power: %d, Acc: %d, Weight: %d, Max uses: %d, Crit: %d, Wpn Rng: %s, Wpn Rank: %s, Wpn Effectiveness: %s, Wpn stat bonus: %s, Cost x use: %d, Use effect: %s, Blade eff: %s, Wpn skill1: %s, Wpn skill2: %s, Item class: %s",
+                "[Item] Name: %s, Item type: %s, Power: %d, Acc: %d, Weight: %d, Max uses: %d, Crit: %d, Wpn Rng: %s, Wpn Rank: %s, Wpn Effectiveness: %s, Wpn stat bonus: %s, Cost x use: %d, Desc pointer: %04X, Use effect: %s, Blade eff: %s, Skills1: %d, Skills2: %d, Item class: %s",
                 name, itemType.getName(), power, accuracy, weight, maxUses, critical, weaponRange.getName(),
-                weaponRank.getName(), weaponEffectiveness.getName(), weaponStatBonus.getName(), costPerUse,
-                itemUseEffect.getName(), weaponBladeEffect.getName(), weaponSkill1.getName(), weaponSkill2.getName(),
+                weaponRank.getName(), weaponEffectiveness.getName(), weaponStatBonus.getName(), costPerUse, descriptionPointer,
+                itemUseEffect.getName(), weaponBladeEffect.getName(), skills1, skills2,
                 itemClassification.getName());
 
         return itemData;

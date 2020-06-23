@@ -34,10 +34,10 @@ public class Rom {
     private RandomizationLogic logic = new RandomizationLogic();
     private ArrayList<ArmyUnit> armyUnits = new ArrayList<ArmyUnit>();
     private MountData mountData;
-
+    
     public Rom(byte[] bytes) {
         this.bytes = bytes;
-        random = new Random();
+        random = new Random(0);
 
         headered = bytes.length % 1024 == 512;
         validFileSize = bytes.length % 1024 == 0 && bytes.length >= MIN_FILE_SIZE;
@@ -559,7 +559,7 @@ public class Rom {
         int cap = 5;
 
         for(int i = 0; i < cap + 1; i++) {
-            float weight = 100 - 40 * (float)Math.sqrt(i);
+            float weight = 1 / (float)Math.pow(1.8f, i);
             starWeights.add(i, weight);
         }
 
@@ -602,9 +602,9 @@ public class Rom {
             float weight;
             
             if(capAt10) {
-                weight = 101 - (float)Math.sqrt(10000 - Math.pow(10 * i - 100, 2));
+                weight = 1 / (float)Math.pow(1.5f, i);
             } else {
-                weight = 100 - 40 * (float) Math.sqrt(i);
+                weight = 1 / (float)Math.pow(1.8f, i);
             }
             
             starWeights.add(i, weight);
@@ -674,6 +674,40 @@ public class Rom {
         }
     }
     
+    public void randomizeItems(boolean randomizeMight, int mightDelta, boolean randomizeAccuracy, int accuracyDelta, boolean randomizeWeight, int weightDelta, boolean randomizeCritical, int criticalDelta) {
+        ArrayList<Item> weapons = Item.getWeapons(true, true);
+        
+        // remove staves
+        weapons.removeIf(item -> item.isStaff());
+        
+        for(Item weapon : weapons) {
+            if(randomizeMight) {
+                int newMight = Math.max(weapon.getPower() - mightDelta + random.nextInt(mightDelta * 2 + 1), 0);
+                weapon.setPower(newMight);
+            }
+            
+            if(randomizeAccuracy) {
+                int accuracyPoints = accuracyDelta / 5;
+                int diffAccuracy = random.nextInt(accuracyPoints * 2 + 1) - accuracyPoints;
+                int newAccuracy = Math.max(weapon.getAccuracy() + diffAccuracy * 5, 30);
+                weapon.setAccuracy(newAccuracy);
+            }
+            
+            if(randomizeWeight) {
+                int newWeight = Math.max(weapon.getWeight() - weightDelta + random.nextInt(weightDelta * 2 + 1), 0);
+                newWeight = Math.min(newWeight, 20);
+                weapon.setWeight(newWeight);
+            }
+            
+            if(randomizeCritical) {
+                int criticalPoints = criticalDelta / 5;
+                int diffCritical = random.nextInt(criticalPoints * 2 + 1) - criticalPoints;
+                int newCritical = Math.max(weapon.getCritical() + diffCritical * 5, 0);
+                weapon.setCritical(newCritical);
+            }
+        }
+    }
+    
     public ArrayList<ArmyUnit> getArmyUnits() {
         return armyUnits;
     }
@@ -691,6 +725,10 @@ public class Rom {
         for(ArmyUnit armyUnits : armyUnits) {
             armyUnits.reset();
         }
+        
+        for(Item item : Item.values()) {
+            item.reset();
+        }
     }
     
     public MountData getMountData() {
@@ -706,6 +744,10 @@ public class Rom {
 
         for(ArmyUnit unit : armyUnits) {
             unit.writeArmyUnit(this);
+        }
+        
+        for(Item item : Item.values()) {
+            item.writeItem(this, ITEMS_OFFSET);
         }
     }
     

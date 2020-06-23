@@ -30,6 +30,7 @@ public class RandomizeController {
     private void randomize() {
         MainController mainController = MainController.getInstance();
         Rom rom = mainController.getRom();
+        rom.setRandomSeed(mainController.getSeed());
         RandomizationSummary randomizeSummary = mainController.getRandomizeSummary();
         System.out.println(mainController.getRandomizeSummary().toString());
         RandomizeRomService randomizeRomService = new RandomizeRomService(rom, randomizeSummary);

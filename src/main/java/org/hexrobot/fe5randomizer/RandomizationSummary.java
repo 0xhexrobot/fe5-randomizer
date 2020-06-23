@@ -45,8 +45,16 @@ public class RandomizationSummary {
     private final SimpleObjectProperty<Integer> maxBossSkillCount = new SimpleObjectProperty<Integer>(3);
     private final SimpleBooleanProperty randomizeEnemySkills = new SimpleBooleanProperty();
     private final SimpleObjectProperty<Integer> maxEnemySkillCount = new SimpleObjectProperty<Integer>(1);
-    
-    // other
+    // items
+    private final SimpleBooleanProperty randomizeItemsMight = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeItemsAccuracy = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeItemsWeight = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeItemsCritical = new SimpleBooleanProperty();
+    private final SimpleObjectProperty<Integer> itemsMightDelta = new SimpleObjectProperty<Integer>(3);
+    private final SimpleObjectProperty<Integer> itemsAccuracyDelta = new SimpleObjectProperty<Integer>(30);
+    private final SimpleObjectProperty<Integer> itemsWeightDelta = new SimpleObjectProperty<Integer>(3);
+    private final SimpleObjectProperty<Integer> itemsCriticalDelta = new SimpleObjectProperty<Integer>(20);
+    // summary
     private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty writeToFile = new SimpleBooleanProperty(false);
     
@@ -172,6 +180,38 @@ public class RandomizationSummary {
 
     public SimpleObjectProperty<Integer> maxEnemySkillCountProperty() {
         return maxEnemySkillCount;
+    }
+
+    public SimpleBooleanProperty randomizeItemsMightProperty() {
+        return randomizeItemsMight;
+    }
+
+    public SimpleBooleanProperty randomizeItemsAccuracyProperty() {
+        return randomizeItemsAccuracy;
+    }
+
+    public SimpleBooleanProperty randomizeItemsWeightProperty() {
+        return randomizeItemsWeight;
+    }
+
+    public SimpleBooleanProperty randomizeItemsCriticalProperty() {
+        return randomizeItemsCritical;
+    }
+
+    public SimpleObjectProperty<Integer> itemsMightDeltaProperty() {
+        return itemsMightDelta;
+    }
+
+    public SimpleObjectProperty<Integer> itemsAccuracyDeltaProperty() {
+        return itemsAccuracyDelta;
+    }
+
+    public SimpleObjectProperty<Integer> itemsWeightDeltaProperty() {
+        return itemsWeightDelta;
+    }
+
+    public SimpleObjectProperty<Integer> itemsCriticalDeltaProperty() {
+        return itemsCriticalDelta;
     }
 
     public SimpleBooleanProperty writeDebugLogProperty() {
@@ -305,6 +345,42 @@ public class RandomizationSummary {
     public int getMaxEnemySkillCount() {
         return maxEnemySkillCount.getValue();
     }
+
+    public boolean getRandomizeItemsMight() {
+        return randomizeItemsMight.getValue();
+    }
+
+    public boolean getRandomizeItemsAccuracy() {
+        return randomizeItemsAccuracy.getValue();
+    }
+
+    public boolean getRandomizeItemsWeight() {
+        return randomizeItemsWeight.getValue();
+    }
+
+    public boolean getRandomizeItemsCritical() {
+        return randomizeItemsCritical.getValue();
+    }
+
+    public int getItemsMightDelta() {
+        return itemsMightDelta.getValue();
+    }
+
+    public int getItemsAccuracyDelta() {
+        return itemsAccuracyDelta.getValue();
+    }
+
+    public int getItemsWeightDelta() {
+        return itemsWeightDelta.getValue();
+    }
+
+    public int getItemsCriticalDelta() {
+        return itemsCriticalDelta.getValue();
+    }
+    
+    public boolean getRandomizeItems() {
+        return randomizeItemsMight.getValue() || randomizeItemsAccuracy.getValue() || randomizeItemsWeight.getValue() || randomizeItemsCritical.getValue();
+    }
     
     public boolean getWriteDebugLog() {
         return writeDebugLog.getValue();
@@ -330,6 +406,8 @@ public class RandomizationSummary {
                 randomizeEnemyMovStars.getValue(), enemyMovStarsExcludeZero.getValue(), randomizeEnemyLeadershipStars.getValue(), enemyLeadershipExcludeZero.getValue());
         text += String.format("Randomize boss skills? %b, Max skill count: %d, Randomize normal enemy skills? %b, Max skill count: %d\n",
                 randomizeBossSkills.getValue(), maxBossSkillCount.getValue(), randomizeEnemySkills.getValue(), maxEnemySkillCount.getValue());
+        text += String.format("Randomize items... Might? %b, Delta: %d, Accuracy? %b, Delta: %d, Weight? %b, Delta: %d, Critical: %b, Delta %d\n",
+                randomizeItemsMight.getValue(), itemsMightDelta.getValue(), randomizeItemsAccuracy.getValue(), itemsAccuracyDelta.getValue(), randomizeItemsWeight.getValue(), itemsWeightDelta.getValue(), randomizeItemsCritical.getValue(), itemsCriticalDelta.getValue());
         
         return text;
     }
