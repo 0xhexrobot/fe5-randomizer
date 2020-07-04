@@ -117,7 +117,11 @@ public class RandomizeRomService extends Service<Void> {
                             summary.getRandomizeItemsMight(), summary.getItemsMightDelta(),
                             summary.getRandomizeItemsAccuracy(), summary.getItemsAccuracyDelta(),
                             summary.getRandomizeItemsWeight(), summary.getItemsWeightDelta(),
-                            summary.getRandomizeItemsCritical(), summary.getItemsCriticalDelta());
+                            summary.getRandomizeItemsCritical(), summary.getItemsCriticalDelta(),
+                            summary.getRandomizeItemsMaxUses(), summary.getRandomizeItemsCost(),
+                            summary.getItemsAddBladeEffect(), summary.getItemsBladeEffectChance(), summary.getItemsAvailableBladeEffects(),
+                            summary.getItemsAddStatBonus(), summary.getItemsStatBonusChance(),
+                            summary.getItemsAddWeaponSkill(), summary.getItemsWeaponSkillChance(), summary.getItemsAllowMultipleWeaponSkills());
                 }
                 
                 if(summary.getWriteToFile()) {

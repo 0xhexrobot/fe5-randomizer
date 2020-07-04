@@ -1,11 +1,16 @@
 package org.hexrobot.fe5randomizer.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum WeaponStatBonus {
 	NONE(0x8000, "None"),
 	PLUS_10MGC(0x800A, "+10 Mag"),
 	PLUS_10LUK(0x8012, "+10 Lck"),
 	PLUS_5SPD(0x801A, "+5 Spd"),
-	PLUS_5MGC(0x8022, "+ 5 Mag"),
+	PLUS_5MGC(0x8022, "+5 Mag"),
+	PLUS_5STR(0x8023, "+5 Str"),
+	PLUS_5LUK(0x8026, "+5 Lck"),
 	PLUS_5SKL(0x802A, "+5 Skl"),
 	PLUS_5DEF(0x8032, "+5 Def"),
 	PLUS_20MGC(0x803A, "+20 Mag"),
@@ -17,6 +22,9 @@ public enum WeaponStatBonus {
 
 	private int offset;
 	private String name;
+	
+	private static ArrayList<WeaponStatBonus> PLUS5_BONUS = new ArrayList<>(List.of(
+	        PLUS_5STR, PLUS_5MGC, PLUS_5SKL, PLUS_5SPD, PLUS_5DEF, PLUS_5LUK));
 	
 	private WeaponStatBonus(int offset, String name) {
 		this.offset = offset;
@@ -47,5 +55,9 @@ public enum WeaponStatBonus {
 		}
 		
 		return weaponStatBonus;
+	}
+	
+	public static ArrayList<WeaponStatBonus> getPlus5() {
+	    return new ArrayList<>(PLUS5_BONUS);
 	}
 }

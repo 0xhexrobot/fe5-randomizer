@@ -337,7 +337,7 @@ public enum Item {
     }
     
     public ArrayList<WeaponSkill> getSkills() {
-        return skills;
+        return new ArrayList<>(skills);
     }
 
     public ItemClassification getItemClassification() {
@@ -581,7 +581,6 @@ public enum Item {
     }
     
     public void writeItem(Rom rom, int startingOffset) {
-        // TODO writeItem
         int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
 
         if(oldValues.containsKey("power")) {
@@ -681,6 +680,8 @@ public enum Item {
         if(oldValues.containsKey("skills2")) {
             skills2 = (int)oldValues.get("skills2");
         }
+        
+        skills = WeaponSkill.getSkills(skills1, skills2);
         
         oldValues.clear();
     }

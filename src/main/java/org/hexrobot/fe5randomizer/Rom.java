@@ -12,6 +12,9 @@ import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.characters.MovementStars;
 import org.hexrobot.fe5randomizer.characters.Skill;
 import org.hexrobot.fe5randomizer.items.Item;
+import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
+import org.hexrobot.fe5randomizer.items.WeaponSkill;
+import org.hexrobot.fe5randomizer.items.WeaponStatBonus;
 
 public class Rom {
     private static final long FE5_HEADERED_CRC32_CHK = 2514651613L;
@@ -673,14 +676,51 @@ public class Rom {
             character.setSkills(skills);
         }
     }
-    
-    public void randomizeItems(boolean randomizeMight, int mightDelta, boolean randomizeAccuracy, int accuracyDelta, boolean randomizeWeight, int weightDelta, boolean randomizeCritical, int criticalDelta) {
+    // TODO randomize items
+    public void randomizeItems(boolean randomizeMight, int mightDelta, boolean randomizeAccuracy, int accuracyDelta, boolean randomizeWeight, int weightDelta, boolean randomizeCritical, int criticalDelta,
+            boolean randomizeMaxUses, boolean randomizeCost, boolean addBladeEffect, int bladeEffectChance, int availableBladeEffects, boolean addStatBonus, int statBonusChance, boolean addWeaponSkill, int weaponSkillChance, boolean allowMultipleWeaponSkills) {
         ArrayList<Item> weapons = Item.getWeapons(true, true);
+        WeightedList<Integer> maxUsesList = new WeightedList<>();
+        WeightedList<Integer> costPerUseList = new WeightedList<>();
+        ArrayList<WeaponStatBonus> wpnStatBonuses = WeaponStatBonus.getPlus5();
+        ArrayList<WeaponBladeEffect> bladeEffects = WeaponBladeEffect.intToWeaponBladeEffect(availableBladeEffects);
+        ArrayList<WeaponSkill> weaponSkills = WeaponSkill.getRandomizableSkills();
         
-        // remove staves
-        weapons.removeIf(item -> item.isStaff());
+        maxUsesList.add(5, 1.0f);
+        maxUsesList.add(10, 2.0f);
+        maxUsesList.add(20, 10.0f);
+        maxUsesList.add(30, 18.0f);
+        maxUsesList.add(40, 8.0f);
+        maxUsesList.add(60, 2.0f);
+        
+        costPerUseList.add(20, 2.0f);
+        costPerUseList.add(30, 4.0f);
+        costPerUseList.add(40, 8.0f);
+        costPerUseList.add(50, 12.0f);
+        costPerUseList.add(60, 20.0f);
+        costPerUseList.add(90, 16.0f);
+        costPerUseList.add(100, 14.0f);
+        costPerUseList.add(140, 10.0f);
+        costPerUseList.add(150, 7.0f);
+        costPerUseList.add(200, 4.0f);
+        costPerUseList.add(300, 3.0f);
+        costPerUseList.add(400, 2.0f);
+        costPerUseList.add(500, 1.0f);
         
         for(Item weapon : weapons) {
+            if(randomizeCost) {
+                int weaponCost = weapon.getCostPerUse();
+                
+                if(weaponCost > 0) {
+                    int newCost = costPerUseList.getSelection(random.nextFloat());
+                    weapon.setCostPerUse(newCost);
+                }
+            }
+                        
+            if(weapon.isStaff()) {
+                continue;
+            }
+            
             if(randomizeMight) {
                 int newMight = Math.max(weapon.getPower() - mightDelta + random.nextInt(mightDelta * 2 + 1), 0);
                 weapon.setPower(newMight);
@@ -704,6 +744,60 @@ public class Rom {
                 int diffCritical = random.nextInt(criticalPoints * 2 + 1) - criticalPoints;
                 int newCritical = Math.max(weapon.getCritical() + diffCritical * 5, 0);
                 weapon.setCritical(newCritical);
+            }
+
+            if(randomizeMaxUses) {
+                int newMaxUses = maxUsesList.getSelection(random.nextFloat());
+                weapon.setMaxUses(newMaxUses);
+            }
+
+            if(addBladeEffect) {
+                if(bladeEffects.size() > 0 && weapon.getWeaponBladeEffect().equals(WeaponBladeEffect.NOTHING)) {
+                    if(random.nextFloat() < bladeEffectChance / 100.0f) {
+                        WeaponBladeEffect newBladeEffect = bladeEffects.get(random.nextInt(bladeEffects.size()));
+                        weapon.setWeaponBladeEffect(newBladeEffect);
+                    }
+                }
+            }
+
+            if(addStatBonus) {
+                WeaponStatBonus statBonus = weapon.getWeaponStatBonus();
+                
+                if(statBonus.equals(WeaponStatBonus.NONE) || statBonus.equals(WeaponStatBonus.NONE2)) {
+                    if(random.nextFloat() < statBonusChance / 100.0f) {
+                        WeaponStatBonus newWpnStatBonus = wpnStatBonuses.get(random.nextInt(wpnStatBonuses.size()));
+                        weapon.setWeaponStatBonus(newWpnStatBonus);
+                    }
+                }
+            }
+            
+            if(addWeaponSkill) {
+                ArrayList<WeaponSkill> skills = weapon.getSkills();
+                
+                if(allowMultipleWeaponSkills) {
+                    boolean addedSkill;
+                    ArrayList<WeaponSkill> availableWpnSkills = new ArrayList<WeaponSkill>(weaponSkills);
+                    availableWpnSkills.removeAll(skills);
+                    
+                    do {
+                        float wpnSkillChance = weaponSkillChance / ((float)Math.pow(2, skills.size()) * 100.0f);
+                        
+                        addedSkill = availableWpnSkills.size() > 0 && random.nextFloat() < wpnSkillChance;
+                        
+                        if(addedSkill) {
+                            WeaponSkill newWeaponSkill = availableWpnSkills.get(random.nextInt(availableWpnSkills.size()));
+                            skills.add(newWeaponSkill);
+                            availableWpnSkills.remove(newWeaponSkill);
+                        }
+                    } while(addedSkill);
+                } else {
+                    if(skills.isEmpty() && random.nextFloat() < weaponSkillChance / 100.0f) {
+                        WeaponSkill newWeaponSkill = weaponSkills.get(random.nextInt(weaponSkills.size()));
+                        skills.add(newWeaponSkill);
+                    }
+                }
+                
+                weapon.setSkills(skills);
             }
         }
     }

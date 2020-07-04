@@ -1,5 +1,7 @@
 package org.hexrobot.fe5randomizer.items;
 
+import java.util.ArrayList;
+
 public enum WeaponBladeEffect {
 	NOTHING(0x00, "Nothing"),
 	POISON(0x02, "Poison"),
@@ -42,5 +44,39 @@ public enum WeaponBladeEffect {
 		}
 		
 		return weaponBladeEffect;
+	}
+	
+	public static ArrayList<WeaponBladeEffect> intToWeaponBladeEffect(int intBladeEffects) {
+	    ArrayList<WeaponBladeEffect> bladeEffects = new ArrayList<WeaponBladeEffect>();
+	    
+	    if((intBladeEffects & 1) == 1) {
+	        bladeEffects.add(POISON);
+	    }
+	    
+	    if((intBladeEffects & 2) == 2) {
+            bladeEffects.add(DEVIL);
+        }
+	    
+	    if((intBladeEffects & 4) == 4) {
+            bladeEffects.add(STEAL_HP);
+        }
+	    
+	    if((intBladeEffects & 8) == 8) {
+            bladeEffects.add(STONE);
+        }
+	    
+	    if((intBladeEffects & 16) == 16) {
+            bladeEffects.add(HELL);
+        }
+	    
+	    if((intBladeEffects & 32) == 32) {
+            bladeEffects.add(BERSERK);
+        }
+	    
+	    if((intBladeEffects & 64) == 64) {
+            bladeEffects.add(SLEEP);
+        }
+	    
+	    return bladeEffects;
 	}
 }

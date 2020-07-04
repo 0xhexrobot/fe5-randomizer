@@ -1,6 +1,7 @@
 package org.hexrobot.fe5randomizer;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Toggle;
 
@@ -54,6 +55,16 @@ public class RandomizationSummary {
     private final SimpleObjectProperty<Integer> itemsAccuracyDelta = new SimpleObjectProperty<Integer>(30);
     private final SimpleObjectProperty<Integer> itemsWeightDelta = new SimpleObjectProperty<Integer>(3);
     private final SimpleObjectProperty<Integer> itemsCriticalDelta = new SimpleObjectProperty<Integer>(20);
+    private final SimpleBooleanProperty randomizeItemsMaxUses = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeItemsCost = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty itemsAddBladeEffect = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty itemsAddStatBonus = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty itemsAddWeaponSkill = new SimpleBooleanProperty();
+    private final SimpleObjectProperty<Integer> itemsBladeEffectChance = new SimpleObjectProperty<Integer>(10);
+    private final SimpleObjectProperty<Integer> itemsStatBonusChance = new SimpleObjectProperty<Integer>(3);
+    private final SimpleObjectProperty<Integer> itemsWeaponSkillChance = new SimpleObjectProperty<Integer>(5);
+    private final SimpleIntegerProperty ItemsAvailableBladeEffects = new SimpleIntegerProperty(0);
+    private final SimpleBooleanProperty itemsAllowMultipleWeaponSkills = new SimpleBooleanProperty(false);
     // summary
     private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty writeToFile = new SimpleBooleanProperty(false);
@@ -212,6 +223,46 @@ public class RandomizationSummary {
 
     public SimpleObjectProperty<Integer> itemsCriticalDeltaProperty() {
         return itemsCriticalDelta;
+    }
+    
+    public SimpleBooleanProperty randomizeItemsMaxUsesProperty() {
+        return randomizeItemsMaxUses;
+    }
+
+    public SimpleBooleanProperty randomizeItemsCostProperty() {
+        return randomizeItemsCost;
+    }
+
+    public SimpleBooleanProperty itemsAddBladeEffectProperty() {
+        return itemsAddBladeEffect;
+    }
+
+    public SimpleBooleanProperty itemsAddStatBonusProperty() {
+        return itemsAddStatBonus;
+    }
+
+    public SimpleBooleanProperty itemsAddWeaponSkillProperty() {
+        return itemsAddWeaponSkill;
+    }
+
+    public SimpleObjectProperty<Integer> itemsBladeEffectChanceProperty() {
+        return itemsBladeEffectChance;
+    }
+
+    public SimpleObjectProperty<Integer> itemsStatBonusChanceProperty() {
+        return itemsStatBonusChance;
+    }
+
+    public SimpleObjectProperty<Integer> itemsWeaponSkillChanceProperty() {
+        return itemsWeaponSkillChance;
+    }
+
+    public SimpleIntegerProperty itemsAvailableBladeEffectsProperty() {
+        return ItemsAvailableBladeEffects;
+    }
+
+    public SimpleBooleanProperty itemsAllowMultipleWeaponSkillsProperty() {
+        return itemsAllowMultipleWeaponSkills;
     }
 
     public SimpleBooleanProperty writeDebugLogProperty() {
@@ -379,7 +430,51 @@ public class RandomizationSummary {
     }
     
     public boolean getRandomizeItems() {
-        return randomizeItemsMight.getValue() || randomizeItemsAccuracy.getValue() || randomizeItemsWeight.getValue() || randomizeItemsCritical.getValue();
+        return randomizeItemsMight.getValue() 
+                || randomizeItemsAccuracy.getValue() || randomizeItemsWeight.getValue()
+                || randomizeItemsCritical.getValue() || randomizeItemsMaxUses.getValue()
+                || randomizeItemsCost.getValue() || itemsAddBladeEffect.getValue() 
+                || itemsAddStatBonus.getValue()  || itemsAddWeaponSkill.getValue();
+    }
+    
+    public boolean getRandomizeItemsMaxUses() {
+        return randomizeItemsMaxUses.getValue();
+    }
+
+    public boolean getRandomizeItemsCost() {
+        return randomizeItemsCost.getValue();
+    }
+
+    public boolean getItemsAddBladeEffect() {
+        return itemsAddBladeEffect.getValue();
+    }
+
+    public boolean getItemsAddStatBonus() {
+        return itemsAddStatBonus.getValue();
+    }
+
+    public boolean getItemsAddWeaponSkill() {
+        return itemsAddWeaponSkill.getValue();
+    }
+
+    public int getItemsBladeEffectChance() {
+        return itemsBladeEffectChance.getValue();
+    }
+
+    public int getItemsStatBonusChance() {
+        return itemsStatBonusChance.getValue();
+    }
+
+    public int getItemsWeaponSkillChance() {
+        return itemsWeaponSkillChance.getValue();
+    }
+
+    public int getItemsAvailableBladeEffects() {
+        return ItemsAvailableBladeEffects.getValue();
+    }
+
+    public boolean getItemsAllowMultipleWeaponSkills() {
+        return itemsAllowMultipleWeaponSkills.getValue();
     }
     
     public boolean getWriteDebugLog() {
@@ -408,6 +503,8 @@ public class RandomizationSummary {
                 randomizeBossSkills.getValue(), maxBossSkillCount.getValue(), randomizeEnemySkills.getValue(), maxEnemySkillCount.getValue());
         text += String.format("Randomize items... Might? %b, Delta: %d, Accuracy? %b, Delta: %d, Weight? %b, Delta: %d, Critical: %b, Delta %d\n",
                 randomizeItemsMight.getValue(), itemsMightDelta.getValue(), randomizeItemsAccuracy.getValue(), itemsAccuracyDelta.getValue(), randomizeItemsWeight.getValue(), itemsWeightDelta.getValue(), randomizeItemsCritical.getValue(), itemsCriticalDelta.getValue());
+        text += String.format("Randomize items... Max uses? %b, Cost? %b, Blade effect? %b, Chance: %d, Effects: %d, Stat bonus: %b, Chance %d, Weapon skill: %b, Chance: %d, Allow multiple: %b\n",
+                randomizeItemsMaxUses.getValue(), randomizeItemsCost.getValue(), itemsAddBladeEffect.getValue(), itemsBladeEffectChance.getValue(), ItemsAvailableBladeEffects.getValue(), itemsAddStatBonus.getValue(), itemsStatBonusChance.getValue(), itemsAddWeaponSkill.getValue(), itemsWeaponSkillChance.getValue(), itemsAllowMultipleWeaponSkills.getValue());
         
         return text;
     }
