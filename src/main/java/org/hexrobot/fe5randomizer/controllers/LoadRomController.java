@@ -1,6 +1,9 @@
 package org.hexrobot.fe5randomizer.controllers;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.service.LoadRomService;
@@ -29,10 +32,26 @@ public class LoadRomController {
     }
 
     @FXML
-    private void openFileDialog() {
+    public void openFileDialog() {
         FileChooser fileChooser = new FileChooser();
+        File file = new File(MainController.CONFIG_FILENAME);
+        Properties properties = new Properties();
+        String lastDirectory;
+        
+        if(file.exists()) {
+            try {
+                properties = MainController.readPropertiesFile(MainController.CONFIG_FILENAME);
+                lastDirectory = properties.getProperty("lastDirectory", "");
+                
+                if(!lastDirectory.isEmpty()) {
+                    fileChooser.setInitialDirectory(new File(lastDirectory));
+                }
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
         fileChooser.setTitle("Select Fire Emblem 5 Rom file");
-        fileChooser.setInitialDirectory(new File("/home/hexrobot/Downloads/"));
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("SNES ROM files (*.sfc, *.smc, *.fig)", "*.sfc", "*.smc", "*.fig"));
         File selectedFile = fileChooser.showOpenDialog(btnLoadRom.getScene().getWindow());
@@ -42,6 +61,14 @@ public class LoadRomController {
 
             Label label = mainController.getStatusLabel();
             ProgressBar progressBar = mainController.getProgressBar();
+            
+            properties.setProperty("lastDirectory", selectedFile.getParent());
+            
+            try {
+                properties.store(new FileOutputStream(MainController.CONFIG_FILENAME), null);
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
 
             label.textProperty().bind(loadRomService.messageProperty());
             label.visibleProperty().bind(loadRomService.runningProperty());

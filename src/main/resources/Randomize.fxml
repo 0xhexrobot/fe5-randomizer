@@ -15,7 +15,6 @@
       <HBox spacing="10.0">
          <children>
             <CheckBox fx:id="chkWriteDebugLog" mnemonicParsing="false" text="Write log" />
-            <CheckBox fx:id="chkWriteRom" mnemonicParsing="false" text="Write rom" />
          </children>
       </HBox>
       <HBox VBox.vgrow="NEVER">

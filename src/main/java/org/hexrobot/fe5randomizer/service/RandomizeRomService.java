@@ -28,10 +28,12 @@ public class RandomizeRomService extends Service<Void> {
     private Rom rom;
     private RandomizationSummary summary;
     private Configuration cfg;
+    private File romFile;
     
-    public RandomizeRomService(Rom rom, RandomizationSummary randomizeSummary) {
+    public RandomizeRomService(Rom rom, RandomizationSummary randomizeSummary, File romFile) {
         this.rom = rom;
         this.summary = randomizeSummary;
+        this.romFile = romFile;
         
         cfg = new Configuration(Configuration.VERSION_2_3_28);
         cfg.setClassForTemplateLoading(getClass(), "/");
@@ -124,18 +126,15 @@ public class RandomizeRomService extends Service<Void> {
                             summary.getItemsAddWeaponSkill(), summary.getItemsWeaponSkillChance(), summary.getItemsAllowMultipleWeaponSkills());
                 }
                 
-                if(summary.getWriteToFile()) {
-                    updateMessage("Writing rom...");
-                    
-                    rom.applyChanges();
-                    
-                    try {
-                        OutputStream os = new FileOutputStream("test.sfc");
-                        os.write(rom.getBytes());
-                        os.close();
-                    } catch(Exception e) {
-                        e.printStackTrace();
-                    }
+                updateMessage("Writing rom...");
+                rom.applyChanges();
+
+                try {
+                    OutputStream os = new FileOutputStream(romFile);
+                    os.write(rom.getBytes());
+                    os.close();
+                } catch(Exception e) {
+                    e.printStackTrace();
                 }
 
                 if(summary.getWriteDebugLog()) {
@@ -151,7 +150,7 @@ public class RandomizeRomService extends Service<Void> {
                     //input.put("chapterData", Chapter.values());
 
                     try {
-                        Writer fileWriter = new FileWriter(new File("output.md"));
+                        Writer fileWriter = new FileWriter(new File(romFile.getAbsolutePath().concat(".md")));
                         Template template = cfg.getTemplate("md.ftl");
                         
                         template.process(input, fileWriter);

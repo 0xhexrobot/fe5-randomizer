@@ -9,6 +9,9 @@ import org.hexrobot.fe5randomizer.Rom;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -31,7 +34,13 @@ public class SectionsController {
     @FXML
     private ComboBox<Integer> cbSeed4;
     @FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab tabRandomize;
+    @FXML
     private UnitsController unitsController;
+    @FXML
+    private RandomizeController randomizeController;
     
     @FXML
     private void initialize() {
@@ -67,5 +76,18 @@ public class SectionsController {
         long seed = (cbSeed1.getValue() << 15) + (cbSeed2.getValue() << 10) + (cbSeed3.getValue() << 5) + cbSeed4.getValue();
         System.out.println(String.format("Seed: %12X", seed));
         return seed;
+    }
+    
+    public String getSelectedTab() {
+        return (String)tabPane.getSelectionModel().getSelectedItem().getUserData();
+    }
+    
+    public void setRandomizeTab() {
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        selectionModel.select(tabRandomize);
+    }
+    
+    public RandomizeController getRandomizeController() {
+        return randomizeController;
     }
 }

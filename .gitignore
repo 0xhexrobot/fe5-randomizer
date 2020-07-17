@@ -36,3 +36,4 @@ bin/
 *.html
 *.sfc
 *.srm
+fe5-rand.config

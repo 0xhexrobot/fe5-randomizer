@@ -12,16 +12,18 @@
 
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.MainController">
    <children>
-      <MenuBar VBox.vgrow="NEVER">
+      <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="menuLoadRom" mnemonicParsing="false" onAction="#loadRom" text="Load ROM..." />
+                  <MenuItem fx:id="menuRandomize" mnemonicParsing="false" onAction="#randomize" text="Randomize" />
+              <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#close" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#about" text="About" />
             </items>
           </Menu>
         </menus>

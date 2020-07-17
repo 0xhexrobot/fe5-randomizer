@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.AboutController">
+   <children>
+      <HBox alignment="BASELINE_LEFT" spacing="10.0">
+         <children>
+            <Label text="Fire Emblem 5 Randomizer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="v0dev">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox spacing="2.0">
+         <children>
+            <Label text="By">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </Label>
+            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/hexrobot-logo.png" />
+               </image>
+            </ImageView>
+            <Label text="hexrobot" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </HBox>
+      <Label text="Source" />
+      <TextField editable="false" text="https://github.com/0xhexrobot/fe5-randomizer" />
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
