@@ -10,9 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="sections" xmlns="http://javafx.com/javafx/11.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="org.hexrobot.fe5randomizer.controllers.SectionsController">
+<VBox fx:id="sections" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.SectionsController">
 	<children>
 		<VBox alignment="TOP_CENTER" spacing="5.0" VBox.vgrow="NEVER">
 			<children>
@@ -34,16 +32,11 @@
 		<HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
 			<children>
 				<Label text="Seed" />
-				<ComboBox fx:id="cbSeed1" prefHeight="34.0"
-					prefWidth="65.0" />
-				<ComboBox fx:id="cbSeed2" prefHeight="34.0"
-					prefWidth="65.0" />
-				<ComboBox fx:id="cbSeed3" prefHeight="34.0"
-					prefWidth="65.0" />
-				<ComboBox fx:id="cbSeed4" prefHeight="34.0"
-					prefWidth="65.0" />
-				<Button mnemonicParsing="false"
-					onAction="#generateRandomSeed" text="Random seed">
+				<ComboBox fx:id="cbSeed1" prefHeight="34.0" prefWidth="65.0" />
+				<ComboBox fx:id="cbSeed2" prefHeight="34.0" prefWidth="65.0" />
+				<ComboBox fx:id="cbSeed3" prefHeight="34.0" prefWidth="65.0" />
+				<ComboBox fx:id="cbSeed4" prefHeight="34.0" prefWidth="65.0" />
+				<Button mnemonicParsing="false" onAction="#generateRandomSeed" text="Random seed">
 					<HBox.margin>
 						<Insets left="20.0" />
 					</HBox.margin>
@@ -53,8 +46,7 @@
 				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 			</padding>
 		</HBox>
-		<TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE"
-			VBox.vgrow="ALWAYS">
+		<TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
 			<tabs>
 				<Tab closable="false" text="Playable units" userData="units">
 					<content>
@@ -66,15 +58,18 @@
 						<fx:include fx:id="enemies" source="Enemies.fxml" />
 					</content>
 				</Tab>
-				<Tab closable="false" disable="true" text="Classes"
-					userData="classes" />
+				<Tab closable="false" disable="true" text="Classes" userData="classes" />
 				<Tab closable="false" text="Items" userData="items">
 					<content>
 						<fx:include fx:id="items" source="Items.fxml" />
 					</content>
 				</Tab>
-				<Tab fx:id="tabRandomize" closable="false" text="Randomize"
-					userData="randomize">
+            <Tab fx:id="tabLilManster" text="Lil' Manster">
+            <content>
+                <fx:include fx:id="lilManster" source="LilManster.fxml" />
+            </content>
+            </Tab>
+				<Tab fx:id="tabRandomize" closable="false" text="Randomize" userData="randomize">
 					<content>
 						<fx:include fx:id="randomize" source="Randomize.fxml" />
 					</content>

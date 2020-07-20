@@ -36,6 +36,8 @@ public class SectionsController {
     @FXML
     private TabPane tabPane;
     @FXML
+    private Tab tabLilManster;
+    @FXML
     private Tab tabRandomize;
     @FXML
     private UnitsController unitsController;
@@ -54,7 +56,7 @@ public class SectionsController {
         cbSeed1.getSelectionModel().selectFirst();
         cbSeed2.getSelectionModel().selectFirst();
         cbSeed3.getSelectionModel().selectFirst();
-        cbSeed4.getSelectionModel().selectFirst();
+        cbSeed4.getSelectionModel().selectFirst();        
     }
 
     @FXML
@@ -67,9 +69,13 @@ public class SectionsController {
 
     public void setRom(Rom rom, Stage stage) {
         stage.setResizable(true);
-        lblTitle.setText(String.format("%s %s", rom.getName(), rom.isHeadered() ? "Headered" : "Headerless"));
+        lblTitle.setText(String.format("%s %s", rom.getName(), rom.isHeadered() ? "(Headered)" : "(Headerless)"));
         lblBytes.setText(String.format("%d bytes", rom.getSize()));
         lblChecksum.setText(Long.toHexString(rom.getCrc32Checksum()));
+        
+        if(!rom.isLilMansterHack()) {
+            tabPane.getTabs().remove(tabLilManster);
+        }
     }
     
     public long getSeed() {

@@ -65,6 +65,8 @@ public class RandomizationSummary {
     private final SimpleObjectProperty<Integer> itemsWeaponSkillChance = new SimpleObjectProperty<Integer>(5);
     private final SimpleIntegerProperty ItemsAvailableBladeEffects = new SimpleIntegerProperty(0);
     private final SimpleBooleanProperty itemsAllowMultipleWeaponSkills = new SimpleBooleanProperty(false);
+    // Lil Manster
+    private final SimpleBooleanProperty lilMansterPugi = new SimpleBooleanProperty(false);
     // summary
     private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty writeToFile = new SimpleBooleanProperty(false);
@@ -263,6 +265,10 @@ public class RandomizationSummary {
 
     public SimpleBooleanProperty itemsAllowMultipleWeaponSkillsProperty() {
         return itemsAllowMultipleWeaponSkills;
+    }
+    
+    public SimpleBooleanProperty lilMansterPugiProperty() {
+        return lilMansterPugi;
     }
 
     public SimpleBooleanProperty writeDebugLogProperty() {
@@ -477,6 +483,10 @@ public class RandomizationSummary {
         return itemsAllowMultipleWeaponSkills.getValue();
     }
     
+    public boolean getLilMansterPugi() {
+        return lilMansterPugi.getValue();
+    }
+    
     public boolean getWriteDebugLog() {
         return writeDebugLog.getValue();
     }
@@ -505,6 +515,7 @@ public class RandomizationSummary {
                 randomizeItemsMight.getValue(), itemsMightDelta.getValue(), randomizeItemsAccuracy.getValue(), itemsAccuracyDelta.getValue(), randomizeItemsWeight.getValue(), itemsWeightDelta.getValue(), randomizeItemsCritical.getValue(), itemsCriticalDelta.getValue());
         text += String.format("Randomize items... Max uses? %b, Cost? %b, Blade effect? %b, Chance: %d, Effects: %d, Stat bonus: %b, Chance %d, Weapon skill: %b, Chance: %d, Allow multiple: %b\n",
                 randomizeItemsMaxUses.getValue(), randomizeItemsCost.getValue(), itemsAddBladeEffect.getValue(), itemsBladeEffectChance.getValue(), ItemsAvailableBladeEffects.getValue(), itemsAddStatBonus.getValue(), itemsStatBonusChance.getValue(), itemsAddWeaponSkill.getValue(), itemsWeaponSkillChance.getValue(), itemsAllowMultipleWeaponSkills.getValue());
+        text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterPugi.getValue());
         
         return text;
     }

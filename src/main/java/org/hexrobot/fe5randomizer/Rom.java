@@ -33,6 +33,7 @@ public class Rom {
     private boolean validFileSize;
     private long crc32Checksum;
     private boolean fireEmblem5;
+    private boolean lilMansterHack;
     private Random random;
     private RandomizationLogic logic = new RandomizationLogic();
     private ArrayList<ArmyUnit> armyUnits = new ArrayList<ArmyUnit>();
@@ -56,12 +57,20 @@ public class Rom {
 
         if(!fireEmblem5) {
             String gameTitle = "";
-            for(int i = 0; i < 11; i++) {
+            int charsToRead = 16;
+            
+            for(int i = 0; i < charsToRead; i++) {
                 char currentChar = (char) getValueAt(GAME_TITLE_OFFSET + i);
                 gameTitle += currentChar;
             }
-                        
-            fireEmblem5 = gameTitle.equalsIgnoreCase("FIREEMBLEM5");
+            
+            if(gameTitle.contains("FIREEMBLEM5")) {
+                fireEmblem5 = true;
+            } else if(gameTitle.equals("FE5 Lil' Manster")){
+                name = "Fire Emblem 5 + Lil' Manster hack";
+                fireEmblem5 = true;
+                lilMansterHack = true;
+            }
         }
     }
     
@@ -130,6 +139,10 @@ public class Rom {
 
     public boolean isFireEmblem5() {
         return fireEmblem5;
+    }
+    
+    public boolean isLilMansterHack() {
+        return lilMansterHack;
     }
 
     public long getCrc32Checksum() {
@@ -676,7 +689,7 @@ public class Rom {
             character.setSkills(skills);
         }
     }
-    // TODO randomize items
+
     public void randomizeItems(boolean randomizeMight, int mightDelta, boolean randomizeAccuracy, int accuracyDelta, boolean randomizeWeight, int weightDelta, boolean randomizeCritical, int criticalDelta,
             boolean randomizeMaxUses, boolean randomizeCost, boolean addBladeEffect, int bladeEffectChance, int availableBladeEffects, boolean addStatBonus, int statBonusChance, boolean addWeaponSkill, int weaponSkillChance, boolean allowMultipleWeaponSkills) {
         ArrayList<Item> weapons = Item.getWeapons(true, true);
@@ -804,6 +817,15 @@ public class Rom {
     
     public ArrayList<ArmyUnit> getArmyUnits() {
         return armyUnits;
+    }
+    
+    public void lilMansterRenamePugi() {
+        int pugiOffset = 0x1815D7; // without header 0x1813D7
+        int[] pugiValues = new int[] {0x20, 0x50, 0x75, 0x67, 0x69, 0x20}; // " Pugi "
+        
+        for(int i = 0; i < pugiValues.length; i++) {
+            setValueAt(pugiOffset + i, pugiValues[i]);
+        }
     }
     
     public void reset() {

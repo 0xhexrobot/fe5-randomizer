@@ -128,6 +128,10 @@ public class RandomizeRomService extends Service<Void> {
                 
                 updateMessage("Writing rom...");
                 rom.applyChanges();
+                
+                if(summary.getLilMansterPugi()) {
+                    rom.lilMansterRenamePugi();
+                }
 
                 try {
                     OutputStream os = new FileOutputStream(romFile);
