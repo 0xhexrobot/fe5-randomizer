@@ -106,7 +106,7 @@
       <HBox fx:id="parSkillCount" alignment="CENTER_RIGHT" spacing="10.0">
          <children>
             <Label text="Max skill count" />
-            <Spinner fx:id="spMaxSkillCount" min="0" max="5" prefHeight="26.0" prefWidth="70.0" />
+            <Spinner fx:id="spMaxSkillCount" min="1" max="5" prefHeight="26.0" prefWidth="70.0" />
          </children>
       </HBox>
    </children>

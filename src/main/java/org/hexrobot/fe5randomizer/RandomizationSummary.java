@@ -68,6 +68,7 @@ public class RandomizationSummary {
     // Lil Manster
     private final SimpleBooleanProperty lilMansterPugi = new SimpleBooleanProperty(false);
     // summary
+    private final SimpleIntegerProperty seed = new SimpleIntegerProperty(0);
     private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty writeToFile = new SimpleBooleanProperty(false);
     
@@ -269,6 +270,10 @@ public class RandomizationSummary {
     
     public SimpleBooleanProperty lilMansterPugiProperty() {
         return lilMansterPugi;
+    }
+    
+    public SimpleIntegerProperty seedProperty() {
+        return seed;
     }
 
     public SimpleBooleanProperty writeDebugLogProperty() {
@@ -485,6 +490,10 @@ public class RandomizationSummary {
     
     public boolean getLilMansterPugi() {
         return lilMansterPugi.getValue();
+    }
+    
+    public int getSeed() {
+        return seed.getValue();
     }
     
     public boolean getWriteDebugLog() {

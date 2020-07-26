@@ -42,6 +42,7 @@ public class MainController {
     @FXML
     private LoadRomController loadRomController;
     
+    public static final String VERSION = "0dev";
     public static final String CONFIG_FILENAME = "fe5-rand.config";
     private static MainController instance;
     private Stage stage;

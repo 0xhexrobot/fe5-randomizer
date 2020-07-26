@@ -16,6 +16,8 @@ import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
 import org.hexrobot.fe5randomizer.items.WeaponSkill;
 import org.hexrobot.fe5randomizer.items.WeaponStatBonus;
 
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class Rom {
     private static final long FE5_HEADERED_CRC32_CHK = 2514651613L;
     private static final long FE5_UNHEADERED_CRC32_CHK = 4233206098L;
@@ -33,11 +35,12 @@ public class Rom {
     private boolean validFileSize;
     private long crc32Checksum;
     private boolean fireEmblem5;
-    private boolean lilMansterHack;
+    private SimpleBooleanProperty lilMansterHack = new SimpleBooleanProperty(false);
     private Random random;
     private RandomizationLogic logic = new RandomizationLogic();
     private ArrayList<ArmyUnit> armyUnits = new ArrayList<ArmyUnit>();
     private MountData mountData;
+    private long seed;
     
     public Rom(byte[] bytes) {
         this.bytes = bytes;
@@ -69,12 +72,13 @@ public class Rom {
             } else if(gameTitle.equals("FE5 Lil' Manster")){
                 name = "Fire Emblem 5 + Lil' Manster hack";
                 fireEmblem5 = true;
-                lilMansterHack = true;
+                lilMansterHack.set(true);
             }
         }
     }
     
     public void setRandomSeed(long seed) {
+        this.seed = seed;
         random = new Random(seed);
     }
 
@@ -142,7 +146,7 @@ public class Rom {
     }
     
     public boolean isLilMansterHack() {
-        return lilMansterHack;
+        return lilMansterHack.getValue();
     }
 
     public long getCrc32Checksum() {
@@ -151,6 +155,10 @@ public class Rom {
     
     public int getSize() {
         return bytes.length;
+    }
+    
+    public SimpleBooleanProperty lilMansterHackProperty() {
+        return lilMansterHack;
     }
     
     public void initialize() {
@@ -869,6 +877,16 @@ public class Rom {
     
     public byte[] getBytes() {
         return bytes;
+    }
+    
+    public int[] getSeedAsArray() {
+        int[] seedArray = new int[4];
+        seedArray[3] = (int)(0x1F & seed);
+        seedArray[2] = (int)(0x1F & seed >> 5);
+        seedArray[1] = (int)(0x1F & seed >> 10);
+        seedArray[0] = (int)(0x1F & seed >> 15);
+        
+        return seedArray;
     }
 
     @Override

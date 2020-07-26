@@ -4,7 +4,7 @@
 
 ROM: Fire Emblem 5 <#if romHeadered>Headered<#else>Headerless</#if> *(${romChecksum})*
 
-Seed: [${"Iron sword"}][${3 + 2}][${"11111101"}][0][0]
+Seed: [${seed[0]}][${seed[1]}][${seed[2]}][${seed[3]}]
 
 Randomize bases: <#if summary.randomizeBases>**Yes**<#else>No</#if><#if summary.randomizeBases>, by <#if summary.basesRandomizationType == "variance">**Variance**: **±${summary.basesVariance}%**<#elseif summary.basesRandomizationType == "redistribute">**Redistribute**: **±${summary.basesRedistributeVar}%**</#if></#if>
 

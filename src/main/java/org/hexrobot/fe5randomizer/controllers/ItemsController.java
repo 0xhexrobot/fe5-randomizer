@@ -111,7 +111,7 @@ public class ItemsController {
         
         IntegerBinding bladeEffectBinding = new IntegerBinding() {
             {
-                super.bind(chkPoison.selectedProperty(), chkDevil.selectedProperty(), chkBerserk.selectedProperty(), chkSleep.selectedProperty(), chkStealHp.selectedProperty(), chkStone.selectedProperty());
+                super.bind(chkPoison.selectedProperty(), chkDevil.selectedProperty(), chkBerserk.selectedProperty(), chkSleep.selectedProperty(), chkStealHp.selectedProperty(), chkStone.selectedProperty(), chkHell.selectedProperty());
             }
             
             @Override

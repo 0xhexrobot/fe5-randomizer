@@ -1,11 +1,15 @@
 package org.hexrobot.fe5randomizer.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.hexrobot.fe5randomizer.Rom;
 
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -56,7 +60,28 @@ public class SectionsController {
         cbSeed1.getSelectionModel().selectFirst();
         cbSeed2.getSelectionModel().selectFirst();
         cbSeed3.getSelectionModel().selectFirst();
-        cbSeed4.getSelectionModel().selectFirst();        
+        cbSeed4.getSelectionModel().selectFirst();
+        
+        IntegerBinding seed = new IntegerBinding() {
+            {
+                super.bind(cbSeed1.valueProperty(), cbSeed2.valueProperty(), cbSeed3.valueProperty(), cbSeed4.valueProperty());
+            }
+            
+            @Override
+            protected int computeValue() {
+                int[] values = new int[4];
+                
+                values[0] = cbSeed1.valueProperty().getValue();
+                values[1] = cbSeed2.valueProperty().getValue();
+                values[2] = cbSeed3.valueProperty().getValue();
+                values[3] = cbSeed4.valueProperty().getValue();
+                
+                return (values[0] << 15) | (values[1] << 10) | (values[2] << 5) | values[3];
+            }
+            
+        };
+        
+        MainController.getInstance().getRandomizeSummary().seedProperty().bind(seed);
     }
 
     @FXML
@@ -76,6 +101,8 @@ public class SectionsController {
         if(!rom.isLilMansterHack()) {
             tabPane.getTabs().remove(tabLilManster);
         }
+        
+        randomizeController.setRom(rom);
     }
     
     public long getSeed() {
