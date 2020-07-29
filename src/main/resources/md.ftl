@@ -28,7 +28,24 @@ Randomize enemy leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Y
 
 Randomize Boss skills: <#if summary.randomizeBossSkills>**Yes**, Max skill count: ${summary.maxBossSkillCount}<#else> No</#if>, Randomize Enemy skills: <#if summary.randomizeEnemySkills>**Yes**, Max skill count: ${summary.maxEnemySkillCount}<#else>No</#if>
 
-Randomize items: <#if summary.randomizeItems><#if summary.randomizeItemsMight>Might: ±${summary.itemsMightDelta}, </#if><#if summary.randomizeItemsAccuracy>Accuracy ±${summary.itemsAccuracyDelta}, </#if><#if summary.randomizeItemsWeight>Weight ±${summary.itemsWeightDelta}, </#if><#if summary.randomizeItemsCritical>Critical ±${summary.itemsCriticalDelta}, </#if><#else>No</#if>
+Randomize items: 
+<#if summary.randomizeItemsMight>* Might: **±${summary.itemsMightDelta}**</#if>
+<#if summary.randomizeItemsAccuracy>* Accuracy **±${summary.itemsAccuracyDelta}**</#if>
+<#if summary.randomizeItemsWeight>* Weight **±${summary.itemsWeightDelta}**</#if>
+<#if summary.randomizeItemsCritical>* Critical **±${summary.itemsCriticalDelta}**</#if>
+<#if summary.randomizeItemsMaxUses>* Max uses</#if>
+<#if summary.randomizeItemsCost>* Cost</#if>
+<#if summary.itemsAddBladeEffect>* Add Blade effect, chance: **${summary.itemsBladeEffectChance}%**, available effects: <#list summary.itemsAvailableBladeEffectsList as effect>**${effect.getName()}**<#sep>, <#else>None</#list></#if>
+<#if summary.itemsAddStatBonus>* Add stat bonus, chance: **${summary.itemsStatBonusChance}%**</#if>
+<#if summary.itemsAddWeaponSkill>* Add weapon skill: chance: **${summary.itemsWeaponSkillChance}%**, allow multiple skills: <#if summary.itemsAllowMultipleWeaponSkills>**Yes**<#else>No</#if></#if>
+<#if summary.itemsExcludeIronWeapons>* Exclude Iron weapons</#if>
+
+<#if summary.itemsAddWeaponUses || summary.itemsDowngradeWindTome || summary.itemsRemoveWeaponsPrfLocks>
+Other item options:
+<#if summary.itemsAddWeaponUses>* Add weapon uses</#if>
+<#if summary.itemsDowngradeWindTome>* Downgrade Wind tome</#if>
+<#if summary.itemsRemoveWeaponsPrfLocks>* Remove Prf locks</#if>
+</#if>
 
 <#if units??>
 ## Units

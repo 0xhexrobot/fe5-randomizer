@@ -13,6 +13,7 @@ import org.hexrobot.fe5randomizer.characters.MovementStars;
 import org.hexrobot.fe5randomizer.characters.Skill;
 import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
+import org.hexrobot.fe5randomizer.items.WeaponRank;
 import org.hexrobot.fe5randomizer.items.WeaponSkill;
 import org.hexrobot.fe5randomizer.items.WeaponStatBonus;
 
@@ -699,7 +700,7 @@ public class Rom {
     }
 
     public void randomizeItems(boolean randomizeMight, int mightDelta, boolean randomizeAccuracy, int accuracyDelta, boolean randomizeWeight, int weightDelta, boolean randomizeCritical, int criticalDelta,
-            boolean randomizeMaxUses, boolean randomizeCost, boolean addBladeEffect, int bladeEffectChance, int availableBladeEffects, boolean addStatBonus, int statBonusChance, boolean addWeaponSkill, int weaponSkillChance, boolean allowMultipleWeaponSkills) {
+            boolean randomizeMaxUses, boolean randomizeCost, boolean addBladeEffect, int bladeEffectChance, int availableBladeEffects, boolean addStatBonus, int statBonusChance, boolean addWeaponSkill, int weaponSkillChance, boolean allowMultipleWeaponSkills, boolean excludeIronWeapons) {
         ArrayList<Item> weapons = Item.getWeapons(true, true);
         WeightedList<Integer> maxUsesList = new WeightedList<>();
         WeightedList<Integer> costPerUseList = new WeightedList<>();
@@ -729,6 +730,13 @@ public class Rom {
         costPerUseList.add(500, 1.0f);
         
         for(Item weapon : weapons) {
+            if(excludeIronWeapons) {
+                if(weapon.equals(Item.IRON_SWORD) || weapon.equals(Item.IRON_LANCE) || weapon.equals(Item.IRON_AXE)
+                        || weapon.equals(Item.IRON_BOW)) {
+                    continue;
+                }
+            }
+            
             if(randomizeCost) {
                 int weaponCost = weapon.getCostPerUse();
                 
@@ -821,6 +829,65 @@ public class Rom {
                 weapon.setSkills(skills);
             }
         }
+    }
+    
+    public void downgradeWindTome() {
+        Item windTome = Item.WIND;
+        
+        windTome.setWeaponRank(WeaponRank.E);
+        windTome.setPower(4); // Was 6
+        windTome.setAccuracy(80); // Was 90
+        windTome.setCritical(5); // Was 10
+    }
+    
+    public void addWeaponUses() {
+        Item.MASTER_SWORD.setMaxUses(30);
+        Item.THIN_LANCE.setMaxUses(30);
+        Item.KILLER_LANCE.setMaxUses(30);
+        Item.MASTER_LANCE.setMaxUses(30);
+        Item.KILLER_AXE.setMaxUses(30);
+        Item.MASTER_AXE.setMaxUses(30);
+        Item.KILLER_BOW.setMaxUses(30);
+        Item.MASTER_BOW.setMaxUses(30);
+        Item.FIRE.setMaxUses(30);
+        Item.VOLCANNON.setMaxUses(20);
+        Item.TRON.setMaxUses(20);
+        Item.TORNADO.setMaxUses(20);
+        Item.LIGHTNING.setMaxUses(30);
+        Item.LIVE.setMaxUses(30);
+        Item.RELIVE.setMaxUses(20);
+        Item.TORCH.setMaxUses(10);
+        Item.LIBRO.setMaxUses(10);
+        Item.REST.setMaxUses(10);
+        Item.HOLY_WATER.setMaxUses(5);
+        Item.HOLY_WATER.setCostPerUse(200);
+        Item.TORCH.setMaxUses(5);
+        Item.TORCH.setCostPerUse(100);
+    }
+    
+    public void removePrfLocks() {
+        Item.LIGHT_SWORD.setWeaponRank(WeaponRank.B);
+        Item.EARTH_SWORD.setWeaponRank(WeaponRank.B);
+        Item.DARKNESS_SWORD.setWeaponRank(WeaponRank.C);
+        Item.MAREETAS_SWORD.setWeaponRank(WeaponRank.C);
+        Item.BEOSWORD.setWeaponRank(WeaponRank.A);
+        Item.HOLY_SWORD.setWeaponRank(WeaponRank.A);
+        Item.BLAGI_SWORD.setWeaponRank(WeaponRank.B);
+        Item.DRAGON_LANCE.setWeaponRank(WeaponRank.B);
+        Item.HERO_LANCE.setWeaponRank(WeaponRank.B);
+        Item.PUGI.setWeaponRank(WeaponRank.C);
+        Item.DAIM_THUNDER.setWeaponRank(WeaponRank.B);
+        Item.GRAFUCALIBUR.setWeaponRank(WeaponRank.C);
+        Item.REPAIR.setWeaponRank(WeaponRank.C);
+        Item.THIEF.setWeaponRank(WeaponRank.C);
+        Item.UNLOCK.setWeaponRank(WeaponRank.C);
+        Item.CURE.setWeaponRank(WeaponRank.C);
+    }
+    
+    public void nerfBallistae() {
+        Item.LONG_ARCH.setAccuracy(65);
+        Item.IRON_ARCH.setAccuracy(65);
+        Item.POISON_ARCH.setAccuracy(50);
     }
     
     public ArrayList<ArmyUnit> getArmyUnits() {

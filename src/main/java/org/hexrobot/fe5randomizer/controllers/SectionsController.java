@@ -1,6 +1,5 @@
 package org.hexrobot.fe5randomizer.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -8,8 +7,6 @@ import java.util.stream.IntStream;
 import org.hexrobot.fe5randomizer.Rom;
 
 import javafx.beans.binding.IntegerBinding;
-import javafx.beans.binding.StringBinding;
-import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;

@@ -98,6 +98,10 @@
             <CheckBox fx:id="chkAllowMoreThan1Skill" mnemonicParsing="false" text="Allow multiple skills" />
          </children>
       </HBox>
+      <CheckBox fx:id="chkExcludeIronWeapons" mnemonicParsing="false" text="Exclude Iron weapons" />
+      <CheckBox fx:id="chkAddWeaponUses" mnemonicParsing="false" text="Add Weapon uses" />
+      <CheckBox fx:id="chkDowngradeWindTome" mnemonicParsing="false" text="Downgrade Wind tome" />
+      <CheckBox fx:id="chkRemoveWeaponPrfLocks" mnemonicParsing="false" text="Remove weapon Prf locks" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

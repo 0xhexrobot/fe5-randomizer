@@ -76,7 +76,16 @@ public class ItemsController {
     private HBox parStatBonus;
     @FXML
     private Spinner<Integer> spStatBonusChance;
-    
+    @FXML
+    private CheckBox chkExcludeIronWeapons;
+    @FXML
+    private CheckBox chkAddWeaponUses;
+    @FXML
+    private CheckBox chkDowngradeWindTome;
+    @FXML
+    private CheckBox chkRemoveWeaponPrfLocks;
+    private RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
+        
     @FXML
     private void initialize() {
         parMightDelta.disableProperty().bind(chkMight.selectedProperty().not());
@@ -86,9 +95,7 @@ public class ItemsController {
         parBladeEffects.disableProperty().bind(chkAddBladeEffect.selectedProperty().not());
         parStatBonus.disableProperty().bind(chkAddStatBonus.selectedProperty().not());
         parAddWeaponSkill.disableProperty().bind(chkAddSkill.selectedProperty().not());
-        
-        RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
-        
+                
         chkMight.selectedProperty().bindBidirectional(summary.randomizeItemsMightProperty());
         chkAccuracy.selectedProperty().bindBidirectional(summary.randomizeItemsAccuracyProperty());
         chkWeight.selectedProperty().bindBidirectional(summary.randomizeItemsWeightProperty());
@@ -129,5 +136,14 @@ public class ItemsController {
         };
         
         summary.itemsAvailableBladeEffectsProperty().bind(bladeEffectBinding);
+        
+        chkExcludeIronWeapons.selectedProperty().bindBidirectional(summary.itemsExcludeIronWeaponsProperty());
+        chkAddWeaponUses.selectedProperty().bindBidirectional(summary.itemsAddWeaponUsesProperty());
+        chkDowngradeWindTome.selectedProperty().bindBidirectional(summary.itemsDowngradeWindTomeProperty());
+        chkRemoveWeaponPrfLocks.selectedProperty().bindBidirectional(summary.itemsRemoveWeaponsPrfLocksProperty());
+        
+        chkUses.disableProperty().bind(summary.itemsAddWeaponUsesProperty());
+        chkAddWeaponUses.disableProperty().bind(summary.randomizeItemsMaxUsesProperty());
+        chkExcludeIronWeapons.disableProperty().bind(summary.anyItemRandomization.not());
     }
 }

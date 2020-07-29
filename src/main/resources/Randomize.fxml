@@ -57,6 +57,10 @@
                   <Label fx:id="lblItemsBladeEffect" text="addBladeEffect" />
                   <Label fx:id="lblItemsStatBonus" text="addStatBonus" />
                   <Label fx:id="lblItemsWeaponSkill" text="addWeaponSkill" />
+                  <Label fx:id="lblItemsExcludeIronWeapons" text="Exclude Iron weapons" />
+                  <Label fx:id="lblItemsAddWeaponUses" text="Add weapon uses" />
+                  <Label fx:id="lblItemsDowngradeWindTome" text="Downgrade Wind tome" />
+                  <Label fx:id="lblItemsRemovePrfLocks" text="Remove weapon Prf locks" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" />

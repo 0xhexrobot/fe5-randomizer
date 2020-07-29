@@ -1,5 +1,10 @@
 package org.hexrobot.fe5randomizer;
 
+import java.util.ArrayList;
+
+import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
+
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -65,12 +70,38 @@ public class RandomizationSummary {
     private final SimpleObjectProperty<Integer> itemsWeaponSkillChance = new SimpleObjectProperty<Integer>(5);
     private final SimpleIntegerProperty ItemsAvailableBladeEffects = new SimpleIntegerProperty(0);
     private final SimpleBooleanProperty itemsAllowMultipleWeaponSkills = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty itemsExcludeIronWeapons = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty itemsAddWeaponUses = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty itemsDowngradeWindTome = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty itemsRemoveWeaponsPrfLocks = new SimpleBooleanProperty(false);
     // Lil Manster
     private final SimpleBooleanProperty lilMansterPugi = new SimpleBooleanProperty(false);
     // summary
     private final SimpleIntegerProperty seed = new SimpleIntegerProperty(0);
     private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty writeToFile = new SimpleBooleanProperty(false);
+    
+    public BooleanBinding anyItemRandomization = new BooleanBinding() {
+        {
+            super.bind(randomizeItemsMight, randomizeItemsAccuracy, randomizeItemsWeight, randomizeItemsCritical,
+                    randomizeItemsMaxUses, randomizeItemsCost,
+                    itemsAddBladeEffect, itemsBladeEffectChance, ItemsAvailableBladeEffects, itemsAddStatBonus,
+                    itemsStatBonusChance, itemsAddWeaponSkill, itemsWeaponSkillChance);
+        }
+
+        @Override
+        protected boolean computeValue() {
+            return randomizeItemsMight.getValue()
+                    || randomizeItemsAccuracy.getValue()
+                    || randomizeItemsWeight.getValue()
+                    || randomizeItemsCritical.getValue()
+                    || randomizeItemsMaxUses.getValue()
+                    || randomizeItemsCost.getValue()
+                    || (itemsAddBladeEffect.getValue() && itemsBladeEffectChance.getValue() > 0 && ItemsAvailableBladeEffects.getValue() > 0)
+                    || (itemsAddStatBonus.getValue() && itemsStatBonusChance.getValue() > 0)
+                    || (itemsAddWeaponSkill.getValue() && itemsWeaponSkillChance.getValue() > 0);
+        }
+    };
     
     public SimpleBooleanProperty randomizeBasesProperty() {
         return randomizeBases;
@@ -268,6 +299,22 @@ public class RandomizationSummary {
         return itemsAllowMultipleWeaponSkills;
     }
     
+    public SimpleBooleanProperty itemsExcludeIronWeaponsProperty() {
+        return itemsExcludeIronWeapons;
+    }
+
+    public SimpleBooleanProperty itemsAddWeaponUsesProperty() {
+        return itemsAddWeaponUses;
+    }
+
+    public SimpleBooleanProperty itemsDowngradeWindTomeProperty() {
+        return itemsDowngradeWindTome;
+    }
+
+    public SimpleBooleanProperty itemsRemoveWeaponsPrfLocksProperty() {
+        return itemsRemoveWeaponsPrfLocks;
+    }
+
     public SimpleBooleanProperty lilMansterPugiProperty() {
         return lilMansterPugi;
     }
@@ -483,9 +530,29 @@ public class RandomizationSummary {
     public int getItemsAvailableBladeEffects() {
         return ItemsAvailableBladeEffects.getValue();
     }
+    
+    public ArrayList<WeaponBladeEffect> getItemsAvailableBladeEffectsList() {
+        return WeaponBladeEffect.intToWeaponBladeEffect(ItemsAvailableBladeEffects.getValue());
+    }
 
     public boolean getItemsAllowMultipleWeaponSkills() {
         return itemsAllowMultipleWeaponSkills.getValue();
+    }
+    
+    public boolean getItemsExcludeIronWeapons() {
+        return itemsExcludeIronWeapons.getValue();
+    }
+
+    public boolean getItemsAddWeaponUses() {
+        return itemsAddWeaponUses.getValue();
+    }
+
+    public boolean getItemsDowngradeWindTome() {
+        return itemsDowngradeWindTome.getValue();
+    }
+
+    public boolean getItemsRemoveWeaponsPrfLocks() {
+        return itemsRemoveWeaponsPrfLocks.getValue();
     }
     
     public boolean getLilMansterPugi() {
@@ -524,6 +591,8 @@ public class RandomizationSummary {
                 randomizeItemsMight.getValue(), itemsMightDelta.getValue(), randomizeItemsAccuracy.getValue(), itemsAccuracyDelta.getValue(), randomizeItemsWeight.getValue(), itemsWeightDelta.getValue(), randomizeItemsCritical.getValue(), itemsCriticalDelta.getValue());
         text += String.format("Randomize items... Max uses? %b, Cost? %b, Blade effect? %b, Chance: %d, Effects: %d, Stat bonus: %b, Chance %d, Weapon skill: %b, Chance: %d, Allow multiple: %b\n",
                 randomizeItemsMaxUses.getValue(), randomizeItemsCost.getValue(), itemsAddBladeEffect.getValue(), itemsBladeEffectChance.getValue(), ItemsAvailableBladeEffects.getValue(), itemsAddStatBonus.getValue(), itemsStatBonusChance.getValue(), itemsAddWeaponSkill.getValue(), itemsWeaponSkillChance.getValue(), itemsAllowMultipleWeaponSkills.getValue());
+        text += String.format("Randomize items... Exclude iron weapons? %b, Add weapon uses? %b, Downgrade Wind tome? %b, Remove wpn Prf locks: %b\n",
+                itemsExcludeIronWeapons.getValue(), itemsAddWeaponUses.getValue(), itemsDowngradeWindTome.getValue(), itemsRemoveWeaponsPrfLocks.getValue());
         text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterPugi.getValue());
         
         return text;

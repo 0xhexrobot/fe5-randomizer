@@ -54,6 +54,14 @@ public class RandomizeRomService extends Service<Void> {
                 
                 rom.reset();
                 
+                if(summary.getItemsRemoveWeaponsPrfLocks()) {
+                    rom.removePrfLocks();
+                }
+                
+                if(summary.getItemsDowngradeWindTome()) {
+                    rom.downgradeWindTome();
+                }
+                
                 if(summary.getRandomizePlayableUnitClasses()) {
                     updateMessage("Randomize playable unit classes...");
                     rom.randomizePlayableUnitClasses(summary.getExcludeHealers(), summary.getExcludeThieves());
@@ -114,6 +122,10 @@ public class RandomizeRomService extends Service<Void> {
                     rom.enemiesAddExtraInventory(summary.getEnemiesMaxExtraInventoryCount());
                 }
                 
+                if(summary.getItemsAddWeaponUses()) {
+                    rom.addWeaponUses();
+                }
+                
                 if(summary.getRandomizeItems()) {
                     rom.randomizeItems(
                             summary.getRandomizeItemsMight(), summary.getItemsMightDelta(),
@@ -123,7 +135,8 @@ public class RandomizeRomService extends Service<Void> {
                             summary.getRandomizeItemsMaxUses(), summary.getRandomizeItemsCost(),
                             summary.getItemsAddBladeEffect(), summary.getItemsBladeEffectChance(), summary.getItemsAvailableBladeEffects(),
                             summary.getItemsAddStatBonus(), summary.getItemsStatBonusChance(),
-                            summary.getItemsAddWeaponSkill(), summary.getItemsWeaponSkillChance(), summary.getItemsAllowMultipleWeaponSkills());
+                            summary.getItemsAddWeaponSkill(), summary.getItemsWeaponSkillChance(), summary.getItemsAllowMultipleWeaponSkills(),
+                            summary.getItemsExcludeIronWeapons());
                 }
                 
                 updateMessage("Writing rom...");

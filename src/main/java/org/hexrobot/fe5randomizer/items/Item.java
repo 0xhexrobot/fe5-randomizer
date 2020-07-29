@@ -386,7 +386,7 @@ public enum Item {
 
     public void setWeaponRank(WeaponRank weaponRank) {
         if(!oldValues.containsKey("weaponRank") && this.weaponRank != weaponRank) {
-            oldValues.put("weaponRank", this.power);
+            oldValues.put("weaponRank", this.weaponRank);
         }
         
         this.weaponRank = weaponRank;
@@ -616,7 +616,7 @@ public enum Item {
         }
 
         if(oldValues.containsKey("costPerUse")) {
-            rom.setValueAt(relOffset + COST_PER_USE_OFFSET, costPerUse);
+            rom.set2ByteValueAt(relOffset + COST_PER_USE_OFFSET, costPerUse);
         }
 
         if(oldValues.containsKey("weaponBladeEffect")) {

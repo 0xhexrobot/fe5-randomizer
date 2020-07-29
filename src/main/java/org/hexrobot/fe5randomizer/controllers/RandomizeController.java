@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import org.hexrobot.fe5randomizer.RandomizationSummary;
@@ -14,7 +13,6 @@ import org.hexrobot.fe5randomizer.service.RandomizeRomService;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.StringBinding;
-import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -79,6 +77,14 @@ public class RandomizeController {
     private Label lblItemsStatBonus;
     @FXML
     private Label lblItemsWeaponSkill;
+    @FXML
+    private Label lblItemsExcludeIronWeapons;
+    @FXML
+    private Label lblItemsAddWeaponUses;
+    @FXML
+    private Label lblItemsDowngradeWindTome;
+    @FXML
+    private Label lblItemsRemovePrfLocks;
     @FXML
     private Label lblLilManster;
     @FXML
@@ -340,16 +346,26 @@ public class RandomizeController {
                     summary.randomizeItemsWeightProperty(), summary.randomizeItemsCriticalProperty(),
                     summary.randomizeItemsMaxUsesProperty(), summary.randomizeItemsCostProperty(),
                     summary.itemsBladeEffectChanceProperty(), summary.itemsAddStatBonusProperty(),
-                    summary.itemsAvailableBladeEffectsProperty(), summary.itemsAddWeaponSkillProperty());
+                    summary.itemsAvailableBladeEffectsProperty(), summary.itemsAddWeaponSkillProperty(),
+                    summary.itemsExcludeIronWeaponsProperty(), summary.itemsAddWeaponUsesProperty(),
+                    summary.itemsDowngradeWindTomeProperty(), summary.itemsRemoveWeaponsPrfLocksProperty());
         }
         
         @Override
         protected boolean computeValue() {
-            boolean visible = summary.randomizeItemsMightProperty().getValue() || summary.randomizeItemsAccuracyProperty().getValue() ||
-                    summary.randomizeItemsWeightProperty().getValue() || summary.randomizeItemsCriticalProperty().getValue() ||
-                    summary.randomizeItemsMaxUsesProperty().getValue() || summary.randomizeItemsCostProperty().getValue() ||
-                    summary.itemsAddBladeEffectProperty().getValue() || summary.itemsAddStatBonusProperty().getValue() ||
-                    (summary.itemsAvailableBladeEffectsProperty().getValue() > 0) || summary.itemsAddWeaponSkillProperty().getValue();
+            boolean visible = summary.randomizeItemsMightProperty().getValue()
+                    || summary.randomizeItemsAccuracyProperty().getValue()
+                    || summary.randomizeItemsWeightProperty().getValue()
+                    || summary.randomizeItemsCriticalProperty().getValue()
+                    || summary.randomizeItemsMaxUsesProperty().getValue()
+                    || summary.randomizeItemsCostProperty().getValue()
+                    || summary.itemsAddBladeEffectProperty().getValue()
+                    || summary.itemsAddStatBonusProperty().getValue()
+                    || (summary.itemsAvailableBladeEffectsProperty().getValue() > 0)
+                    || summary.itemsAddWeaponSkillProperty().getValue()
+                    || summary.itemsAddWeaponUsesProperty().getValue()
+                    || summary.itemsDowngradeWindTomeProperty().getValue()
+                    || summary.itemsRemoveWeaponsPrfLocksProperty().getValue();
 
             return visible;
         }
@@ -488,7 +504,7 @@ public class RandomizeController {
             seeds[1] = (summary.seedProperty().getValue() >> 10) & 0x1F;
             seeds[0] = (summary.seedProperty().getValue() >> 15) & 0x1F;
             
-            String text = String.format("Seed[%d][%d][%d][%d]", seeds[0], seeds[1], seeds[2], seeds[3]);
+            String text = String.format("Seed [%d][%d][%d][%d]", seeds[0], seeds[1], seeds[2], seeds[3]);
         
             return text;
         }
@@ -557,17 +573,25 @@ public class RandomizeController {
         lblItemsBladeEffect.managedProperty().bind(lblItemsBladeEffect.visibleProperty());
         lblItemsStatBonus.managedProperty().bind(lblItemsStatBonus.visibleProperty());
         lblItemsWeaponSkill.managedProperty().bind(lblItemsWeaponSkill.visibleProperty());
+        lblItemsExcludeIronWeapons.managedProperty().bind(lblItemsExcludeIronWeapons.visibleProperty());
+        lblItemsAddWeaponUses.managedProperty().bind(lblItemsAddWeaponUses.visibleProperty());
+        lblItemsDowngradeWindTome.managedProperty().bind(lblItemsDowngradeWindTome.visibleProperty());
+        lblItemsRemovePrfLocks.managedProperty().bind(lblItemsRemovePrfLocks.visibleProperty());
         
         lblItems.visibleProperty().bind(itemsLabelVisible);
         lblItemsMight.visibleProperty().bind(summary.randomizeItemsMightProperty());
         lblItemsAccuracy.visibleProperty().bind((summary.randomizeItemsAccuracyProperty()));
         lblItemsWeight.visibleProperty().bind(summary.randomizeItemsWeightProperty());
         lblItemsCritical.visibleProperty().bind(summary.randomizeItemsCriticalProperty());
-        lblItemsMaxUses.visibleProperty().bind(summary.randomizeItemsMaxUsesProperty());
+        lblItemsMaxUses.visibleProperty().bind(summary.randomizeItemsMaxUsesProperty().and(summary.itemsAddWeaponUsesProperty().not()));
         lblItemsCost.visibleProperty().bind(summary.randomizeItemsCostProperty());
         lblItemsBladeEffect.visibleProperty().bind(lblItemsBladeEffectVisible);
         lblItemsStatBonus.visibleProperty().bind(summary.itemsAddStatBonusProperty());
         lblItemsWeaponSkill.visibleProperty().bind(summary.itemsAddWeaponSkillProperty());
+        lblItemsExcludeIronWeapons.visibleProperty().bind(summary.itemsExcludeIronWeaponsProperty().and(summary.anyItemRandomization));
+        lblItemsAddWeaponUses.visibleProperty().bind(summary.itemsAddWeaponUsesProperty().and(summary.randomizeItemsMaxUsesProperty().not()));
+        lblItemsDowngradeWindTome.visibleProperty().bind(summary.itemsDowngradeWindTomeProperty());
+        lblItemsRemovePrfLocks.visibleProperty().bind(summary.itemsRemoveWeaponsPrfLocksProperty());
         
         lblItemsMight.textProperty().bind(txtItemsMight);
         lblItemsAccuracy.textProperty().bind(txtItemsAccuracy);
