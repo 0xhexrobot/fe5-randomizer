@@ -41,6 +41,8 @@ public class EnemiesController {
     private HBox parEnemiesSkillCount;
     @FXML
     private Spinner<Integer> spEnemiesMaxSkillCount;
+    @FXML
+    private CheckBox chkNerfBallistae;
     
     @FXML
     private void initialize() {
@@ -73,5 +75,7 @@ public class EnemiesController {
         spBossMaxSkillCount.getValueFactory().valueProperty().bindBidirectional(summary.maxBossSkillCountProperty());
         chkRandomizeEnemiesSkills.selectedProperty().bindBidirectional(summary.randomizeEnemySkillsProperty());
         spEnemiesMaxSkillCount.getValueFactory().valueProperty().bindBidirectional(summary.maxEnemySkillCountProperty());
+        // ballistae
+        chkNerfBallistae.selectedProperty().bindBidirectional(summary.enemyNerfBallistaeProperty());
     }
 }

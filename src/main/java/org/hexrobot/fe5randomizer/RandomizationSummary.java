@@ -51,6 +51,8 @@ public class RandomizationSummary {
     private final SimpleObjectProperty<Integer> maxBossSkillCount = new SimpleObjectProperty<Integer>(3);
     private final SimpleBooleanProperty randomizeEnemySkills = new SimpleBooleanProperty();
     private final SimpleObjectProperty<Integer> maxEnemySkillCount = new SimpleObjectProperty<Integer>(1);
+    // enemy other
+    private final SimpleBooleanProperty enemyNerfBallistae = new SimpleBooleanProperty();
     // items
     private final SimpleBooleanProperty randomizeItemsMight = new SimpleBooleanProperty();
     private final SimpleBooleanProperty randomizeItemsAccuracy = new SimpleBooleanProperty();
@@ -225,6 +227,10 @@ public class RandomizationSummary {
 
     public SimpleObjectProperty<Integer> maxEnemySkillCountProperty() {
         return maxEnemySkillCount;
+    }
+    
+    public SimpleBooleanProperty enemyNerfBallistaeProperty() {
+        return enemyNerfBallistae;
     }
 
     public SimpleBooleanProperty randomizeItemsMightProperty() {
@@ -454,6 +460,10 @@ public class RandomizationSummary {
     public int getMaxEnemySkillCount() {
         return maxEnemySkillCount.getValue();
     }
+    
+    public boolean getNerfBallistae() {
+        return enemyNerfBallistae.getValue();
+    }
 
     public boolean getRandomizeItemsMight() {
         return randomizeItemsMight.getValue();
@@ -585,8 +595,8 @@ public class RandomizationSummary {
                 randomizeEnemyUnitClasses.getValue(), randomizeEnemyUnitClassesExcludeBosses.getValue());
         text += String.format("Randomize enemy Mov stars? %b, Exclude units with zero stars: %b, Randomize enemy Leadership stars? %b, Exclude units with zero stars: %b\n",
                 randomizeEnemyMovStars.getValue(), enemyMovStarsExcludeZero.getValue(), randomizeEnemyLeadershipStars.getValue(), enemyLeadershipExcludeZero.getValue());
-        text += String.format("Randomize boss skills? %b, Max skill count: %d, Randomize normal enemy skills? %b, Max skill count: %d\n",
-                randomizeBossSkills.getValue(), maxBossSkillCount.getValue(), randomizeEnemySkills.getValue(), maxEnemySkillCount.getValue());
+        text += String.format("Randomize boss skills? %b, Max skill count: %d, Randomize normal enemy skills? %b, Max skill count: %d, Nerf Ballistae: %b\n",
+                randomizeBossSkills.getValue(), maxBossSkillCount.getValue(), randomizeEnemySkills.getValue(), maxEnemySkillCount.getValue(), enemyNerfBallistae.getValue());
         text += String.format("Randomize items... Might? %b, Delta: %d, Accuracy? %b, Delta: %d, Weight? %b, Delta: %d, Critical: %b, Delta %d\n",
                 randomizeItemsMight.getValue(), itemsMightDelta.getValue(), randomizeItemsAccuracy.getValue(), itemsAccuracyDelta.getValue(), randomizeItemsWeight.getValue(), itemsWeightDelta.getValue(), randomizeItemsCritical.getValue(), itemsCriticalDelta.getValue());
         text += String.format("Randomize items... Max uses? %b, Cost? %b, Blade effect? %b, Chance: %d, Effects: %d, Stat bonus: %b, Chance %d, Weapon skill: %b, Chance: %d, Allow multiple: %b\n",

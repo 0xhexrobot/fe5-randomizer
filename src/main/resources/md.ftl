@@ -28,6 +28,8 @@ Randomize enemy leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Y
 
 Randomize Boss skills: <#if summary.randomizeBossSkills>**Yes**, Max skill count: ${summary.maxBossSkillCount}<#else> No</#if>, Randomize Enemy skills: <#if summary.randomizeEnemySkills>**Yes**, Max skill count: ${summary.maxEnemySkillCount}<#else>No</#if>
 
+Nerf Ballistae: <#if summary.nerfBallistae>**Yes**<#else>No</#if>
+
 Randomize items: 
 <#if summary.randomizeItemsMight>* Might: **±${summary.itemsMightDelta}**</#if>
 <#if summary.randomizeItemsAccuracy>* Accuracy **±${summary.itemsAccuracyDelta}**</#if>

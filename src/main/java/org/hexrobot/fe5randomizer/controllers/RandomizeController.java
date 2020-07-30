@@ -58,6 +58,8 @@ public class RandomizeController {
     @FXML
     private Label lblEnemySkills;
     @FXML
+    private Label lblEnemyNerfBallistae;
+    @FXML
     private Label lblItems;
     @FXML
     private Label lblItemsMight;
@@ -234,7 +236,7 @@ public class RandomizeController {
         {
             super.bind(summary.randomizeEnemyUnitClassesProperty(), summary.enemiesAddExtraInventoryProperty(),
                     summary.randomizeEnemyMovStarsProperty(), summary.randomizeEnemyLeadershipStarsProperty(),
-                    summary.randomizeBossSkillsProperty(), summary.randomizeEnemySkillsProperty());
+                    summary.randomizeBossSkillsProperty(), summary.randomizeEnemySkillsProperty(), summary.enemyNerfBallistaeProperty());
         }
         
         @Override
@@ -244,7 +246,8 @@ public class RandomizeController {
                     || summary.randomizeEnemyMovStarsProperty().getValue()
                     || summary.randomizeEnemyLeadershipStarsProperty().getValue()
                     || summary.randomizeBossSkillsProperty().getValue()
-                    || summary.randomizeEnemySkillsProperty().getValue();
+                    || summary.randomizeEnemySkillsProperty().getValue()
+                    || summary.enemyNerfBallistaeProperty().getValue();
 
             return visible;
         }
@@ -546,6 +549,7 @@ public class RandomizeController {
         lblEnemyLeadStars.managedProperty().bind(lblEnemyLeadStars.visibleProperty());
         lblEnemyBossSkills.managedProperty().bind(lblEnemyBossSkills.visibleProperty());
         lblEnemySkills.managedProperty().bind(lblEnemySkills.visibleProperty());
+        lblEnemyNerfBallistae.managedProperty().bind(lblEnemyNerfBallistae.visibleProperty());
         
         lblEnemies.visibleProperty().bind(enemyLabelVisible);
         lblEnemyClasses.visibleProperty().bind(summary.randomizeEnemyUnitClassesProperty());
@@ -554,6 +558,7 @@ public class RandomizeController {
         lblEnemyLeadStars.visibleProperty().bind(summary.randomizeEnemyLeadershipStarsProperty());
         lblEnemyBossSkills.visibleProperty().bind(summary.randomizeBossSkillsProperty());
         lblEnemySkills.visibleProperty().bind(summary.randomizeEnemySkillsProperty());
+        lblEnemyNerfBallistae.visibleProperty().bind(summary.enemyNerfBallistaeProperty());
         
         lblEnemyClasses.textProperty().bind(txtEnemyClases);
         lblEnemyExtraInventory.textProperty().bind(txtEnemyExtraInventory);

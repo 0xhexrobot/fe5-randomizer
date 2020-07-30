@@ -40,6 +40,7 @@
                   <Label fx:id="lblEnemyLeadStars" text="enemyLeadStars" />
                   <Label fx:id="lblEnemyBossSkills" text="bossSkills" />
                   <Label fx:id="lblEnemySkills" text="commonEnemySkills" />
+                  <Label fx:id="lblEnemyNerfBallistae" text="Nerf Ballistae" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" />

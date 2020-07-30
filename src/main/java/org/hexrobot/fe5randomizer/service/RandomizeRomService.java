@@ -122,6 +122,10 @@ public class RandomizeRomService extends Service<Void> {
                     rom.enemiesAddExtraInventory(summary.getEnemiesMaxExtraInventoryCount());
                 }
                 
+                if(summary.getNerfBallistae()) {
+                    rom.nerfBallistae();
+                }
+                
                 if(summary.getItemsAddWeaponUses()) {
                     rom.addWeaponUses();
                 }

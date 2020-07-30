@@ -887,7 +887,7 @@ public class Rom {
     public void nerfBallistae() {
         Item.LONG_ARCH.setAccuracy(65);
         Item.IRON_ARCH.setAccuracy(65);
-        Item.POISON_ARCH.setAccuracy(50);
+        Item.KILLER_ARCH.setAccuracy(65);
     }
     
     public ArrayList<ArmyUnit> getArmyUnits() {
