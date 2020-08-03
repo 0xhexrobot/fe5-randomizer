@@ -69,6 +69,11 @@
                 <fx:include fx:id="lilManster" source="LilManster.fxml" />
             </content>
             </Tab>
+            <Tab fx:id="tabExile" text="Project Exile">
+               <content>
+                  <fx:include fx:id="exile" source="Exile.fxml" />
+               </content>
+            </Tab>
 				<Tab fx:id="tabRandomize" closable="false" text="Randomize" userData="randomize">
 					<content>
 						<fx:include fx:id="randomize" source="Randomize.fxml" />

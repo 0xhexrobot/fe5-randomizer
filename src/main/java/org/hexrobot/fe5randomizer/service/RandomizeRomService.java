@@ -146,8 +146,12 @@ public class RandomizeRomService extends Service<Void> {
                 updateMessage("Writing rom...");
                 rom.applyChanges();
                 
-                if(summary.getLilMansterPugi()) {
+                if(summary.getLilMansterRenamePugi()) {
                     rom.lilMansterRenamePugi();
+                }
+                
+                if(summary.getProjectExileRenamePugi()) {
+                    rom.projectExileRenamePugi();
                 }
 
                 try {
@@ -161,6 +165,7 @@ public class RandomizeRomService extends Service<Void> {
                 if(summary.getWriteDebugLog()) {
                     updateMessage("Writing log...");
                     
+                    input.put("romName", rom.getName());
                     input.put("romHeadered", rom.isHeadered());
                     input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
                     input.put("seed", rom.getSeedAsArray());

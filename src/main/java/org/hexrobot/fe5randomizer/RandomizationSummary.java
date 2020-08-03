@@ -77,7 +77,9 @@ public class RandomizationSummary {
     private final SimpleBooleanProperty itemsDowngradeWindTome = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty itemsRemoveWeaponsPrfLocks = new SimpleBooleanProperty(false);
     // Lil Manster
-    private final SimpleBooleanProperty lilMansterPugi = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty lilMansterRenamePugi = new SimpleBooleanProperty(false);
+    // Project Exile
+    private final SimpleBooleanProperty exileRenamePugi = new SimpleBooleanProperty(false);
     // summary
     private final SimpleIntegerProperty seed = new SimpleIntegerProperty(0);
     private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
@@ -321,8 +323,12 @@ public class RandomizationSummary {
         return itemsRemoveWeaponsPrfLocks;
     }
 
-    public SimpleBooleanProperty lilMansterPugiProperty() {
-        return lilMansterPugi;
+    public SimpleBooleanProperty lilMansterRenamePugiProperty() {
+        return lilMansterRenamePugi;
+    }
+    
+    public SimpleBooleanProperty projectExileRenamePugiProperty() {
+        return exileRenamePugi;
     }
     
     public SimpleIntegerProperty seedProperty() {
@@ -565,8 +571,12 @@ public class RandomizationSummary {
         return itemsRemoveWeaponsPrfLocks.getValue();
     }
     
-    public boolean getLilMansterPugi() {
-        return lilMansterPugi.getValue();
+    public boolean getLilMansterRenamePugi() {
+        return lilMansterRenamePugi.getValue();
+    }
+    
+    public boolean getProjectExileRenamePugi() {
+        return exileRenamePugi.getValue();
     }
     
     public int getSeed() {
@@ -603,7 +613,8 @@ public class RandomizationSummary {
                 randomizeItemsMaxUses.getValue(), randomizeItemsCost.getValue(), itemsAddBladeEffect.getValue(), itemsBladeEffectChance.getValue(), ItemsAvailableBladeEffects.getValue(), itemsAddStatBonus.getValue(), itemsStatBonusChance.getValue(), itemsAddWeaponSkill.getValue(), itemsWeaponSkillChance.getValue(), itemsAllowMultipleWeaponSkills.getValue());
         text += String.format("Randomize items... Exclude iron weapons? %b, Add weapon uses? %b, Downgrade Wind tome? %b, Remove wpn Prf locks: %b\n",
                 itemsExcludeIronWeapons.getValue(), itemsAddWeaponUses.getValue(), itemsDowngradeWindTome.getValue(), itemsRemoveWeaponsPrfLocks.getValue());
-        text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterPugi.getValue());
+        text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterRenamePugi.getValue());
+        text += String.format("Project Exile Rename to Pugi: %b\n", exileRenamePugi.getValue());
         
         return text;
     }

@@ -39,6 +39,8 @@ public class SectionsController {
     @FXML
     private Tab tabLilManster;
     @FXML
+    private Tab tabExile;
+    @FXML
     private Tab tabRandomize;
     @FXML
     private UnitsController unitsController;
@@ -97,6 +99,10 @@ public class SectionsController {
         
         if(!rom.isLilMansterHack()) {
             tabPane.getTabs().remove(tabLilManster);
+        }
+        
+        if(!rom.isProjectExileHack()) {
+            tabPane.getTabs().remove(tabExile);
         }
         
         randomizeController.setRom(rom);

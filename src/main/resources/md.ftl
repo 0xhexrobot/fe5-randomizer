@@ -2,7 +2,7 @@
 
 ## Randomization details
 
-ROM: Fire Emblem 5 <#if romHeadered>Headered<#else>Headerless</#if> *(${romChecksum})*
+ROM: ${romName} <#if romHeadered>Headered<#else>Headerless</#if> *(${romChecksum})*
 
 Seed: [${seed[0]}][${seed[1]}][${seed[2]}][${seed[3]}]
 
@@ -47,6 +47,16 @@ Other item options:
 <#if summary.itemsAddWeaponUses>* Add weapon uses</#if>
 <#if summary.itemsDowngradeWindTome>* Downgrade Wind tome</#if>
 <#if summary.itemsRemoveWeaponsPrfLocks>* Remove Prf locks</#if>
+</#if>
+
+<#if summary.lilMansterRenamePugi>
+Lil' Manster
+* Rename *Voulge* to _**Pugi**_
+</#if>
+
+<#if summary.projectExileRenamePugi>
+Project Exile
+* Rename *Bhuj* to _**Pugi**_
 </#if>
 
 <#if units??>

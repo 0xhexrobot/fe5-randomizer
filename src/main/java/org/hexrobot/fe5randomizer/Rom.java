@@ -22,6 +22,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 public class Rom {
     private static final long FE5_HEADERED_CRC32_CHK = 2514651613L;
     private static final long FE5_UNHEADERED_CRC32_CHK = 4233206098L;
+    private static final long FE5_PROJECT_EXILE_1_04 = 0x17F75FD7; 
+    private static final long FE5_PROJECT_EXILE_1_04_TOP_WAIT = 3995459323L;
     private static final int MIN_FILE_SIZE = 4194304;
     private static final int HEADER_SIZE = 0x200;
     private static final int GAME_TITLE_OFFSET = 0x81C0;
@@ -37,6 +39,7 @@ public class Rom {
     private long crc32Checksum;
     private boolean fireEmblem5;
     private SimpleBooleanProperty lilMansterHack = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty projectExile = new SimpleBooleanProperty(false);
     private Random random;
     private RandomizationLogic logic = new RandomizationLogic();
     private ArrayList<ArmyUnit> armyUnits = new ArrayList<ArmyUnit>();
@@ -54,11 +57,26 @@ public class Rom {
         crc32.update(bytes);
         crc32Checksum = crc32.getValue();
 
+        checkFireEmblem5Version();
+    }
+    
+    private void checkFireEmblem5Version() {
+        // known versions
         if(crc32Checksum == FE5_HEADERED_CRC32_CHK || crc32Checksum == FE5_UNHEADERED_CRC32_CHK) {
             name = "Fire Emblem 5";
             fireEmblem5 = true;
+        } else if(crc32Checksum == FE5_PROJECT_EXILE_1_04 || crc32Checksum == FE5_PROJECT_EXILE_1_04_TOP_WAIT) {
+            fireEmblem5 = true;
+            projectExile.set(true);
+            
+            if(crc32Checksum == FE5_PROJECT_EXILE_1_04) {
+                name = "Fire Emblem 5 + Project Exile 1.04";
+            } else if(crc32Checksum == FE5_PROJECT_EXILE_1_04_TOP_WAIT) {
+                name = "Fire Emblem 5 + Project Exile (Top Wait) 1.04";
+            }
         }
 
+        // modified versions
         if(!fireEmblem5) {
             String gameTitle = "";
             int charsToRead = 16;
@@ -148,6 +166,10 @@ public class Rom {
     
     public boolean isLilMansterHack() {
         return lilMansterHack.getValue();
+    }
+    
+    public boolean isProjectExileHack() {
+        return projectExile.getValue();
     }
 
     public long getCrc32Checksum() {
@@ -897,6 +919,15 @@ public class Rom {
     public void lilMansterRenamePugi() {
         int pugiOffset = 0x1815D7; // without header 0x1813D7
         int[] pugiValues = new int[] {0x20, 0x50, 0x75, 0x67, 0x69, 0x20}; // " Pugi "
+        
+        for(int i = 0; i < pugiValues.length; i++) {
+            setValueAt(pugiOffset + i, pugiValues[i]);
+        }
+    }
+    
+    public void projectExileRenamePugi() {
+        int pugiOffset = 0x18159B; // without header 0x18139B
+        int[] pugiValues = new int[] {0x50, 0x75, 0x67, 0x69}; // "Pugi"
         
         for(int i = 0; i < pugiValues.length; i++) {
             setValueAt(pugiOffset + i, pugiValues[i]);

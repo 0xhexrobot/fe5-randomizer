@@ -6,15 +6,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 
-public class LilMansterController {
+public class ExileController {
     @FXML
-    private VBox lilManster;
+    private VBox exile;
     @FXML
-    private CheckBox chkPugi;
-    
+    private CheckBox chkRenamePugi;
+
     @FXML
     private void initialize() {
         RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
-        chkPugi.selectedProperty().bindBidirectional(summary.lilMansterRenamePugiProperty());
+        
+        chkRenamePugi.selectedProperty().bindBidirectional(summary.projectExileRenamePugiProperty());
     }
 }

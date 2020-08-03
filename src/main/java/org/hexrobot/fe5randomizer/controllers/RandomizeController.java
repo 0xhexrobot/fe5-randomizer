@@ -610,7 +610,7 @@ public class RandomizeController {
         lblLilManster.managedProperty().bind(lblLilManster.visibleProperty());
         lblLilMansterRenamePugi.managedProperty().bind(lblLilMansterRenamePugi.visibleProperty());
         
-        lblLilMansterRenamePugi.visibleProperty().bind(summary.lilMansterPugiProperty());
+        lblLilMansterRenamePugi.visibleProperty().bind(summary.lilMansterRenamePugiProperty());
         
         // other
         lblSeed.textProperty().bind(txtSeed);
@@ -618,7 +618,7 @@ public class RandomizeController {
     }
     
     public void setRom(Rom rom) {
-        lblLilManster.visibleProperty().bind(rom.lilMansterHackProperty().and(summary.lilMansterPugiProperty()));
+        lblLilManster.visibleProperty().bind(rom.lilMansterHackProperty().and(summary.lilMansterRenamePugiProperty()));
         lblRomName.setText(rom.getName());
         lblRandomizerVersion.setText(MainController.VERSION);
     }

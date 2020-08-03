@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="exile" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.ExileController">
+   <children>
+      <CheckBox fx:id="chkRenamePugi" mnemonicParsing="false" text="Rename 'Bhuj' to 'Pugi'" />
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
