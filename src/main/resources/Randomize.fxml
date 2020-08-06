@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -15,7 +16,17 @@
          <children>
             <Label text="Randomization summary" VBox.vgrow="NEVER" />
             <Label fx:id="lblRandomizerVersion" text="randomizerVersion" />
-            <Label fx:id="lblSeed" text="seed" />
+            <HBox alignment="CENTER_LEFT" spacing="4.0">
+               <children>
+                  <Label text="Seed" />
+                  <ImageView fx:id="imgSeed1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgSeed2" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgSeed3" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgSeed4" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgSeed5" fitHeight="16.0" fitWidth="16.0" layoutX="87.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgSeed6" fitHeight="16.0" fitWidth="16.0" layoutX="107.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
             <Label fx:id="lblRomName" text="romName" />
             <Label fx:id="lblPlayerUnits" text="Player units" />
             <VBox>

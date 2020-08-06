@@ -4,7 +4,7 @@
 
 ROM: ${romName} <#if romHeadered>Headered<#else>Headerless</#if> *(${romChecksum})*
 
-Seed: [${seed[0]}][${seed[1]}][${seed[2]}][${seed[3]}]
+Seed: [${seed[0].getName()}][${seed[1].getName()}][${seed[2].getName()}][${seed[3].getName()}][${seed[4].getName()}][${seed[5].getName()}]
 
 Randomize bases: <#if summary.randomizeBases>**Yes**<#else>No</#if><#if summary.randomizeBases>, by <#if summary.basesRandomizationType == "variance">**Variance**: **±${summary.basesVariance}%**<#elseif summary.basesRandomizationType == "redistribute">**Redistribute**: **±${summary.basesRedistributeVar}%**</#if></#if>
 

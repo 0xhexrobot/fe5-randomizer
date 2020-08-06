@@ -977,12 +977,14 @@ public class Rom {
         return bytes;
     }
     
-    public int[] getSeedAsArray() {
-        int[] seedArray = new int[4];
-        seedArray[3] = (int)(0x1F & seed);
-        seedArray[2] = (int)(0x1F & seed >> 5);
-        seedArray[1] = (int)(0x1F & seed >> 10);
-        seedArray[0] = (int)(0x1F & seed >> 15);
+    public WeaponSeed[] getSeedAsWeaponArray() {
+        WeaponSeed[] seedArray = new WeaponSeed[6];
+        seedArray[5] = WeaponSeed.getBySeed((int)(0x1F & seed));
+        seedArray[4] = WeaponSeed.getBySeed((int)(0x1F & seed >> 5));
+        seedArray[3] = WeaponSeed.getBySeed((int)(0x1F & seed >> 10));
+        seedArray[2] = WeaponSeed.getBySeed((int)(0x1F & seed >> 15));
+        seedArray[1] = WeaponSeed.getBySeed((int)(0x1F & seed >> 20));
+        seedArray[0] = WeaponSeed.getBySeed((int)(0x1F & seed >> 25));
         
         return seedArray;
     }

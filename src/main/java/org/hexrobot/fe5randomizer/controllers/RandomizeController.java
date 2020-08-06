@@ -8,16 +8,20 @@ import java.util.Properties;
 
 import org.hexrobot.fe5randomizer.RandomizationSummary;
 import org.hexrobot.fe5randomizer.Rom;
+import org.hexrobot.fe5randomizer.WeaponSeed;
 import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
 import org.hexrobot.fe5randomizer.service.RandomizeRomService;
 
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
 public class RandomizeController {
@@ -26,7 +30,17 @@ public class RandomizeController {
     @FXML
     private Label lblRandomizerVersion;
     @FXML
-    private Label lblSeed;
+    private ImageView imgSeed1;
+    @FXML
+    private ImageView imgSeed2;
+    @FXML
+    private ImageView imgSeed3;
+    @FXML
+    private ImageView imgSeed4;
+    @FXML
+    private ImageView imgSeed5;
+    @FXML
+    private ImageView imgSeed6;
     @FXML
     private Label lblRomName;
     @FXML
@@ -94,6 +108,96 @@ public class RandomizeController {
     @FXML
     private CheckBox chkWriteDebugLog;
     private RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
+    
+    private ObjectBinding<Image> icon1 = new ObjectBinding<Image>() {
+        {
+            super.bind(summary.seedProperty());
+        }
+
+        @Override
+        protected Image computeValue() {
+            WeaponSeed wpnSeed = WeaponSeed.getBySeed(summary.seedProperty().getValue() >> 25);
+            String iconPath = "img/" + wpnSeed.getImageName();
+            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
+            
+            return icon;
+        }
+    };
+    
+    private ObjectBinding<Image> icon2 = new ObjectBinding<Image>() {
+        {
+            super.bind(summary.seedProperty());
+        }
+
+        @Override
+        protected Image computeValue() {
+            WeaponSeed wpnSeed = WeaponSeed.getBySeed((summary.seedProperty().getValue() >> 20) & 0x1F);
+            String iconPath = "img/" + wpnSeed.getImageName();
+            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
+            
+            return icon;
+        }
+    };
+    
+    private ObjectBinding<Image> icon3 = new ObjectBinding<Image>() {
+        {
+            super.bind(summary.seedProperty());
+        }
+
+        @Override
+        protected Image computeValue() {
+            WeaponSeed wpnSeed = WeaponSeed.getBySeed((summary.seedProperty().getValue() >> 15) & 0x1F);
+            String iconPath = "img/" + wpnSeed.getImageName();
+            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
+            
+            return icon;
+        }
+    };
+    
+    private ObjectBinding<Image> icon4 = new ObjectBinding<Image>() {
+        {
+            super.bind(summary.seedProperty());
+        }
+
+        @Override
+        protected Image computeValue() {
+            WeaponSeed wpnSeed = WeaponSeed.getBySeed((summary.seedProperty().getValue() >> 10) & 0x1F);
+            String iconPath = "img/" + wpnSeed.getImageName();
+            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
+            
+            return icon;
+        }
+    };
+    
+    private ObjectBinding<Image> icon5 = new ObjectBinding<Image>() {
+        {
+            super.bind(summary.seedProperty());
+        }
+
+        @Override
+        protected Image computeValue() {
+            WeaponSeed wpnSeed = WeaponSeed.getBySeed((summary.seedProperty().getValue() >> 5) & 0x1F);
+            String iconPath = "img/" + wpnSeed.getImageName();
+            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
+            
+            return icon;
+        }
+    };
+    
+    private ObjectBinding<Image> icon6 = new ObjectBinding<Image>() {
+        {
+            super.bind(summary.seedProperty());
+        }
+
+        @Override
+        protected Image computeValue() {
+            WeaponSeed wpnSeed = WeaponSeed.getBySeed(summary.seedProperty().getValue() & 0x1F);
+            String iconPath = "img/" + wpnSeed.getImageName();
+            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
+            
+            return icon;
+        }
+    };
     
     private BooleanBinding unitLabelVisible = new BooleanBinding() {
         {
@@ -493,26 +597,6 @@ public class RandomizeController {
         }
     };
     
-    private StringBinding txtSeed = new StringBinding() {
-        {
-            super.bind(summary.seedProperty());
-        }
-        
-        @Override
-        protected String computeValue() {
-            int[] seeds = new int[4];
-            
-            seeds[3] = summary.seedProperty().getValue() & 0x1F;
-            seeds[2] = (summary.seedProperty().getValue() >> 5) & 0x1F;
-            seeds[1] = (summary.seedProperty().getValue() >> 10) & 0x1F;
-            seeds[0] = (summary.seedProperty().getValue() >> 15) & 0x1F;
-            
-            String text = String.format("Seed [%d][%d][%d][%d]", seeds[0], seeds[1], seeds[2], seeds[3]);
-        
-            return text;
-        }
-    };
-    
     @FXML
     private void initialize() {
         RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
@@ -613,7 +697,12 @@ public class RandomizeController {
         lblLilMansterRenamePugi.visibleProperty().bind(summary.lilMansterRenamePugiProperty());
         
         // other
-        lblSeed.textProperty().bind(txtSeed);
+        imgSeed1.imageProperty().bind(icon1);
+        imgSeed2.imageProperty().bind(icon2);
+        imgSeed3.imageProperty().bind(icon3);
+        imgSeed4.imageProperty().bind(icon4);
+        imgSeed5.imageProperty().bind(icon5);
+        imgSeed6.imageProperty().bind(icon6);
         chkWriteDebugLog.selectedProperty().bindBidirectional(summary.writeDebugLogProperty());
     }
     
@@ -621,10 +710,6 @@ public class RandomizeController {
         lblLilManster.visibleProperty().bind(rom.lilMansterHackProperty().and(summary.lilMansterRenamePugiProperty()));
         lblRomName.setText(rom.getName());
         lblRandomizerVersion.setText(MainController.VERSION);
-    }
-    
-    public Label getSeedLabel() {
-        return lblSeed;
     }
 
     @FXML

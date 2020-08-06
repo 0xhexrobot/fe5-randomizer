@@ -168,7 +168,7 @@ public class RandomizeRomService extends Service<Void> {
                     input.put("romName", rom.getName());
                     input.put("romHeadered", rom.isHeadered());
                     input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
-                    input.put("seed", rom.getSeedAsArray());
+                    input.put("seed", rom.getSeedAsWeaponArray());
                     input.put("summary", summary);
                     //input.put("units", GameCharacter.values());
                     //input.put("classes", CharacterClass.values());

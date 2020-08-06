@@ -36,6 +36,8 @@
 				<ComboBox fx:id="cbSeed2" prefHeight="34.0" prefWidth="65.0" />
 				<ComboBox fx:id="cbSeed3" prefHeight="34.0" prefWidth="65.0" />
 				<ComboBox fx:id="cbSeed4" prefHeight="34.0" prefWidth="65.0" />
+            <ComboBox fx:id="cbSeed5" layoutX="288.0" layoutY="20.0" prefHeight="34.0" prefWidth="65.0" />
+            <ComboBox fx:id="cbSeed6" layoutX="501.0" layoutY="20.0" prefHeight="34.0" prefWidth="65.0" />
 				<Button mnemonicParsing="false" onAction="#generateRandomSeed" text="Random seed">
 					<HBox.margin>
 						<Insets left="20.0" />
