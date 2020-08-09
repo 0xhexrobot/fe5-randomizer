@@ -2,10 +2,13 @@ package org.hexrobot.fe5randomizer.controllers;
 
 import org.hexrobot.fe5randomizer.RandomizationSummary;
 
+import javafx.beans.binding.IntegerBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -97,7 +100,6 @@ public class UnitsController {
         parGrowthsRedistributeOptions.visibleProperty().bind(rbGrowthsRedistribute.selectedProperty());
         parGrowthsAbsoluteOptions.visibleProperty().bind(rbGrowthsAbsolute.selectedProperty());
         parGrowthsControls.disableProperty().bind(chkGrowths.selectedProperty().not());
-        // TODO spinner set min and max values
         
         // radiobuttons user data
         rbBasesVariance.setUserData("variance");
@@ -128,6 +130,33 @@ public class UnitsController {
         spGrowthsVar.getValueFactory().valueProperty().bindBidirectional(summary.growthsRedistributeVarProperty());
         spGrowthsAbsMin.getValueFactory().valueProperty().bindBidirectional(summary.growthsAbsoluteMinProperty());
         spGrowthsAbsMax.getValueFactory().valueProperty().bindBidirectional(summary.growthsAbsoluteMaxProperty());
+        SpinnerValueFactory.IntegerSpinnerValueFactory fMin = (IntegerSpinnerValueFactory)spGrowthsAbsMin.getValueFactory();
+        SpinnerValueFactory.IntegerSpinnerValueFactory fMax = (IntegerSpinnerValueFactory)spGrowthsAbsMax.getValueFactory();
+        
+        IntegerBinding minUpperValue = new IntegerBinding() {
+            {
+                super.bind(fMax.valueProperty());
+            }
+            
+            @Override
+            protected int computeValue() {
+                return Math.min(fMax.valueProperty().getValue(), 200);
+            }
+        };
+        
+        IntegerBinding maxLowerValue = new IntegerBinding() {
+            {
+                super.bind(fMin.valueProperty());
+            }
+            
+            @Override
+            protected int computeValue() {
+                return Math.max(fMin.valueProperty().getValue(), 0);
+            }
+        };
+        
+        fMin.maxProperty().bind(minUpperValue);
+        fMax.minProperty().bind(maxLowerValue);
         
         // Movement & Leadership stars
         chkRandomizeMovStars.selectedProperty().bindBidirectional(summary.randomizeMovStarsProperty());

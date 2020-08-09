@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer.service;
+package org.hexrobot.fe5randomizer.services;
 
 import java.io.File;
 import java.io.FileInputStream;

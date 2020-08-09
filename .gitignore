@@ -32,7 +32,6 @@ build/
 bin/
 
 # Test output files
-*.md
 *.html
 *.sfc
 *.srm

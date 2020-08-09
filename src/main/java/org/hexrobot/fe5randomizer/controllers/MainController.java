@@ -42,7 +42,7 @@ public class MainController {
     @FXML
     private LoadRomController loadRomController;
     
-    public static final String VERSION = "0dev";
+    public static final String VERSION = "v1.0";
     public static final String CONFIG_FILENAME = "fe5-rand.config";
     private static MainController instance;
     private Stage stage;
@@ -51,6 +51,8 @@ public class MainController {
     private RandomizationSummary randomizeSummary;
     private Rom rom;
     private SimpleBooleanProperty mainSections = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty disableContent = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty statusBarControlsVisible = new SimpleBooleanProperty(false);
     
     public MainController() {
         instance = this;
@@ -69,10 +71,11 @@ public class MainController {
         sectionsController = loader.getController();
         
         menuLoadRom.visibleProperty().bind(mainSections.not());
-        menuRandomize.visibleProperty().bind(mainSections);
-        
-        lblStatus.setVisible(false);
-        progressBar.setVisible(false);
+        menuRandomize.visibleProperty().bind(mainSections);        
+        lblStatus.visibleProperty().bind(statusBarControlsVisible);
+        progressBar.visibleProperty().bind(statusBarControlsVisible);
+        content.disableProperty().bind(disableContent);
+        menuBar.disableProperty().bind(disableContent);
     }
     
     @FXML
@@ -123,14 +126,6 @@ public class MainController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
-    public MenuBar getMenuBar() {
-        return menuBar;
-    }
-    
-    public ScrollPane getContent() {
-        return content;
-    }
         
     public Label getStatusLabel() {
         return lblStatus;
@@ -150,6 +145,14 @@ public class MainController {
     
     public void setRom(Rom rom) {
         this.rom = rom;
+    }
+    
+    public SimpleBooleanProperty disableContentProperty() {
+        return disableContent;
+    }
+    
+    public SimpleBooleanProperty statusBarControlsVisibleProperty() {
+        return statusBarControlsVisible;
     }
     
     public long getSeed() {

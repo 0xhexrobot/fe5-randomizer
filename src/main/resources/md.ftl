@@ -164,7 +164,7 @@ ${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} â†
 <#list chapter.getArmyData() as unit>
 **Character**: ${unit.character.getName()}(${unit.character.offset?string.@hex_4}) <#if unit.character.oldValues["characterClass"]??> â†’ **${unit.character.characterClass.getName()}**</#if>
 
-X: ${unit.getXCoord()}, Y: ${unit.getYCoord()}, Army: ${unit.armyOrigin?string.@hex_4}, Level: ${unit.level}<#if unit.promoted>(P)</#if>,
+X: ${unit.getXCoord()}, Y: ${unit.getYCoord()}, Army: ${unit.armyOrigin?string.@hex_4}, Level: ${unit.level}<#if unit.autoLeveled>(A)</#if>,
 
 <#if unit.oldValues["inventory"]??>
 Inventory |

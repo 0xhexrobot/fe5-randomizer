@@ -10,16 +10,18 @@ import org.hexrobot.fe5randomizer.RandomizationSummary;
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.WeaponSeed;
 import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
-import org.hexrobot.fe5randomizer.service.RandomizeRomService;
+import org.hexrobot.fe5randomizer.services.RandomizeRomService;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -726,7 +728,6 @@ public class RandomizeController {
         System.out.println(mainController.getRandomizeSummary().toString());
         Label statusLabel = mainController.getStatusLabel();
         ProgressBar progressBar = mainController.getProgressBar();
-        ScrollPane content = mainController.getContent();
         
         if(file.exists()) {
             try {
@@ -759,21 +760,24 @@ public class RandomizeController {
             
             statusLabel.textProperty().bind(randomizeRomService.messageProperty());
             progressBar.progressProperty().bind(randomizeRomService.progressProperty());
-            content.disableProperty().bind(randomizeRomService.runningProperty());
-            statusLabel.setVisible(true);
-            progressBar.setVisible(true);
-            mainController.getMenuBar().setDisable(true);
+            mainController.statusBarControlsVisibleProperty().set(true);
+            mainController.disableContentProperty().set(true);
 
             randomizeRomService.start();
+            
+            randomizeRomService.setOnFailed((e) -> {
+                randomizeRomService.getException().printStackTrace();
+            });
 
             randomizeRomService.setOnSucceeded((e) -> {
                 mainController.getStatusLabel().textProperty().unbind();
                 mainController.getProgressBar().progressProperty().unbind();
-                content.disableProperty().unbind();
-                statusLabel.setVisible(false);
-                progressBar.setVisible(false);
-                content.setDisable(false);
-                mainController.getMenuBar().setDisable(false);
+                mainController.statusBarControlsVisibleProperty().set(false);
+                mainController.disableContentProperty().set(false);
+                
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setContentText("Randomization successful!");
+                alert.show();
             });
 
             randomizeRomService.setOnFailed((e) -> {
