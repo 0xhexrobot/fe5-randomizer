@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.hexrobot.fe5randomizer.Rom;
-import org.hexrobot.fe5randomizer.service.LoadRomService;
+import org.hexrobot.fe5randomizer.services.LoadRomService;
 
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -71,36 +69,27 @@ public class LoadRomController {
             }
 
             label.textProperty().bind(loadRomService.messageProperty());
-            label.visibleProperty().bind(loadRomService.runningProperty());
             progressBar.progressProperty().bind(loadRomService.progressProperty());
-            progressBar.visibleProperty().bind(loadRomService.runningProperty());
             btnLoadRom.disableProperty().bind(loadRomService.runningProperty());
+            mainController.statusBarControlsVisibleProperty().set(true);
+            mainController.disableContentProperty().set(true);
 
             loadRomService.start();
 
-            loadRomService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            loadRomService.setOnSucceeded((e) -> {
+                label.textProperty().unbind();
+                progressBar.progressProperty().unbind();
+                mainController.statusBarControlsVisibleProperty().set(false);
+                btnLoadRom.disableProperty().unbind();
+                btnLoadRom.setDisable(false);
+                mainController.disableContentProperty().set(false);
 
-                @Override
-                public void handle(WorkerStateEvent event) {
-                    label.textProperty().unbind();
-                    label.visibleProperty().unbind();
-                    label.setVisible(false);
-                    progressBar.progressProperty().unbind();
-                    progressBar.visibleProperty().unbind();
-                    progressBar.setVisible(false);
-                    btnLoadRom.disableProperty().unbind();
-                    btnLoadRom.setDisable(false);
-
-                    evaluateRom(loadRomService.getValue());
-                }
+                evaluateRom(loadRomService.getValue());
             });
 
-            loadRomService.setOnFailed(new EventHandler<WorkerStateEvent>() {
-                @Override
-                public void handle(WorkerStateEvent arg0) {
-                    Throwable throwable = loadRomService.getException(); 
-                    throwable.printStackTrace();
-                }
+            loadRomService.setOnFailed((e) -> {
+                Throwable throwable = loadRomService.getException();
+                throwable.printStackTrace();
             });
         }
     }

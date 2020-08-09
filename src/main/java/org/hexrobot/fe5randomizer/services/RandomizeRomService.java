@@ -1,4 +1,4 @@
-package org.hexrobot.fe5randomizer.service;
+package org.hexrobot.fe5randomizer.services;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -170,11 +170,11 @@ public class RandomizeRomService extends Service<Void> {
                     input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
                     input.put("seed", rom.getSeedAsWeaponArray());
                     input.put("summary", summary);
-                    //input.put("units", GameCharacter.values());
-                    //input.put("classes", CharacterClass.values());
+                    input.put("units", GameCharacter.values());
+                    input.put("classes", CharacterClass.values());
                     input.put("items", Item.values());
-                    //input.put("armyData", rom.getArmyUnits());
-                    //input.put("chapterData", Chapter.values());
+                    input.put("armyData", rom.getArmyUnits());
+                    input.put("chapterData", Chapter.values());
 
                     try {
                         Writer fileWriter = new FileWriter(new File(romFile.getAbsolutePath().concat(".md")));
