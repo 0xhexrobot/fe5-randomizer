@@ -522,20 +522,20 @@ public class Rom {
                     continue;
                 }
                 
-                inventory.set(i, getSelectedItem(armyUnit));
+                inventory.set(i, getSelectedItem(armyUnit, inventory));
             }
             
             armyUnit.setInventory(inventory);
         }
     }
     
-    private Item getSelectedItem(ArmyUnit unit) {
+    private Item getSelectedItem(ArmyUnit unit, ArrayList<Item> inventory) {
         Item selectedItem = Item.BROKEN_SWORD;
         WeightedList<Item> itemWeights = new WeightedList<>();
         ArrayList<Item> items = Item.getItems(true, true);
         
         for(Item item : items) {
-            float weight = logic.assignItemWeight(unit, item);
+            float weight = logic.assignItemWeight(unit, item, inventory);
             itemWeights.add(item, weight);
         }
         
@@ -568,15 +568,15 @@ public class Rom {
         for(ArmyUnit unit : enemies) {
             ArrayList<Item> inventory = unit.getInventory();
             maxExtraItems = Math.min(maxExtraItems, 7 - inventory.size());
-            int extraInventoryCount = random.nextInt(maxExtraItems + 1);
-            ArrayList<Item> extraInventory = new ArrayList<>(); 
+            int itemsToAdd = random.nextInt(maxExtraItems + 1);
+            int itemsAdded = 0;
             
-            while(extraInventory.size() < extraInventoryCount) {
-                Item item = getSelectedItem(unit);
-                extraInventory.add(item);
+            while(itemsAdded < itemsToAdd) {
+                Item item = getSelectedItem(unit, inventory);
+                inventory.add(item);
+                itemsAdded++;
             }
-            
-            inventory.addAll(extraInventory);
+
             unit.setInventory(inventory);
         }
     }

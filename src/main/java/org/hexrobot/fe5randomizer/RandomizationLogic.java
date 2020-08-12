@@ -1,5 +1,7 @@
 package org.hexrobot.fe5randomizer;
 
+import java.util.List;
+
 import org.hexrobot.fe5randomizer.chapters.ArmyUnit;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
@@ -7,15 +9,25 @@ import org.hexrobot.fe5randomizer.characters.Gender;
 import org.hexrobot.fe5randomizer.items.Item;
 
 public class RandomizationLogic {
-    public float assignItemWeight(ArmyUnit unit, Item item) {
+    public float assignItemWeight(ArmyUnit unit, Item item, List<Item> inventory) {
+        if(unit.getCharacter().isPlayableUnit() && item.isEnemyOnly()) {
+            return 0;
+        }
+        
         float value = 0;
-
-        // repeated item formula: value = 1/(4^n);
         
         if(unit.canUseWeapon(item)) {
-            value = 1.0f;
+            int countSameItems = 0;
+            
+            for(Item invItem : inventory) {
+                if(invItem.equals(item)) {
+                    countSameItems++;
+                }
+            }
+            
+            value = 1 / (float)(Math.pow(4, countSameItems));
         }
-
+        
         return value;
     }
 

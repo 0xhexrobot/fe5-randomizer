@@ -523,16 +523,6 @@ public enum GameCharacter {
         bldGrowth = rom.getValueAt(relOffset + BLD_GROWTH_OFFSET);
         lckGrowth = rom.getValueAt(relOffset + LCK_GROWTH_OFFSET);
         movGrowth = rom.getValueAt(relOffset + MOV_GROWTH_OFFSET);
-        baseSwordLv.setAmount(rom.getValueAt(relOffset + BASE_SWORD_LV_OFFSET));
-        baseLanceLv.setAmount(rom.getValueAt(relOffset + BASE_LANCE_LV_OFFSET));
-        baseAxeLv.setAmount(rom.getValueAt(relOffset + BASE_AXE_LV_OFFSET));
-        baseBowLv.setAmount(rom.getValueAt(relOffset + BASE_BOW_LV_OFFSET));
-        baseStaffLv.setAmount(rom.getValueAt(relOffset + BASE_STAFF_LV_OFFSET));
-        baseFireLv.setAmount(rom.getValueAt(relOffset + BASE_FIRE_LV_OFFSET));
-        baseThunderLv.setAmount(rom.getValueAt(relOffset + BASE_THUNDER_LV_OFFSET));
-        baseWindLv.setAmount(rom.getValueAt(relOffset + BASE_WIND_LV_OFFSET));
-        baseLightLv.setAmount(rom.getValueAt(relOffset + BASE_LIGHT_LV_OFFSET));
-        baseDarkLv.setAmount(rom.getValueAt(relOffset + BASE_DARK_LV_OFFSET));
         gender = Gender.findById(rom.getValueAt(relOffset + GENDER_OFFSET));
         skills1 = rom.getValueAt(relOffset + SKILL1_OFFSET);
         skills2 = rom.getValueAt(relOffset + SKILL2_OFFSET);
@@ -542,6 +532,19 @@ public enum GameCharacter {
         leadershipStars = rom.getValueAt(relOffset + LEADERSHIP_STARS_OFFSET);
         mapSprite = rom.getValueAt(relOffset + MAP_SPRITE_OFFSET);
         randomBases = baseHp > 0x7F;
+        
+        if(!randomBases) {
+            baseSwordLv.setAmount(rom.getValueAt(relOffset + BASE_SWORD_LV_OFFSET));
+            baseLanceLv.setAmount(rom.getValueAt(relOffset + BASE_LANCE_LV_OFFSET));
+            baseAxeLv.setAmount(rom.getValueAt(relOffset + BASE_AXE_LV_OFFSET));
+            baseBowLv.setAmount(rom.getValueAt(relOffset + BASE_BOW_LV_OFFSET));
+            baseStaffLv.setAmount(rom.getValueAt(relOffset + BASE_STAFF_LV_OFFSET));
+            baseFireLv.setAmount(rom.getValueAt(relOffset + BASE_FIRE_LV_OFFSET));
+            baseThunderLv.setAmount(rom.getValueAt(relOffset + BASE_THUNDER_LV_OFFSET));
+            baseWindLv.setAmount(rom.getValueAt(relOffset + BASE_WIND_LV_OFFSET));
+            baseLightLv.setAmount(rom.getValueAt(relOffset + BASE_LIGHT_LV_OFFSET));
+            baseDarkLv.setAmount(rom.getValueAt(relOffset + BASE_DARK_LV_OFFSET));
+        }
     }
     
     public void writeCharacter(Rom rom, int startingOffset) {

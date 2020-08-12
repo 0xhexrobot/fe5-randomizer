@@ -1,7 +1,7 @@
 package org.hexrobot.fe5randomizer.characters;
 
-public class WeaponProficiency implements Cloneable {
-    private int proficiency;
+public class WeaponProficiency {
+    private int proficiency = 0;
     
     public void setAmount(int proficiency) {
         this.proficiency = proficiency;
@@ -29,14 +29,5 @@ public class WeaponProficiency implements Cloneable {
         }
         
         return name;
-    }
-    
-    @Override
-    public Object clone(){  
-        try{  
-            return super.clone();  
-        }catch(Exception e){ 
-            return null; 
-        }
     }
 }
