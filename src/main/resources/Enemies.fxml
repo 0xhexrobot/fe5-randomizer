@@ -3,54 +3,60 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="enemies" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.EnemiesController">
-   <children>
-      <CheckBox fx:id="chkClasses" mnemonicParsing="false" text="Randomize classes" />
-      <CheckBox fx:id="chkClassExcludeBosses" mnemonicParsing="false" text="Exclude bosses">
-         <padding>
-            <Insets left="20.0" />
-         </padding>
-      </CheckBox>
-      <CheckBox fx:id="chkExtraInventory" mnemonicParsing="false" text="Add extra inventory" />
-      <HBox fx:id="parExtraInventory" alignment="CENTER_RIGHT" spacing="10.0">
+
+<ScrollPane fx:id="enemies" fitToHeight="true" fitToWidth="true" minViewportWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.EnemiesController">
+   <content>
+      <VBox minWidth="400.0" spacing="5.0">
          <children>
-            <Label text="Max extra items" />
-            <Spinner fx:id="spExtraInventory" max="7" min="1" prefHeight="26.0" prefWidth="70.0" />
+            <CheckBox fx:id="chkClasses" mnemonicParsing="false" text="Randomize classes" />
+            <CheckBox fx:id="chkClassExcludeBosses" mnemonicParsing="false" text="Exclude bosses">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </CheckBox>
+            <CheckBox fx:id="chkExtraInventory" mnemonicParsing="false" text="Add extra inventory" />
+            <HBox fx:id="parExtraInventory" alignment="CENTER_RIGHT" spacing="10.0">
+               <children>
+                  <Label text="Max extra items" />
+                  <Spinner fx:id="spExtraInventory" max="7" min="1" prefHeight="26.0" prefWidth="70.0" />
+               </children>
+            </HBox>
+            <CheckBox fx:id="chkMovementStars" mnemonicParsing="false" text="Randomize Movement stars" />
+            <CheckBox fx:id="chkMovementExcludeZero" mnemonicParsing="false" text="Exclude units with 0 stars">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </CheckBox>
+            <CheckBox fx:id="chkLeadershipStars" mnemonicParsing="false" text="Randomize Leadership stars" />
+            <CheckBox fx:id="chkLeadershipExcludeZero" mnemonicParsing="false" text="Exclude units with 0 stars">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </CheckBox>
+            <CheckBox fx:id="chkRandomizeBossSkills" mnemonicParsing="false" text="Randomize boss skills" />
+            <HBox fx:id="parBossMaxSkillCount" alignment="CENTER_RIGHT" spacing="10.0">
+               <children>
+                  <Label text="Max skill count" />
+                  <Spinner fx:id="spBossMaxSkillCount" max="5" min="0" prefWidth="70.0" />
+               </children>
+            </HBox>
+            <CheckBox fx:id="chkRandomizeEnemiesSkills" mnemonicParsing="false" text="Randomize normal enemies skills" />
+            <HBox fx:id="parEnemiesSkillCount" alignment="CENTER_RIGHT" spacing="10.0">
+               <children>
+                  <Label text="Max skill count" />
+                  <Spinner fx:id="spEnemiesMaxSkillCount" max="5" min="0" prefWidth="70.0" />
+               </children>
+            </HBox>
+            <CheckBox fx:id="chkNerfBallistae" mnemonicParsing="false" text="Nerf Ballistae" />
          </children>
-      </HBox>
-      <CheckBox fx:id="chkMovementStars" mnemonicParsing="false" text="Randomize Movement stars" />
-      <CheckBox fx:id="chkMovementExcludeZero" mnemonicParsing="false" text="Exclude units with 0 stars">
          <padding>
-            <Insets left="20.0" />
+            <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
          </padding>
-      </CheckBox>
-      <CheckBox fx:id="chkLeadershipStars" mnemonicParsing="false" text="Randomize Leadership stars" />
-      <CheckBox fx:id="chkLeadershipExcludeZero" mnemonicParsing="false" text="Exclude units with 0 stars">
-         <padding>
-            <Insets left="20.0" />
-         </padding>
-      </CheckBox>
-      <CheckBox fx:id="chkRandomizeBossSkills" mnemonicParsing="false" text="Randomize boss skills" />
-      <HBox fx:id="parBossMaxSkillCount" alignment="CENTER_RIGHT" spacing="10.0">
-         <children>
-            <Label text="Max skill count" />
-            <Spinner fx:id="spBossMaxSkillCount" max="5" min="0" prefWidth="70.0" />
-         </children>
-      </HBox>
-      <CheckBox fx:id="chkRandomizeEnemiesSkills" mnemonicParsing="false" text="Randomize normal enemies skills" />
-      <HBox fx:id="parEnemiesSkillCount" alignment="CENTER_RIGHT" spacing="10.0">
-         <children>
-            <Label text="Max skill count" />
-            <Spinner fx:id="spEnemiesMaxSkillCount" max="5" min="0" prefWidth="70.0" />
-         </children>
-      </HBox>
-      <CheckBox fx:id="chkNerfBallistae" mnemonicParsing="false" text="Nerf Ballistae" />
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+      </VBox>
+   </content>
+</ScrollPane>

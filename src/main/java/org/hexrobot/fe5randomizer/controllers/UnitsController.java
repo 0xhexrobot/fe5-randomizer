@@ -6,6 +6,7 @@ import javafx.beans.binding.IntegerBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
@@ -15,7 +16,7 @@ import javafx.scene.layout.VBox;
 
 public class UnitsController {
     @FXML
-    private VBox units;
+    private ScrollPane units;
     @FXML
     private CheckBox chkBases;
     @FXML

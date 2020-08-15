@@ -4,13 +4,13 @@ import org.hexrobot.fe5randomizer.RandomizationSummary;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class EnemiesController {
     @FXML
-    private VBox enemies;
+    private ScrollPane enemies;
     @FXML
     private CheckBox chkClasses;
     @FXML

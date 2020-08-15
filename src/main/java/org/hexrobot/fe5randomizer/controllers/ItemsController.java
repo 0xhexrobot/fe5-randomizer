@@ -5,13 +5,13 @@ import org.hexrobot.fe5randomizer.RandomizationSummary;
 import javafx.beans.binding.IntegerBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class ItemsController {
     @FXML
-    private VBox items;
+    private ScrollPane items;
     @FXML
     private CheckBox chkMight;
     @FXML

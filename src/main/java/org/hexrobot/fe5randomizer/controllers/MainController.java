@@ -18,13 +18,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainController {
     @FXML
-    private ScrollPane content;
+    private Pane content;
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -119,7 +119,8 @@ public class MainController {
     public void switchToSectionsController(Rom rom) {
         mainSections.set(true);
         sectionsController.setRom(rom, stage);
-        content.setContent(vBox);
+        content.getChildren().clear();
+        content.getChildren().add(vBox);
         stage.sizeToScene();
     }
     

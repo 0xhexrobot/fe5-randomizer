@@ -6,8 +6,8 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.MainController">
@@ -28,10 +28,11 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ScrollPane fx:id="content" fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
-         <content>
+      <Pane fx:id="content">
+         <children>
             <fx:include fx:id="loadRom" source="LoadRom.fxml" />
-         </content></ScrollPane>
+         </children>
+      </Pane>
       <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
          <children>
             <Label fx:id="lblStatus" maxWidth="-Infinity" prefWidth="160.0" text="Status" HBox.hgrow="NEVER" />
