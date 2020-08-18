@@ -125,7 +125,7 @@ public enum Item {
 	TORCH2(0x71, "Torch"),
 	RETURN(0x72, "Return"),
 	REPAIR(0x73, "Repair"),
-	THIEF(0x74, "Thief"),
+	THIEF_STAFF(0x74, "Thief"),
 	WATCH(0x75, "Watch"),
 	BERSERK(0x76, "Berserk"),
 	UNLOCK(0x77, "Unlock"),
@@ -232,7 +232,7 @@ public enum Item {
             KILLER_BOW, HERO_BOW, SHORT_BOW, LONG_BOW, GREAT_BOW, MASTER_BOW));
     private static final ArrayList<Item> STAVES = new ArrayList<Item>(
             List.of(LIVE, RELIVE, RECOVER, LIBRO, RESERVE, RESCUE, WARP, REST, SILENCE, SLEEP, TORCH2, RETURN, REPAIR,
-                    THIEF, WATCH, BERSERK, UNLOCK, MAGIC_SHIELD, REWARP, CURE));
+                    THIEF_STAFF, WATCH, BERSERK, UNLOCK, MAGIC_SHIELD, REWARP, CURE));
     private static final ArrayList<Item> FIRE_MAGIC = new ArrayList<Item>(
             List.of(FIRE, ELFIRE, VOLCANNON, FALAFLAME, METEO));
     private static final ArrayList<Item> THUNDER_MAGIC = new ArrayList<Item>(
@@ -256,6 +256,8 @@ public enum Item {
             List.of(DARKNESS_LANCE, VOLCANNON, FALAFLAME, TORHAMMER, AURA, LOPUTOUS, WATCH, RETURN, GUNGNIR, GAE_BOLG));
     private static final ArrayList<Item> ENEMY_ONLY = new ArrayList<Item>(
             List.of(POISON_SWORD, POISON_LANCE, POISON_AXE, POISON_BOW));
+    private static final ArrayList<Item> PLAYER_ONLY = new ArrayList<Item>(
+            List.of(THIEF_STAFF));
     private static final ArrayList<Item> BROKEN = new ArrayList<Item>(
             List.of(BROKEN_SWORD, BROKEN_LANCE, BROKEN_AXE, BROKEN_BOW, BROKEN_STAFF, BROKEN_BOOK));
 
@@ -504,6 +506,10 @@ public enum Item {
 
     public boolean isEnemyOnly() {
         return ENEMY_ONLY.contains(this);
+    }
+    
+    public boolean isPlayerOnly() {
+        return PLAYER_ONLY.contains(this);
     }
     
     public ArrayList<Item> getUnusedItems() {

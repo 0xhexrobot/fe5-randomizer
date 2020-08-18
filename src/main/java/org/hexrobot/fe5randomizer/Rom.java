@@ -1,6 +1,7 @@
 package org.hexrobot.fe5randomizer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.zip.CRC32;
 
@@ -466,16 +467,19 @@ public class Rom {
     
     public void randomizePlayableUnitClasses(boolean excludeHealers, boolean excludeThieves) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        ArrayList<CharacterClass> bannedClasses = new ArrayList<>();
         
         if(excludeHealers) {
             characters.removeIf(unit -> unit.getCharacterClass().isHealer());
+            bannedClasses.addAll(CharacterClass.getHealerClasses());
         }
         
         if(excludeThieves) {
             characters.removeIf(unit -> unit.getCharacterClass().isThief());
+            bannedClasses.addAll(CharacterClass.getThiefClasses());
         }
 
-        assignNewClasses(characters);
+        assignNewClasses(characters, bannedClasses);
     }
     
     public void randomizeEnemyUnitClasses(boolean excludeBosses) {
@@ -485,12 +489,15 @@ public class Rom {
             characters.removeAll(GameCharacter.getBossUnits());
         }
 
-        assignNewClasses(characters);
+        assignNewClasses(characters, List.of());
     }
     
-    private void assignNewClasses(ArrayList<GameCharacter> characters) {
+    private void assignNewClasses(ArrayList<GameCharacter> characters, List<CharacterClass> bannedClasses) {
         ArrayList<CharacterClass> unpromotedClasses = CharacterClass.getUnpromotedClasses();
         ArrayList<CharacterClass> promotedClasses = CharacterClass.getPromotedClasses();
+        
+        unpromotedClasses.removeIf(chClass -> bannedClasses.contains(chClass));
+        promotedClasses.removeIf(chClass -> bannedClasses.contains(chClass));
         
         for(GameCharacter character : characters) {
             CharacterClass characterClass = character.getCharacterClass();
@@ -881,8 +888,8 @@ public class Rom {
         Item.TORCH.setMaxUses(10);
         Item.LIBRO.setMaxUses(10);
         Item.REST.setMaxUses(10);
-        Item.HOLY_WATER.setMaxUses(5);
-        Item.HOLY_WATER.setCostPerUse(200);
+        Item.HOLY_WATER.setMaxUses(3);
+        Item.HOLY_WATER.setCostPerUse(300);
         Item.TORCH.setMaxUses(5);
         Item.TORCH.setCostPerUse(100);
     }
@@ -899,9 +906,9 @@ public class Rom {
         Item.HERO_LANCE.setWeaponRank(WeaponRank.B);
         Item.PUGI.setWeaponRank(WeaponRank.C);
         Item.DAIM_THUNDER.setWeaponRank(WeaponRank.B);
-        Item.GRAFUCALIBUR.setWeaponRank(WeaponRank.C);
-        Item.REPAIR.setWeaponRank(WeaponRank.C);
-        Item.THIEF.setWeaponRank(WeaponRank.C);
+        Item.GRAFUCALIBUR.setWeaponRank(WeaponRank.B);
+        Item.REPAIR.setWeaponRank(WeaponRank.B);
+        Item.THIEF_STAFF.setWeaponRank(WeaponRank.B);
         Item.UNLOCK.setWeaponRank(WeaponRank.C);
         Item.CURE.setWeaponRank(WeaponRank.C);
     }

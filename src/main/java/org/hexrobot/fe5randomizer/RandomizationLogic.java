@@ -14,6 +14,10 @@ public class RandomizationLogic {
             return 0;
         }
         
+        if(unit.getCharacter().isEnemyUnit() && item.isPlayerOnly()) {
+            return 0;
+        }
+        
         float value = 0;
         
         if(unit.canUseWeapon(item)) {

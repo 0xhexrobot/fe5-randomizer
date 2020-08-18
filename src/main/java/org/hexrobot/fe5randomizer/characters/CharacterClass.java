@@ -373,6 +373,14 @@ public enum CharacterClass {
         return FEMALE_CLASSES.contains(this);
     }
     
+    public static ArrayList<CharacterClass> getThiefClasses() {
+        return new ArrayList<>(THIEVES);
+    }
+    
+    public static ArrayList<CharacterClass> getHealerClasses() {
+        return new ArrayList<>(HEALERS);
+    }
+    
     public boolean canUseWeaponType(ItemType weaponType) {
         boolean canUse = false;
         final int MIN_SKILL_LV = 50;
