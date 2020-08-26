@@ -130,7 +130,7 @@ public enum GameCharacter {
     KODDA_BOSS(0x0074, "Kodda (Boss)"),
     ROPUTO_DARK_MAGE(0x0075, "Roputo - Dark Mage"),
     CIVILIAN(0x0076, "Civilian"),
-    THIEF(0x0077, "Thief"),
+    THIEF(0x0077, "Thief (F?)"),
     MANSTER_SNIPER(0x0078, "Manster - Sniper"),
     MERCENARY_SOCIAL_KNIGHT(0x0079, "Mercenary - Social Knight"),
     PRIEST(0x007A, "Priest"),
@@ -186,7 +186,7 @@ public enum GameCharacter {
     MANSTER_PRIEST(0x00AC, "Manster - Priest"),
     YURIUS_YURIA_PORTRAIT(0x00AD, "Yurius (with Yuria portrait...)"),
     MANFROY_MACHYUA_PORTRAIT(0x00AE, "Manfroy (with Machyua portrait...)"),
-    MANSTER_MAGE2(0x00AF, "Manster - Mage"),
+    MANSTER_MAGE_F(0x00AF, "Manster - Mage (F)"),
     MANSTER_SWORD_FIGHTER(0x00B0, "Manster - Sword Fighter"),
     ENVOY_MERCENARY(0x00B1, "Envoy - Mercenary"),
     ENVOY_WARRIOR(0x00B2, "Envoy - Warrior"),
@@ -200,10 +200,10 @@ public enum GameCharacter {
     MANSTER_SOLDIER2(0x00BA, "Manster - Soldier"),
     BANDIT_BERSERKER(0x00BB, "Bandit - Berserker"),
     MERCENARY_SWORD_FIGHTER4(0x00BC, "Mercenary - Sword Fighter"),
-    MAGI_SQUAD_SWORD_FIGHTER(0x00BD, "Magi Squad - Sword Fighter"),
+    MAGI_SQUAD_SWORD_FIGHTER_F(0x00BD, "Magi Squad - Sword Fighter (F)"),
     MAGI_SQUAD_AXE_FIGHTER(0x00BE, "Magi Squad - Axe Fighter"),
     MAGI_SQUAD_BOW_FIGHTER(0x00BF, "Magi Squad - Bow Fighter"),
-    MAGI_SQUAD_SWORD_FIGHTER2(0x00C0, "Magi Squad - Sword Fighter"),
+    MAGI_SQUAD_SWORD_FIGHTER(0x00C0, "Magi Squad - Sword Fighter"),
     DRAGON_RIDER(0x00C1, "Dragon Rider"),
     BISHOP(0x00C2, "Bishop"),
     TOBOLZARK_BOSS(0x00C3, "Tobolzark (Boss)"),
@@ -458,10 +458,10 @@ public enum GameCharacter {
             OPISU_BOSS, FERDEN_BOSS, KORUTA_BOSS, REINHARDT, MERCENARY_SWORD_FIGHTER3, FREEGE_LONG_ARCH,
             FREEGE_SOCIAL_KNIGHT, FREEGE_TROUBADOUR, FREEGE_BOW_ARMOR, FREEGE_LANCE_ARMOR, FREEGE_AXE_ARMOR,
             FREEGE_ARCHER, FREEGE_MAGE, RILKE_KEMPF_PORTRAIT, MANSTER_LANCE_ARMOR, MANSTER_MAGE, MANSTER_PRIEST,
-            MANSTER_MAGE2, MANSTER_SWORD_FIGHTER, ENVOY_MERCENARY, ENVOY_WARRIOR, ENVOY_GENERAL, ENVOY_SWORDMASTER,
+            MANSTER_MAGE_F, MANSTER_SWORD_FIGHTER, ENVOY_MERCENARY, ENVOY_WARRIOR, ENVOY_GENERAL, ENVOY_SWORDMASTER,
             ENVOY_BERSERKER, MANSTER_PRIEST2, BANTOL_BOSS, LOPTO_DARK_BISHOP, TORMAN_BOSS, MANSTER_SOLDIER2,
-            BANDIT_BERSERKER, MERCENARY_SWORD_FIGHTER4, MAGI_SQUAD_SWORD_FIGHTER, MAGI_SQUAD_AXE_FIGHTER,
-            MAGI_SQUAD_BOW_FIGHTER, MAGI_SQUAD_SWORD_FIGHTER2, DRAGON_RIDER, BISHOP, TOBOLZARK_BOSS, MANSTER_BISHOP2,
+            BANDIT_BERSERKER, MERCENARY_SWORD_FIGHTER4, MAGI_SQUAD_SWORD_FIGHTER_F, MAGI_SQUAD_AXE_FIGHTER,
+            MAGI_SQUAD_BOW_FIGHTER, MAGI_SQUAD_SWORD_FIGHTER, DRAGON_RIDER, BISHOP, TOBOLZARK_BOSS, MANSTER_BISHOP2,
             FREEGE_LONG_ARCH2, BANDIT_MOUNTAIN_THIEF_2, THIEF2, BOW_FIGHTER, FREEGE_BISHOP, FREEGE_LANCE_ARMOR2,
             FREEGE_BOW_ARMOR2, FREEGE_MAGE2, IRON_ARCH, FREEGE_AXE_ARMOR2, AIGHTMAN_BOSS, ZAIL_BOSS, SWORD_ARMOR,
             SOLDIER, FREEGE_LONG_ARCH3, SILESIA_PEGASUS_RIDER2, FREEGE_MAGE_KNIGHT1, PALADIN, FREEGE_GREAT_KNIGHT,
@@ -491,6 +491,9 @@ public enum GameCharacter {
             OPISU_BOSS, FERDEN_BOSS, KORUTA_BOSS, REINHARDT, BANTOL_BOSS, TORMAN_BOSS, TOBOLZARK_BOSS, AIGHTMAN_BOSS,
             BARRAT_BOSS, EINS, DREI_DAGUDAR, DREI, ELF_SARA, ELF, ZWEI_GALZUS, ZWEI, ZWOLF_LIFIS, ZWOLF, FUNF_EYVEL,
             FUNF, LEIDRICK_2, WOLF_BOSS));
+    private static final ArrayList<GameCharacter> BALLISTAE = new ArrayList<>(
+            List.of(MANSTER_LONG_ARCH, CH21_IRON_ARCH, FREEGE_LONG_ARCH, FREEGE_LONG_ARCH2, IRON_ARCH,
+                    FREEGE_LONG_ARCH3, FREEGE_LONG_ARCH1, FREEGE_POISON_ARCH, MANSTER_POISON_ARCH, FREEGE_IRON_ARCH));
     
     private GameCharacter(int offset, String name) {
         this.offset = offset;
@@ -1433,6 +1436,10 @@ public enum GameCharacter {
         return ENEMY_UNITS.contains(this);
     }
     
+    public boolean isBallistaUnit() {
+        return BALLISTAE.contains(this);
+    }
+    
     public boolean isBoss() {
         return BOSSES.contains(this);
     }
@@ -1465,6 +1472,10 @@ public enum GameCharacter {
     
     public static ArrayList<GameCharacter> getBossUnits() {
         return new ArrayList<GameCharacter>(BOSSES);
+    }
+    
+    public static ArrayList<GameCharacter> getBallistaeUnits() {
+        return new ArrayList<GameCharacter>(BALLISTAE);
     }
     
     @Override

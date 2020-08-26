@@ -485,6 +485,8 @@ public class Rom {
     public void randomizeEnemyUnitClasses(boolean excludeBosses) {
         ArrayList<GameCharacter> characters = GameCharacter.getEnemyUnits();
         
+        characters.removeAll(GameCharacter.getBallistaeUnits());
+        
         if(excludeBosses) {
             characters.removeAll(GameCharacter.getBossUnits());
         }
@@ -570,7 +572,7 @@ public class Rom {
     
     public void enemiesAddExtraInventory(int maxExtraItems) {
         ArrayList<ArmyUnit> enemies = new ArrayList<>(armyUnits);
-        enemies.removeIf(unit -> !unit.getCharacter().isEnemyUnit());
+        enemies.removeIf(unit -> !unit.getCharacter().isEnemyUnit() || unit.getCharacter().isBallistaUnit());
         
         for(ArmyUnit unit : enemies) {
             ArrayList<Item> inventory = unit.getInventory();
@@ -881,6 +883,7 @@ public class Rom {
         Item.FIRE.setMaxUses(30);
         Item.VOLCANNON.setMaxUses(20);
         Item.TRON.setMaxUses(20);
+        Item.WIND.setMaxUses(30);
         Item.TORNADO.setMaxUses(20);
         Item.LIGHTNING.setMaxUses(30);
         Item.LIVE.setMaxUses(30);
