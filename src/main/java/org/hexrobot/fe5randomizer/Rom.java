@@ -32,6 +32,7 @@ public class Rom {
     private static final int CHARACTERS_OFFSET = 0x31C2D;
     private static final int CHARACTER_CLASSES_OFFSET = 0x30200;
     private static final int MOUNT_TABLE_OFFSET = 0x40200;
+    private static final int PROMOTION_TABLE_OFFSET = 0x404F1;
     private byte[] bytes;
     private byte[] bytesBackup = new byte[0];
     private String name = "Fire Emblem 5 (Unknown)";
@@ -45,6 +46,7 @@ public class Rom {
     private RandomizationLogic logic = new RandomizationLogic();
     private ArrayList<ArmyUnit> armyUnits = new ArrayList<ArmyUnit>();
     private MountData mountData;
+    private PromotionData promotionData;
     private long seed;
     
     public Rom(byte[] bytes) {
@@ -189,6 +191,7 @@ public class Rom {
         initializeItems();
         initializeCharacterClasses();
         initializeMountData();
+        initializePromotionData();
         initializeCharacters();
         initializeArmyData();
     }
@@ -234,6 +237,10 @@ public class Rom {
     
     private void initializeMountData() {
         mountData = new MountData(this, MOUNT_TABLE_OFFSET);
+    }
+    
+    private void initializePromotionData() {
+        promotionData = new PromotionData(this, PROMOTION_TABLE_OFFSET);
     }
     
     public void randomizeUnitsBasesVariance(int delta) {
@@ -480,6 +487,9 @@ public class Rom {
         }
 
         assignNewClasses(characters, bannedClasses);
+        
+        promotionData.updatePromotions();
+        System.out.println(promotionData);
     }
     
     public void randomizeEnemyUnitClasses(boolean excludeBosses) {
@@ -961,6 +971,8 @@ public class Rom {
         for(Item item : Item.values()) {
             item.reset();
         }
+        
+        promotionData.reset();
     }
     
     public MountData getMountData() {
@@ -981,6 +993,8 @@ public class Rom {
         for(Item item : Item.values()) {
             item.writeItem(this, ITEMS_OFFSET);
         }
+        
+        promotionData.writePromotions(this, PROMOTION_TABLE_OFFSET);
     }
     
     public byte[] getBytes() {
