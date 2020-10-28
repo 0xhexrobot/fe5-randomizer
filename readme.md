@@ -3,6 +3,14 @@ Fire Emblem 5 Randomizer
 
 Works with Headered/Headerless Thracia 776 ROM versions, Shaya's translation, Project Exile and Lil' Manster versions.
 
+Playable units tab
+
+![Playable units tab](images/playable-units-tab.png)
+
+Randomize summary tab
+
+![Randomize tab](images/randomize-tab.png)
+
 ## Can randomize:
 
 ### Playable units
@@ -30,6 +38,8 @@ Works with Headered/Headerless Thracia 776 ROM versions, Shaya's translation, Pr
 
 ### Project Exile / Lil' Manster customization
 * Rename *Bhuj/Vouge* to _**Pugi**_
+
+![Playable units](images/pugi.png)
 
 ## How to run
 

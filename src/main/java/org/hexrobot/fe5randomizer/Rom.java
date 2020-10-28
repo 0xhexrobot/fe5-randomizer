@@ -23,6 +23,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 public class Rom {
     private static final long FE5_HEADERED_CRC32_CHK = 2514651613L;
     private static final long FE5_UNHEADERED_CRC32_CHK = 4233206098L;
+    private static final long FE5_REV_1_NP = 3937021011L;
     private static final long FE5_PROJECT_EXILE_1_04 = 0x17F75FD7; 
     private static final long FE5_PROJECT_EXILE_1_04_TOP_WAIT = 3995459323L;
     private static final int MIN_FILE_SIZE = 4194304;
@@ -65,8 +66,13 @@ public class Rom {
     
     private void checkFireEmblem5Version() {
         // known versions
-        if(crc32Checksum == FE5_HEADERED_CRC32_CHK || crc32Checksum == FE5_UNHEADERED_CRC32_CHK) {
-            name = "Fire Emblem 5";
+        if(crc32Checksum == FE5_HEADERED_CRC32_CHK || crc32Checksum == FE5_UNHEADERED_CRC32_CHK || crc32Checksum == FE5_REV_1_NP) {
+            if(crc32Checksum == FE5_REV_1_NP) {
+                name = "Fire Emblem 5 Rev 1 (NP)";
+            } else {
+                name = "Fire Emblem 5";
+            }
+            
             fireEmblem5 = true;
         } else if(crc32Checksum == FE5_PROJECT_EXILE_1_04 || crc32Checksum == FE5_PROJECT_EXILE_1_04_TOP_WAIT) {
             fireEmblem5 = true;
