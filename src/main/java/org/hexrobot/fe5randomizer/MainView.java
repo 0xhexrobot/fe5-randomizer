@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class MainView extends Application {
@@ -23,6 +24,7 @@ public class MainView extends Application {
 		MainController mainController = mainLoader.getController();
 		
 		mainController.setStage(primaryStage);
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/lopto-sword.gif")));
 		primaryStage.setScene(scene);
         primaryStage.setTitle("FE 5 Randomizer");
         primaryStage.setResizable(false);

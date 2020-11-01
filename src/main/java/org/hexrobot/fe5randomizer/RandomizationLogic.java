@@ -14,7 +14,7 @@ public class RandomizationLogic {
     private Map<GameCharacter, List<CharacterClass>> bannedClasses = new HashMap<>();
     private Map<GameCharacter, List<CharacterClass>> limitedClassPool = new HashMap<>();
     
-    public RandomizationLogic() {
+    public RandomizationLogic(RandomizationSummary summary) {
         List<CharacterClass> mountedClasses = CharacterClass.getMountedClasses();
         List<CharacterClass> flyingClasses = CharacterClass.getFlyingClasses();
         List<CharacterClass> canTraverseWaterClasses = CharacterClass.getCanTraverseWaterClasses();
@@ -29,6 +29,7 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.MANSTER_BISHOP, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_AXE_ARMOR, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_SWORD_ARMOR, mountedClasses);
+        bannedClasses.put(GameCharacter.ROBOS, mountedClasses);
         bannedClasses.put(GameCharacter.LEIDRICK_1, mountedClasses);
         bannedClasses.put(GameCharacter.LEIDRICK_2, mountedClasses);
         bannedClasses.put(GameCharacter.BANTOL_BOSS, mountedClasses);
@@ -41,6 +42,8 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.ENVOY_MERCENARY, mountedClasses);
         bannedClasses.put(GameCharacter.ENVOY_WARRIOR, mountedClasses);
         bannedClasses.put(GameCharacter.ENVOY_GENERAL, mountedClasses);
+        bannedClasses.put(GameCharacter.ENVOY_SWORDMASTER, mountedClasses);
+        bannedClasses.put(GameCharacter.ENVOY_BERSERKER, mountedClasses);
         bannedClasses.put(GameCharacter.MAGI_SQUAD_SWORD_FIGHTER_F, mountedClasses);
         bannedClasses.put(GameCharacter.MAGI_SQUAD_SWORD_FIGHTER, mountedClasses);
         bannedClasses.put(GameCharacter.MAGI_SQUAD_AXE_FIGHTER, mountedClasses);
@@ -93,6 +96,10 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.ZWOLF, mountedClasses);
         bannedClasses.put(GameCharacter.FUNF_EYVEL, mountedClasses);
         bannedClasses.put(GameCharacter.FUNF_EYVEL, mountedClasses);
+        
+        if(!summary.getExcludeThieves()) {
+            bannedClasses.put(GameCharacter.RIFIS, mountedClasses);
+        }
         
         // only these classes are available for these characters
         limitedClassPool.put(GameCharacter.RIFIS_GANG_PIRATE, canTraverseWaterClasses);

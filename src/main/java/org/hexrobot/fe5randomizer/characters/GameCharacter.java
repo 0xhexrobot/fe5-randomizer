@@ -494,6 +494,8 @@ public enum GameCharacter {
     private static final ArrayList<GameCharacter> BALLISTAE = new ArrayList<>(
             List.of(MANSTER_LONG_ARCH, CH21_IRON_ARCH, FREEGE_LONG_ARCH, FREEGE_LONG_ARCH2, IRON_ARCH,
                     FREEGE_LONG_ARCH3, FREEGE_LONG_ARCH1, FREEGE_POISON_ARCH, MANSTER_POISON_ARCH, FREEGE_IRON_ARCH));
+    private static final ArrayList<GameCharacter> PRF_WPN_OWNERS = new ArrayList<>(List.of(
+            LEAF, NANNA, MAREETA, DELMUD, FINN, ORUEN, FRED, SAPHY, TINA));
     
     private GameCharacter(int offset, String name) {
         this.offset = offset;
@@ -1476,6 +1478,10 @@ public enum GameCharacter {
     
     public static ArrayList<GameCharacter> getBallistaeUnits() {
         return new ArrayList<GameCharacter>(BALLISTAE);
+    }
+    
+    public static ArrayList<GameCharacter> getPrfWeaponOwners() {
+        return new ArrayList<GameCharacter>(PRF_WPN_OWNERS);
     }
     
     @Override

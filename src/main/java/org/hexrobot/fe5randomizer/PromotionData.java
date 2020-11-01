@@ -25,7 +25,9 @@ public class PromotionData {
     }
     
     public void updatePromotions() {
-        for(GameCharacter character : GameCharacter.getPlayableUnits()) {
+        for(Map.Entry<GameCharacter, CharacterClass> entry : promotionsTable.entrySet()) {
+            GameCharacter character = entry.getKey();
+            
             if(character.getOldValues().containsKey("characterClass")) {
                 CharacterClass charClass = character.getCharacterClass();
                 CharacterClass promotedClass = charClass.getPromotion();

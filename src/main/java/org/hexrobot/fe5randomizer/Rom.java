@@ -12,6 +12,7 @@ import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.characters.MovementStars;
 import org.hexrobot.fe5randomizer.characters.Skill;
+import org.hexrobot.fe5randomizer.controllers.MainController;
 import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
 import org.hexrobot.fe5randomizer.items.WeaponRank;
@@ -44,7 +45,7 @@ public class Rom {
     private SimpleBooleanProperty lilMansterHack = new SimpleBooleanProperty(false);
     private SimpleBooleanProperty projectExile = new SimpleBooleanProperty(false);
     private Random random;
-    private RandomizationLogic logic = new RandomizationLogic();
+    private RandomizationLogic logic;
     private ArrayList<ArmyUnit> armyUnits = new ArrayList<ArmyUnit>();
     private MountData mountData;
     private PromotionData promotionData;
@@ -62,6 +63,7 @@ public class Rom {
         crc32Checksum = crc32.getValue();
 
         checkFireEmblem5Version();
+        logic = new RandomizationLogic(MainController.getInstance().getRandomizeSummary());
     }
     
     private void checkFireEmblem5Version() {
@@ -930,6 +932,8 @@ public class Rom {
         Item.THIEF_STAFF.setWeaponRank(WeaponRank.B);
         Item.UNLOCK.setWeaponRank(WeaponRank.C);
         Item.CURE.setWeaponRank(WeaponRank.C);
+        
+        assignUnitInventories(GameCharacter.getPrfWeaponOwners());
     }
     
     public void nerfBallistae() {
