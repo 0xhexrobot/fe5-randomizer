@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fx:id="itemRewards" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.ItemRewardsController">
+	<content>
+		<VBox spacing="5.0">
+			<children>
+				<CheckBox fx:id="chkChestRewards" mnemonicParsing="false" text="Randomize Chest rewards" />
+            <CheckBox fx:id="chkChestShuffle" disable="true" mnemonicParsing="false" text="Shuffle">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </CheckBox>
+				<CheckBox fx:id="chkChestSimilar" disable="true" mnemonicParsing="false" text="Replace for similar items">
+					<VBox.margin>
+						<Insets left="20.0" />
+					</VBox.margin>
+				</CheckBox>
+				<CheckBox fx:id="chkHouseRewards" mnemonicParsing="false" text="Randomize House rewards" />
+            <CheckBox fx:id="chkHouseShuffle" disable="true" mnemonicParsing="false" text="Shuffle">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </CheckBox>
+				<CheckBox fx:id="chkHouseSimilar" disable="true" mnemonicParsing="false" text="Replace for similar items">
+					<VBox.margin>
+						<Insets left="20.0" />
+					</VBox.margin>
+				</CheckBox>
+				<CheckBox fx:id="chkShopItems" disable="true" mnemonicParsing="false" text="Randomize Shop items" />
+				<CheckBox fx:id="chkShopSimilar" disable="true" mnemonicParsing="false" text="Replace for similar items">
+					<VBox.margin>
+						<Insets left="20.0" />
+					</VBox.margin>
+				</CheckBox>
+			</children>
+			<padding>
+				<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+			</padding>
+		</VBox>
+	</content>
+</ScrollPane>

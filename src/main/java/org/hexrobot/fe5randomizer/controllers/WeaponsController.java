@@ -9,9 +9,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
 
-public class ItemsController {
+public class WeaponsController {
     @FXML
-    private ScrollPane items;
+    private ScrollPane weapons;
     @FXML
     private CheckBox chkMight;
     @FXML
@@ -96,25 +96,25 @@ public class ItemsController {
         parStatBonus.disableProperty().bind(chkAddStatBonus.selectedProperty().not());
         parAddWeaponSkill.disableProperty().bind(chkAddSkill.selectedProperty().not());
                 
-        chkMight.selectedProperty().bindBidirectional(summary.randomizeItemsMightProperty());
-        chkAccuracy.selectedProperty().bindBidirectional(summary.randomizeItemsAccuracyProperty());
-        chkWeight.selectedProperty().bindBidirectional(summary.randomizeItemsWeightProperty());
-        chkCritical.selectedProperty().bindBidirectional(summary.randomizeItemsCriticalProperty());
+        chkMight.selectedProperty().bindBidirectional(summary.randomizeWpnsMightProperty());
+        chkAccuracy.selectedProperty().bindBidirectional(summary.randomizeWpnsAccuracyProperty());
+        chkWeight.selectedProperty().bindBidirectional(summary.randomizeWpnsWeightProperty());
+        chkCritical.selectedProperty().bindBidirectional(summary.randomizeWpnsCriticalProperty());
         
-        spMightDelta.getValueFactory().valueProperty().bindBidirectional(summary.itemsMightDeltaProperty());
-        spAccuracyDelta.getValueFactory().valueProperty().bindBidirectional(summary.itemsAccuracyDeltaProperty());
-        spWeightDelta.getValueFactory().valueProperty().bindBidirectional(summary.itemsWeightDeltaProperty());
-        spCriticalDelta.getValueFactory().valueProperty().bindBidirectional(summary.itemsCriticalDeltaProperty());
+        spMightDelta.getValueFactory().valueProperty().bindBidirectional(summary.wpnsMightDeltaProperty());
+        spAccuracyDelta.getValueFactory().valueProperty().bindBidirectional(summary.wpnsAccuracyDeltaProperty());
+        spWeightDelta.getValueFactory().valueProperty().bindBidirectional(summary.wpnsWeightDeltaProperty());
+        spCriticalDelta.getValueFactory().valueProperty().bindBidirectional(summary.wpnsCriticalDeltaProperty());
         
-        chkUses.selectedProperty().bindBidirectional(summary.randomizeItemsMaxUsesProperty());
-        chkCost.selectedProperty().bindBidirectional(summary.randomizeItemsCostProperty());
-        chkAddBladeEffect.selectedProperty().bindBidirectional(summary.itemsAddBladeEffectProperty());
-        chkAddStatBonus.selectedProperty().bindBidirectional(summary.itemsAddStatBonusProperty());
-        chkAddSkill.selectedProperty().bindBidirectional(summary.itemsAddWeaponSkillProperty());
-        spBladeEffectChance.getValueFactory().valueProperty().bindBidirectional(summary.itemsBladeEffectChanceProperty());
-        spStatBonusChance.getValueFactory().valueProperty().bindBidirectional(summary.itemsStatBonusChanceProperty());
-        spAddSkillChance.getValueFactory().valueProperty().bindBidirectional(summary.itemsWeaponSkillChanceProperty());
-        chkAllowMoreThan1Skill.selectedProperty().bindBidirectional(summary.itemsAllowMultipleWeaponSkillsProperty());
+        chkUses.selectedProperty().bindBidirectional(summary.randomizeWpnsMaxUsesProperty());
+        chkCost.selectedProperty().bindBidirectional(summary.randomizeWpnsCostProperty());
+        chkAddBladeEffect.selectedProperty().bindBidirectional(summary.wpnsAddBladeEffectProperty());
+        chkAddStatBonus.selectedProperty().bindBidirectional(summary.wpnsAddStatBonusProperty());
+        chkAddSkill.selectedProperty().bindBidirectional(summary.wpnsAddWeaponSkillProperty());
+        spBladeEffectChance.getValueFactory().valueProperty().bindBidirectional(summary.wpnsBladeEffectChanceProperty());
+        spStatBonusChance.getValueFactory().valueProperty().bindBidirectional(summary.wpnsStatBonusChanceProperty());
+        spAddSkillChance.getValueFactory().valueProperty().bindBidirectional(summary.wpnsWeaponSkillChanceProperty());
+        chkAllowMoreThan1Skill.selectedProperty().bindBidirectional(summary.wpnsAllowMultipleWeaponSkillsProperty());
         
         IntegerBinding bladeEffectBinding = new IntegerBinding() {
             {
@@ -135,15 +135,15 @@ public class ItemsController {
             }
         };
         
-        summary.itemsAvailableBladeEffectsProperty().bind(bladeEffectBinding);
+        summary.wpnsAvailableBladeEffectsProperty().bind(bladeEffectBinding);
         
-        chkExcludeIronWeapons.selectedProperty().bindBidirectional(summary.itemsExcludeIronWeaponsProperty());
-        chkAddWeaponUses.selectedProperty().bindBidirectional(summary.itemsAddWeaponUsesProperty());
-        chkDowngradeWindTome.selectedProperty().bindBidirectional(summary.itemsDowngradeWindTomeProperty());
-        chkRemoveWeaponPrfLocks.selectedProperty().bindBidirectional(summary.itemsRemoveWeaponsPrfLocksProperty());
+        chkExcludeIronWeapons.selectedProperty().bindBidirectional(summary.wpnsExcludeIronWeaponsProperty());
+        chkAddWeaponUses.selectedProperty().bindBidirectional(summary.wpnsIncreaseUsesProperty());
+        chkDowngradeWindTome.selectedProperty().bindBidirectional(summary.wpnsDowngradeWindTomeProperty());
+        chkRemoveWeaponPrfLocks.selectedProperty().bindBidirectional(summary.wpnsRemoveWeaponsPrfLocksProperty());
         
-        chkUses.disableProperty().bind(summary.itemsAddWeaponUsesProperty());
-        chkAddWeaponUses.disableProperty().bind(summary.randomizeItemsMaxUsesProperty());
+        chkUses.disableProperty().bind(summary.wpnsIncreaseUsesProperty());
+        chkAddWeaponUses.disableProperty().bind(summary.randomizeWpnsMaxUsesProperty());
         chkExcludeIronWeapons.disableProperty().bind(summary.anyItemRandomization.not());
     }
 }

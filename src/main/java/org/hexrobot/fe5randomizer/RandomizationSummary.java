@@ -53,29 +53,34 @@ public class RandomizationSummary {
     private final SimpleObjectProperty<Integer> maxEnemySkillCount = new SimpleObjectProperty<Integer>(1);
     // enemy other
     private final SimpleBooleanProperty enemyNerfBallistae = new SimpleBooleanProperty();
-    // items
-    private final SimpleBooleanProperty randomizeItemsMight = new SimpleBooleanProperty();
-    private final SimpleBooleanProperty randomizeItemsAccuracy = new SimpleBooleanProperty();
-    private final SimpleBooleanProperty randomizeItemsWeight = new SimpleBooleanProperty();
-    private final SimpleBooleanProperty randomizeItemsCritical = new SimpleBooleanProperty();
-    private final SimpleObjectProperty<Integer> itemsMightDelta = new SimpleObjectProperty<Integer>(3);
-    private final SimpleObjectProperty<Integer> itemsAccuracyDelta = new SimpleObjectProperty<Integer>(30);
-    private final SimpleObjectProperty<Integer> itemsWeightDelta = new SimpleObjectProperty<Integer>(3);
-    private final SimpleObjectProperty<Integer> itemsCriticalDelta = new SimpleObjectProperty<Integer>(20);
-    private final SimpleBooleanProperty randomizeItemsMaxUses = new SimpleBooleanProperty();
-    private final SimpleBooleanProperty randomizeItemsCost = new SimpleBooleanProperty();
-    private final SimpleBooleanProperty itemsAddBladeEffect = new SimpleBooleanProperty();
-    private final SimpleBooleanProperty itemsAddStatBonus = new SimpleBooleanProperty();
-    private final SimpleBooleanProperty itemsAddWeaponSkill = new SimpleBooleanProperty();
-    private final SimpleObjectProperty<Integer> itemsBladeEffectChance = new SimpleObjectProperty<Integer>(10);
-    private final SimpleObjectProperty<Integer> itemsStatBonusChance = new SimpleObjectProperty<Integer>(3);
-    private final SimpleObjectProperty<Integer> itemsWeaponSkillChance = new SimpleObjectProperty<Integer>(5);
-    private final SimpleIntegerProperty ItemsAvailableBladeEffects = new SimpleIntegerProperty(0);
-    private final SimpleBooleanProperty itemsAllowMultipleWeaponSkills = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty itemsExcludeIronWeapons = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty itemsAddWeaponUses = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty itemsDowngradeWindTome = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty itemsRemoveWeaponsPrfLocks = new SimpleBooleanProperty(false);
+    // weapons
+    private final SimpleBooleanProperty randomizeWpnsMight = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeWpnsAccuracy = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeWpnsWeight = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeWpnsCritical = new SimpleBooleanProperty();
+    private final SimpleObjectProperty<Integer> wpnsMightDelta = new SimpleObjectProperty<Integer>(3);
+    private final SimpleObjectProperty<Integer> wpnsAccuracyDelta = new SimpleObjectProperty<Integer>(30);
+    private final SimpleObjectProperty<Integer> wpnsWeightDelta = new SimpleObjectProperty<Integer>(3);
+    private final SimpleObjectProperty<Integer> wpnsCriticalDelta = new SimpleObjectProperty<Integer>(20);
+    private final SimpleBooleanProperty randomizeWpnsMaxUses = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty randomizeWpnsCost = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty wpnsAddBladeEffect = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty wpnsAddStatBonus = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty wpnsAddWeaponSkill = new SimpleBooleanProperty();
+    private final SimpleObjectProperty<Integer> wpnsBladeEffectChance = new SimpleObjectProperty<Integer>(10);
+    private final SimpleObjectProperty<Integer> wpnsStatBonusChance = new SimpleObjectProperty<Integer>(3);
+    private final SimpleObjectProperty<Integer> wpnsSkillChance = new SimpleObjectProperty<Integer>(5);
+    private final SimpleIntegerProperty wpnsAvailableBladeEffects = new SimpleIntegerProperty(0);
+    private final SimpleBooleanProperty wpnsAllowMultipleWeaponSkills = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty wpnsExcludeIronWeapons = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty wpnsIncreaseUses = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty wpnsDowngradeWindTome = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty wpnsRemoveWeaponsPrfLocks = new SimpleBooleanProperty(false);
+    // item rewards
+    private final SimpleBooleanProperty randomizeHouseRewards = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty itemsHousesSimilar = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty randomizeChestRewards = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty itemsChestSimilar = new SimpleBooleanProperty(false);
     // Lil Manster
     private final SimpleBooleanProperty lilMansterRenamePugi = new SimpleBooleanProperty(false);
     // Project Exile
@@ -87,23 +92,23 @@ public class RandomizationSummary {
     
     public BooleanBinding anyItemRandomization = new BooleanBinding() {
         {
-            super.bind(randomizeItemsMight, randomizeItemsAccuracy, randomizeItemsWeight, randomizeItemsCritical,
-                    randomizeItemsMaxUses, randomizeItemsCost,
-                    itemsAddBladeEffect, itemsBladeEffectChance, ItemsAvailableBladeEffects, itemsAddStatBonus,
-                    itemsStatBonusChance, itemsAddWeaponSkill, itemsWeaponSkillChance);
+            super.bind(randomizeWpnsMight, randomizeWpnsAccuracy, randomizeWpnsWeight, randomizeWpnsCritical,
+                    randomizeWpnsMaxUses, randomizeWpnsCost,
+                    wpnsAddBladeEffect, wpnsBladeEffectChance, wpnsAvailableBladeEffects, wpnsAddStatBonus,
+                    wpnsStatBonusChance, wpnsAddWeaponSkill, wpnsSkillChance);
         }
 
         @Override
         protected boolean computeValue() {
-            return randomizeItemsMight.getValue()
-                    || randomizeItemsAccuracy.getValue()
-                    || randomizeItemsWeight.getValue()
-                    || randomizeItemsCritical.getValue()
-                    || randomizeItemsMaxUses.getValue()
-                    || randomizeItemsCost.getValue()
-                    || (itemsAddBladeEffect.getValue() && itemsBladeEffectChance.getValue() > 0 && ItemsAvailableBladeEffects.getValue() > 0)
-                    || (itemsAddStatBonus.getValue() && itemsStatBonusChance.getValue() > 0)
-                    || (itemsAddWeaponSkill.getValue() && itemsWeaponSkillChance.getValue() > 0);
+            return randomizeWpnsMight.getValue()
+                    || randomizeWpnsAccuracy.getValue()
+                    || randomizeWpnsWeight.getValue()
+                    || randomizeWpnsCritical.getValue()
+                    || randomizeWpnsMaxUses.getValue()
+                    || randomizeWpnsCost.getValue()
+                    || (wpnsAddBladeEffect.getValue() && wpnsBladeEffectChance.getValue() > 0 && wpnsAvailableBladeEffects.getValue() > 0)
+                    || (wpnsAddStatBonus.getValue() && wpnsStatBonusChance.getValue() > 0)
+                    || (wpnsAddWeaponSkill.getValue() && wpnsSkillChance.getValue() > 0);
         }
     };
     
@@ -235,92 +240,108 @@ public class RandomizationSummary {
         return enemyNerfBallistae;
     }
 
-    public SimpleBooleanProperty randomizeItemsMightProperty() {
-        return randomizeItemsMight;
+    public SimpleBooleanProperty randomizeWpnsMightProperty() {
+        return randomizeWpnsMight;
     }
 
-    public SimpleBooleanProperty randomizeItemsAccuracyProperty() {
-        return randomizeItemsAccuracy;
+    public SimpleBooleanProperty randomizeWpnsAccuracyProperty() {
+        return randomizeWpnsAccuracy;
     }
 
-    public SimpleBooleanProperty randomizeItemsWeightProperty() {
-        return randomizeItemsWeight;
+    public SimpleBooleanProperty randomizeWpnsWeightProperty() {
+        return randomizeWpnsWeight;
     }
 
-    public SimpleBooleanProperty randomizeItemsCriticalProperty() {
-        return randomizeItemsCritical;
+    public SimpleBooleanProperty randomizeWpnsCriticalProperty() {
+        return randomizeWpnsCritical;
     }
 
-    public SimpleObjectProperty<Integer> itemsMightDeltaProperty() {
-        return itemsMightDelta;
+    public SimpleObjectProperty<Integer> wpnsMightDeltaProperty() {
+        return wpnsMightDelta;
     }
 
-    public SimpleObjectProperty<Integer> itemsAccuracyDeltaProperty() {
-        return itemsAccuracyDelta;
+    public SimpleObjectProperty<Integer> wpnsAccuracyDeltaProperty() {
+        return wpnsAccuracyDelta;
     }
 
-    public SimpleObjectProperty<Integer> itemsWeightDeltaProperty() {
-        return itemsWeightDelta;
+    public SimpleObjectProperty<Integer> wpnsWeightDeltaProperty() {
+        return wpnsWeightDelta;
     }
 
-    public SimpleObjectProperty<Integer> itemsCriticalDeltaProperty() {
-        return itemsCriticalDelta;
+    public SimpleObjectProperty<Integer> wpnsCriticalDeltaProperty() {
+        return wpnsCriticalDelta;
     }
     
-    public SimpleBooleanProperty randomizeItemsMaxUsesProperty() {
-        return randomizeItemsMaxUses;
+    public SimpleBooleanProperty randomizeWpnsMaxUsesProperty() {
+        return randomizeWpnsMaxUses;
     }
 
-    public SimpleBooleanProperty randomizeItemsCostProperty() {
-        return randomizeItemsCost;
+    public SimpleBooleanProperty randomizeWpnsCostProperty() {
+        return randomizeWpnsCost;
     }
 
-    public SimpleBooleanProperty itemsAddBladeEffectProperty() {
-        return itemsAddBladeEffect;
+    public SimpleBooleanProperty wpnsAddBladeEffectProperty() {
+        return wpnsAddBladeEffect;
     }
 
-    public SimpleBooleanProperty itemsAddStatBonusProperty() {
-        return itemsAddStatBonus;
+    public SimpleBooleanProperty wpnsAddStatBonusProperty() {
+        return wpnsAddStatBonus;
     }
 
-    public SimpleBooleanProperty itemsAddWeaponSkillProperty() {
-        return itemsAddWeaponSkill;
+    public SimpleBooleanProperty wpnsAddWeaponSkillProperty() {
+        return wpnsAddWeaponSkill;
     }
 
-    public SimpleObjectProperty<Integer> itemsBladeEffectChanceProperty() {
-        return itemsBladeEffectChance;
+    public SimpleObjectProperty<Integer> wpnsBladeEffectChanceProperty() {
+        return wpnsBladeEffectChance;
     }
 
-    public SimpleObjectProperty<Integer> itemsStatBonusChanceProperty() {
-        return itemsStatBonusChance;
+    public SimpleObjectProperty<Integer> wpnsStatBonusChanceProperty() {
+        return wpnsStatBonusChance;
     }
 
-    public SimpleObjectProperty<Integer> itemsWeaponSkillChanceProperty() {
-        return itemsWeaponSkillChance;
+    public SimpleObjectProperty<Integer> wpnsWeaponSkillChanceProperty() {
+        return wpnsSkillChance;
     }
 
-    public SimpleIntegerProperty itemsAvailableBladeEffectsProperty() {
-        return ItemsAvailableBladeEffects;
+    public SimpleIntegerProperty wpnsAvailableBladeEffectsProperty() {
+        return wpnsAvailableBladeEffects;
     }
 
-    public SimpleBooleanProperty itemsAllowMultipleWeaponSkillsProperty() {
-        return itemsAllowMultipleWeaponSkills;
+    public SimpleBooleanProperty wpnsAllowMultipleWeaponSkillsProperty() {
+        return wpnsAllowMultipleWeaponSkills;
     }
     
-    public SimpleBooleanProperty itemsExcludeIronWeaponsProperty() {
-        return itemsExcludeIronWeapons;
+    public SimpleBooleanProperty wpnsExcludeIronWeaponsProperty() {
+        return wpnsExcludeIronWeapons;
     }
 
-    public SimpleBooleanProperty itemsAddWeaponUsesProperty() {
-        return itemsAddWeaponUses;
+    public SimpleBooleanProperty wpnsIncreaseUsesProperty() {
+        return wpnsIncreaseUses;
     }
 
-    public SimpleBooleanProperty itemsDowngradeWindTomeProperty() {
-        return itemsDowngradeWindTome;
+    public SimpleBooleanProperty wpnsDowngradeWindTomeProperty() {
+        return wpnsDowngradeWindTome;
     }
 
-    public SimpleBooleanProperty itemsRemoveWeaponsPrfLocksProperty() {
-        return itemsRemoveWeaponsPrfLocks;
+    public SimpleBooleanProperty wpnsRemoveWeaponsPrfLocksProperty() {
+        return wpnsRemoveWeaponsPrfLocks;
+    }
+    
+    public SimpleBooleanProperty randomizeHouseRewardsProperty() {
+        return randomizeHouseRewards;
+    }
+
+    public SimpleBooleanProperty itemsHousesSimilarProperty() {
+        return itemsHousesSimilar;
+    }
+
+    public SimpleBooleanProperty randomizeChestRewardsProperty() {
+        return randomizeChestRewards;
+    }
+
+    public SimpleBooleanProperty itemsChestSimilarProperty() {
+        return itemsChestSimilar;
     }
 
     public SimpleBooleanProperty lilMansterRenamePugiProperty() {
@@ -471,104 +492,120 @@ public class RandomizationSummary {
         return enemyNerfBallistae.getValue();
     }
 
-    public boolean getRandomizeItemsMight() {
-        return randomizeItemsMight.getValue();
+    public boolean getRandomizeWpnsMight() {
+        return randomizeWpnsMight.getValue();
     }
 
-    public boolean getRandomizeItemsAccuracy() {
-        return randomizeItemsAccuracy.getValue();
+    public boolean getRandomizeWpnsAccuracy() {
+        return randomizeWpnsAccuracy.getValue();
     }
 
-    public boolean getRandomizeItemsWeight() {
-        return randomizeItemsWeight.getValue();
+    public boolean getRandomizeWpnsWeight() {
+        return randomizeWpnsWeight.getValue();
     }
 
-    public boolean getRandomizeItemsCritical() {
-        return randomizeItemsCritical.getValue();
+    public boolean getRandomizeWpnsCritical() {
+        return randomizeWpnsCritical.getValue();
     }
 
-    public int getItemsMightDelta() {
-        return itemsMightDelta.getValue();
+    public int getWpnsMightDelta() {
+        return wpnsMightDelta.getValue();
     }
 
-    public int getItemsAccuracyDelta() {
-        return itemsAccuracyDelta.getValue();
+    public int getWpnsAccuracyDelta() {
+        return wpnsAccuracyDelta.getValue();
     }
 
-    public int getItemsWeightDelta() {
-        return itemsWeightDelta.getValue();
+    public int getWpnsWeightDelta() {
+        return wpnsWeightDelta.getValue();
     }
 
-    public int getItemsCriticalDelta() {
-        return itemsCriticalDelta.getValue();
+    public int getWpnsCriticalDelta() {
+        return wpnsCriticalDelta.getValue();
     }
     
-    public boolean getRandomizeItems() {
-        return randomizeItemsMight.getValue() 
-                || randomizeItemsAccuracy.getValue() || randomizeItemsWeight.getValue()
-                || randomizeItemsCritical.getValue() || randomizeItemsMaxUses.getValue()
-                || randomizeItemsCost.getValue() || itemsAddBladeEffect.getValue() 
-                || itemsAddStatBonus.getValue()  || itemsAddWeaponSkill.getValue();
+    public boolean getRandomizeWpns() {
+        return randomizeWpnsMight.getValue() 
+                || randomizeWpnsAccuracy.getValue() || randomizeWpnsWeight.getValue()
+                || randomizeWpnsCritical.getValue() || randomizeWpnsMaxUses.getValue()
+                || randomizeWpnsCost.getValue() || wpnsAddBladeEffect.getValue() 
+                || wpnsAddStatBonus.getValue()  || wpnsAddWeaponSkill.getValue();
     }
     
-    public boolean getRandomizeItemsMaxUses() {
-        return randomizeItemsMaxUses.getValue();
+    public boolean getRandomizeWpnsMaxUses() {
+        return randomizeWpnsMaxUses.getValue();
     }
 
-    public boolean getRandomizeItemsCost() {
-        return randomizeItemsCost.getValue();
+    public boolean getRandomizeWpnsCost() {
+        return randomizeWpnsCost.getValue();
     }
 
-    public boolean getItemsAddBladeEffect() {
-        return itemsAddBladeEffect.getValue();
+    public boolean getWpnsAddBladeEffect() {
+        return wpnsAddBladeEffect.getValue();
     }
 
-    public boolean getItemsAddStatBonus() {
-        return itemsAddStatBonus.getValue();
+    public boolean getWpnsAddStatBonus() {
+        return wpnsAddStatBonus.getValue();
     }
 
-    public boolean getItemsAddWeaponSkill() {
-        return itemsAddWeaponSkill.getValue();
+    public boolean getWpnsAddWeaponSkill() {
+        return wpnsAddWeaponSkill.getValue();
     }
 
-    public int getItemsBladeEffectChance() {
-        return itemsBladeEffectChance.getValue();
+    public int getWpnsBladeEffectChance() {
+        return wpnsBladeEffectChance.getValue();
     }
 
-    public int getItemsStatBonusChance() {
-        return itemsStatBonusChance.getValue();
+    public int getWpnsStatBonusChance() {
+        return wpnsStatBonusChance.getValue();
     }
 
-    public int getItemsWeaponSkillChance() {
-        return itemsWeaponSkillChance.getValue();
+    public int getWpnsSkillChance() {
+        return wpnsSkillChance.getValue();
     }
 
-    public int getItemsAvailableBladeEffects() {
-        return ItemsAvailableBladeEffects.getValue();
+    public int getWpnsAvailableBladeEffects() {
+        return wpnsAvailableBladeEffects.getValue();
     }
     
-    public ArrayList<WeaponBladeEffect> getItemsAvailableBladeEffectsList() {
-        return WeaponBladeEffect.intToWeaponBladeEffect(ItemsAvailableBladeEffects.getValue());
+    public ArrayList<WeaponBladeEffect> getWpnsAvailableBladeEffectsList() {
+        return WeaponBladeEffect.intToWeaponBladeEffect(wpnsAvailableBladeEffects.getValue());
     }
 
-    public boolean getItemsAllowMultipleWeaponSkills() {
-        return itemsAllowMultipleWeaponSkills.getValue();
+    public boolean getWpnsAllowMultipleWeaponSkills() {
+        return wpnsAllowMultipleWeaponSkills.getValue();
     }
     
-    public boolean getItemsExcludeIronWeapons() {
-        return itemsExcludeIronWeapons.getValue();
+    public boolean getWpnsExcludeIronWeapons() {
+        return wpnsExcludeIronWeapons.getValue();
     }
 
-    public boolean getItemsAddWeaponUses() {
-        return itemsAddWeaponUses.getValue();
+    public boolean getWpnsIncreaseUses() {
+        return wpnsIncreaseUses.getValue();
     }
 
-    public boolean getItemsDowngradeWindTome() {
-        return itemsDowngradeWindTome.getValue();
+    public boolean getWpnsDowngradeWindTome() {
+        return wpnsDowngradeWindTome.getValue();
     }
 
-    public boolean getItemsRemoveWeaponsPrfLocks() {
-        return itemsRemoveWeaponsPrfLocks.getValue();
+    public boolean getWpnsRemoveWeaponsPrfLocks() {
+        return wpnsRemoveWeaponsPrfLocks.getValue();
+    }
+    
+    public boolean getRandomizeHouseRewards() {
+        return randomizeHouseRewards.getValue();
+    }
+
+    public boolean getItemsHousesSimilar() {
+        return itemsHousesSimilar.getValue();
+    }
+
+    public boolean getRandomizeChestRewards() {
+        return randomizeChestRewards.getValue();
+    }
+
+    public boolean getItemsChestSimilar() {
+        return itemsChestSimilar.getValue();
     }
     
     public boolean getLilMansterRenamePugi() {
@@ -607,12 +644,14 @@ public class RandomizationSummary {
                 randomizeEnemyMovStars.getValue(), enemyMovStarsExcludeZero.getValue(), randomizeEnemyLeadershipStars.getValue(), enemyLeadershipExcludeZero.getValue());
         text += String.format("Randomize boss skills? %b, Max skill count: %d, Randomize normal enemy skills? %b, Max skill count: %d, Nerf Ballistae: %b\n",
                 randomizeBossSkills.getValue(), maxBossSkillCount.getValue(), randomizeEnemySkills.getValue(), maxEnemySkillCount.getValue(), enemyNerfBallistae.getValue());
-        text += String.format("Randomize items... Might? %b, Delta: %d, Accuracy? %b, Delta: %d, Weight? %b, Delta: %d, Critical: %b, Delta %d\n",
-                randomizeItemsMight.getValue(), itemsMightDelta.getValue(), randomizeItemsAccuracy.getValue(), itemsAccuracyDelta.getValue(), randomizeItemsWeight.getValue(), itemsWeightDelta.getValue(), randomizeItemsCritical.getValue(), itemsCriticalDelta.getValue());
-        text += String.format("Randomize items... Max uses? %b, Cost? %b, Blade effect? %b, Chance: %d, Effects: %d, Stat bonus: %b, Chance %d, Weapon skill: %b, Chance: %d, Allow multiple: %b\n",
-                randomizeItemsMaxUses.getValue(), randomizeItemsCost.getValue(), itemsAddBladeEffect.getValue(), itemsBladeEffectChance.getValue(), ItemsAvailableBladeEffects.getValue(), itemsAddStatBonus.getValue(), itemsStatBonusChance.getValue(), itemsAddWeaponSkill.getValue(), itemsWeaponSkillChance.getValue(), itemsAllowMultipleWeaponSkills.getValue());
-        text += String.format("Randomize items... Exclude iron weapons? %b, Add weapon uses? %b, Downgrade Wind tome? %b, Remove wpn Prf locks: %b\n",
-                itemsExcludeIronWeapons.getValue(), itemsAddWeaponUses.getValue(), itemsDowngradeWindTome.getValue(), itemsRemoveWeaponsPrfLocks.getValue());
+        text += String.format("Randomize weapons... Might? %b, Delta: %d, Accuracy? %b, Delta: %d, Weight? %b, Delta: %d, Critical: %b, Delta %d\n",
+                randomizeWpnsMight.getValue(), wpnsMightDelta.getValue(), randomizeWpnsAccuracy.getValue(), wpnsAccuracyDelta.getValue(), randomizeWpnsWeight.getValue(), wpnsWeightDelta.getValue(), randomizeWpnsCritical.getValue(), wpnsCriticalDelta.getValue());
+        text += String.format("Randomize weapons... Max uses? %b, Cost? %b, Blade effect? %b, Chance: %d, Effects: %d, Stat bonus: %b, Chance %d, Weapon skill: %b, Chance: %d, Allow multiple: %b\n",
+                randomizeWpnsMaxUses.getValue(), randomizeWpnsCost.getValue(), wpnsAddBladeEffect.getValue(), wpnsBladeEffectChance.getValue(), wpnsAvailableBladeEffects.getValue(), wpnsAddStatBonus.getValue(), wpnsStatBonusChance.getValue(), wpnsAddWeaponSkill.getValue(), wpnsSkillChance.getValue(), wpnsAllowMultipleWeaponSkills.getValue());
+        text += String.format("Randomize weapons... Exclude iron weapons? %b, Add weapon uses? %b, Downgrade Wind tome? %b, Remove wpn Prf locks: %b\n",
+                wpnsExcludeIronWeapons.getValue(), wpnsIncreaseUses.getValue(), wpnsDowngradeWindTome.getValue(), wpnsRemoveWeaponsPrfLocks.getValue());
+        text += String.format("Randomize House rewards: %b... For similar items: %b, Randomize Chest rewards: %b... For similar items: %b\n",
+                randomizeHouseRewards.getValue(), itemsHousesSimilar.getValue(), randomizeChestRewards.getValue(), itemsChestSimilar.getValue());
         text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterRenamePugi.getValue());
         text += String.format("Project Exile Rename to Pugi: %b\n", exileRenamePugi.getValue());
         

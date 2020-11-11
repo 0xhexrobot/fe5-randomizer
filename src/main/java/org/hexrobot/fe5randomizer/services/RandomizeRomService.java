@@ -15,6 +15,8 @@ import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
+import org.hexrobot.fe5randomizer.items.ChestReward;
+import org.hexrobot.fe5randomizer.items.HouseReward;
 import org.hexrobot.fe5randomizer.items.Item;
 
 import freemarker.core.TemplateNumberFormatFactory;
@@ -54,11 +56,11 @@ public class RandomizeRomService extends Service<Void> {
                 
                 rom.reset();
                 
-                if(summary.getItemsRemoveWeaponsPrfLocks()) {
+                if(summary.getWpnsRemoveWeaponsPrfLocks()) {
                     rom.removePrfLocks();
                 }
                 
-                if(summary.getItemsDowngradeWindTome()) {
+                if(summary.getWpnsDowngradeWindTome()) {
                     rom.downgradeWindTome();
                 }
                 
@@ -126,21 +128,31 @@ public class RandomizeRomService extends Service<Void> {
                     rom.nerfBallistae();
                 }
                 
-                if(summary.getItemsAddWeaponUses()) {
+                if(summary.getWpnsIncreaseUses()) {
                     rom.addWeaponUses();
                 }
                 
-                if(summary.getRandomizeItems()) {
-                    rom.randomizeItems(
-                            summary.getRandomizeItemsMight(), summary.getItemsMightDelta(),
-                            summary.getRandomizeItemsAccuracy(), summary.getItemsAccuracyDelta(),
-                            summary.getRandomizeItemsWeight(), summary.getItemsWeightDelta(),
-                            summary.getRandomizeItemsCritical(), summary.getItemsCriticalDelta(),
-                            summary.getRandomizeItemsMaxUses(), summary.getRandomizeItemsCost(),
-                            summary.getItemsAddBladeEffect(), summary.getItemsBladeEffectChance(), summary.getItemsAvailableBladeEffects(),
-                            summary.getItemsAddStatBonus(), summary.getItemsStatBonusChance(),
-                            summary.getItemsAddWeaponSkill(), summary.getItemsWeaponSkillChance(), summary.getItemsAllowMultipleWeaponSkills(),
-                            summary.getItemsExcludeIronWeapons());
+                if(summary.getRandomizeWpns()) {
+                    rom.randomizeWeapons(
+                            summary.getRandomizeWpnsMight(), summary.getWpnsMightDelta(),
+                            summary.getRandomizeWpnsAccuracy(), summary.getWpnsAccuracyDelta(),
+                            summary.getRandomizeWpnsWeight(), summary.getWpnsWeightDelta(),
+                            summary.getRandomizeWpnsCritical(), summary.getWpnsCriticalDelta(),
+                            summary.getRandomizeWpnsMaxUses(), summary.getRandomizeWpnsCost(),
+                            summary.getWpnsAddBladeEffect(), summary.getWpnsBladeEffectChance(), summary.getWpnsAvailableBladeEffects(),
+                            summary.getWpnsAddStatBonus(), summary.getWpnsStatBonusChance(),
+                            summary.getWpnsAddWeaponSkill(), summary.getWpnsSkillChance(), summary.getWpnsAllowMultipleWeaponSkills(),
+                            summary.getWpnsExcludeIronWeapons());
+                }
+                
+                // TODO randomize chest rewards
+                
+                if(summary.getRandomizeChestRewards()) {
+                    rom.randomizeChestRewards(summary.getItemsChestSimilar());
+                }
+                
+                if(summary.getRandomizeHouseRewards()) {
+                    rom.randomizeHouseRewards(summary.getItemsHousesSimilar());
                 }
                 
                 updateMessage("Writing rom...");
@@ -164,7 +176,7 @@ public class RandomizeRomService extends Service<Void> {
 
                 if(summary.getWriteDebugLog()) {
                     updateMessage("Writing log...");
-                    
+                    // TODO put missing hashes
                     input.put("romName", rom.getName());
                     input.put("romHeadered", rom.isHeadered());
                     input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
@@ -173,8 +185,10 @@ public class RandomizeRomService extends Service<Void> {
                     input.put("units", GameCharacter.values());
                     input.put("classes", CharacterClass.values());
                     input.put("items", Item.values());
-                    input.put("armyData", rom.getArmyUnits());
-                    input.put("chapterData", Chapter.values());
+                    input.put("chestRewards", ChestReward.values());
+                    input.put("houseRewards", HouseReward.values());
+                    //input.put("armyData", rom.getArmyUnits());
+                    //input.put("chapterData", Chapter.values());
 
                     try {
                         Writer fileWriter = new FileWriter(new File(romFile.getAbsolutePath().concat(".md")));

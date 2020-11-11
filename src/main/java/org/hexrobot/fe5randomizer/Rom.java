@@ -13,6 +13,8 @@ import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.characters.MovementStars;
 import org.hexrobot.fe5randomizer.characters.Skill;
 import org.hexrobot.fe5randomizer.controllers.MainController;
+import org.hexrobot.fe5randomizer.items.ChestReward;
+import org.hexrobot.fe5randomizer.items.HouseReward;
 import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
 import org.hexrobot.fe5randomizer.items.WeaponRank;
@@ -559,7 +561,7 @@ public class Rom {
     private Item getSelectedItem(ArmyUnit unit, ArrayList<Item> inventory) {
         Item selectedItem = Item.BROKEN_SWORD;
         WeightedList<Item> itemWeights = new WeightedList<>();
-        ArrayList<Item> items = Item.getItems(true, true);
+        ArrayList<Item> items = Item.getItems(true, true, false);
         
         for(Item item : items) {
             float weight = logic.assignItemWeight(unit, item, inventory);
@@ -748,7 +750,7 @@ public class Rom {
         }
     }
 
-    public void randomizeItems(boolean randomizeMight, int mightDelta, boolean randomizeAccuracy, int accuracyDelta, boolean randomizeWeight, int weightDelta, boolean randomizeCritical, int criticalDelta,
+    public void randomizeWeapons(boolean randomizeMight, int mightDelta, boolean randomizeAccuracy, int accuracyDelta, boolean randomizeWeight, int weightDelta, boolean randomizeCritical, int criticalDelta,
             boolean randomizeMaxUses, boolean randomizeCost, boolean addBladeEffect, int bladeEffectChance, int availableBladeEffects, boolean addStatBonus, int statBonusChance, boolean addWeaponSkill, int weaponSkillChance, boolean allowMultipleWeaponSkills, boolean excludeIronWeapons) {
         ArrayList<Item> weapons = Item.getWeapons(true, true);
         WeightedList<Integer> maxUsesList = new WeightedList<>();
@@ -880,6 +882,26 @@ public class Rom {
         }
     }
     
+    // TODO randomize chest rewards
+    public void randomizeChestRewards(boolean similarItems) {
+        ArrayList<Item> availableItems = Item.getItems(true, true, true);
+
+        for(ChestReward reward : ChestReward.values()) {
+            Item selectedItem = availableItems.get(random.nextInt(availableItems.size()));
+            reward.setItem(selectedItem);
+        }
+    }
+    
+    // TODO randomize house rewards
+    public void randomizeHouseRewards(boolean similarItems) {
+        ArrayList<Item> availableItems = Item.getItems(true, true, true);
+
+        for(HouseReward reward : HouseReward.values()) {
+            Item selectedItem = availableItems.get(random.nextInt(availableItems.size()));
+            reward.setItem(selectedItem);
+        }
+    }
+    
     public void downgradeWindTome() {
         Item windTome = Item.WIND;
         
@@ -904,11 +926,11 @@ public class Rom {
         Item.WIND.setMaxUses(30);
         Item.TORNADO.setMaxUses(20);
         Item.LIGHTNING.setMaxUses(30);
-        Item.LIVE.setMaxUses(30);
-        Item.RELIVE.setMaxUses(20);
+        Item.HEAL.setMaxUses(30);
+        Item.MEND.setMaxUses(20);
         Item.TORCH.setMaxUses(10);
-        Item.LIBRO.setMaxUses(10);
-        Item.REST.setMaxUses(10);
+        Item.PHYSIC.setMaxUses(10);
+        Item.RESTORE.setMaxUses(10);
         Item.HOLY_WATER.setMaxUses(3);
         Item.HOLY_WATER.setCostPerUse(300);
         Item.TORCH.setMaxUses(5);
@@ -924,14 +946,14 @@ public class Rom {
         Item.HOLY_SWORD.setWeaponRank(WeaponRank.A);
         Item.BLAGI_SWORD.setWeaponRank(WeaponRank.B);
         Item.DRAGON_LANCE.setWeaponRank(WeaponRank.B);
-        Item.HERO_LANCE.setWeaponRank(WeaponRank.B);
+        Item.BRAVE_LANCE.setWeaponRank(WeaponRank.B);
         Item.PUGI.setWeaponRank(WeaponRank.C);
         Item.DAIM_THUNDER.setWeaponRank(WeaponRank.B);
         Item.GRAFUCALIBUR.setWeaponRank(WeaponRank.B);
         Item.REPAIR.setWeaponRank(WeaponRank.B);
         Item.THIEF_STAFF.setWeaponRank(WeaponRank.B);
         Item.UNLOCK.setWeaponRank(WeaponRank.C);
-        Item.CURE.setWeaponRank(WeaponRank.C);
+        Item.KIA_STAFF.setWeaponRank(WeaponRank.C);
         
         assignUnitInventories(GameCharacter.getPrfWeaponOwners());
     }
@@ -982,6 +1004,9 @@ public class Rom {
             item.reset();
         }
         
+        ChestReward.reset();
+        HouseReward.reset();
+        
         promotionData.reset();
     }
     
@@ -1003,6 +1028,10 @@ public class Rom {
         for(Item item : Item.values()) {
             item.writeItem(this, ITEMS_OFFSET);
         }
+        
+        // TODO write chest
+        ChestReward.write(this);
+        HouseReward.write(this);
         
         promotionData.writePromotions(this, PROMOTION_TABLE_OFFSET);
     }

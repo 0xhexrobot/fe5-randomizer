@@ -13,7 +13,7 @@ public enum Item {
 	STEEL_SWORD(0x01, "Steel Sword"),
 	SILVER_SWORD(0x02, "Silver Sword"),
 	THIN_SWORD(0x03, "Thin Sword"),
-	IRON_BROADSWORD(0x04, "Iron Broadsword"),
+	IRON_BLADE(0x04, "Iron Blade"),
 	KILLER_SWORD(0x05, "Killer Sword"),
 	POISON_SWORD(0x06, "Poison Sword"),
 	BERSERK_SWORD(0x07, "Berserk Sword"),
@@ -23,14 +23,14 @@ public enum Item {
 	LOPUTOUS_SWORD(0x0B, "Loputous Sword"),
 	BLAGI_SWORD(0x0C, "Blagi Sword"),
 	LIGHT_SWORD(0x0D, "Light Sword"),
-	HERO_SWORD(0x0E, "Hero Sword"),
+	BRAVE_SWORD(0x0E, "Brave Sword"),
 	KING_SWORD(0x0F, "King Sword"),
 	EARTH_SWORD(0x10, "Earth Sword"),
 	WIND_SWORD(0x11, "Wind Sword"),
 	FIRE_SWORD(0x12, "Fire Sword"),
 	THUNDER_SWORD(0x13, "Thunder Sword"),
 	ELITE_SWORD(0x14, "Elite Sword"),
-	ARMOUR_KILLER(0x15, "Armour Killer"),
+	ARMORSLAYER(0x15, "Armorslayer"),
 	RAPIER(0x16, "Rapier"),
 	SHORT_SWORD(0x17, "Short Sword"),
 	LONG_SWORD(0x18, "Long Sword"),
@@ -46,7 +46,7 @@ public enum Item {
 	POISON_LANCE(0x22, "Poison Lance"),
 	DRAGON_LANCE(0x23, "Dragon Lance"),
 	DARKNESS_LANCE(0x24, "Darkness Lance"),
-	HERO_LANCE(0x25, "Hero Lance"),
+	BRAVE_LANCE(0x25, "Brave Lance"),
 	SHORT_LANCE(0x26, "Short Lance"),
 	LONG_LANCE(0x27, "Long Lance"),
 	GREAT_LANCE(0x28, "Great Lance"),
@@ -65,7 +65,7 @@ public enum Item {
 	HAMMER(0x35, "Hammer"),
 	KILLER_AXE(0x36, "Killer Axe"),
 	PUGI(0x37, "Pugi"),
-	HERO_AXE(0x38, "Hero Axe"),
+	BRAVE_AXE(0x38, "Brave Axe"),
 	DEVIL_AXE(0x39, "Devil Axe"),
 	BATTLE_AXE(0x3A, "Battle Axe"),
 	POLEAXE(0x3B, "Poleaxe"),
@@ -76,7 +76,7 @@ public enum Item {
 	SILVER_BOW(0x40, "Silver Bow"),
 	POISON_BOW(0x41, "Poison Bow"),
 	KILLER_BOW(0x42, "Killer Bow"),
-	HERO_BOW(0x43, "Hero Bow"),
+	BRAVE_BOW(0x43, "Brave Bow"),
 	SHORT_BOW(0x44, "Short Bow"),
 	LONG_BOW(0x45, "Long Bow"),
 	GREAT_BOW(0x46, "Great Bow"),
@@ -105,36 +105,36 @@ public enum Item {
 	FENRIR(0x5D, "Fenrir"),
 	HELL(0x5E, "Hell"),
 	LOPUTOUS(0x5F, "Loputous"),
-	METEO(0x60, "Meteo"),
+	METEOR(0x60, "Meteor"),
 	THUNDERSTORM(0x61, "Thunderstorm"),
 	BLIZZARD(0x62, "Blizzard"),
 	POISON(0x63, "Poison"),
 	STONE(0x64, "Stone"),
 	HOLSETY_UNLIMITED(0x65, "Holsety(Unlimited)"),
 	BROKEN_BOOK(0x66, "Broken Book"),
-	LIVE(0x67, "Live"),
-	RELIVE(0x68, "Relive"),
+	HEAL(0x67, "Heal"),
+	MEND(0x68, "Mend"),
 	RECOVER(0x69, "Recover"),
-	LIBRO(0x6A, "Libro"),
+	PHYSIC(0x6A, "Libro"),
 	RESERVE(0x6B, "Reserve"),
 	RESCUE(0x6C, "Rescue"),
 	WARP(0x6D, "Warp"),
-	REST(0x6E, "Rest"),
+	RESTORE(0x6E, "Restore"),
 	SILENCE(0x6F, "Silence"),
 	SLEEP(0x70, "Sleep"),
-	TORCH2(0x71, "Torch"),
+	TORCH_STAFF(0x71, "Torch staff"),
 	RETURN(0x72, "Return"),
 	REPAIR(0x73, "Repair"),
-	THIEF_STAFF(0x74, "Thief"),
+	THIEF_STAFF(0x74, "Thief staff"),
 	WATCH(0x75, "Watch"),
 	BERSERK(0x76, "Berserk"),
 	UNLOCK(0x77, "Unlock"),
-	MAGIC_SHIELD(0x78, "Magic Shield"),
+	MAGIC_UP(0x78, "Magic up"),
 	REWARP(0x79, "Rewarp"),
-	CURE(0x7A, "Cure"),
+	KIA_STAFF(0x7A, "Kia staff"),
 	BROKEN_STAFF(0x7B, "Broken Staff"),
 	LUCK_RING(0x7C, "Luck Ring"),
-	LIVE_RING(0x7D, "Live Ring"),
+	LIFE_RING(0x7D, "Life Ring"),
 	SPEED_RING(0x7E, "Speed Ring"),
 	MAGIC_RING(0x7F, "Magic Ring"),
 	POWER_RING(0x80, "Power Ring"),
@@ -147,9 +147,9 @@ public enum Item {
 	TREASURE_KEY(0x87, "Treasure Key"),
 	DOOR_KEY(0x88, "Door Key"),
 	BRIDGE_KEY(0x89, "Bridge Key"),
-	THIEF_KEY(0x8A, "Thief Key"),
-	S_DRINK(0x8B, "S Drink"),
-	MEDICINE(0x8C, "Medicine"),
+	LOCKPICK(0x8A, "Lockpick"),
+	STAMINA_DRINK(0x8B, "Stamina Drink"),
+	VULNERARY(0x8C, "Vulnerary"),
 	HOLY_WATER(0x8D, "Holy Water"),
 	TORCH(0x8E, "Torch"),
 	ANTIDOTE(0x8F, "Antidote"),
@@ -167,7 +167,7 @@ public enum Item {
 	BLAGI_SCROLL(0x9B, "Blagi Scroll"),
 	HEIM_SCROLL(0x9C, "Heim Scroll"),
 	ELITE_MANUAL(0x9D, "Elite Manual"),
-	DUEL_MANUAL(0x9E, "Duel Manual"),
+	CHARGE_MANUAL(0x9E, "Charge Manual"),
 	BARGAIN_MANUAL(0x9F, "Bargain Manual"),
 	AMBUSH_MANUAL(0xA0, "Ambush Manual"),
 	WRATH_MANUAL(0xA1, "Wrath Manual"),
@@ -219,22 +219,22 @@ public enum Item {
     private static final int ITEM_CLASSIFICATION_OFFSET = 0x15;
 
     private static final ArrayList<Item> SWORDS = new ArrayList<Item>(List.of(IRON_SWORD, STEEL_SWORD, SILVER_SWORD,
-            THIN_SWORD, IRON_BROADSWORD, KILLER_SWORD, POISON_SWORD, BERSERK_SWORD, SLEEP_SWORD, BEOSWORD, HOLY_SWORD,
-            LOPUTOUS_SWORD, BLAGI_SWORD, LIGHT_SWORD, HERO_SWORD, KING_SWORD, EARTH_SWORD, WIND_SWORD, FIRE_SWORD,
-            THUNDER_SWORD, ELITE_SWORD, ARMOUR_KILLER, RAPIER, SHORT_SWORD, LONG_SWORD, GREAT_SWORD, MASTER_SWORD,
+            THIN_SWORD, IRON_BLADE, KILLER_SWORD, POISON_SWORD, BERSERK_SWORD, SLEEP_SWORD, BEOSWORD, HOLY_SWORD,
+            LOPUTOUS_SWORD, BLAGI_SWORD, LIGHT_SWORD, BRAVE_SWORD, KING_SWORD, EARTH_SWORD, WIND_SWORD, FIRE_SWORD,
+            THUNDER_SWORD, ELITE_SWORD, ARMORSLAYER, RAPIER, SHORT_SWORD, LONG_SWORD, GREAT_SWORD, MASTER_SWORD,
             DARKNESS_SWORD, MAREETAS_SWORD));
     private static final ArrayList<Item> LANCES = new ArrayList<Item>(List.of(IRON_LANCE, STEEL_LANCE, SILVER_LANCE,
-            THIN_LANCE, POISON_LANCE, DRAGON_LANCE, DARKNESS_LANCE, HERO_LANCE, SHORT_LANCE, LONG_LANCE, GREAT_LANCE,
+            THIN_LANCE, POISON_LANCE, DRAGON_LANCE, DARKNESS_LANCE, BRAVE_LANCE, SHORT_LANCE, LONG_LANCE, GREAT_LANCE,
             JAVELIN, MASTER_LANCE, KNIGHT_KILLER, KILLER_LANCE, GAE_BOLG, GUNGNIR));
     private static final ArrayList<Item> AXES = new ArrayList<Item>(List.of(IRON_AXE, POISON_AXE, STEEL_AXE, SILVER_AXE,
-            HAND_AXE, HAMMER, KILLER_AXE, PUGI, HERO_AXE, DEVIL_AXE, BATTLE_AXE, POLEAXE, MASTER_AXE));
+            HAND_AXE, HAMMER, KILLER_AXE, PUGI, BRAVE_AXE, DEVIL_AXE, BATTLE_AXE, POLEAXE, MASTER_AXE));
     private static final ArrayList<Item> BOWS = new ArrayList<Item>(List.of(IRON_BOW, STEEL_BOW, SILVER_BOW, POISON_BOW,
-            KILLER_BOW, HERO_BOW, SHORT_BOW, LONG_BOW, GREAT_BOW, MASTER_BOW));
+            KILLER_BOW, BRAVE_BOW, SHORT_BOW, LONG_BOW, GREAT_BOW, MASTER_BOW));
     private static final ArrayList<Item> STAVES = new ArrayList<Item>(
-            List.of(LIVE, RELIVE, RECOVER, LIBRO, RESERVE, RESCUE, WARP, REST, SILENCE, SLEEP, TORCH2, RETURN, REPAIR,
-                    THIEF_STAFF, WATCH, BERSERK, UNLOCK, MAGIC_SHIELD, REWARP, CURE));
+            List.of(HEAL, MEND, RECOVER, PHYSIC, RESERVE, RESCUE, WARP, RESTORE, SILENCE, SLEEP, TORCH_STAFF, RETURN, REPAIR,
+                    THIEF_STAFF, WATCH, BERSERK, UNLOCK, MAGIC_UP, REWARP, KIA_STAFF));
     private static final ArrayList<Item> FIRE_MAGIC = new ArrayList<Item>(
-            List.of(FIRE, ELFIRE, VOLCANNON, FALAFLAME, METEO));
+            List.of(FIRE, ELFIRE, VOLCANNON, FALAFLAME, METEOR));
     private static final ArrayList<Item> THUNDER_MAGIC = new ArrayList<Item>(
             List.of(THUNDER, DAIM_THUNDER, TRON, THUNDERSTORM, TORHAMMER));
     private static final ArrayList<Item> WIND_MAGIC = new ArrayList<Item>(
@@ -243,11 +243,11 @@ public enum Item {
     private static final ArrayList<Item> DARK_MAGIC = new ArrayList<Item>(
             List.of(YOTSMUNGAND, FENRIR, HELL, LOPUTOUS, POISON, STONE));
     private static final ArrayList<Item> ITEMS = new ArrayList<Item>(
-            List.of(LUCK_RING, LIVE_RING, SPEED_RING, MAGIC_RING, POWER_RING, BODY_RING, SHIELD_RING, SKILL_RING,
-                    LEG_RING, KNIGHT_PROOF, MASTER_PROOF, TREASURE_KEY, DOOR_KEY, BRIDGE_KEY, THIEF_KEY, S_DRINK,
-                    MEDICINE, HOLY_WATER, TORCH, ANTIDOTE, MEMBER_CARD, ODO_SCROLL, BALDO_SCROLL, HEZUL_SCROLL,
+            List.of(LUCK_RING, LIFE_RING, SPEED_RING, MAGIC_RING, POWER_RING, BODY_RING, SHIELD_RING, SKILL_RING,
+                    LEG_RING, KNIGHT_PROOF, MASTER_PROOF, TREASURE_KEY, DOOR_KEY, BRIDGE_KEY, LOCKPICK, STAMINA_DRINK,
+                    VULNERARY, HOLY_WATER, TORCH, ANTIDOTE, MEMBER_CARD, ODO_SCROLL, BALDO_SCROLL, HEZUL_SCROLL,
                     DAIN_SCROLL, NOBA_SCROLL, NEIR_SCROLL, ULIR_SCROLL, TORDO_SCROLL, FALA_SCROLL, SETY_SCROLL,
-                    BLAGI_SCROLL, HEIM_SCROLL, ELITE_MANUAL, DUEL_MANUAL, BARGAIN_MANUAL, AMBUSH_MANUAL, WRATH_MANUAL,
+                    BLAGI_SCROLL, HEIM_SCROLL, ELITE_MANUAL, CHARGE_MANUAL, BARGAIN_MANUAL, AMBUSH_MANUAL, WRATH_MANUAL,
                     CONTINUE_MANUAL, PRAYER_MANUAL, AWARENESS_MANUAL, SUNLIGHT_MANUAL, MOONLIGHT_MANUAL));
     private static final ArrayList<Item> SCROLLS = new ArrayList<Item>(
             List.of(ODO_SCROLL, BALDO_SCROLL, HEZUL_SCROLL, DAIN_SCROLL, NOBA_SCROLL, NEIR_SCROLL, ULIR_SCROLL,
@@ -524,7 +524,7 @@ public enum Item {
         return new ArrayList<Item>(ITEMS);
     }
     
-    public static ArrayList<Item> getItems(boolean excludeUnused, boolean excludeBroken) {
+    public static ArrayList<Item> getItems(boolean excludeUnused, boolean excludeBroken, boolean excludeEnemyWeapons) {
         ArrayList<Item> items = new ArrayList<>(Arrays.asList(Item.values()));
         
         if(excludeUnused) {
@@ -533,6 +533,11 @@ public enum Item {
         
         if(excludeBroken) {
             items.removeAll(BROKEN);
+        }
+        
+        if(excludeEnemyWeapons) {
+            items.removeAll(ENEMY_ONLY);
+            items.remove(LOPUTOUS_SWORD);
         }
         
         return new ArrayList<Item>(items);

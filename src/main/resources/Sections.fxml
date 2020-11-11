@@ -61,11 +61,16 @@
 					</content>
 				</Tab>
 				<Tab closable="false" disable="true" text="Classes" userData="classes" />
-				<Tab closable="false" text="Items" userData="items">
+				<Tab closable="false" text="Weapons" userData="weapons">
 					<content>
-						<fx:include fx:id="items" source="Items.fxml" />
+						<fx:include fx:id="weapons" source="Weapons.fxml" />
 					</content>
 				</Tab>
+            <Tab text="Items" userData="itemRewards">
+               <content>
+                  <fx:include fx:id="itemRewards" source="ItemRewards.fxml" />
+               </content>
+            </Tab>
             <Tab fx:id="tabLilManster" text="Lil' Manster">
             <content>
                 <fx:include fx:id="lilManster" source="LilManster.fxml" />

@@ -31,23 +31,27 @@ Randomize Boss skills: <#if summary.randomizeBossSkills>**Yes**, Max skill count
 Nerf Ballistae: <#if summary.nerfBallistae>**Yes**<#else>No</#if>
 
 Randomize items: 
-<#if summary.randomizeItemsMight>* Might: **±${summary.itemsMightDelta}**</#if>
-<#if summary.randomizeItemsAccuracy>* Accuracy **±${summary.itemsAccuracyDelta}**</#if>
-<#if summary.randomizeItemsWeight>* Weight **±${summary.itemsWeightDelta}**</#if>
-<#if summary.randomizeItemsCritical>* Critical **±${summary.itemsCriticalDelta}**</#if>
-<#if summary.randomizeItemsMaxUses>* Max uses</#if>
-<#if summary.randomizeItemsCost>* Cost</#if>
-<#if summary.itemsAddBladeEffect>* Add Blade effect, chance: **${summary.itemsBladeEffectChance}%**, available effects: <#list summary.itemsAvailableBladeEffectsList as effect>**${effect.getName()}**<#sep>, <#else>None</#list></#if>
-<#if summary.itemsAddStatBonus>* Add stat bonus, chance: **${summary.itemsStatBonusChance}%**</#if>
-<#if summary.itemsAddWeaponSkill>* Add weapon skill: chance: **${summary.itemsWeaponSkillChance}%**, allow multiple skills: <#if summary.itemsAllowMultipleWeaponSkills>**Yes**<#else>No</#if></#if>
-<#if summary.itemsExcludeIronWeapons>* Exclude Iron weapons</#if>
+<#if summary.randomizeWpnsMight>* Might: **±${summary.WpnsMightDelta}**</#if>
+<#if summary.randomizeWpnsAccuracy>* Accuracy **±${summary.WpnsAccuracyDelta}**</#if>
+<#if summary.randomizeWpnsWeight>* Weight **±${summary.WpnsWeightDelta}**</#if>
+<#if summary.randomizeWpnsCritical>* Critical **±${summary.WpnsCriticalDelta}**</#if>
+<#if summary.randomizeWpnsMaxUses>* Max uses</#if>
+<#if summary.randomizeWpnsCost>* Cost</#if>
+<#if summary.wpnsAddBladeEffect>* Add Blade effect, chance: **${summary.wpnsBladeEffectChance}%**, available effects: <#list summary.itemsAvailableBladeEffectsList as effect>**${effect.getName()}**<#sep>, <#else>None</#list></#if>
+<#if summary.wpnsAddStatBonus>* Add stat bonus, chance: **${summary.wpnsStatBonusChance}%**</#if>
+<#if summary.wpnsAddWeaponSkill>* Add weapon skill: chance: **${summary.wpnsSkillChance}%**, allow multiple skills: <#if summary.itemsAllowMultipleWeaponSkills>**Yes**<#else>No</#if></#if>
+<#if summary.wpnsExcludeIronWeapons>* Exclude Iron weapons</#if>
 
-<#if summary.itemsAddWeaponUses || summary.itemsDowngradeWindTome || summary.itemsRemoveWeaponsPrfLocks>
+<#if summary.wpnsIncreaseUses || summary.wpnsDowngradeWindTome || summary.wpnsRemoveWeaponsPrfLocks>
 Other item options:
-<#if summary.itemsAddWeaponUses>* Add weapon uses</#if>
-<#if summary.itemsDowngradeWindTome>* Downgrade Wind tome</#if>
-<#if summary.itemsRemoveWeaponsPrfLocks>* Remove Prf locks</#if>
+<#if summary.wpnsIncreaseUses>* Weapon increase uses</#if>
+<#if summary.wpnsDowngradeWindTome>* Downgrade Wind tome</#if>
+<#if summary.wpnsRemoveWeaponsPrfLocks>* Remove Prf locks</#if>
 </#if>
+
+Randomize Chest rewards: <#if summary.randomizeChestRewards>**Yes**, substitute for similar items: <#if summary.itemsChestSimilar>**Yes**<#else>No</#if><#else>No</#if>
+
+Randomize House rewards: <#if summary.randomizeHouseRewards>**Yes**, substitute for similar items: <#if summary.itemsHousesSimilar>**Yes**<#else>No</#if><#else>No</#if>
 
 <#if summary.lilMansterRenamePugi>
 Lil' Manster
@@ -151,6 +155,20 @@ Name | Mt | Acc | Wt | Crt | Rng | Rank | Uses | Skills1 | Skills2 | Skills | Bl
 ---- | -- | --- | -- | --- | --- | ---- | ---- | ------- | ------- | ------ | --------- | ---- | ---------- | ---------- |
 <#list items as item>
 ${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} → **${item.power}**<#else>${item.power}</#if> | <#if item.oldValues["accuracy"]??>${item.oldValues["accuracy"]} → **${item.accuracy}**<#else>${item.accuracy}</#if> | <#if item.oldValues["weight"]??>${item.oldValues["weight"]} → **${item.weight}**<#else>${item.weight}</#if> | <#if item.oldValues["critical"]??>${item.oldValues["critical"]} → **${item.critical}**<#else>${item.critical}</#if> | <#if item.oldValues["weaponRange"]??>${item.olValues["weaponRange"].getName()} → **${item.weaponRange.getName()}**<#else>${item.weaponRange.getName()}</#if> | <#if item.oldValues["weaponRank"]??>${item.oldValues["weaponRank"].getName()} → **${item.weaponRank.getName()}**<#else>${item.weaponRank.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} → **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["skills1"]??>*${item.oldValues["skills1"]?string.@hex_2}* → _**${item.skills1?string.@hex_2}**_<#else>*${item.skills1?string.@hex_2}*</#if> | <#if item.oldValues["skills2"]??>*${item.oldValues["skills2"]?string.@hex_2}* → _**${item.skills2?string.@hex_2}**_<#else>*${item.skills2?string.@hex_2}*</#if> | <#if item.oldValues["skills1"]?? || item.oldValues["skills2"]??>**<#list item.skills as skill>${skill.getName()}<#sep>, </#list>**<#else><#list item.skills as skill>${skill.getName()}<#sep>, </#list></#if> | <#if item.oldValues["weaponBladeEffect"]??>${item.oldValues["weaponBladeEffect"].getName()} → **${item.weaponBladeEffect.getName()}**<#else>${item.weaponBladeEffect.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} → **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["costPerUse"]??>${item.oldValues["costPerUse"]} → **${item.costPerUse}**<#else>${item.costPerUse}</#if> | <#if item.oldValues["weaponStatBonus"]??>${item.oldValues["weaponStatBonus"].getName()} → **${item.weaponStatBonus.getName()}**<#else>${item.weaponStatBonus.getName()}</#if> |    
+</#list>
+</#if>
+
+<#if chestRewards??>
+## Chest rewards
+<#list chestRewards as chest>
+* ${chest.getName()} <#if chest.isModified()>→ **${chest.item.getName()}**</#if>
+</#list>
+</#if>
+
+<#if houseRewards??>
+## House rewards
+<#list houseRewards as house>
+* ${house.getName()} <#if house.isModified()>→ **${house.item.getName()}**</#if>
 </#list>
 </#if>
 

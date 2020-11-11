@@ -451,30 +451,30 @@ public class RandomizeController {
     
     private BooleanBinding itemsLabelVisible = new BooleanBinding() {
         {
-            super.bind(summary.randomizeItemsMightProperty(), summary.randomizeItemsAccuracyProperty(),
-                    summary.randomizeItemsWeightProperty(), summary.randomizeItemsCriticalProperty(),
-                    summary.randomizeItemsMaxUsesProperty(), summary.randomizeItemsCostProperty(),
-                    summary.itemsBladeEffectChanceProperty(), summary.itemsAddStatBonusProperty(),
-                    summary.itemsAvailableBladeEffectsProperty(), summary.itemsAddWeaponSkillProperty(),
-                    summary.itemsExcludeIronWeaponsProperty(), summary.itemsAddWeaponUsesProperty(),
-                    summary.itemsDowngradeWindTomeProperty(), summary.itemsRemoveWeaponsPrfLocksProperty());
+            super.bind(summary.randomizeWpnsMightProperty(), summary.randomizeWpnsAccuracyProperty(),
+                    summary.randomizeWpnsWeightProperty(), summary.randomizeWpnsCriticalProperty(),
+                    summary.randomizeWpnsMaxUsesProperty(), summary.randomizeWpnsCostProperty(),
+                    summary.wpnsBladeEffectChanceProperty(), summary.wpnsAddStatBonusProperty(),
+                    summary.wpnsAvailableBladeEffectsProperty(), summary.wpnsAddWeaponSkillProperty(),
+                    summary.wpnsExcludeIronWeaponsProperty(), summary.wpnsIncreaseUsesProperty(),
+                    summary.wpnsDowngradeWindTomeProperty(), summary.wpnsRemoveWeaponsPrfLocksProperty());
         }
         
         @Override
         protected boolean computeValue() {
-            boolean visible = summary.randomizeItemsMightProperty().getValue()
-                    || summary.randomizeItemsAccuracyProperty().getValue()
-                    || summary.randomizeItemsWeightProperty().getValue()
-                    || summary.randomizeItemsCriticalProperty().getValue()
-                    || summary.randomizeItemsMaxUsesProperty().getValue()
-                    || summary.randomizeItemsCostProperty().getValue()
-                    || summary.itemsAddBladeEffectProperty().getValue()
-                    || summary.itemsAddStatBonusProperty().getValue()
-                    || (summary.itemsAvailableBladeEffectsProperty().getValue() > 0)
-                    || summary.itemsAddWeaponSkillProperty().getValue()
-                    || summary.itemsAddWeaponUsesProperty().getValue()
-                    || summary.itemsDowngradeWindTomeProperty().getValue()
-                    || summary.itemsRemoveWeaponsPrfLocksProperty().getValue();
+            boolean visible = summary.randomizeWpnsMightProperty().getValue()
+                    || summary.randomizeWpnsAccuracyProperty().getValue()
+                    || summary.randomizeWpnsWeightProperty().getValue()
+                    || summary.randomizeWpnsCriticalProperty().getValue()
+                    || summary.randomizeWpnsMaxUsesProperty().getValue()
+                    || summary.randomizeWpnsCostProperty().getValue()
+                    || summary.wpnsAddBladeEffectProperty().getValue()
+                    || summary.wpnsAddStatBonusProperty().getValue()
+                    || (summary.wpnsAvailableBladeEffectsProperty().getValue() > 0)
+                    || summary.wpnsAddWeaponSkillProperty().getValue()
+                    || summary.wpnsIncreaseUsesProperty().getValue()
+                    || summary.wpnsDowngradeWindTomeProperty().getValue()
+                    || summary.wpnsRemoveWeaponsPrfLocksProperty().getValue();
 
             return visible;
         }
@@ -482,12 +482,12 @@ public class RandomizeController {
     
     private StringBinding txtItemsMight = new StringBinding() {
         {
-            super.bind(summary.itemsMightDeltaProperty());
+            super.bind(summary.wpnsMightDeltaProperty());
         }
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize items Might ±%d", summary.itemsMightDeltaProperty().getValue());
+            String text = String.format("Randomize items Might ±%d", summary.wpnsMightDeltaProperty().getValue());
                                     
             return text;
         }
@@ -495,12 +495,12 @@ public class RandomizeController {
     
     private StringBinding txtItemsAccuracy = new StringBinding() {
         {
-            super.bind(summary.itemsAccuracyDeltaProperty());
+            super.bind(summary.wpnsAccuracyDeltaProperty());
         }
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize items Accuracy ±%d", summary.itemsAccuracyDeltaProperty().getValue());
+            String text = String.format("Randomize items Accuracy ±%d", summary.wpnsAccuracyDeltaProperty().getValue());
                                     
             return text;
         }
@@ -508,12 +508,12 @@ public class RandomizeController {
     
     private StringBinding txtItemsWeight = new StringBinding() {
         {
-            super.bind(summary.itemsWeightDeltaProperty());
+            super.bind(summary.wpnsWeightDeltaProperty());
         }
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize items Weight ±%d", summary.itemsWeightDeltaProperty().getValue());
+            String text = String.format("Randomize items Weight ±%d", summary.wpnsWeightDeltaProperty().getValue());
                                     
             return text;
         }
@@ -521,12 +521,12 @@ public class RandomizeController {
     
     private StringBinding txtItemsCritical = new StringBinding() {
         {
-            super.bind(summary.itemsCriticalDeltaProperty());
+            super.bind(summary.wpnsCriticalDeltaProperty());
         }
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize items Critical ±%d", summary.itemsCriticalDeltaProperty().getValue());
+            String text = String.format("Randomize items Critical ±%d", summary.wpnsCriticalDeltaProperty().getValue());
 
             return text;
         }
@@ -534,12 +534,12 @@ public class RandomizeController {
     
     private StringBinding txtItemsBladeEffect = new StringBinding() {
         {
-            super.bind(summary.itemsBladeEffectChanceProperty(), summary.itemsAvailableBladeEffectsProperty());
+            super.bind(summary.wpnsBladeEffectChanceProperty(), summary.wpnsAvailableBladeEffectsProperty());
         }
 
         @Override
         protected String computeValue() {
-            ArrayList<WeaponBladeEffect> availableEffects = WeaponBladeEffect.intToWeaponBladeEffect(summary.itemsAvailableBladeEffectsProperty().getValue());
+            ArrayList<WeaponBladeEffect> availableEffects = WeaponBladeEffect.intToWeaponBladeEffect(summary.wpnsAvailableBladeEffectsProperty().getValue());
             String txtAvailableEffects = "";
             
             for(int i = 0; i < availableEffects.size(); i++) {
@@ -551,7 +551,7 @@ public class RandomizeController {
             }
             
             String text = String.format("Add blade effect, chance: %d%%, effects: %s",
-                    summary.itemsBladeEffectChanceProperty().getValue(), txtAvailableEffects);
+                    summary.wpnsBladeEffectChanceProperty().getValue(), txtAvailableEffects);
 
             return text;
         }
@@ -559,24 +559,24 @@ public class RandomizeController {
     
     private BooleanBinding lblItemsBladeEffectVisible = new BooleanBinding() {
         {
-            super.bind(summary.itemsBladeEffectChanceProperty(), summary.itemsAvailableBladeEffectsProperty());
+            super.bind(summary.wpnsBladeEffectChanceProperty(), summary.wpnsAvailableBladeEffectsProperty());
         }
         
         @Override
         protected boolean computeValue() {
-            return summary.itemsBladeEffectChanceProperty().getValue() > 0
-                    && summary.itemsAvailableBladeEffectsProperty().getValue() > 0;
+            return summary.wpnsBladeEffectChanceProperty().getValue() > 0
+                    && summary.wpnsAvailableBladeEffectsProperty().getValue() > 0;
         }
     };
     
     private StringBinding txtItemsStatBonus = new StringBinding() {
         {
-            super.bind(summary.itemsStatBonusChanceProperty());
+            super.bind(summary.wpnsStatBonusChanceProperty());
         }
         
         @Override
         protected String computeValue() {
-            String text = String.format("Add +5 Stat bonus, chance: %d%%", summary.itemsStatBonusChanceProperty().getValue());
+            String text = String.format("Add +5 Stat bonus, chance: %d%%", summary.wpnsStatBonusChanceProperty().getValue());
 
             return text;
         }
@@ -584,14 +584,14 @@ public class RandomizeController {
     
     private StringBinding txtItemsWeaponSkill = new StringBinding() {
         {
-            super.bind(summary.itemsWeaponSkillChanceProperty(), summary.itemsAllowMultipleWeaponSkillsProperty());
+            super.bind(summary.wpnsWeaponSkillChanceProperty(), summary.wpnsAllowMultipleWeaponSkillsProperty());
         }
         
         @Override
         protected String computeValue() {
-            String text = String.format("Add Weapon skill, chance %d%%", summary.itemsWeaponSkillChanceProperty().getValue());
+            String text = String.format("Add Weapon skill, chance %d%%", summary.wpnsWeaponSkillChanceProperty().getValue());
 
-            if(summary.itemsAllowMultipleWeaponSkillsProperty().getValue()) {
+            if(summary.wpnsAllowMultipleWeaponSkillsProperty().getValue()) {
                 text += ", allow multiple skills";
             }
             
@@ -670,19 +670,19 @@ public class RandomizeController {
         lblItemsRemovePrfLocks.managedProperty().bind(lblItemsRemovePrfLocks.visibleProperty());
         
         lblItems.visibleProperty().bind(itemsLabelVisible);
-        lblItemsMight.visibleProperty().bind(summary.randomizeItemsMightProperty());
-        lblItemsAccuracy.visibleProperty().bind((summary.randomizeItemsAccuracyProperty()));
-        lblItemsWeight.visibleProperty().bind(summary.randomizeItemsWeightProperty());
-        lblItemsCritical.visibleProperty().bind(summary.randomizeItemsCriticalProperty());
-        lblItemsMaxUses.visibleProperty().bind(summary.randomizeItemsMaxUsesProperty().and(summary.itemsAddWeaponUsesProperty().not()));
-        lblItemsCost.visibleProperty().bind(summary.randomizeItemsCostProperty());
+        lblItemsMight.visibleProperty().bind(summary.randomizeWpnsMightProperty());
+        lblItemsAccuracy.visibleProperty().bind((summary.randomizeWpnsAccuracyProperty()));
+        lblItemsWeight.visibleProperty().bind(summary.randomizeWpnsWeightProperty());
+        lblItemsCritical.visibleProperty().bind(summary.randomizeWpnsCriticalProperty());
+        lblItemsMaxUses.visibleProperty().bind(summary.randomizeWpnsMaxUsesProperty().and(summary.wpnsIncreaseUsesProperty().not()));
+        lblItemsCost.visibleProperty().bind(summary.randomizeWpnsCostProperty());
         lblItemsBladeEffect.visibleProperty().bind(lblItemsBladeEffectVisible);
-        lblItemsStatBonus.visibleProperty().bind(summary.itemsAddStatBonusProperty());
-        lblItemsWeaponSkill.visibleProperty().bind(summary.itemsAddWeaponSkillProperty());
-        lblItemsExcludeIronWeapons.visibleProperty().bind(summary.itemsExcludeIronWeaponsProperty().and(summary.anyItemRandomization));
-        lblItemsAddWeaponUses.visibleProperty().bind(summary.itemsAddWeaponUsesProperty().and(summary.randomizeItemsMaxUsesProperty().not()));
-        lblItemsDowngradeWindTome.visibleProperty().bind(summary.itemsDowngradeWindTomeProperty());
-        lblItemsRemovePrfLocks.visibleProperty().bind(summary.itemsRemoveWeaponsPrfLocksProperty());
+        lblItemsStatBonus.visibleProperty().bind(summary.wpnsAddStatBonusProperty());
+        lblItemsWeaponSkill.visibleProperty().bind(summary.wpnsAddWeaponSkillProperty());
+        lblItemsExcludeIronWeapons.visibleProperty().bind(summary.wpnsExcludeIronWeaponsProperty().and(summary.anyItemRandomization));
+        lblItemsAddWeaponUses.visibleProperty().bind(summary.wpnsIncreaseUsesProperty().and(summary.randomizeWpnsMaxUsesProperty().not()));
+        lblItemsDowngradeWindTome.visibleProperty().bind(summary.wpnsDowngradeWindTomeProperty());
+        lblItemsRemovePrfLocks.visibleProperty().bind(summary.wpnsRemoveWeaponsPrfLocksProperty());
         
         lblItemsMight.textProperty().bind(txtItemsMight);
         lblItemsAccuracy.textProperty().bind(txtItemsAccuracy);
