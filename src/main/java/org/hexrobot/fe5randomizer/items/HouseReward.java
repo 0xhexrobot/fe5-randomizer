@@ -106,9 +106,11 @@ public enum HouseReward {
     }
     
     public static void write(Rom rom) {
+        int header = 0x200;
+        
         for(Map.Entry<HouseReward, Item> entry : oldValues.entrySet()) {
             HouseReward house = entry.getKey();
-            rom.setValueAt(house.getOffset(), house.getItem().getOffset());
+            rom.setValueAt(house.getOffset() + header, house.getItem().getOffset() + 1);
         }
     }
     

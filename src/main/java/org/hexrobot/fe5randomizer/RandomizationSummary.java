@@ -77,10 +77,9 @@ public class RandomizationSummary {
     private final SimpleBooleanProperty wpnsDowngradeWindTome = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty wpnsRemoveWeaponsPrfLocks = new SimpleBooleanProperty(false);
     // item rewards
-    private final SimpleBooleanProperty randomizeHouseRewards = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty itemsHousesSimilar = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty randomizeChestRewards = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty itemsChestSimilar = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty randomizeRewards = new SimpleBooleanProperty(false);
+    private final SimpleObjectProperty<Toggle> rewardsRandomizationType = new SimpleObjectProperty<Toggle>();
+    private final SimpleBooleanProperty rewardsShuffleIncludeHeldScrolls = new SimpleBooleanProperty(false);
     // Lil Manster
     private final SimpleBooleanProperty lilMansterRenamePugi = new SimpleBooleanProperty(false);
     // Project Exile
@@ -328,20 +327,20 @@ public class RandomizationSummary {
         return wpnsRemoveWeaponsPrfLocks;
     }
     
-    public SimpleBooleanProperty randomizeHouseRewardsProperty() {
-        return randomizeHouseRewards;
+    public SimpleBooleanProperty randomizeRewardsProperty() {
+        return randomizeRewards;
     }
 
-    public SimpleBooleanProperty itemsHousesSimilarProperty() {
-        return itemsHousesSimilar;
+    public SimpleObjectProperty<Toggle> rewardsRandomizationTypeProperty() {
+        return rewardsRandomizationType;
     }
 
-    public SimpleBooleanProperty randomizeChestRewardsProperty() {
-        return randomizeChestRewards;
+    public SimpleBooleanProperty rewardsShuffleIncludeHeldScrollsProperty() {
+        return rewardsShuffleIncludeHeldScrolls;
     }
 
-    public SimpleBooleanProperty itemsChestSimilarProperty() {
-        return itemsChestSimilar;
+    public BooleanBinding anyItemRandomizationProperty() {
+        return anyItemRandomization;
     }
 
     public SimpleBooleanProperty lilMansterRenamePugiProperty() {
@@ -592,22 +591,22 @@ public class RandomizationSummary {
         return wpnsRemoveWeaponsPrfLocks.getValue();
     }
     
-    public boolean getRandomizeHouseRewards() {
-        return randomizeHouseRewards.getValue();
+    public boolean getRandomizeRewards() {
+        return randomizeRewards.getValue();
     }
 
-    public boolean getItemsHousesSimilar() {
-        return itemsHousesSimilar.getValue();
+    public String getRewardsRandomizationType() {
+        return (String)rewardsRandomizationType.getValue().getUserData();
     }
 
-    public boolean getRandomizeChestRewards() {
-        return randomizeChestRewards.getValue();
+    public boolean getRewardsShuffleIncludeHeldScrolls() {
+        return rewardsShuffleIncludeHeldScrolls.getValue();
     }
 
-    public boolean getItemsChestSimilar() {
-        return itemsChestSimilar.getValue();
+    public BooleanBinding getAnyItemRandomization() {
+        return anyItemRandomization;
     }
-    
+
     public boolean getLilMansterRenamePugi() {
         return lilMansterRenamePugi.getValue();
     }
@@ -650,8 +649,8 @@ public class RandomizationSummary {
                 randomizeWpnsMaxUses.getValue(), randomizeWpnsCost.getValue(), wpnsAddBladeEffect.getValue(), wpnsBladeEffectChance.getValue(), wpnsAvailableBladeEffects.getValue(), wpnsAddStatBonus.getValue(), wpnsStatBonusChance.getValue(), wpnsAddWeaponSkill.getValue(), wpnsSkillChance.getValue(), wpnsAllowMultipleWeaponSkills.getValue());
         text += String.format("Randomize weapons... Exclude iron weapons? %b, Add weapon uses? %b, Downgrade Wind tome? %b, Remove wpn Prf locks: %b\n",
                 wpnsExcludeIronWeapons.getValue(), wpnsIncreaseUses.getValue(), wpnsDowngradeWindTome.getValue(), wpnsRemoveWeaponsPrfLocks.getValue());
-        text += String.format("Randomize House rewards: %b... For similar items: %b, Randomize Chest rewards: %b... For similar items: %b\n",
-                randomizeHouseRewards.getValue(), itemsHousesSimilar.getValue(), randomizeChestRewards.getValue(), itemsChestSimilar.getValue());
+        text += String.format("Randomize rewards: %b... Randomization type: %s, Shuffle include held scrolls: %b\n",
+                randomizeRewards.getValue(), getRewardsRandomizationType(), rewardsShuffleIncludeHeldScrolls.getValue());
         text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterRenamePugi.getValue());
         text += String.format("Project Exile Rename to Pugi: %b\n", exileRenamePugi.getValue());
         

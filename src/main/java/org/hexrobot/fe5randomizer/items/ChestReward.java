@@ -76,9 +76,11 @@ public enum ChestReward {
     }
     
     public static void write(Rom rom) {
+        int header = 0x200;
+        
         for(Map.Entry<ChestReward, Item> entry : oldValues.entrySet()) {
             ChestReward chest = entry.getKey();
-            rom.setValueAt(chest.getOffset(), chest.getItem().getOffset());
+            rom.setValueAt(chest.getOffset() + header, chest.getItem().getOffset() + 1);
         }
     }
     

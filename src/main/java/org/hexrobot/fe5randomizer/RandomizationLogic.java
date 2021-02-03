@@ -1,5 +1,6 @@
 package org.hexrobot.fe5randomizer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.hexrobot.fe5randomizer.items.Item;
 public class RandomizationLogic {
     private Map<GameCharacter, List<CharacterClass>> bannedClasses = new HashMap<>();
     private Map<GameCharacter, List<CharacterClass>> limitedClassPool = new HashMap<>();
+    private List<Item> uniqueRewards = new ArrayList<>();
     
     public RandomizationLogic(RandomizationSummary summary) {
         List<CharacterClass> mountedClasses = CharacterClass.getMountedClasses();
@@ -112,6 +114,8 @@ public class RandomizationLogic {
         limitedClassPool.put(GameCharacter.SEMITOL_BOSS, flyingClasses);
         limitedClassPool.put(GameCharacter.KORUTA_BOSS, flyingClasses);
         limitedClassPool.put(GameCharacter.THRACIA_DRAGON_KNIGHT3, flyingClasses);
+        
+        populateUniqueRewards();
     }
     
     public float assignItemWeight(ArmyUnit unit, Item item, List<Item> inventory) {
@@ -174,5 +178,34 @@ public class RandomizationLogic {
         }
 
         return value;
+    }
+    
+    public void reset() {
+        populateUniqueRewards();
+    }
+    
+    private void populateUniqueRewards() {
+        uniqueRewards.clear();
+        uniqueRewards.addAll(Item.getScrolls());
+        
+        // inventory scrolls
+        // Hezul scroll Enemy lifis Ch2x
+        // Sety scroll Sety Ch4x
+        // Dain scroll Dean Ch14
+        // Blaggi scroll Sleuf Ch16A / Enemy Amalda Ch17B
+        // Tordo scroll Enemy Barat Ch20
+        uniqueRewards.remove(Item.HEZUL_SCROLL);
+        uniqueRewards.remove(Item.SETY_SCROLL);
+        uniqueRewards.remove(Item.DAIN_SCROLL);
+        uniqueRewards.remove(Item.BLAGI_SCROLL);
+        uniqueRewards.remove(Item.TORDO_SCROLL);
+    }
+    
+    public void shuffleRewards() {
+        
+    }
+    
+    public void randomizeRewards() {
+        
     }
 }

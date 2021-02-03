@@ -145,14 +145,19 @@ public class RandomizeRomService extends Service<Void> {
                             summary.getWpnsExcludeIronWeapons());
                 }
                 
-                // TODO randomize chest rewards
-                
-                if(summary.getRandomizeChestRewards()) {
-                    rom.randomizeChestRewards(summary.getItemsChestSimilar());
-                }
-                
-                if(summary.getRandomizeHouseRewards()) {
-                    rom.randomizeHouseRewards(summary.getItemsHousesSimilar());
+                // TODO randomize rewards
+                if(summary.getRandomizeRewards()) {
+                    switch(summary.getRewardsRandomizationType()) {
+                    case "random":
+                        rom.randomizeRewardsChaotic();
+                        break;
+                    case "shuffle":
+                        rom.randomizeRewardsShuffle(summary.getRewardsShuffleIncludeHeldScrolls());
+                        break;
+                    case "replace":
+                        rom.randomizeReplaceSimilar();
+                        break;
+                    }
                 }
                 
                 updateMessage("Writing rom...");

@@ -4,23 +4,25 @@ import org.hexrobot.fe5randomizer.RandomizationSummary;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleGroup;
 
 public class ItemRewardsController {
     @FXML
     private ScrollPane itemRewards;
     @FXML
-    private CheckBox chkChestRewards;
+    private CheckBox chkRandomizeRewards;
     @FXML
-    private CheckBox chkChestShuffle;
+    private RadioButton rbRewardsRandom;
     @FXML
-    private CheckBox chkChestSimilar;
+    private RadioButton rbRewardsShuffle;
     @FXML
-    private CheckBox chkHouseRewards;
+    private RadioButton rbRewardsReplace;
     @FXML
-    private CheckBox chkHouseShuffle;
+    private CheckBox chkIncludeHeldScrolls;
     @FXML
-    private CheckBox chkHouseSimilar;
+    private ToggleGroup tgRewardsRandomization;
     @FXML
     private CheckBox chkShopItems;
     @FXML
@@ -29,13 +31,13 @@ public class ItemRewardsController {
     
     @FXML
     private void initialize() {
-        //chkHouseSimilar.disableProperty().bind(chkHouseRewards.selectedProperty().not());
-        //chkChestSimilar.disableProperty().bind(chkChestRewards.selectedProperty().not());
+        rbRewardsRandom.disableProperty().bind(chkRandomizeRewards.selectedProperty().not());
+        rbRewardsShuffle.disableProperty().bind(chkRandomizeRewards.selectedProperty().not());
+        rbRewardsReplace.disableProperty().bind(chkRandomizeRewards.selectedProperty().not());
+        chkIncludeHeldScrolls.disableProperty().bind(rbRewardsShuffle.selectedProperty().not());
         
-        chkHouseRewards.selectedProperty().bindBidirectional(summary.randomizeHouseRewardsProperty());
-        chkHouseSimilar.selectedProperty().bindBidirectional(summary.itemsHousesSimilarProperty());
-        
-        chkChestRewards.selectedProperty().bindBidirectional(summary.randomizeChestRewardsProperty());
-        chkChestSimilar.selectedProperty().bindBidirectional(summary.itemsChestSimilarProperty());
+        chkRandomizeRewards.selectedProperty().bindBidirectional(summary.randomizeRewardsProperty());
+        chkIncludeHeldScrolls.selectedProperty().bindBidirectional(summary.rewardsShuffleIncludeHeldScrollsProperty());
+        summary.rewardsRandomizationTypeProperty().bind(tgRewardsRandomization.selectedToggleProperty());
     }
 }

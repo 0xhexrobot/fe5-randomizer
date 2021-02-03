@@ -561,7 +561,7 @@ public class Rom {
     private Item getSelectedItem(ArmyUnit unit, ArrayList<Item> inventory) {
         Item selectedItem = Item.BROKEN_SWORD;
         WeightedList<Item> itemWeights = new WeightedList<>();
-        ArrayList<Item> items = Item.getItems(true, true, false);
+        ArrayList<Item> items = Item.getItems(true, false);
         
         for(Item item : items) {
             float weight = logic.assignItemWeight(unit, item, inventory);
@@ -752,7 +752,7 @@ public class Rom {
 
     public void randomizeWeapons(boolean randomizeMight, int mightDelta, boolean randomizeAccuracy, int accuracyDelta, boolean randomizeWeight, int weightDelta, boolean randomizeCritical, int criticalDelta,
             boolean randomizeMaxUses, boolean randomizeCost, boolean addBladeEffect, int bladeEffectChance, int availableBladeEffects, boolean addStatBonus, int statBonusChance, boolean addWeaponSkill, int weaponSkillChance, boolean allowMultipleWeaponSkills, boolean excludeIronWeapons) {
-        ArrayList<Item> weapons = Item.getWeapons(true, true);
+        ArrayList<Item> weapons = Item.getWeapons(true);
         WeightedList<Integer> maxUsesList = new WeightedList<>();
         WeightedList<Integer> costPerUseList = new WeightedList<>();
         ArrayList<WeaponStatBonus> wpnStatBonuses = WeaponStatBonus.getPlus5();
@@ -881,25 +881,30 @@ public class Rom {
             }
         }
     }
-    
-    // TODO randomize chest rewards
-    public void randomizeChestRewards(boolean similarItems) {
-        ArrayList<Item> availableItems = Item.getItems(true, true, true);
-
+        
+    // TODO randomize rewards chaotic
+    public void randomizeRewardsChaotic() {
+        ArrayList<Item> availableItems = Item.getItems(true, true);
+        
         for(ChestReward reward : ChestReward.values()) {
+            Item selectedItem = availableItems.get(random.nextInt(availableItems.size()));
+            reward.setItem(selectedItem);
+        }
+        
+        for(HouseReward reward : HouseReward.values()) {
             Item selectedItem = availableItems.get(random.nextInt(availableItems.size()));
             reward.setItem(selectedItem);
         }
     }
     
-    // TODO randomize house rewards
-    public void randomizeHouseRewards(boolean similarItems) {
-        ArrayList<Item> availableItems = Item.getItems(true, true, true);
-
-        for(HouseReward reward : HouseReward.values()) {
-            Item selectedItem = availableItems.get(random.nextInt(availableItems.size()));
-            reward.setItem(selectedItem);
-        }
+    // TODO randomize rewards shuffle
+    public void randomizeRewardsShuffle(boolean include) {
+        
+    }
+    
+    // TODO randomize replace similar
+    public void randomizeReplaceSimilar() {
+        
     }
     
     public void downgradeWindTome() {
@@ -1029,7 +1034,6 @@ public class Rom {
             item.writeItem(this, ITEMS_OFFSET);
         }
         
-        // TODO write chest
         ChestReward.write(this);
         HouseReward.write(this);
         

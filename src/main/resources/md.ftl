@@ -49,9 +49,7 @@ Other item options:
 <#if summary.wpnsRemoveWeaponsPrfLocks>* Remove Prf locks</#if>
 </#if>
 
-Randomize Chest rewards: <#if summary.randomizeChestRewards>**Yes**, substitute for similar items: <#if summary.itemsChestSimilar>**Yes**<#else>No</#if><#else>No</#if>
-
-Randomize House rewards: <#if summary.randomizeHouseRewards>**Yes**, substitute for similar items: <#if summary.itemsHousesSimilar>**Yes**<#else>No</#if><#else>No</#if>
+Randomize rewards: <#if summary.randomizeRewards>**Yes**, randomization type: ${summary.rewardsRandomizationType}<#if summary.rewardsRandomizationType == "shuffle">, Include held scrolls: <#if summary.rewardsShuffleIncludeHeldScrolls>**Yes**<#else>No</#if></#if><#else>No</#if>
 
 <#if summary.lilMansterRenamePugi>
 Lil' Manster
@@ -73,13 +71,13 @@ Project Exile
 <#list units as unit>
 ### ${unit.getName()}
 
-**Offset:** ${unit.offset?string.@hex_4} **Class:** <#if unit.oldValues["characterClass"]??>${unit.oldValues["characterClass"].getName()} (${unit.oldValues["characterClass"].offset?string.@hex_2}) → **${unit.characterClass.getName()} _(${unit.characterClass.offset?string.@hex_2})_**<#else>${unit.characterClass.getName()} *(${unit.characterClass.offset?string.@hex_2})*</#if>
+**Offset:** ${unit.offset?string.@hex_4} **Class:** <#if unit.oldValues["characterClass"]??>${unit.oldValues["characterClass"].getName()} (${unit.oldValues["characterClass"].offset?string.@hex_2}) -> **${unit.characterClass.getName()} _(${unit.characterClass.offset?string.@hex_2})_**<#else>${unit.characterClass.getName()} *(${unit.characterClass.offset?string.@hex_2})*</#if>
 
 #### Bases
 
 HP | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov | Lead * | Mov * | P Crit |
 -- | --- | --- | --- | --- | --- | --- | --- | --- | ------ | ----- | ------ |
-<#if unit.oldValues["baseHp"]??>${unit.oldValues["baseHp"]} → **${unit.baseHp}**<#else>${unit.baseHp}</#if> | <#if unit.oldValues["baseAtk"]??>${unit.oldValues["baseAtk"]} → **${unit.baseAtk}**<#else>${unit.baseAtk}</#if> | <#if unit.oldValues["baseMag"]??>${unit.oldValues["baseMag"]} → **${unit.baseMag}**<#else>${unit.baseMag}</#if> | <#if unit.oldValues["baseSkl"]??>${unit.oldValues["baseSkl"]} → **${unit.baseSkl}**<#else>${unit.baseSkl}</#if> | <#if unit.oldValues["baseSpd"]??>${unit.oldValues["baseSpd"]} → **${unit.baseSpd}**<#else>${unit.baseSpd}</#if> | <#if unit.oldValues["baseLck"]??>${unit.oldValues["baseLck"]} → **${unit.baseLck}**<#else>${unit.baseLck}</#if> | <#if unit.oldValues["baseDef"]??>${unit.oldValues["baseDef"]} → **${unit.baseDef}**<#else>${unit.baseDef}</#if> | <#if unit.oldValues["baseBld"]??>${unit.oldValues["baseBld"]} → **${unit.baseBld}**<#else>${unit.baseBld}</#if> | <#if unit.oldValues["baseMov"]??>${unit.oldValues["baseMov"]} → **${unit.baseMov}**<#else>${unit.baseMov}</#if> | <#if unit.oldValues["leadershipStars"]??>${unit.oldValues["leadershipStars"]} → **${unit.leadershipStars}**<#else>${unit.leadershipStars}</#if> | <#if unit.oldValues["movementStars"]??>${unit.oldValues["movementStars"].amount} → **${unit.movementStars.amount}**<#else>${unit.movementStars.amount}</#if> | <#if unit.oldValues["counterCritBoost"]??>${unit.oldValues["counterCritBoost"]} → **${unit.counterCritBoost}**<#else>${unit.counterCritBoost}</#if> |
+<#if unit.oldValues["baseHp"]??>${unit.oldValues["baseHp"]} -> **${unit.baseHp}**<#else>${unit.baseHp}</#if> | <#if unit.oldValues["baseAtk"]??>${unit.oldValues["baseAtk"]} -> **${unit.baseAtk}**<#else>${unit.baseAtk}</#if> | <#if unit.oldValues["baseMag"]??>${unit.oldValues["baseMag"]} -> **${unit.baseMag}**<#else>${unit.baseMag}</#if> | <#if unit.oldValues["baseSkl"]??>${unit.oldValues["baseSkl"]} -> **${unit.baseSkl}**<#else>${unit.baseSkl}</#if> | <#if unit.oldValues["baseSpd"]??>${unit.oldValues["baseSpd"]} -> **${unit.baseSpd}**<#else>${unit.baseSpd}</#if> | <#if unit.oldValues["baseLck"]??>${unit.oldValues["baseLck"]} -> **${unit.baseLck}**<#else>${unit.baseLck}</#if> | <#if unit.oldValues["baseDef"]??>${unit.oldValues["baseDef"]} -> **${unit.baseDef}**<#else>${unit.baseDef}</#if> | <#if unit.oldValues["baseBld"]??>${unit.oldValues["baseBld"]} -> **${unit.baseBld}**<#else>${unit.baseBld}</#if> | <#if unit.oldValues["baseMov"]??>${unit.oldValues["baseMov"]} -> **${unit.baseMov}**<#else>${unit.baseMov}</#if> | <#if unit.oldValues["leadershipStars"]??>${unit.oldValues["leadershipStars"]} -> **${unit.leadershipStars}**<#else>${unit.leadershipStars}</#if> | <#if unit.oldValues["movementStars"]??>${unit.oldValues["movementStars"].amount} -> **${unit.movementStars.amount}**<#else>${unit.movementStars.amount}</#if> | <#if unit.oldValues["counterCritBoost"]??>${unit.oldValues["counterCritBoost"]} -> **${unit.counterCritBoost}**<#else>${unit.counterCritBoost}</#if> |
 
 <#if unit.hasRandomBases()>_(Random bases)_</#if>
 
@@ -87,23 +85,23 @@ HP | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov | Lead * | Mov * | P Crit |
 
 HP | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov |
 -- | --- | --- | --- | --- | --- | --- | --- | --- |
-<#if unit.oldValues["hpGrowth"]??>${unit.oldValues["hpGrowth"]} → **${unit.hpGrowth}**<#else>${unit.hpGrowth}</#if> | <#if unit.oldValues["atkGrowth"]??>${unit.oldValues["atkGrowth"]} → **${unit.atkGrowth}**<#else>${unit.atkGrowth}</#if> | <#if unit.oldValues["magGrowth"]??>${unit.oldValues["magGrowth"]} → **${unit.magGrowth}**<#else>${unit.magGrowth}</#if> | <#if unit.oldValues["sklGrowth"]??>${unit.oldValues["sklGrowth"]} → **${unit.sklGrowth}**<#else>${unit.sklGrowth}</#if> | <#if unit.oldValues["sklGrowth"]??>${unit.oldValues["sklGrowth"]} → **${unit.sklGrowth}**<#else>${unit.sklGrowth}</#if> | <#if unit.oldValues["spdGrowth"]??>${unit.oldValues["spdGrowth"]} → **${unit.spdGrowth}**<#else>${unit.spdGrowth}</#if> | <#if unit.oldValues["lckGrowth"]??>${unit.oldValues["lckGrowth"]} → **${unit.lckGrowth}**<#else>${unit.lckGrowth}</#if> | <#if unit.oldValues["defGrowth"]??>${unit.oldValues["defGrowth"]} → **${unit.defGrowth}**<#else>${unit.defGrowth}</#if> | <#if unit.oldValues["bldGrowth"]??>${unit.oldValues["bldGrowth"]} → **${unit.bldGrowth}**<#else>${unit.bldGrowth}</#if> | <#if unit.oldValues["movGrowth"]??>${unit.oldValues["movGrowth"]} → **${unit.movGrowth}**<#else>${unit.movGrowth}</#if> |
+<#if unit.oldValues["hpGrowth"]??>${unit.oldValues["hpGrowth"]} -> **${unit.hpGrowth}**<#else>${unit.hpGrowth}</#if> | <#if unit.oldValues["atkGrowth"]??>${unit.oldValues["atkGrowth"]} -> **${unit.atkGrowth}**<#else>${unit.atkGrowth}</#if> | <#if unit.oldValues["magGrowth"]??>${unit.oldValues["magGrowth"]} -> **${unit.magGrowth}**<#else>${unit.magGrowth}</#if> | <#if unit.oldValues["sklGrowth"]??>${unit.oldValues["sklGrowth"]} -> **${unit.sklGrowth}**<#else>${unit.sklGrowth}</#if> | <#if unit.oldValues["sklGrowth"]??>${unit.oldValues["sklGrowth"]} -> **${unit.sklGrowth}**<#else>${unit.sklGrowth}</#if> | <#if unit.oldValues["spdGrowth"]??>${unit.oldValues["spdGrowth"]} -> **${unit.spdGrowth}**<#else>${unit.spdGrowth}</#if> | <#if unit.oldValues["lckGrowth"]??>${unit.oldValues["lckGrowth"]} -> **${unit.lckGrowth}**<#else>${unit.lckGrowth}</#if> | <#if unit.oldValues["defGrowth"]??>${unit.oldValues["defGrowth"]} -> **${unit.defGrowth}**<#else>${unit.defGrowth}</#if> | <#if unit.oldValues["bldGrowth"]??>${unit.oldValues["bldGrowth"]} -> **${unit.bldGrowth}**<#else>${unit.bldGrowth}</#if> | <#if unit.oldValues["movGrowth"]??>${unit.oldValues["movGrowth"]} -> **${unit.movGrowth}**<#else>${unit.movGrowth}</#if> |
 
 #### Weapon Proficiency
 
 Weapon | Proficiency | Extra Ranks | Weapon | Proficiency | Extra Ranks |
 ------ | ----------- | ------------| ------ | ----------- | ------------|
-Sword | <#if unit.oldValues["baseSwordLv"]??>${unit.oldValues["baseSwordLv"]} → **${unit.baseSwordLv.amount}**<#else>${unit.baseSwordLv.amount}</#if> | ${unit.baseSwordLv.name} | Fire | <#if unit.oldValues["baseFireLv"]??>${unit.oldValues["baseFireLv"]} → **${unit.baseFireLv.amount}**<#else>${unit.baseFireLv.amount}</#if> | ${unit.baseFireLv.name} |
-Lance | <#if unit.oldValues["baseLanceLv"]??>${unit.oldValues["baseLanceLv"]} → **${unit.baseLanceLv.amount}**<#else>${unit.baseLanceLv.amount}</#if> | ${unit.baseLanceLv.name} | Thunder | <#if unit.oldValues["baseThunderLv"]??>${unit.oldValues["baseThunderLv"]} → **${unit.baseThunderLv.amount}**<#else>${unit.baseThunderLv.amount}</#if> | ${unit.baseThunderLv.name} |
-Axe | <#if unit.oldValues["baseAxeLv"]??>${unit.oldValues["baseAxeLv"]} → **${unit.baseAxeLv.amount}**<#else>${unit.baseAxeLv.amount}</#if> | ${unit.baseAxeLv.name} | Wind | <#if unit.oldValues["baseWindLv"]??>${unit.oldValues["baseWindLv"]} → **${unit.baseWindLv.amount}**<#else>${unit.baseWindLv.amount}</#if> | ${unit.baseWindLv.name} |
-Bow | <#if unit.oldValues["baseBowLv"]??>${unit.oldValues["baseBowLv"]} → **${unit.baseBowLv.amount}**<#else>${unit.baseBowLv.amount}</#if> | ${unit.baseBowLv.name} | Light | <#if unit.oldValues["baseLightLv"]??>${unit.oldValues["baseLightLv"]} → **${unit.baseLightLv.amount}**<#else>${unit.baseLightLv.amount}</#if> | ${unit.baseLightLv.name} |
-Staff | <#if unit.oldValues["baseStaffLv"]??>${unit.oldValues["baseStaffLv"]} → **${unit.baseStaffLv.amount}**<#else>${unit.baseStaffLv.amount}</#if> | ${unit.baseStaffLv.name} | Dark | <#if unit.oldValues["baseDarkLv"]??>${unit.oldValues["baseDarkLv"]} → **${unit.baseDarkLv.amount}**<#else>${unit.baseDarkLv.amount}</#if> | ${unit.baseDarkLv.name} |
+Sword | <#if unit.oldValues["baseSwordLv"]??>${unit.oldValues["baseSwordLv"]} -> **${unit.baseSwordLv.amount}**<#else>${unit.baseSwordLv.amount}</#if> | ${unit.baseSwordLv.name} | Fire | <#if unit.oldValues["baseFireLv"]??>${unit.oldValues["baseFireLv"]} -> **${unit.baseFireLv.amount}**<#else>${unit.baseFireLv.amount}</#if> | ${unit.baseFireLv.name} |
+Lance | <#if unit.oldValues["baseLanceLv"]??>${unit.oldValues["baseLanceLv"]} -> **${unit.baseLanceLv.amount}**<#else>${unit.baseLanceLv.amount}</#if> | ${unit.baseLanceLv.name} | Thunder | <#if unit.oldValues["baseThunderLv"]??>${unit.oldValues["baseThunderLv"]} -> **${unit.baseThunderLv.amount}**<#else>${unit.baseThunderLv.amount}</#if> | ${unit.baseThunderLv.name} |
+Axe | <#if unit.oldValues["baseAxeLv"]??>${unit.oldValues["baseAxeLv"]} -> **${unit.baseAxeLv.amount}**<#else>${unit.baseAxeLv.amount}</#if> | ${unit.baseAxeLv.name} | Wind | <#if unit.oldValues["baseWindLv"]??>${unit.oldValues["baseWindLv"]} -> **${unit.baseWindLv.amount}**<#else>${unit.baseWindLv.amount}</#if> | ${unit.baseWindLv.name} |
+Bow | <#if unit.oldValues["baseBowLv"]??>${unit.oldValues["baseBowLv"]} -> **${unit.baseBowLv.amount}**<#else>${unit.baseBowLv.amount}</#if> | ${unit.baseBowLv.name} | Light | <#if unit.oldValues["baseLightLv"]??>${unit.oldValues["baseLightLv"]} -> **${unit.baseLightLv.amount}**<#else>${unit.baseLightLv.amount}</#if> | ${unit.baseLightLv.name} |
+Staff | <#if unit.oldValues["baseStaffLv"]??>${unit.oldValues["baseStaffLv"]} -> **${unit.baseStaffLv.amount}**<#else>${unit.baseStaffLv.amount}</#if> | ${unit.baseStaffLv.name} | Dark | <#if unit.oldValues["baseDarkLv"]??>${unit.oldValues["baseDarkLv"]} -> **${unit.baseDarkLv.amount}**<#else>${unit.baseDarkLv.amount}</#if> | ${unit.baseDarkLv.name} |
 
 #### Skills
 
 **Skills1** | **Skills2** | **Skills3** |
 ----------- | ----------- | ----------- |
-<#if unit.oldValues["skills1"]??>*${unit.oldValues["skills1"]?string.@hex_2}* → _**${unit.skills1?string.@hex_2}**_<#else>*${unit.skills1?string.@hex_2}*</#if> | <#if unit.oldValues["skills2"]??>*${unit.oldValues["skills2"]?string.@hex_2}* → _**${unit.skills2?string.@hex_2}**_<#else>*${unit.skills2?string.@hex_2}*</#if> | <#if unit.oldValues["skills3"]??>*${unit.oldValues["skills3"]?string.@hex_2}* → _**${unit.skills3?string.@hex_2}**_<#else>*${unit.skills3?string.@hex_2}*</#if> |
+<#if unit.oldValues["skills1"]??>*${unit.oldValues["skills1"]?string.@hex_2}* -> _**${unit.skills1?string.@hex_2}**_<#else>*${unit.skills1?string.@hex_2}*</#if> | <#if unit.oldValues["skills2"]??>*${unit.oldValues["skills2"]?string.@hex_2}* -> _**${unit.skills2?string.@hex_2}**_<#else>*${unit.skills2?string.@hex_2}*</#if> | <#if unit.oldValues["skills3"]??>*${unit.oldValues["skills3"]?string.@hex_2}* -> _**${unit.skills3?string.@hex_2}**_<#else>*${unit.skills3?string.@hex_2}*</#if> |
 
 <#if unit.oldValues["skills1"]?? || unit.oldValues["skills2"]?? || unit.oldValues["skills3"]??>
 **<#list unit.skills as skill>${skill.getName()}<#sep>, </#list>**
@@ -126,7 +124,7 @@ Staff | <#if unit.oldValues["baseStaffLv"]??>${unit.oldValues["baseStaffLv"]} �
 
 HP | Atk | Mag | Skl | Spd | Def | Bld | Mov |
 -- | --- | --- | --- | --- | --- | --- | --- |
-<#if class.oldValues["baseHp"]??>${class.oldValues["baseHp"]} → **${class.baseHp}**<#else>${class.baseHp}</#if> | <#if class.oldValues["baseAtk"]??>${class.oldValues["baseAtk"]} → **${class.baseAtk}**<#else>${class.baseAtk}</#if> | <#if class.oldValues["baseMag"]??>${class.oldValues["baseMag"]} → **${class.baseMag}**<#else>${class.baseMag}</#if> | <#if class.oldValues["baseSkl"]??>${class.oldValues["baseSkl"]} → **${class.baseSkl}**<#else>${class.baseSkl}</#if> | <#if class.oldValues["baseSpd"]??>${class.oldValues["baseSpd"]} → **${class.baseSpd}**<#else>${class.baseSpd}</#if> | <#if class.oldValues["baseDef"]??>${class.oldValues["baseDef"]} → **${class.baseDef}**<#else>${class.baseDef}</#if> | <#if class.oldValues["baseBld"]??>${class.oldValues["baseBld"]} → **${class.baseBld}**<#else>${class.baseBld}</#if> | <#if class.oldValues["baseMov"]??>${class.oldValues["baseMov"]} → **${class.baseMov}**<#else>${class.baseMov}</#if> |
+<#if class.oldValues["baseHp"]??>${class.oldValues["baseHp"]} -> **${class.baseHp}**<#else>${class.baseHp}</#if> | <#if class.oldValues["baseAtk"]??>${class.oldValues["baseAtk"]} -> **${class.baseAtk}**<#else>${class.baseAtk}</#if> | <#if class.oldValues["baseMag"]??>${class.oldValues["baseMag"]} -> **${class.baseMag}**<#else>${class.baseMag}</#if> | <#if class.oldValues["baseSkl"]??>${class.oldValues["baseSkl"]} -> **${class.baseSkl}**<#else>${class.baseSkl}</#if> | <#if class.oldValues["baseSpd"]??>${class.oldValues["baseSpd"]} -> **${class.baseSpd}**<#else>${class.baseSpd}</#if> | <#if class.oldValues["baseDef"]??>${class.oldValues["baseDef"]} -> **${class.baseDef}**<#else>${class.baseDef}</#if> | <#if class.oldValues["baseBld"]??>${class.oldValues["baseBld"]} -> **${class.baseBld}**<#else>${class.baseBld}</#if> | <#if class.oldValues["baseMov"]??>${class.oldValues["baseMov"]} -> **${class.baseMov}**<#else>${class.baseMov}</#if> |
 
 #### Weapon Proficiency
 
@@ -154,21 +152,19 @@ Staff | ${class.baseStaffLv.amount} | ${class.baseStaffLv.name} | Dark | ${class
 Name | Mt | Acc | Wt | Crt | Rng | Rank | Uses | Skills1 | Skills2 | Skills | Blade Eff | Uses | CostPerUse | Stat Bonus |
 ---- | -- | --- | -- | --- | --- | ---- | ---- | ------- | ------- | ------ | --------- | ---- | ---------- | ---------- |
 <#list items as item>
-${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} → **${item.power}**<#else>${item.power}</#if> | <#if item.oldValues["accuracy"]??>${item.oldValues["accuracy"]} → **${item.accuracy}**<#else>${item.accuracy}</#if> | <#if item.oldValues["weight"]??>${item.oldValues["weight"]} → **${item.weight}**<#else>${item.weight}</#if> | <#if item.oldValues["critical"]??>${item.oldValues["critical"]} → **${item.critical}**<#else>${item.critical}</#if> | <#if item.oldValues["weaponRange"]??>${item.olValues["weaponRange"].getName()} → **${item.weaponRange.getName()}**<#else>${item.weaponRange.getName()}</#if> | <#if item.oldValues["weaponRank"]??>${item.oldValues["weaponRank"].getName()} → **${item.weaponRank.getName()}**<#else>${item.weaponRank.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} → **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["skills1"]??>*${item.oldValues["skills1"]?string.@hex_2}* → _**${item.skills1?string.@hex_2}**_<#else>*${item.skills1?string.@hex_2}*</#if> | <#if item.oldValues["skills2"]??>*${item.oldValues["skills2"]?string.@hex_2}* → _**${item.skills2?string.@hex_2}**_<#else>*${item.skills2?string.@hex_2}*</#if> | <#if item.oldValues["skills1"]?? || item.oldValues["skills2"]??>**<#list item.skills as skill>${skill.getName()}<#sep>, </#list>**<#else><#list item.skills as skill>${skill.getName()}<#sep>, </#list></#if> | <#if item.oldValues["weaponBladeEffect"]??>${item.oldValues["weaponBladeEffect"].getName()} → **${item.weaponBladeEffect.getName()}**<#else>${item.weaponBladeEffect.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} → **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["costPerUse"]??>${item.oldValues["costPerUse"]} → **${item.costPerUse}**<#else>${item.costPerUse}</#if> | <#if item.oldValues["weaponStatBonus"]??>${item.oldValues["weaponStatBonus"].getName()} → **${item.weaponStatBonus.getName()}**<#else>${item.weaponStatBonus.getName()}</#if> |    
+${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} -> **${item.power}**<#else>${item.power}</#if> | <#if item.oldValues["accuracy"]??>${item.oldValues["accuracy"]} -> **${item.accuracy}**<#else>${item.accuracy}</#if> | <#if item.oldValues["weight"]??>${item.oldValues["weight"]} -> **${item.weight}**<#else>${item.weight}</#if> | <#if item.oldValues["critical"]??>${item.oldValues["critical"]} -> **${item.critical}**<#else>${item.critical}</#if> | <#if item.oldValues["weaponRange"]??>${item.olValues["weaponRange"].getName()} -> **${item.weaponRange.getName()}**<#else>${item.weaponRange.getName()}</#if> | <#if item.oldValues["weaponRank"]??>${item.oldValues["weaponRank"].getName()} -> **${item.weaponRank.getName()}**<#else>${item.weaponRank.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} -> **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["skills1"]??>*${item.oldValues["skills1"]?string.@hex_2}* -> _**${item.skills1?string.@hex_2}**_<#else>*${item.skills1?string.@hex_2}*</#if> | <#if item.oldValues["skills2"]??>*${item.oldValues["skills2"]?string.@hex_2}* -> _**${item.skills2?string.@hex_2}**_<#else>*${item.skills2?string.@hex_2}*</#if> | <#if item.oldValues["skills1"]?? || item.oldValues["skills2"]??>**<#list item.skills as skill>${skill.getName()}<#sep>, </#list>**<#else><#list item.skills as skill>${skill.getName()}<#sep>, </#list></#if> | <#if item.oldValues["weaponBladeEffect"]??>${item.oldValues["weaponBladeEffect"].getName()} -> **${item.weaponBladeEffect.getName()}**<#else>${item.weaponBladeEffect.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} -> **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["costPerUse"]??>${item.oldValues["costPerUse"]} -> **${item.costPerUse}**<#else>${item.costPerUse}</#if> | <#if item.oldValues["weaponStatBonus"]??>${item.oldValues["weaponStatBonus"].getName()} -> **${item.weaponStatBonus.getName()}**<#else>${item.weaponStatBonus.getName()}</#if> |
 </#list>
 </#if>
 
-<#if chestRewards??>
+<#if summary.randomizeRewards>
 ## Chest rewards
 <#list chestRewards as chest>
-* ${chest.getName()} <#if chest.isModified()>→ **${chest.item.getName()}**</#if>
+* ${chest.getName()} <#if chest.isModified()>-> **${chest.item.getName()}**</#if>
 </#list>
-</#if>
 
-<#if houseRewards??>
 ## House rewards
 <#list houseRewards as house>
-* ${house.getName()} <#if house.isModified()>→ **${house.item.getName()}**</#if>
+* ${house.getName()} <#if house.isModified()>-> **${house.item.getName()}**</#if>
 </#list>
 </#if>
 
@@ -180,7 +176,7 @@ ${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} �
 ### ${chapter.getName()}
 
 <#list chapter.getArmyData() as unit>
-**Character**: ${unit.character.getName()}(${unit.character.offset?string.@hex_4}) <#if unit.character.oldValues["characterClass"]??> → **${unit.character.characterClass.getName()}**</#if>
+**Character**: ${unit.character.getName()}(${unit.character.offset?string.@hex_4}) <#if unit.character.oldValues["characterClass"]??> -> **${unit.character.characterClass.getName()}**</#if>
 
 X: ${unit.getXCoord()}, Y: ${unit.getYCoord()}, Army: ${unit.armyOrigin?string.@hex_4}, Level: ${unit.level}<#if unit.autoLeveled>(A)</#if>,
 

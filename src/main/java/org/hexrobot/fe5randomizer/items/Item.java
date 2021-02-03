@@ -97,7 +97,7 @@ public enum Item {
 	WIND(0x55, "Wind"),
 	GRAFUCALIBUR(0x56, "Grafucalibur"),
 	TORNADO(0x57, "Tornado"),
-	HOLSETY2(0x58, "Holsety"),
+	HOLSETY(0x58, "Holsety"),
 	LIGHTNING(0x59, "Lightning"),
 	RESIRE(0x5A, "Resire"),
 	AURA(0x5B, "Aura"),
@@ -115,7 +115,7 @@ public enum Item {
 	HEAL(0x67, "Heal"),
 	MEND(0x68, "Mend"),
 	RECOVER(0x69, "Recover"),
-	PHYSIC(0x6A, "Libro"),
+	PHYSIC(0x6A, "Physic"),
 	RESERVE(0x6B, "Reserve"),
 	RESCUE(0x6C, "Rescue"),
 	WARP(0x6D, "Warp"),
@@ -238,7 +238,7 @@ public enum Item {
     private static final ArrayList<Item> THUNDER_MAGIC = new ArrayList<Item>(
             List.of(THUNDER, DAIM_THUNDER, TRON, THUNDERSTORM, TORHAMMER));
     private static final ArrayList<Item> WIND_MAGIC = new ArrayList<Item>(
-            List.of(WIND, GRAFUCALIBUR, TORNADO, HOLSETY2, BLIZZARD));
+            List.of(WIND, GRAFUCALIBUR, TORNADO, HOLSETY, BLIZZARD));
     private static final ArrayList<Item> LIGHT_MAGIC = new ArrayList<Item>(List.of(LIGHTNING, RESIRE, AURA));
     private static final ArrayList<Item> DARK_MAGIC = new ArrayList<Item>(
             List.of(YOTSMUNGAND, FENRIR, HELL, LOPUTOUS, POISON, STONE));
@@ -253,14 +253,25 @@ public enum Item {
             List.of(ODO_SCROLL, BALDO_SCROLL, HEZUL_SCROLL, DAIN_SCROLL, NOBA_SCROLL, NEIR_SCROLL, ULIR_SCROLL,
                     TORDO_SCROLL, FALA_SCROLL, SETY_SCROLL, BLAGI_SCROLL, HEIM_SCROLL));
     private static final ArrayList<Item> UNUSED = new ArrayList<Item>(
-            List.of(DARKNESS_LANCE, VOLCANNON, FALAFLAME, TORHAMMER, AURA, LOPUTOUS, WATCH, RETURN, GUNGNIR, GAE_BOLG));
+            List.of(MASTER_PROOF, DARKNESS_LANCE, VOLCANNON, FALAFLAME, TORHAMMER, AURA, LOPUTOUS, WATCH, RETURN,
+                    GUNGNIR, GAE_BOLG, KILLER_ARCH));
     private static final ArrayList<Item> ENEMY_ONLY = new ArrayList<Item>(
             List.of(POISON_SWORD, POISON_LANCE, POISON_AXE, POISON_BOW));
     private static final ArrayList<Item> PLAYER_ONLY = new ArrayList<Item>(
             List.of(THIEF_STAFF));
     private static final ArrayList<Item> BROKEN = new ArrayList<Item>(
             List.of(BROKEN_SWORD, BROKEN_LANCE, BROKEN_AXE, BROKEN_BOW, BROKEN_STAFF, BROKEN_BOOK));
-
+    private static final ArrayList<Item> MANUALS = new ArrayList<>(
+            List.of(ELITE_MANUAL, CHARGE_MANUAL, BARGAIN_MANUAL, AMBUSH_MANUAL, WRATH_MANUAL, CONTINUE_MANUAL,
+                    PRAYER_MANUAL, AWARENESS_MANUAL, SUNLIGHT_MANUAL, MOONLIGHT_MANUAL));
+    private static final ArrayList<Item> RINGS = new ArrayList<Item>(List.of(LUCK_RING, LIFE_RING, SPEED_RING,
+            MAGIC_RING, POWER_RING, BODY_RING, SHIELD_RING, SKILL_RING, LEG_RING));
+    private static final ArrayList<Item> COMMON_ITEMS = new ArrayList<>(
+            List.of(TREASURE_KEY, DOOR_KEY, BRIDGE_KEY, LOCKPICK, STAMINA_DRINK, VULNERARY, HOLY_WATER, TORCH,
+                    ANTIDOTE));
+    private static final ArrayList<Item> NO_REWARD = new ArrayList<>(
+            List.of(LONG_ARCH, IRON_ARCH, POISON_ARCH, LOPUTOUS_SWORD, HOLSETY, HOLSETY_UNLIMITED));
+    
     private Item(int offset, String name) {
         this.offset = offset;
         this.name = name;
@@ -499,6 +510,18 @@ public enum Item {
     public boolean isScroll() {
         return SCROLLS.contains(this);
     }
+    
+    public boolean isManual() {
+        return MANUALS.contains(this);
+    }
+    
+    public boolean isRing() {
+        return RINGS.contains(this);
+    }
+    
+    public boolean isCommonItem() {
+        return COMMON_ITEMS.contains(this);
+    }
 
     public boolean isUnused() {
         return UNUSED.contains(this);
@@ -512,38 +535,36 @@ public enum Item {
         return PLAYER_ONLY.contains(this);
     }
     
-    public ArrayList<Item> getUnusedItems() {
+    public static ArrayList<Item> getUnusedItems() {
         return new ArrayList<Item>(UNUSED);
     }
     
-    public ArrayList<Item> getBrokenItems() {
+    public static ArrayList<Item> getBrokenItems() {
         return new ArrayList<Item>(BROKEN);
     }
     
-    public ArrayList<Item> getNonWeaponItems() {
+    public static ArrayList<Item> getNonWeaponItems() {
         return new ArrayList<Item>(ITEMS);
     }
     
-    public static ArrayList<Item> getItems(boolean excludeUnused, boolean excludeBroken, boolean excludeEnemyWeapons) {
+    public static ArrayList<Item> getItems(boolean excludeUnused, boolean excludeEnemyWeapons) {
         ArrayList<Item> items = new ArrayList<>(Arrays.asList(Item.values()));
+        
+        items.removeAll(BROKEN);
+        items.removeAll(NO_REWARD);
         
         if(excludeUnused) {
             items.removeAll(UNUSED);
         }
         
-        if(excludeBroken) {
-            items.removeAll(BROKEN);
-        }
-        
         if(excludeEnemyWeapons) {
             items.removeAll(ENEMY_ONLY);
-            items.remove(LOPUTOUS_SWORD);
         }
         
         return new ArrayList<Item>(items);
     }
     
-    public static ArrayList<Item> getWeapons(boolean excludeUnused, boolean excludeBroken) {
+    public static ArrayList<Item> getWeapons(boolean excludeUnused) {
         ArrayList<Item> weapons = new ArrayList<>();
         
         weapons.addAll(SWORDS);
@@ -561,11 +582,14 @@ public enum Item {
             weapons.removeAll(UNUSED);
         }
         
-        if(excludeBroken) {
-            weapons.removeAll(BROKEN);
-        }
-        
         return weapons;
+    }
+    
+    public static ArrayList<Item> getScrolls() {
+        ArrayList<Item> scrolls = new ArrayList<>();
+        scrolls.addAll(SCROLLS);
+        
+        return scrolls;
     }
 
     public void readItem(Rom rom, int startingOffset) {
