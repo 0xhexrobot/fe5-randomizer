@@ -1,6 +1,7 @@
 package org.hexrobot.fe5randomizer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.zip.CRC32;
@@ -13,8 +14,7 @@ import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.characters.MovementStars;
 import org.hexrobot.fe5randomizer.characters.Skill;
 import org.hexrobot.fe5randomizer.controllers.MainController;
-import org.hexrobot.fe5randomizer.items.ChestReward;
-import org.hexrobot.fe5randomizer.items.HouseReward;
+import org.hexrobot.fe5randomizer.items.ItemReward;
 import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
 import org.hexrobot.fe5randomizer.items.WeaponRank;
@@ -881,30 +881,89 @@ public class Rom {
             }
         }
     }
-        
+
     // TODO randomize rewards chaotic
-    public void randomizeRewardsChaotic() {
+    public void randomizeRewardsChaotic(boolean safeScrolls, boolean safeKnightProofs) {
         ArrayList<Item> availableItems = Item.getItems(true, true);
+        List<ItemReward> excludedRewards = new ArrayList<ItemReward>(List.of(
+                ItemReward.CH18_MEMBER_CARD, ItemReward.CH24_KIA_STAFF));
         
-        for(ChestReward reward : ChestReward.values()) {
-            Item selectedItem = availableItems.get(random.nextInt(availableItems.size()));
-            reward.setItem(selectedItem);
-        }
-        
-        for(HouseReward reward : HouseReward.values()) {
+        for(ItemReward reward : ItemReward.values()) {
+            if(excludedRewards.contains(reward)) {
+                continue;
+            }
+            
             Item selectedItem = availableItems.get(random.nextInt(availableItems.size()));
             reward.setItem(selectedItem);
         }
     }
-    
-    // TODO randomize rewards shuffle
-    public void randomizeRewardsShuffle(boolean include) {
+
+    public void randomizeRewardsShuffle() {
+        List<Item> allRewards = new ArrayList<>();
+        List<ItemReward> excludedRewards = new ArrayList<ItemReward>(
+                List.of(ItemReward.CH24_KIA_STAFF));
         
+        for(ItemReward reward : ItemReward.values()) {
+            if(excludedRewards.contains(reward)) {
+                continue;
+            }
+            
+            allRewards.add(reward.getItem());
+        }
+        
+        Collections.shuffle(allRewards, random);
+        
+        for(ItemReward reward : ItemReward.values()) {
+            if(excludedRewards.contains(reward)) {
+                continue;
+            }
+            
+            reward.setItem(allRewards.remove(0));
+        }
     }
     
-    // TODO randomize replace similar
-    public void randomizeReplaceSimilar() {
+    public void randomizeReplaceSimilar(boolean safeScrolls, boolean safeKnightProofs) {
+        List<Item> availableScrolls = Item.getScrolls();
+        int remainingKnightProofs = 11;
+        int possibleKnightProofs = 39;
         
+        if(safeScrolls) {
+            // remove scrolls in characters inventory
+            availableScrolls.removeAll(List.of(
+                    Item.HEZUL_SCROLL, Item.DAIN_SCROLL, Item.BLAGI_SCROLL, Item.TORDO_SCROLL));
+            Collections.shuffle(availableScrolls);
+        }
+                
+        for(ItemReward reward : ItemReward.values()) {
+            Item rewardItem = reward.getItem();
+            
+            if(rewardItem.equals(Item.MEMBER_CARD)) {
+                continue;
+            }
+            
+            if(safeScrolls && rewardItem.isScroll()) {
+                reward.setItem(availableScrolls.remove(0));
+                continue;
+            }
+            
+            List<Item> similarItems = Item.getSimilarItemList(reward.getItem());
+            
+            if(safeKnightProofs && remainingKnightProofs > 0 && similarItems.contains(Item.KNIGHT_PROOF)) {
+                float knightProofChance = remainingKnightProofs / (float)possibleKnightProofs;
+                possibleKnightProofs--;
+                
+                if(random.nextFloat() < knightProofChance) {
+                    reward.setItem(Item.KNIGHT_PROOF);
+                    remainingKnightProofs--;
+                    continue;
+                } else {
+                    similarItems.remove(Item.KNIGHT_PROOF);
+                }
+            }
+            
+            Item newItem = similarItems.get(random.nextInt(similarItems.size()));
+            reward.setItem(newItem);
+        }
     }
     
     public void downgradeWindTome() {
@@ -1009,8 +1068,7 @@ public class Rom {
             item.reset();
         }
         
-        ChestReward.reset();
-        HouseReward.reset();
+        ItemReward.reset();
         
         promotionData.reset();
     }
@@ -1034,8 +1092,7 @@ public class Rom {
             item.writeItem(this, ITEMS_OFFSET);
         }
         
-        ChestReward.write(this);
-        HouseReward.write(this);
+        ItemReward.write(this);
         
         promotionData.writePromotions(this, PROMOTION_TABLE_OFFSET);
     }

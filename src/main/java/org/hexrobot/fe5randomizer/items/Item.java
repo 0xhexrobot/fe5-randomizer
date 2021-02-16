@@ -267,8 +267,8 @@ public enum Item {
     private static final ArrayList<Item> RINGS = new ArrayList<Item>(List.of(LUCK_RING, LIFE_RING, SPEED_RING,
             MAGIC_RING, POWER_RING, BODY_RING, SHIELD_RING, SKILL_RING, LEG_RING));
     private static final ArrayList<Item> COMMON_ITEMS = new ArrayList<>(
-            List.of(TREASURE_KEY, DOOR_KEY, BRIDGE_KEY, LOCKPICK, STAMINA_DRINK, VULNERARY, HOLY_WATER, TORCH,
-                    ANTIDOTE));
+            List.of(KNIGHT_PROOF, TREASURE_KEY, DOOR_KEY, BRIDGE_KEY, LOCKPICK, STAMINA_DRINK, VULNERARY, HOLY_WATER,
+                    TORCH, ANTIDOTE));
     private static final ArrayList<Item> NO_REWARD = new ArrayList<>(
             List.of(LONG_ARCH, IRON_ARCH, POISON_ARCH, LOPUTOUS_SWORD, HOLSETY, HOLSETY_UNLIMITED));
     
@@ -564,6 +564,18 @@ public enum Item {
         return new ArrayList<Item>(items);
     }
     
+    public static List<Item> getCommonItems() {
+        return new ArrayList<Item>(COMMON_ITEMS);
+    }
+    
+    public static List<Item> getRings() {
+        return new ArrayList<Item>(RINGS);
+    }
+    
+    public static List<Item> getManuals() {
+        return new ArrayList<Item>(MANUALS);
+    }
+    
     public static ArrayList<Item> getWeapons(boolean excludeUnused) {
         ArrayList<Item> weapons = new ArrayList<>();
         
@@ -590,6 +602,45 @@ public enum Item {
         scrolls.addAll(SCROLLS);
         
         return scrolls;
+    }
+    
+    public boolean isWeapon() {
+        return isSword() || isLance() || isAxe() || isBow() || isStaff() || isWindMagic() || isFireMagic()
+                || isThunderMagic() || isLightMagic() || isDarkMagic();
+    }
+    
+    public static List<Item> getWeaponsOfRank(WeaponRank rank) {
+        List<Item> weapons = new ArrayList<>();
+        
+        for(Item item : getItems(true, true)) {
+            if(item.isWeapon() && item.weaponRank.equals(rank)) {
+                weapons.add(item);
+            }
+        }
+        
+        return weapons;
+    }
+    
+    public static List<Item> getSimilarItemList(Item item) {
+        List<Item> similarItems = new ArrayList<Item>();
+        
+        if(item.isWeapon()) {
+            similarItems = getWeaponsOfRank(item.weaponRank);
+        } else if(item.isCommonItem()) {
+            similarItems = new ArrayList<>(COMMON_ITEMS);
+        } else if(item.isRing()) {
+            similarItems = new ArrayList<>(RINGS);
+        } else if(item.isScroll()) {
+            similarItems = new ArrayList<>(SCROLLS);
+        } else if(item.isManual()) {
+            similarItems = new ArrayList<>(MANUALS);
+        }
+        
+        if(similarItems.size() == 0) {
+            throw new UnsupportedOperationException("No suitable replacements for " + item);
+        }
+        
+        return similarItems;
     }
 
     public void readItem(Rom rom, int startingOffset) {

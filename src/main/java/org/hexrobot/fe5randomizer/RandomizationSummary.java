@@ -79,7 +79,8 @@ public class RandomizationSummary {
     // item rewards
     private final SimpleBooleanProperty randomizeRewards = new SimpleBooleanProperty(false);
     private final SimpleObjectProperty<Toggle> rewardsRandomizationType = new SimpleObjectProperty<Toggle>();
-    private final SimpleBooleanProperty rewardsShuffleIncludeHeldScrolls = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty rewardsSafeScrolls = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty rewardsSafeKnightProofs = new SimpleBooleanProperty(false);
     // Lil Manster
     private final SimpleBooleanProperty lilMansterRenamePugi = new SimpleBooleanProperty(false);
     // Project Exile
@@ -335,8 +336,12 @@ public class RandomizationSummary {
         return rewardsRandomizationType;
     }
 
-    public SimpleBooleanProperty rewardsShuffleIncludeHeldScrollsProperty() {
-        return rewardsShuffleIncludeHeldScrolls;
+    public SimpleBooleanProperty rewardsSafeScrollsProperty() {
+        return rewardsSafeScrolls;
+    }
+    
+    public SimpleBooleanProperty rewardsSafeKnightProofsProperty() {
+        return rewardsSafeKnightProofs;
     }
 
     public BooleanBinding anyItemRandomizationProperty() {
@@ -599,8 +604,12 @@ public class RandomizationSummary {
         return (String)rewardsRandomizationType.getValue().getUserData();
     }
 
-    public boolean getRewardsShuffleIncludeHeldScrolls() {
-        return rewardsShuffleIncludeHeldScrolls.getValue();
+    public boolean getRewardsSafeScrolls() {
+        return rewardsSafeScrolls.getValue();
+    }
+    
+    public boolean getRewardsSafeKnightProofs() {
+        return rewardsSafeKnightProofs.getValue();
     }
 
     public BooleanBinding getAnyItemRandomization() {
@@ -649,8 +658,8 @@ public class RandomizationSummary {
                 randomizeWpnsMaxUses.getValue(), randomizeWpnsCost.getValue(), wpnsAddBladeEffect.getValue(), wpnsBladeEffectChance.getValue(), wpnsAvailableBladeEffects.getValue(), wpnsAddStatBonus.getValue(), wpnsStatBonusChance.getValue(), wpnsAddWeaponSkill.getValue(), wpnsSkillChance.getValue(), wpnsAllowMultipleWeaponSkills.getValue());
         text += String.format("Randomize weapons... Exclude iron weapons? %b, Add weapon uses? %b, Downgrade Wind tome? %b, Remove wpn Prf locks: %b\n",
                 wpnsExcludeIronWeapons.getValue(), wpnsIncreaseUses.getValue(), wpnsDowngradeWindTome.getValue(), wpnsRemoveWeaponsPrfLocks.getValue());
-        text += String.format("Randomize rewards: %b... Randomization type: %s, Shuffle include held scrolls: %b\n",
-                randomizeRewards.getValue(), getRewardsRandomizationType(), rewardsShuffleIncludeHeldScrolls.getValue());
+        text += String.format("Randomize rewards: %b... Randomization type: %s, Safe scrolls: %b, Safe KnightProofs: %b\n",
+                randomizeRewards.getValue(), getRewardsRandomizationType(), rewardsSafeScrolls.getValue(), rewardsSafeKnightProofs.getValue());
         text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterRenamePugi.getValue());
         text += String.format("Project Exile Rename to Pugi: %b\n", exileRenamePugi.getValue());
         

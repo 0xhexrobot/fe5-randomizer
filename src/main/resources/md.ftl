@@ -49,7 +49,7 @@ Other item options:
 <#if summary.wpnsRemoveWeaponsPrfLocks>* Remove Prf locks</#if>
 </#if>
 
-Randomize rewards: <#if summary.randomizeRewards>**Yes**, randomization type: ${summary.rewardsRandomizationType}<#if summary.rewardsRandomizationType == "shuffle">, Include held scrolls: <#if summary.rewardsShuffleIncludeHeldScrolls>**Yes**<#else>No</#if></#if><#else>No</#if>
+Randomize rewards: <#if summary.randomizeRewards>**Yes**, randomization type: ${summary.rewardsRandomizationType}<#if summary.rewardsRandomizationType != "shuffle">, Safe scrolls: <#if summary.rewardsSafeScrolls>**Yes**<#else>No</#if>, Safe Knight Proofs: <#if summary.rewardsSafeKnightProofs>**Yes**<#else>No</#if></#if><#else>No</#if>
 
 <#if summary.lilMansterRenamePugi>
 Lil' Manster
@@ -157,6 +157,11 @@ ${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} ->
 </#if>
 
 <#if summary.randomizeRewards>
+## Event rewards
+<#list eventRewards as event>
+* ${event.getName()} <#if event.isModified()>-> **${event.item.getName()}**</#if>
+</#list>
+
 ## Chest rewards
 <#list chestRewards as chest>
 * ${chest.getName()} <#if chest.isModified()>-> **${chest.item.getName()}**</#if>

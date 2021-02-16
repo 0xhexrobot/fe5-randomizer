@@ -15,8 +15,7 @@ import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
-import org.hexrobot.fe5randomizer.items.ChestReward;
-import org.hexrobot.fe5randomizer.items.HouseReward;
+import org.hexrobot.fe5randomizer.items.ItemReward;
 import org.hexrobot.fe5randomizer.items.Item;
 
 import freemarker.core.TemplateNumberFormatFactory;
@@ -145,17 +144,16 @@ public class RandomizeRomService extends Service<Void> {
                             summary.getWpnsExcludeIronWeapons());
                 }
                 
-                // TODO randomize rewards
                 if(summary.getRandomizeRewards()) {
                     switch(summary.getRewardsRandomizationType()) {
                     case "random":
-                        rom.randomizeRewardsChaotic();
+                        rom.randomizeRewardsChaotic(summary.getRewardsSafeScrolls(), summary.getRewardsSafeKnightProofs());
                         break;
                     case "shuffle":
-                        rom.randomizeRewardsShuffle(summary.getRewardsShuffleIncludeHeldScrolls());
+                        rom.randomizeRewardsShuffle();
                         break;
                     case "replace":
-                        rom.randomizeReplaceSimilar();
+                        rom.randomizeReplaceSimilar(summary.getRewardsSafeScrolls(), summary.getRewardsSafeKnightProofs());
                         break;
                     }
                 }
@@ -190,8 +188,9 @@ public class RandomizeRomService extends Service<Void> {
                     input.put("units", GameCharacter.values());
                     input.put("classes", CharacterClass.values());
                     input.put("items", Item.values());
-                    input.put("chestRewards", ChestReward.values());
-                    input.put("houseRewards", HouseReward.values());
+                    input.put("eventRewards", ItemReward.getEventRewards());
+                    input.put("chestRewards", ItemReward.getChestRewards());
+                    input.put("houseRewards", ItemReward.getHouseRewards());
                     //input.put("armyData", rom.getArmyUnits());
                     //input.put("chapterData", Chapter.values());
 
