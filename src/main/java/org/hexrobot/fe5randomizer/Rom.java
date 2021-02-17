@@ -887,10 +887,40 @@ public class Rom {
         ArrayList<Item> availableItems = Item.getItems(true, true);
         List<ItemReward> excludedRewards = new ArrayList<ItemReward>(List.of(
                 ItemReward.CH18_MEMBER_CARD, ItemReward.CH24_KIA_STAFF));
+        List<Item> safeItems = new ArrayList<Item>();
+        int possibleSafeItems = ItemReward.values().length - excludedRewards.size();
+        
+        availableItems.remove(Item.KIA_STAFF);
+        
+        if(safeScrolls) {
+            List<Item> scrolls = Item.getScrolls();
+            availableItems.removeAll(scrolls);
+            // remove scrolls in characters inventory
+            scrolls.removeAll(List.of(
+                    Item.HEZUL_SCROLL, Item.DAIN_SCROLL, Item.BLAGI_SCROLL, Item.TORDO_SCROLL));
+            safeItems.addAll(scrolls);
+        }
+        
+        if(safeKnightProofs) {
+            safeItems.addAll(Collections.nCopies(11, Item.KNIGHT_PROOF));
+            availableItems.remove(Item.KNIGHT_PROOF);
+        }
+        
+        Collections.shuffle(safeItems, random);
         
         for(ItemReward reward : ItemReward.values()) {
             if(excludedRewards.contains(reward)) {
                 continue;
+            }
+            
+            if(safeItems.size() > 0) {
+                float safeItemChance = safeItems.size() / (float)possibleSafeItems;
+                possibleSafeItems--;
+                
+                if(random.nextFloat() < safeItemChance) {
+                    reward.setItem(safeItems.remove(0));
+                    continue;
+                }
             }
             
             Item selectedItem = availableItems.get(random.nextInt(availableItems.size()));
@@ -931,7 +961,7 @@ public class Rom {
             // remove scrolls in characters inventory
             availableScrolls.removeAll(List.of(
                     Item.HEZUL_SCROLL, Item.DAIN_SCROLL, Item.BLAGI_SCROLL, Item.TORDO_SCROLL));
-            Collections.shuffle(availableScrolls);
+            Collections.shuffle(availableScrolls, random);
         }
                 
         for(ItemReward reward : ItemReward.values()) {
