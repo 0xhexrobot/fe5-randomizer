@@ -1,7 +1,9 @@
 package org.hexrobot.fe5randomizer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.zip.CRC32;
@@ -15,6 +17,7 @@ import org.hexrobot.fe5randomizer.characters.MovementStars;
 import org.hexrobot.fe5randomizer.characters.Skill;
 import org.hexrobot.fe5randomizer.controllers.MainController;
 import org.hexrobot.fe5randomizer.items.ItemReward;
+import org.hexrobot.fe5randomizer.items.Shop;
 import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
 import org.hexrobot.fe5randomizer.items.WeaponRank;
@@ -199,13 +202,14 @@ public class Rom {
     
     public void initialize() {
         initializeItems();
+        Shop.initializeShops(this);
         initializeCharacterClasses();
         initializeMountData();
         initializePromotionData();
         initializeCharacters();
         initializeArmyData();
     }
-
+    
     private void initializeItems() {
         for(Item item : Item.values()) {
             item.readItem(this, ITEMS_OFFSET);
@@ -882,15 +886,12 @@ public class Rom {
         }
     }
 
-    // TODO randomize rewards chaotic
     public void randomizeRewardsChaotic(boolean safeScrolls, boolean safeKnightProofs) {
         ArrayList<Item> availableItems = Item.getItems(true, true);
         List<ItemReward> excludedRewards = new ArrayList<ItemReward>(List.of(
                 ItemReward.CH18_MEMBER_CARD, ItemReward.CH24_KIA_STAFF));
         List<Item> safeItems = new ArrayList<Item>();
         int possibleSafeItems = ItemReward.values().length - excludedRewards.size();
-        
-        availableItems.remove(Item.KIA_STAFF);
         
         if(safeScrolls) {
             List<Item> scrolls = Item.getScrolls();
@@ -952,7 +953,7 @@ public class Rom {
         }
     }
     
-    public void randomizeReplaceSimilar(boolean safeScrolls, boolean safeKnightProofs) {
+    public void randomizeRewardsReplaceSimilar(boolean safeScrolls, boolean safeKnightProofs) {
         List<Item> availableScrolls = Item.getScrolls();
         int remainingKnightProofs = 11;
         int possibleKnightProofs = 39;
@@ -994,6 +995,183 @@ public class Rom {
             Item newItem = similarItems.get(random.nextInt(similarItems.size()));
             reward.setItem(newItem);
         }
+    }
+    
+    public void randomizeShopsChaotic(boolean maintainItemCount) {
+        List<Item> availableItems = Item.getItemsForShops();
+        List<Shop> excludedShops = new ArrayList<>(List.of(Shop.BATTLE_PREPS, Shop.CH24_SECRET));
+        
+        for(Shop shop: Shop.values()) {
+            if(excludedShops.contains(shop)) {
+                continue;
+            }
+            
+            int newItemCount;
+            List<Item> newItems = new ArrayList<>();
+            
+            if(maintainItemCount) {
+                newItemCount = shop.getItems().size();
+            } else {
+                newItemCount = 1 + random.nextInt(5);
+            }
+            
+            for(int i = 0; i < newItemCount; i++) {
+                Item newItem;
+
+                do {
+                    // force distinct items
+                    newItem = availableItems.get(random.nextInt(availableItems.size()));
+                } while(newItems.contains(newItem));
+                
+                newItems.add(newItem);
+            }
+            
+            shop.setItems(newItems);
+        }
+        
+        setCostForPrfweapons();
+    }
+    
+    public void randomizeShopsShuffle(boolean maintainItemCount) {
+        List<Shop> excludedShops = new ArrayList<>(List.of(Shop.BATTLE_PREPS, Shop.CH24_SECRET));
+        List<Item> allShopItems = new ArrayList<>();
+        List<Integer> shopItemCounts = new ArrayList<>();
+        List<Shop> shopsDuplicatedItems = new ArrayList<>();
+        
+        for(Shop shop : Shop.values()) {
+            if(excludedShops.contains(shop)) {
+                continue;
+            }
+            
+            allShopItems.addAll(shop.getItems());
+            shopItemCounts.add(shop.getItems().size());
+        }
+        
+        Collections.shuffle(allShopItems, random);
+        Collections.shuffle(shopItemCounts, random);
+        
+        for(Shop shop : Shop.values()) {
+            if(excludedShops.contains(shop)) {
+                continue;
+            }
+            
+            List<Item> newShopItems = new ArrayList<>();
+            int newItemCount = shop.getItems().size();
+            
+            if(!maintainItemCount) {
+                newItemCount = shopItemCounts.remove(0);
+            }
+            
+            // assign shop items
+            for(int i = 0; i < newItemCount; i++) {
+                Item newItem = allShopItems.remove(0);
+                boolean duplicatedItem = newShopItems.contains(newItem);
+                
+                if(duplicatedItem &&  !shopsDuplicatedItems.contains(shop)) {
+                    shopsDuplicatedItems.add(shop);
+                }
+                                
+                newShopItems.add(newItem);
+            }
+            
+            shop.setItems(newShopItems);
+        }
+        
+        // deal with duplicates
+        while(!shopsDuplicatedItems.isEmpty()) {
+            Shop shop = shopsDuplicatedItems.remove(0);
+            List<Item> shopItems = shop.getItems();
+            List<Item> duplicatedItems = new ArrayList<>();
+            List<Shop> otherShops = new ArrayList<>(Arrays.asList(Shop.values()));
+            otherShops.removeAll(excludedShops);
+            
+            Collections.shuffle(otherShops, random);
+            Iterator<Item> shopItemsIterator = shopItems.iterator();
+            
+            // remove shop duplicate items
+            while(shopItemsIterator.hasNext()) {
+                Item item = shopItemsIterator.next();
+                
+                if(Collections.frequency(shopItems, item) > 1) {
+                    duplicatedItems.add(item);
+                    shopItemsIterator.remove();
+                }
+            }
+            
+            // exchange duplicated items with other shops
+            while(!duplicatedItems.isEmpty()) {
+                Item duplicatedItem = duplicatedItems.remove(0);
+                
+                for(Shop otherShop : otherShops) {
+                    if(duplicatedItem == null) {
+                        break;
+                    }
+                    
+                    List<Item> otherShopItems = otherShop.getItems();
+                    
+                    if(!otherShopItems.contains(duplicatedItem)) {
+                        for(Item otherItem : otherShopItems) {
+                            if(!shopItems.contains(otherItem)) {
+                                // exchange items
+                                shopItems.add(otherItem);
+                                otherShopItems.remove(otherItem);
+                                otherShopItems.add(duplicatedItem);
+                                otherShop.setItems(otherShopItems);
+                                duplicatedItem = null;
+                                
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            shop.setItems(shopItems);
+        }
+    }
+    
+    public void randomizeShopsReplaceSimilar() {
+        List<Shop> excludedShops = new ArrayList<>(List.of(Shop.BATTLE_PREPS, Shop.CH24_SECRET));
+        
+        for(Shop shop: Shop.values()) {
+            if(excludedShops.contains(shop)) {
+                continue;
+            }
+            
+            List<Item> shopItems = shop.getItems();
+            List<Item> newItems = new ArrayList<>();
+            
+            for(Item item : shopItems) {
+                Item newItem;
+                List<Item> similarItems = Item.getSimilarItemList(item);
+                
+                do {
+                    newItem = similarItems.get(random.nextInt(similarItems.size()));
+                } while(newItems.contains(newItem));
+                
+                newItems.add(newItem);
+            }
+            
+            shop.setItems(newItems);
+        }
+    }
+    
+    private void setCostForPrfweapons() {
+        Item.BEOSWORD.setCostPerUse(200);
+        Item.HOLY_SWORD.setCostPerUse(200);
+        Item.BLAGI_SWORD.setCostPerUse(200);
+        Item.LIGHT_SWORD.setCostPerUse(160);
+        Item.BRAVE_SWORD.setCostPerUse(200);
+        Item.KING_SWORD.setCostPerUse(160);
+        Item.EARTH_SWORD.setCostPerUse(200);
+        Item.MAREETAS_SWORD.setCostPerUse(150);
+        Item.DARKNESS_SWORD.setCostPerUse(150);
+        Item.BRAVE_LANCE.setCostPerUse(200);
+        Item.DRAGON_LANCE.setCostPerUse(200);
+        Item.PUGI.setCostPerUse(150);
+        Item.BRAVE_AXE.setCostPerUse(200);
+        Item.BRAVE_BOW.setCostPerUse(200);
+        Item.GRAFCALIBUR.setCostPerUse(150);
     }
     
     public void downgradeWindTome() {
@@ -1043,7 +1221,7 @@ public class Rom {
         Item.BRAVE_LANCE.setWeaponRank(WeaponRank.B);
         Item.PUGI.setWeaponRank(WeaponRank.C);
         Item.DAIM_THUNDER.setWeaponRank(WeaponRank.B);
-        Item.GRAFUCALIBUR.setWeaponRank(WeaponRank.B);
+        Item.GRAFCALIBUR.setWeaponRank(WeaponRank.B);
         Item.REPAIR.setWeaponRank(WeaponRank.B);
         Item.THIEF_STAFF.setWeaponRank(WeaponRank.B);
         Item.UNLOCK.setWeaponRank(WeaponRank.C);
@@ -1100,6 +1278,10 @@ public class Rom {
         
         ItemReward.reset();
         
+        for(Shop shop : Shop.values()) {
+            shop.reset();
+        }
+        
         promotionData.reset();
     }
     
@@ -1123,6 +1305,7 @@ public class Rom {
         }
         
         ItemReward.write(this);
+        Shop.writeShops(this);
         
         promotionData.writePromotions(this, PROMOTION_TABLE_OFFSET);
     }

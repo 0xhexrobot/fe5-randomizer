@@ -7,7 +7,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fx:id="itemRewards" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.ItemRewardsController">
+<ScrollPane fx:id="itemRewards" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.ItemRewardsController">
 	<content>
 		<VBox spacing="5.0">
 			<children>
@@ -39,6 +39,30 @@
                <padding>
                   <Insets left="20.0" />
                </padding>
+            </CheckBox>
+            <CheckBox fx:id="chkRandomizeShops" mnemonicParsing="false" text="Randomize Shop items" />
+            <RadioButton fx:id="rbShopsRandom" mnemonicParsing="false" selected="true" text="Random" userData="random">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+               <toggleGroup>
+                  <ToggleGroup fx:id="tgShopsRandomization" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="rbShopsShuffle" mnemonicParsing="false" text="Shuffle" toggleGroup="$tgShopsRandomization" userData="shuffle">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="rbShopsReplace" mnemonicParsing="false" text="Replace for similar items" toggleGroup="$tgShopsRandomization" userData="replace">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </RadioButton>
+            <CheckBox fx:id="chkShopsMaintainItemCount" mnemonicParsing="false" text="Maintain item count">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
             </CheckBox>
 			</children>
 			<padding>

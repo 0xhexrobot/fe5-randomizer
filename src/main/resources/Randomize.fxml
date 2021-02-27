@@ -57,7 +57,7 @@
                   <Insets left="20.0" />
                </VBox.margin>
             </VBox>
-            <Label fx:id="lblItems" text="Items" />
+            <Label fx:id="lblWeapons" text="Weapons" />
             <VBox layoutX="50.0" layoutY="194.0">
                <children>
                   <Label fx:id="lblItemsMight" text="randomizeMight" />
@@ -73,6 +73,16 @@
                   <Label fx:id="lblItemsAddWeaponUses" text="Add weapon uses" />
                   <Label fx:id="lblItemsDowngradeWindTome" text="Downgrade Wind tome" />
                   <Label fx:id="lblItemsRemovePrfLocks" text="Remove weapon Prf locks" />
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </VBox>
+            <Label fx:id="lblItems" text="Items" />
+            <VBox>
+               <children>
+                  <Label fx:id="lblRandomizeRewards" text="randomizeRewards" />
+                  <Label fx:id="lblRandomizeShops" text="randomizeShops" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" />

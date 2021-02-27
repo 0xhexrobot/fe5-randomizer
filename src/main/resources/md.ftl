@@ -51,6 +51,8 @@ Other item options:
 
 Randomize rewards: <#if summary.randomizeRewards>**Yes**, randomization type: ${summary.rewardsRandomizationType}<#if summary.rewardsRandomizationType != "shuffle">, Safe scrolls: <#if summary.rewardsSafeScrolls>**Yes**<#else>No</#if>, Safe Knight Proofs: <#if summary.rewardsSafeKnightProofs>**Yes**<#else>No</#if></#if><#else>No</#if>
 
+Randomize shop items: <#if summary.randomizeShops>**Yes**, randomization type: ${summary.shopsRandomizationType}<#else>No</#if><#if summary.shopsRandomizationType != "replace">, maintain item count: <#if summary.shopsMaintainItemCount>**Yes**<#else>No</#if></#if>
+
 <#if summary.lilMansterRenamePugi>
 Lil' Manster
 * Rename *Voulge* to _**Pugi**_
@@ -172,6 +174,16 @@ ${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} ->
 * ${house.getName()} <#if house.isModified()>-> **${house.item.getName()}**</#if>
 </#list>
 </#if>
+
+## Shops
+<#list shops as shop>
+${shop.getName()} |
+----------------- |
+<#list shop.items as item>
+<#if shop.modified>**${item.getName()} ${item.totalCost}**<#else>${item.getName()} ${item.totalCost}</#if> |
+</#list>
+
+</#list>
 
 <#if chapterData??>
 ## Army data

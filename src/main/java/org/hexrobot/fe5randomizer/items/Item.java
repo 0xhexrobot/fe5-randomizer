@@ -95,7 +95,7 @@ public enum Item {
 	TRON(0x53, "Tron"),
 	TORHAMMER(0x54, "Torhammer"),
 	WIND(0x55, "Wind"),
-	GRAFUCALIBUR(0x56, "Grafucalibur"),
+	GRAFCALIBUR(0x56, "Grafcalibur"),
 	TORNADO(0x57, "Tornado"),
 	HOLSETY(0x58, "Holsety"),
 	LIGHTNING(0x59, "Lightning"),
@@ -238,7 +238,7 @@ public enum Item {
     private static final ArrayList<Item> THUNDER_MAGIC = new ArrayList<Item>(
             List.of(THUNDER, DAIM_THUNDER, TRON, THUNDERSTORM, TORHAMMER));
     private static final ArrayList<Item> WIND_MAGIC = new ArrayList<Item>(
-            List.of(WIND, GRAFUCALIBUR, TORNADO, HOLSETY, BLIZZARD));
+            List.of(WIND, GRAFCALIBUR, TORNADO, HOLSETY, BLIZZARD));
     private static final ArrayList<Item> LIGHT_MAGIC = new ArrayList<Item>(List.of(LIGHTNING, RESIRE, AURA));
     private static final ArrayList<Item> DARK_MAGIC = new ArrayList<Item>(
             List.of(YOTSMUNGAND, FENRIR, HELL, LOPUTOUS, POISON, STONE));
@@ -270,7 +270,7 @@ public enum Item {
             List.of(KNIGHT_PROOF, TREASURE_KEY, DOOR_KEY, BRIDGE_KEY, LOCKPICK, STAMINA_DRINK, VULNERARY, HOLY_WATER,
                     TORCH, ANTIDOTE));
     private static final ArrayList<Item> NO_REWARD = new ArrayList<>(
-            List.of(LONG_ARCH, IRON_ARCH, POISON_ARCH, LOPUTOUS_SWORD, HOLSETY, HOLSETY_UNLIMITED));
+            List.of(LONG_ARCH, IRON_ARCH, POISON_ARCH, LOPUTOUS_SWORD, HOLSETY, HOLSETY_UNLIMITED, KIA_STAFF));
     
     private Item(int offset, String name) {
         this.offset = offset;
@@ -327,6 +327,16 @@ public enum Item {
 
     public int getCostPerUse() {
         return costPerUse;
+    }
+    
+    public int getTotalCost() {
+        int weaponExtra = 0;
+        
+        if(isWeapon()) {
+            weaponExtra = 200;
+        }
+        
+        return maxUses * costPerUse + weaponExtra;
     }
     
     public int getDescriptionPointer() {
@@ -560,6 +570,19 @@ public enum Item {
         if(excludeEnemyWeapons) {
             items.removeAll(ENEMY_ONLY);
         }
+        
+        return new ArrayList<Item>(items);
+    }
+    
+    public static ArrayList<Item> getItemsForShops() {
+        ArrayList<Item> items = new ArrayList<>(Arrays.asList(Item.values()));
+        
+        items.removeAll(BROKEN);
+        items.removeAll(NO_REWARD);
+        items.removeAll(UNUSED);
+        items.removeAll(ENEMY_ONLY);
+        items.removeAll(SCROLLS);
+        items.remove(MEMBER_CARD);
         
         return new ArrayList<Item>(items);
     }

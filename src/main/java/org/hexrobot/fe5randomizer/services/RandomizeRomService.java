@@ -16,6 +16,7 @@ import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.items.ItemReward;
+import org.hexrobot.fe5randomizer.items.Shop;
 import org.hexrobot.fe5randomizer.items.Item;
 
 import freemarker.core.TemplateNumberFormatFactory;
@@ -153,7 +154,21 @@ public class RandomizeRomService extends Service<Void> {
                         rom.randomizeRewardsShuffle();
                         break;
                     case "replace":
-                        rom.randomizeReplaceSimilar(summary.getRewardsSafeScrolls(), summary.getRewardsSafeKnightProofs());
+                        rom.randomizeRewardsReplaceSimilar(summary.getRewardsSafeScrolls(), summary.getRewardsSafeKnightProofs());
+                        break;
+                    }
+                }
+                
+                if(summary.getRandomizeShops()) {
+                    switch(summary.getShopsRandomizationType()) {
+                    case "random":
+                        rom.randomizeShopsChaotic(summary.getShopsMaintainItemCount());
+                        break;
+                    case "shuffle":
+                        rom.randomizeShopsShuffle(summary.getShopsMaintainItemCount());
+                        break;
+                    case "replace":
+                        rom.randomizeShopsReplaceSimilar();
                         break;
                     }
                 }
@@ -191,6 +206,7 @@ public class RandomizeRomService extends Service<Void> {
                     input.put("eventRewards", ItemReward.getEventRewards());
                     input.put("chestRewards", ItemReward.getChestRewards());
                     input.put("houseRewards", ItemReward.getHouseRewards());
+                    input.put("shops", Shop.values());
                     //input.put("armyData", rom.getArmyUnits());
                     //input.put("chapterData", Chapter.values());
 

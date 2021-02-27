@@ -26,6 +26,18 @@ public class ItemRewardsController {
     private CheckBox chkSafeKnightProofs;
     @FXML
     private ToggleGroup tgRewardsRandomization;
+    @FXML
+    private CheckBox chkRandomizeShops;
+    @FXML
+    private RadioButton rbShopsRandom;
+    @FXML
+    private RadioButton rbShopsShuffle;
+    @FXML
+    private RadioButton rbShopsReplace;
+    @FXML
+    private CheckBox chkShopsMaintainItemCount;
+    @FXML
+    private ToggleGroup tgShopsRandomization;
     private RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
     
     @FXML
@@ -50,9 +62,31 @@ public class ItemRewardsController {
         chkSafeScrolls.disableProperty().bind(safeUniqueItems.not());
         chkSafeKnightProofs.disableProperty().bind(safeUniqueItems.not());
         
+        rbShopsRandom.disableProperty().bind(chkRandomizeShops.selectedProperty().not());
+        rbShopsShuffle.disableProperty().bind(chkRandomizeShops.selectedProperty().not());
+        rbShopsReplace.disableProperty().bind(chkRandomizeShops.selectedProperty().not());
+        
+        BooleanBinding enableMaintainShopItemCount = new BooleanBinding() {
+            {
+                super.bind(chkRandomizeShops.selectedProperty(), rbShopsReplace.selectedProperty());
+            }
+            
+            @Override
+            protected boolean computeValue() {
+                return chkRandomizeShops.selectedProperty().getValue() 
+                        && !rbShopsReplace.selectedProperty().getValue();
+            }
+        };
+        
+        chkShopsMaintainItemCount.disableProperty().bind(enableMaintainShopItemCount.not());
+        
         chkRandomizeRewards.selectedProperty().bindBidirectional(summary.randomizeRewardsProperty());
         summary.rewardsRandomizationTypeProperty().bind(tgRewardsRandomization.selectedToggleProperty());
         summary.rewardsSafeScrollsProperty().bind(chkSafeScrolls.selectedProperty());
         summary.rewardsSafeKnightProofsProperty().bind(chkSafeKnightProofs.selectedProperty());
+        
+        chkRandomizeShops.selectedProperty().bindBidirectional(summary.randomizeShopsProperty());
+        summary.shopsRandomizationTypeProperty().bind(tgShopsRandomization.selectedToggleProperty());
+        summary.shopsMaintainItemCountProperty().bind(chkShopsMaintainItemCount.selectedProperty());
     }
 }

@@ -81,6 +81,10 @@ public class RandomizationSummary {
     private final SimpleObjectProperty<Toggle> rewardsRandomizationType = new SimpleObjectProperty<Toggle>();
     private final SimpleBooleanProperty rewardsSafeScrolls = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty rewardsSafeKnightProofs = new SimpleBooleanProperty(false);
+    // shops
+    private final SimpleBooleanProperty randomizeShops = new SimpleBooleanProperty(false);
+    private final SimpleObjectProperty<Toggle> shopsRandomizationType = new SimpleObjectProperty<Toggle>();
+    private final SimpleBooleanProperty shopsMaintainItemCount = new SimpleBooleanProperty(false);
     // Lil Manster
     private final SimpleBooleanProperty lilMansterRenamePugi = new SimpleBooleanProperty(false);
     // Project Exile
@@ -342,6 +346,18 @@ public class RandomizationSummary {
     
     public SimpleBooleanProperty rewardsSafeKnightProofsProperty() {
         return rewardsSafeKnightProofs;
+    }
+    
+    public SimpleBooleanProperty randomizeShopsProperty() {
+        return randomizeShops;
+    }
+
+    public SimpleObjectProperty<Toggle> shopsRandomizationTypeProperty() {
+        return shopsRandomizationType;
+    }
+
+    public SimpleBooleanProperty shopsMaintainItemCountProperty() {
+        return shopsMaintainItemCount;
     }
 
     public BooleanBinding anyItemRandomizationProperty() {
@@ -611,6 +627,18 @@ public class RandomizationSummary {
     public boolean getRewardsSafeKnightProofs() {
         return rewardsSafeKnightProofs.getValue();
     }
+    
+    public boolean getRandomizeShops() {
+        return randomizeShops.getValue();
+    }
+
+    public String getShopsRandomizationType() {
+        return (String)shopsRandomizationType.getValue().getUserData();
+    }
+
+    public boolean getShopsMaintainItemCount() {
+        return shopsMaintainItemCount.getValue();
+    }
 
     public BooleanBinding getAnyItemRandomization() {
         return anyItemRandomization;
@@ -641,9 +669,9 @@ public class RandomizationSummary {
         String text = "[RandomizationSummary]\n";
         
         text += String.format("Randomize bases? %b, Randomize type: %s, Delta: %d, Variance: %d\n",
-                randomizeBases.getValue(), (String) basesRandomizationType.getValue().getUserData(), basesVariance.getValue(), basesRedistributeVar.getValue());
+                randomizeBases.getValue(), getBasesRandomizationType(), basesVariance.getValue(), basesRedistributeVar.getValue());
         text += String.format("Randomize growths? %b, Randomize type: %s, Delta: %d, Variance: %d, Absolute: [%d - %d]\n",
-                randomizeGrowths.getValue(), (String) growthsRandomizationType.getValue().getUserData(), growthsVariance.getValue(), growthsRedistributeVar.getValue(), growthsAbsoluteMin.getValue(), growthsAbsoluteMax.getValue());
+                randomizeGrowths.getValue(), getGrowthsRandomizationType(), growthsVariance.getValue(), growthsRedistributeVar.getValue(), growthsAbsoluteMin.getValue(), growthsAbsoluteMax.getValue());
         text += String.format("Randomize Mov stars? %b, Exclude units with zero stars: %b, Randomize Leadership stars? %b, Exclude units with 0 stars: %b\n",
                 randomizeMovStars.getValue(), movStarsExcludeZero.getValue(), randomizeLeadershipStars.getValue(), leadershipExcludeZero.getValue());
         text += String.format("Randomize enemy classes: %b, Exclude bosses: %b\n",
@@ -660,6 +688,8 @@ public class RandomizationSummary {
                 wpnsExcludeIronWeapons.getValue(), wpnsIncreaseUses.getValue(), wpnsDowngradeWindTome.getValue(), wpnsRemoveWeaponsPrfLocks.getValue());
         text += String.format("Randomize rewards: %b... Randomization type: %s, Safe scrolls: %b, Safe KnightProofs: %b\n",
                 randomizeRewards.getValue(), getRewardsRandomizationType(), rewardsSafeScrolls.getValue(), rewardsSafeKnightProofs.getValue());
+        text += String.format("Randomize shops: %b... Randomization type: %s, Maintain item count: %b\n",
+                randomizeShops.getValue(), getShopsRandomizationType(), shopsMaintainItemCount.getValue());
         text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterRenamePugi.getValue());
         text += String.format("Project Exile Rename to Pugi: %b\n", exileRenamePugi.getValue());
         

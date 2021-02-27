@@ -76,7 +76,7 @@ public class RandomizeController {
     @FXML
     private Label lblEnemyNerfBallistae;
     @FXML
-    private Label lblItems;
+    private Label lblWeapons;
     @FXML
     private Label lblItemsMight;
     @FXML
@@ -103,6 +103,12 @@ public class RandomizeController {
     private Label lblItemsDowngradeWindTome;
     @FXML
     private Label lblItemsRemovePrfLocks;
+    @FXML
+    private Label lblItems;
+    @FXML
+    private Label lblRandomizeRewards;
+    @FXML
+    private Label lblRandomizeShops;
     @FXML
     private Label lblLilManster;
     @FXML
@@ -449,7 +455,7 @@ public class RandomizeController {
         }
     };
     
-    private BooleanBinding itemsLabelVisible = new BooleanBinding() {
+    private BooleanBinding weaponsLabelVisible = new BooleanBinding() {
         {
             super.bind(summary.randomizeWpnsMightProperty(), summary.randomizeWpnsAccuracyProperty(),
                     summary.randomizeWpnsWeightProperty(), summary.randomizeWpnsCriticalProperty(),
@@ -599,6 +605,86 @@ public class RandomizeController {
         }
     };
     
+    private BooleanBinding itemsLabelVisible = new BooleanBinding() {
+        {
+            super.bind(summary.randomizeRewardsProperty(), summary.randomizeShopsProperty());
+        }
+        
+        @Override
+        protected boolean computeValue() {
+            boolean visible = summary.randomizeRewardsProperty().getValue() 
+                    || summary.randomizeShopsProperty().getValue();
+
+            return visible;
+        }
+    };
+    
+    private StringBinding txtItemRewards = new StringBinding() {
+        {
+            super.bind(summary.rewardsRandomizationTypeProperty(), summary.rewardsSafeScrollsProperty(),
+                    summary.rewardsSafeKnightProofsProperty());
+        }
+        
+        @Override
+        protected String computeValue() {
+            String rewardsType = "";
+            String randomizationType = (String)summary.rewardsRandomizationTypeProperty().getValue().getUserData();
+            
+            switch(randomizationType) {
+            case "random":
+                rewardsType = "chaotic random"; break;
+            case "shuffle":
+                rewardsType = "shuffling"; break;
+            case "replace":
+                rewardsType = "replacing for similar items"; break;
+            }
+            
+            String text = String.format("Randomize item rewards by %s", rewardsType);
+            
+            if(!randomizationType.equals("shuffle")) {
+                if(summary.rewardsSafeScrollsProperty().getValue()) {
+                    text += ", safe Scrolls";
+                }
+                
+                if(summary.rewardsSafeKnightProofsProperty().getValue()) {
+                    text += ", safe Knight proofs";
+                }
+            }
+                                    
+            return text;
+        }
+    };
+    
+    private StringBinding txtShopRandomization = new StringBinding() {
+        {
+            super.bind(summary.shopsRandomizationTypeProperty(), summary.shopsMaintainItemCountProperty());
+        }
+        
+        @Override
+        protected String computeValue() {
+            String rewardsType = "";
+            String randomizationType = (String)summary.shopsRandomizationTypeProperty().getValue().getUserData();
+            
+            switch(randomizationType) {
+            case "random":
+                rewardsType = "chaotic random"; break;
+            case "shuffle":
+                rewardsType = "shuffling"; break;
+            case "replace":
+                rewardsType = "replacing for similar items"; break;
+            }
+            
+            String text = String.format("Randomize shop items by %s", rewardsType);
+            
+            if(!randomizationType.equals("replace")
+                    && summary.shopsMaintainItemCountProperty().getValue()) {
+                text += ", maintain item count";
+            }
+                                    
+            return text;
+        }
+    };
+    
     @FXML
     private void initialize() {
         RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
@@ -653,8 +739,8 @@ public class RandomizeController {
         lblEnemyBossSkills.textProperty().bind(txtEnemyBossSkills);
         lblEnemySkills.textProperty().bind(txtEnemySkills);
         
-        // items
-        lblItems.managedProperty().bind(lblItems.visibleProperty());
+        // weapons
+        lblWeapons.managedProperty().bind(lblWeapons.visibleProperty());
         lblItemsMight.managedProperty().bind(lblItemsMight.visibleProperty());
         lblItemsAccuracy.managedProperty().bind(lblItemsAccuracy.visibleProperty());
         lblItemsWeight.managedProperty().bind(lblItemsWeight.visibleProperty());
@@ -669,7 +755,7 @@ public class RandomizeController {
         lblItemsDowngradeWindTome.managedProperty().bind(lblItemsDowngradeWindTome.visibleProperty());
         lblItemsRemovePrfLocks.managedProperty().bind(lblItemsRemovePrfLocks.visibleProperty());
         
-        lblItems.visibleProperty().bind(itemsLabelVisible);
+        lblWeapons.visibleProperty().bind(weaponsLabelVisible);
         lblItemsMight.visibleProperty().bind(summary.randomizeWpnsMightProperty());
         lblItemsAccuracy.visibleProperty().bind((summary.randomizeWpnsAccuracyProperty()));
         lblItemsWeight.visibleProperty().bind(summary.randomizeWpnsWeightProperty());
@@ -691,6 +777,18 @@ public class RandomizeController {
         lblItemsBladeEffect.textProperty().bind(txtItemsBladeEffect);
         lblItemsStatBonus.textProperty().bind(txtItemsStatBonus);
         lblItemsWeaponSkill.textProperty().bind(txtItemsWeaponSkill);
+        
+        // item rewards, shops
+        lblItems.managedProperty().bind(lblItems.visibleProperty());
+        lblRandomizeRewards.managedProperty().bind(lblRandomizeRewards.visibleProperty());
+        lblRandomizeShops.managedProperty().bind(lblRandomizeShops.visibleProperty());
+        
+        lblItems.visibleProperty().bind(itemsLabelVisible);
+        lblRandomizeRewards.visibleProperty().bind(summary.randomizeRewardsProperty());
+        lblRandomizeShops.visibleProperty().bind(summary.randomizeShopsProperty());
+        
+        lblRandomizeRewards.textProperty().bind(txtItemRewards);
+        lblRandomizeShops.textProperty().bind(txtShopRandomization);
         
         // lil master
         lblLilManster.managedProperty().bind(lblLilManster.visibleProperty());
