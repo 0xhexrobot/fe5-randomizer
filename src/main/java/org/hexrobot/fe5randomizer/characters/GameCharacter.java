@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.hexrobot.fe5randomizer.MountData;
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.items.ItemType;
@@ -49,7 +48,7 @@ public enum GameCharacter {
     SHANAM(0x0023, "Shanam"),
     TREWD(0x0024, "Trewd"),
     TANYA(0x0025, "Tanya"),
-    LINONAN(0x0026, "Linonan"),
+    LINOAN(0x0026, "Linoan"),
     MISHA(0x0027, "Misha"),
     SEIRAM(0x0028, "Seiram"),
     SLEUF(0x0029, "Sleuf"),
@@ -397,6 +396,7 @@ public enum GameCharacter {
     private int mapSprite = -1;
     private boolean randomBases = false;
     
+    private static final int CHARACTERS_OFFSET = 0x31C2D;
     private static final int CHARACTER_DATA_SIZE = 48;
     private static final int BASE_HP_OFFSET = 0x0;
     private static final int BASE_ATK_OFFSET = 0x01;
@@ -436,12 +436,11 @@ public enum GameCharacter {
     private static final int LEADERSHIP_STARS_OFFSET = 0x2D;
     private static final int MAP_SPRITE_OFFSET = 0x2E;
     private Map<String, Object> oldValues = new HashMap<>();
-    private static MountData mountData = null;
     
     private static final ArrayList<GameCharacter> PLAYABLE_UNITS = new ArrayList<>(List.of(
             LEAF, FINN, OTHIN, HALVAN, EYVEL, DAGUDAR, RALF, MARTY, RONAN, MIRANDA, SAPHY, LARA, BRIGHTON, FELGUS, EDA,
             ASVEL, MACHYUA, HICKS, NANNA, SELFINA, DALSHEIN, CARRION, SHIVA, PAHN, GLADE, KEIN, ALBA, ROBERTO, FRED,
-            ORUEN, SETY_CH23, RIFIS, KARIN, DEAN, SHANAM, TREWD, TANYA, LINONAN, MISHA, SEIRAM, SLEUF, MAREETA, TINA,
+            ORUEN, SETY_CH23, RIFIS, KARIN, DEAN, SHANAM, TREWD, TANYA, LINOAN, MISHA, SEIRAM, SLEUF, MAREETA, TINA,
             AMALDA, CONOMORE, HOMEROS, DELMUD, SARA, CYAS, EYRIOS, XAVIER));
     private static final ArrayList<GameCharacter> ENEMY_UNITS = new ArrayList<>(List.of(
             LEIDRICK_1, BELDO, WEISSMAN, MANSTER_ARCHER, BUGS, JABAL, RIFIS_GANG_PIRATE, RIFIS_GANG_HUNTER,
@@ -502,11 +501,7 @@ public enum GameCharacter {
         this.name = name;
     }
     
-    public void readCharacter(Rom rom, int startingOffset) {
-        if(mountData == null) {
-            mountData = rom.getMountData();
-        }
-
+    private void readCharacter(Rom rom, int startingOffset) {
         int relOffset = startingOffset + (offset - 1) * CHARACTER_DATA_SIZE;
         baseHp = rom.getValueAt(relOffset + BASE_HP_OFFSET);
         baseAtk = rom.getValueAt(relOffset + BASE_ATK_OFFSET);
@@ -552,7 +547,7 @@ public enum GameCharacter {
         }
     }
     
-    public void writeCharacter(Rom rom, int startingOffset) {
+    private void writeCharacter(Rom rom, int startingOffset) {
         int relOffset = startingOffset + (offset - 1) * CHARACTER_DATA_SIZE;
         
         if(oldValues.containsKey("baseHp")) {
@@ -697,6 +692,18 @@ public enum GameCharacter {
         
         if(oldValues.containsKey("mapSprite")) {
             rom.setValueAt(relOffset + MAP_SPRITE_OFFSET, mapSprite);
+        }
+    }
+    
+    public static void initializeCharacters(Rom rom) {
+        for(GameCharacter character : values()) {
+            character.readCharacter(rom, CHARACTERS_OFFSET);
+        }
+    }
+    
+    public static void writeCharacters(Rom rom) {
+        for(GameCharacter character: values()) {
+            character.writeCharacter(rom, CHARACTERS_OFFSET);
         }
     }
     
@@ -1191,7 +1198,7 @@ public enum GameCharacter {
         }
         
         ArrayList<ItemType> usableWeapons = newClass.getUsableWeaponTypes();
-        CharacterClass mountComplement = mountData.getComplement(newClass);
+        CharacterClass mountComplement = CharacterClass.getComplement(newClass);
         
         if(mountComplement != null) {
             ArrayList<ItemType> complementWeapons = mountComplement.getUsableWeaponTypes();
@@ -1274,9 +1281,9 @@ public enum GameCharacter {
         this.mapSprite = mapSprite;
     }
     
-    public void reset() {
+    private void reset() {
         if(isModified()) {
-            if(oldValues.containsKey("baseHP")) {
+            if(oldValues.containsKey("baseHp")) {
                 baseHp = (int)oldValues.get("baseHp");
             }
             
@@ -1423,6 +1430,12 @@ public enum GameCharacter {
             }
             
             oldValues.clear();
+        }
+    }
+    
+    public static void resetGameCharacters() {
+        for(GameCharacter character : values()) {
+            character.reset();
         }
     }
     

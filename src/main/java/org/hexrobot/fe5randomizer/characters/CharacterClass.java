@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hexrobot.fe5randomizer.MountData;
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.items.ItemType;
 
@@ -129,6 +130,7 @@ public enum CharacterClass {
     ARCHER(0x76, "Archer", 0x0B, 0x18),
     MERCENARY_F(0x77, "Mercenary (F)", 0x1C, -1);
     
+    private static MountData mountData = null;
     private int offset;
     private String name;
     private int mapSprite;
@@ -201,6 +203,7 @@ public enum CharacterClass {
             DRAGON_KNIGHT, PEGASUS_KNIGHT, DRAGON_MASTER, DRAGON_KNIGHT_F, DRAGON_RIDER_F, FALCON_KNIGHT,
             DRAGON_MASTER_F, DRAGON_RIDER, PEGASUS_RIDER));
     
+    private static final int CHARACTER_CLASSES_OFFSET = 0x30200;
     private static final int CLASS_DATA_SIZE = 36;
     private static final int BASE_HP_OFFSET = 0x0;
     private static final int BASE_ATK_OFFSET = 0x01;
@@ -231,7 +234,7 @@ public enum CharacterClass {
         this.promotion = promotion;
     }
     
-    public void readCharacterClass(Rom rom, int startingOffset) {
+    private void readCharacterClass(Rom rom, int startingOffset) {
         int relOffset = startingOffset + (offset - 1) * CLASS_DATA_SIZE;
         baseHp = rom.getValueAt(relOffset + BASE_HP_OFFSET);
         baseAtk = rom.getValueAt(relOffset + BASE_ATK_OFFSET);
@@ -255,6 +258,16 @@ public enum CharacterClass {
         skills2 = rom.getValueAt(relOffset + SKILLS_2_OFFSET);
         skills3 = rom.getValueAt(relOffset + SKILLS_3_OFFSET);
         skills = Skill.getSkills(skills1, skills2, skills3);
+    }
+    
+    public static void initializeCharacterClasses(Rom rom) {
+        for(CharacterClass characterClass : values()) {
+            characterClass.readCharacterClass(rom, CHARACTER_CLASSES_OFFSET);
+        }
+        
+        if(mountData == null) {
+            mountData = new MountData(rom);
+        }
     }
         
     public int getOffset() {
@@ -472,6 +485,10 @@ public enum CharacterClass {
         canTraverseWater.add(PIRATE);
         
         return canTraverseWater;
+    }
+    
+    public static CharacterClass getComplement(CharacterClass characterClass) {
+        return mountData.getComplement(characterClass);
     }
     
     public CharacterClass getPromotion() {

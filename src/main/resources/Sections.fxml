@@ -60,7 +60,6 @@
 						<fx:include fx:id="enemies" source="Enemies.fxml" />
 					</content>
 				</Tab>
-				<Tab closable="false" disable="true" text="Classes" userData="classes" />
 				<Tab closable="false" text="Weapons" userData="weapons">
 					<content>
 						<fx:include fx:id="weapons" source="Weapons.fxml" />

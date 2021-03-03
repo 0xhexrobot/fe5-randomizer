@@ -35,11 +35,6 @@ public class Rom {
     private static final int MIN_FILE_SIZE = 4194304;
     private static final int HEADER_SIZE = 0x200;
     private static final int GAME_TITLE_OFFSET = 0x81C0;
-    private static final int ITEMS_OFFSET = 0x1802C2;
-    private static final int CHARACTERS_OFFSET = 0x31C2D;
-    private static final int CHARACTER_CLASSES_OFFSET = 0x30200;
-    private static final int MOUNT_TABLE_OFFSET = 0x40200;
-    private static final int PROMOTION_TABLE_OFFSET = 0x404F1;
     private byte[] bytes;
     private byte[] bytesBackup = new byte[0];
     private String name = "Fire Emblem 5 (Unknown)";
@@ -52,7 +47,6 @@ public class Rom {
     private Random random;
     private RandomizationLogic logic;
     private ArrayList<ArmyUnit> armyUnits = new ArrayList<ArmyUnit>();
-    private MountData mountData;
     private PromotionData promotionData;
     private long seed;
     
@@ -201,31 +195,12 @@ public class Rom {
     }
     
     public void initialize() {
-        initializeItems();
+        Item.initializeItems(this);
         Shop.initializeShops(this);
-        initializeCharacterClasses();
-        initializeMountData();
-        initializePromotionData();
-        initializeCharacters();
+        CharacterClass.initializeCharacterClasses(this);
+        promotionData = new PromotionData(this);
+        GameCharacter.initializeCharacters(this);
         initializeArmyData();
-    }
-    
-    private void initializeItems() {
-        for(Item item : Item.values()) {
-            item.readItem(this, ITEMS_OFFSET);
-        }
-    }
-    
-    private void initializeCharacterClasses() {
-        for(CharacterClass characterClass : CharacterClass.values()) {
-            characterClass.readCharacterClass(this, CHARACTER_CLASSES_OFFSET);
-        }
-    }
-
-    private void initializeCharacters() {
-        for(GameCharacter character : GameCharacter.values()) {
-            character.readCharacter(this, CHARACTERS_OFFSET);
-        }
     }
     
     private void initializeArmyData() {
@@ -247,14 +222,6 @@ public class Rom {
             
             chapter.addArmyData(chapterUnits);
         }
-    }
-    
-    private void initializeMountData() {
-        mountData = new MountData(this, MOUNT_TABLE_OFFSET);
-    }
-    
-    private void initializePromotionData() {
-        promotionData = new PromotionData(this, PROMOTION_TABLE_OFFSET);
     }
     
     public void randomizeUnitsBasesVariance(int delta) {
@@ -297,13 +264,13 @@ public class Rom {
     
     public void randomizeUnitsBasesRedistribute(int variance) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        final int MAX_BASES = 20;
         
         for(GameCharacter character : characters) {
             int totalBases = 0;
-            int baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseLck, baseDef, baseBld, baseMov;
-            float totalWeights = 0;
+            int baseHp = 0, baseAtk = 0, baseMag = 0, baseSkl = 0, baseSpd = 0, baseLck = 0, baseDef = 0, baseBld = 0, baseMov = 0;
             float hpWeight, atkWeight, magWeight, sklWeight, spdWeight, lckWeight, defWeight, bldWeight, movWeight;
-            int originalBases, newBases, basesDiff;
+            WeightedList<String> statWeights = new WeightedList<>();
             
             hpWeight = random.nextFloat() * 2.0f;
             atkWeight = random.nextFloat();
@@ -313,9 +280,17 @@ public class Rom {
             lckWeight = random.nextFloat();
             defWeight = random.nextFloat();
             bldWeight = random.nextFloat() * 0.5f;
-            movWeight = random.nextFloat() * 0.5f;
+            movWeight = random.nextFloat() * 0.25f;
             
-            totalWeights = hpWeight + atkWeight + magWeight + sklWeight + spdWeight + lckWeight + defWeight + bldWeight + movWeight;
+            statWeights.add("hp", hpWeight);
+            statWeights.add("atk", atkWeight);
+            statWeights.add("mag", magWeight);
+            statWeights.add("skl", sklWeight);
+            statWeights.add("spd", spdWeight);
+            statWeights.add("lck", lckWeight);
+            statWeights.add("def", defWeight);
+            statWeights.add("bld", bldWeight);
+            statWeights.add("mov", movWeight);
             
             totalBases += character.getBaseHp();
             totalBases += character.getBaseAtk();
@@ -327,22 +302,78 @@ public class Rom {
             totalBases += character.getBaseBld();
             totalBases += character.getBaseMov();
             
-            originalBases = totalBases;
             totalBases += random.nextInt(variance * 2 + 1) - variance;
-            
-            baseHp = Math.round(hpWeight * totalBases / totalWeights);
-            baseAtk = Math.round(atkWeight * totalBases / totalWeights);
-            baseMag = Math.round(magWeight * totalBases / totalWeights);
-            baseSkl = Math.round(sklWeight * totalBases / totalWeights);
-            baseSpd = Math.round(spdWeight * totalBases / totalWeights);
-            baseLck = Math.round(lckWeight * totalBases / totalWeights);
-            baseDef = Math.round(defWeight * totalBases / totalWeights);
-            baseBld = Math.round(bldWeight * totalBases / totalWeights);
-            baseMov = Math.round(movWeight * totalBases / totalWeights);
-            
-            newBases = baseHp + baseAtk + baseMag + baseSkl + baseSpd + baseLck + baseDef + baseBld + baseMov;
-            basesDiff = newBases - originalBases;
-            
+
+            for(int i = 0; i < totalBases; i++) {
+                String stat = statWeights.getSelection(random.nextFloat());
+                
+                switch(stat) {
+                case "hp":
+                    baseHp++;
+                    
+                    if(baseHp == MAX_BASES) {
+                        statWeights.remove("hp");
+                    }
+                    break;
+                case "atk":
+                    baseAtk++;
+                    
+                    if(baseAtk == MAX_BASES) {
+                        statWeights.remove("atk");
+                    }
+                    break;
+                case "mag":
+                    baseMag++;
+                    
+                    if(baseMag == MAX_BASES) {
+                        statWeights.remove("mag");
+                    }
+                    break;
+                case "skl":
+                    baseSkl++;
+                    
+                    if(baseSkl == MAX_BASES) {
+                        statWeights.remove("skl");
+                    }
+                    break;
+                case "spd":
+                    baseSpd++;
+                    
+                    if(baseSpd == MAX_BASES) {
+                        statWeights.remove("spd");
+                    }
+                    break;
+                case "lck":
+                    baseLck++;
+                    
+                    if(baseLck == MAX_BASES) {
+                        statWeights.remove("lck");
+                    }
+                    break;
+                case "def":
+                    baseDef++;
+                    
+                    if(baseDef == MAX_BASES) {
+                        statWeights.remove("def");
+                    }
+                    break;
+                case "bld":
+                    baseBld++;
+                    
+                    if(baseBld == MAX_BASES) {
+                        statWeights.remove("bld");
+                    }
+                    break;
+                case "mov":
+                    baseMov++;
+                    
+                    if(baseMov == MAX_BASES) {
+                        statWeights.remove("mov");
+                    }
+                    break;
+                }
+            }
+                        
             character.setBaseHp(baseHp);
             character.setBaseAtk(baseAtk);
             character.setBaseMag(baseMag);
@@ -352,13 +383,12 @@ public class Rom {
             character.setBaseDef(baseDef);
             character.setBaseBld(baseBld);
             character.setBaseMov(baseMov);
-            
-            System.out.println(String.format("%s bases(%+d): %d → %d", character.getName(), basesDiff, originalBases, newBases));
         }
     }
     
     public void randomizeUnitsGrowthsVariance(int delta) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        int deltaPoints = delta / 5;
         
         for(GameCharacter character : characters) {
             int hpGrowth, atkGrowth, magGrowth, sklGrowth, spdGrowth, lckGrowth, defGrowth, bldGrowth, movGrowth;
@@ -374,15 +404,15 @@ public class Rom {
             bldGrowth = character.getBldGrowth();
             movGrowth = character.getMovGrowth();
             
-            newHpGrowth = Math.max(hpGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
-            newAtkGrowth = Math.max(atkGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
-            newMagGrowth = Math.max(magGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
-            newSklGrowth = Math.max(sklGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
-            newSpdGrowth = Math.max(spdGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
-            newLckGrowth = Math.max(lckGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
-            newDefGrowth = Math.max(defGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
-            newBldGrowth = Math.max(bldGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
-            newMovGrowth = Math.max(movGrowth + random.nextInt(delta * 2 + 1) - delta, 0);
+            newHpGrowth = Math.max(hpGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
+            newAtkGrowth = Math.max(atkGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
+            newMagGrowth = Math.max(magGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
+            newSklGrowth = Math.max(sklGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
+            newSpdGrowth = Math.max(spdGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
+            newLckGrowth = Math.max(lckGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
+            newDefGrowth = Math.max(defGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
+            newBldGrowth = Math.max(bldGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
+            newMovGrowth = Math.max(movGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
             
             character.setHpGrowth(newHpGrowth);
             character.setAtkGrowth(newAtkGrowth);
@@ -398,51 +428,80 @@ public class Rom {
     
     public void randomizeUnitsGrowthsRedistribute(int variance) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        final int STAT_COUNT = 9;
         
         for(GameCharacter character : characters) {
-            int totalGrowths = 0;
-            int hpGrowth, atkGrowth, magGrowth, sklGrowth, spdGrowth, lckGrowth, defGrowth, bldGrowth, movGrowth;
-            float totalWeights = 0;
-            float hpWeight, atkWeight, magWeight, sklWeight, spdWeight, lckWeight, defWeight, bldWeight, movWeight;
-            int originalGrowths, newGrowths, growthsDiff;
+            int hpGrowth = 5, atkGrowth = 5, magGrowth = 5, sklGrowth = 5, spdGrowth = 5, lckGrowth = 5, defGrowth = 5, bldGrowth = 5, movGrowth = 5;
+            int originalGrowths;
+            float hpWeight = random.nextFloat() * 2.0f;
+            float atkWeight = random.nextFloat();
+            float magWeight = random.nextFloat();
+            float sklWeight = random.nextFloat();
+            float spdWeight = random.nextFloat();
+            float lckWeight = random.nextFloat();
+            float defWeight = random.nextFloat();
+            float bldWeight = random.nextFloat() * 0.5f;
+            float movWeight = random.nextFloat() * 0.25f;
+            WeightedList<String> statWeights = new WeightedList<>();
+            int growthPoints;
+            int variancePoints = variance / 5;
             
-            hpWeight = random.nextFloat() * 2.0f;
-            atkWeight = random.nextFloat();
-            magWeight = random.nextFloat();
-            sklWeight = random.nextFloat();
-            spdWeight = random.nextFloat();
-            lckWeight = random.nextFloat();
-            defWeight = random.nextFloat();
-            bldWeight = random.nextFloat() * 0.5f;
-            movWeight = random.nextFloat() * 0.5f;
+            statWeights.add("hp", hpWeight);
+            statWeights.add("atk", atkWeight);
+            statWeights.add("mag", magWeight);
+            statWeights.add("skl", sklWeight);
+            statWeights.add("spd", spdWeight);
+            statWeights.add("lck", lckWeight);
+            statWeights.add("def", defWeight);
+            statWeights.add("bld", bldWeight);
+            statWeights.add("mov", movWeight);
             
-            totalWeights = hpWeight + atkWeight + magWeight + sklWeight + spdWeight + lckWeight + defWeight + bldWeight + movWeight;
+            originalGrowths = character.getHpGrowth();
+            originalGrowths += character.getAtkGrowth();
+            originalGrowths += character.getMagGrowth();
+            originalGrowths += character.getSklGrowth();
+            originalGrowths += character.getSpdGrowth();
+            originalGrowths += character.getLckGrowth();
+            originalGrowths += character.getDefGrowth();
+            originalGrowths += character.getBldGrowth();
+            originalGrowths += character.getMovGrowth();
             
-            totalGrowths += character.getHpGrowth();
-            totalGrowths += character.getAtkGrowth();
-            totalGrowths += character.getMagGrowth();
-            totalGrowths += character.getSklGrowth();
-            totalGrowths += character.getSpdGrowth();
-            totalGrowths += character.getLckGrowth();
-            totalGrowths += character.getDefGrowth();
-            totalGrowths += character.getBldGrowth();
-            totalGrowths += character.getMovGrowth();
+            growthPoints = originalGrowths / 5 - STAT_COUNT;
+            growthPoints += random.nextInt(variancePoints * 2 + 1) - variancePoints;
             
-            originalGrowths = totalGrowths;
-            totalGrowths += random.nextInt(variance * 2 + 1) - variance;
-            
-            hpGrowth = Math.round(hpWeight * totalGrowths / totalWeights);
-            atkGrowth = Math.round(atkWeight * totalGrowths / totalWeights);
-            magGrowth = Math.round(magWeight * totalGrowths / totalWeights);
-            sklGrowth = Math.round(sklWeight * totalGrowths / totalWeights);
-            spdGrowth = Math.round(spdWeight * totalGrowths / totalWeights);
-            lckGrowth = Math.round(lckWeight * totalGrowths / totalWeights);
-            defGrowth = Math.round(defWeight * totalGrowths / totalWeights);
-            bldGrowth = Math.round(bldWeight * totalGrowths / totalWeights);
-            movGrowth = Math.round(movWeight * totalGrowths / totalWeights);
-            
-            newGrowths = hpGrowth + atkGrowth + magGrowth + sklGrowth + spdGrowth + lckGrowth + defGrowth + bldGrowth + movGrowth;
-            growthsDiff = newGrowths - originalGrowths;
+            for(int i = 0; i < growthPoints; i++) {
+                String stat = statWeights.getSelection(random.nextFloat());
+                
+                switch(stat) {
+                case "hp":
+                    hpGrowth += 5;
+                    break;
+                case "atk":
+                    atkGrowth += 5;
+                    break;
+                case "mag":
+                    magGrowth += 5;
+                    break;
+                case "skl":
+                    sklGrowth += 5;
+                    break;
+                case "spd":
+                    spdGrowth += 5;
+                    break;
+                case "lck":
+                    lckGrowth += 5;
+                    break;
+                case "def":
+                    defGrowth += 5;
+                    break;
+                case "bld":
+                    bldGrowth += 5;
+                    break;
+                case "mov":
+                    movGrowth += 5;
+                    break;
+                }
+            }
             
             character.setHpGrowth(hpGrowth);
             character.setAtkGrowth(atkGrowth);
@@ -453,26 +512,26 @@ public class Rom {
             character.setDefGrowth(defGrowth);
             character.setBldGrowth(bldGrowth);
             character.setMovGrowth(movGrowth);
-            
-            System.out.println(String.format("%s growths(%+d%%): %d%% → %d%%", character.getName(), growthsDiff, originalGrowths, newGrowths));
         }
     }
     
     public void randomizeUnitsGrowthsAbsolute(int min, int max) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
         int newHpGrowth, newAtkGrowth, newMagGrowth, newSklGrowth, newSpdGrowth, newLckGrowth, newDefGrowth, newBldGrowth, newMovGrowth;
-        int maxDiff = max - min;
+        int minPoints = min / 5;
+        int maxPoints = max / 5;
+        int maxDiff = maxPoints - minPoints;
         
         for(GameCharacter character : characters) {
-            newHpGrowth = min + random.nextInt(maxDiff + 1);
-            newAtkGrowth = min + random.nextInt(maxDiff + 1);
-            newMagGrowth = min + random.nextInt(maxDiff + 1);
-            newSklGrowth = min + random.nextInt(maxDiff + 1);
-            newSpdGrowth = min + random.nextInt(maxDiff + 1);
-            newLckGrowth = min + random.nextInt(maxDiff + 1);
-            newDefGrowth = min + random.nextInt(maxDiff + 1);
-            newBldGrowth = min + random.nextInt(maxDiff + 1);
-            newMovGrowth = min + random.nextInt(maxDiff + 1);
+            newHpGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
+            newAtkGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
+            newMagGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
+            newSklGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
+            newSpdGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
+            newLckGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
+            newDefGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
+            newBldGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
+            newMovGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
             
             character.setHpGrowth(newHpGrowth);
             character.setAtkGrowth(newAtkGrowth);
@@ -955,6 +1014,8 @@ public class Rom {
     
     public void randomizeRewardsReplaceSimilar(boolean safeScrolls, boolean safeKnightProofs) {
         List<Item> availableScrolls = Item.getScrolls();
+        List<ItemReward> excludedRewards = new ArrayList<>(List.of(
+                ItemReward.CH18_MEMBER_CARD, ItemReward.CH24_KIA_STAFF));
         int remainingKnightProofs = 11;
         int possibleKnightProofs = 39;
         
@@ -966,11 +1027,11 @@ public class Rom {
         }
                 
         for(ItemReward reward : ItemReward.values()) {
-            Item rewardItem = reward.getItem();
-            
-            if(rewardItem.equals(Item.MEMBER_CARD)) {
+            if(excludedRewards.contains(reward)) {
                 continue;
             }
+            
+            Item rewardItem = reward.getItem();
             
             if(safeScrolls && rewardItem.isScroll()) {
                 reward.setItem(availableScrolls.remove(0));
@@ -1241,7 +1302,7 @@ public class Rom {
     }
     
     public void lilMansterRenamePugi() {
-        int pugiOffset = 0x1815D7; // without header 0x1813D7
+        int pugiOffset = 0x1813D7 + 0x200;
         int[] pugiValues = new int[] {0x20, 0x50, 0x75, 0x67, 0x69, 0x20}; // " Pugi "
         
         for(int i = 0; i < pugiValues.length; i++) {
@@ -1250,7 +1311,7 @@ public class Rom {
     }
     
     public void projectExileRenamePugi() {
-        int pugiOffset = 0x18159B; // without header 0x18139B
+        int pugiOffset = 0x18139B + 0x200;
         int[] pugiValues = new int[] {0x50, 0x75, 0x67, 0x69}; // "Pugi"
         
         for(int i = 0; i < pugiValues.length; i++) {
@@ -1264,50 +1325,33 @@ public class Rom {
             bytesBackup = new byte[0];
         }
         
-        for(GameCharacter character : GameCharacter.values()) {
-            character.reset();
-        }
+        GameCharacter.resetGameCharacters();
         
         for(ArmyUnit armyUnits : armyUnits) {
             armyUnits.reset();
         }
         
-        for(Item item : Item.values()) {
-            item.reset();
-        }
-        
+        Item.resetItems();
         ItemReward.reset();
-        
-        for(Shop shop : Shop.values()) {
-            shop.reset();
-        }
+        Shop.resetShops();
         
         promotionData.reset();
-    }
-    
-    public MountData getMountData() {
-        return mountData;
     }
     
     public void applyChanges() {
         bytesBackup = bytes.clone();
         
-        for(GameCharacter character : GameCharacter.values()) {
-            character.writeCharacter(this, CHARACTERS_OFFSET);
-        }
+        GameCharacter.writeCharacters(this);
 
         for(ArmyUnit unit : armyUnits) {
             unit.writeArmyUnit(this);
         }
         
-        for(Item item : Item.values()) {
-            item.writeItem(this, ITEMS_OFFSET);
-        }
-        
-        ItemReward.write(this);
+        Item.writeItems(this);
+        ItemReward.writeItemRewards(this);
         Shop.writeShops(this);
         
-        promotionData.writePromotions(this, PROMOTION_TABLE_OFFSET);
+        promotionData.writePromotions(this);
     }
     
     public byte[] getBytes() {

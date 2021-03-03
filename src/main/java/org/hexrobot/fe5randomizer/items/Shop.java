@@ -107,7 +107,7 @@ public enum Shop {
         }
     }
     
-    public void reset() {
+    private void reset() {
         if(oldValues.containsKey("items")) {
             List<?> result = (List<?>)oldValues.get("items");
             List<Item> items = new ArrayList<>();
@@ -122,6 +122,12 @@ public enum Shop {
         }
                 
         oldValues.clear();
+    }
+    
+    public static void resetShops() {
+        for(Shop shop : values()) {
+            shop.reset();
+        }
     }
     
     public Map<String, Object> getOldValues() {

@@ -199,6 +199,7 @@ public enum Item {
     private ItemClassification itemClassification = ItemClassification.ITEM;
     private Map<String, Object> oldValues = new HashMap<>();
 
+    private static final int ITEMS_OFFSET = 0x1802C2;
     private static final int ITEM_DATA_SIZE = 23;
     private static final int ITEM_TYPE_OFFSET = 0x0;
     private static final int POWER_OFFSET = 0x01;
@@ -666,7 +667,7 @@ public enum Item {
         return similarItems;
     }
 
-    public void readItem(Rom rom, int startingOffset) {
+    private void readItem(Rom rom, int startingOffset) {
         int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
 
         itemType = ItemType.findById(rom.getValueAt(relOffset + ITEM_TYPE_OFFSET));
@@ -689,7 +690,7 @@ public enum Item {
         itemClassification = ItemClassification.findById(rom.getValueAt(relOffset + ITEM_CLASSIFICATION_OFFSET));
     }
     
-    public void writeItem(Rom rom, int startingOffset) {
+    private void writeItem(Rom rom, int startingOffset) {
         int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
 
         if(oldValues.containsKey("power")) {
@@ -745,7 +746,19 @@ public enum Item {
         }
     }
     
-    public void reset() {
+    public static void initializeItems(Rom rom) {
+        for(Item item : values()) {
+            item.readItem(rom, ITEMS_OFFSET);
+        }
+    }
+    
+    public static void writeItems(Rom rom) {
+        for(Item item: values()) {
+            item.writeItem(rom, ITEMS_OFFSET);
+        }
+    }
+    
+    private void reset() {
         if(oldValues.containsKey("power")) {
             power = (int)oldValues.get("power");
         }
@@ -756,6 +769,10 @@ public enum Item {
         
         if(oldValues.containsKey("weight")) {
             weight = (int)oldValues.get("weight");
+        }
+        
+        if(oldValues.containsKey("maxUses")) {
+            maxUses = (int)oldValues.get("maxUses");
         }
         
         if(oldValues.containsKey("critical")) {
@@ -772,6 +789,10 @@ public enum Item {
         
         if(oldValues.containsKey("weaponEffectiveness")) {
             weaponEffectiveness = (WeaponEffectiveness)oldValues.get("weaponEffectiveness");
+        }
+        
+        if(oldValues.containsKey("weaponStatBonus")) {
+            weaponStatBonus = (WeaponStatBonus)oldValues.get("weaponStatBonus");
         }
         
         if(oldValues.containsKey("costPerUse")) {
@@ -793,6 +814,12 @@ public enum Item {
         skills = WeaponSkill.getSkills(skills1, skills2);
         
         oldValues.clear();
+    }
+    
+    public static void resetItems() {
+        for(Item item : values()) {
+            item.reset();
+        }
     }
 
     public static Item findById(int offset) {

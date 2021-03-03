@@ -12,13 +12,21 @@ public class WeightedList<T> {
             return;
         }
         
+        if(!elements.containsKey(element)) {
+            elements.put(element, weight);
+            totalWeights += weight;
+        } else {
+            System.out.println("Warning: Element " + element.toString() + " is already in list!");
+        }
+    }
+    
+    public void remove(T element) {
         if(elements.containsKey(element)) {
             totalWeights -= elements.get(element);
-            System.out.println("Warning: Element " + element.toString() + "is already in list!");
+            elements.remove(element);
+        } else {
+            System.out.println("Warning: Element " + element.toString() + " is not present in list!");
         }
-        
-        elements.put(element, weight);
-        totalWeights += weight;
     }
     
     public T getSelection(float randomNumber) {

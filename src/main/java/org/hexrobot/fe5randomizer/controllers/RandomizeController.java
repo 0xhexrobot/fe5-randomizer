@@ -461,6 +461,7 @@ public class RandomizeController {
                     summary.randomizeWpnsWeightProperty(), summary.randomizeWpnsCriticalProperty(),
                     summary.randomizeWpnsMaxUsesProperty(), summary.randomizeWpnsCostProperty(),
                     summary.wpnsBladeEffectChanceProperty(), summary.wpnsAddStatBonusProperty(),
+                    summary.wpnsAddBladeEffectProperty(), summary.wpnsBladeEffectChanceProperty(),
                     summary.wpnsAvailableBladeEffectsProperty(), summary.wpnsAddWeaponSkillProperty(),
                     summary.wpnsExcludeIronWeaponsProperty(), summary.wpnsIncreaseUsesProperty(),
                     summary.wpnsDowngradeWindTomeProperty(), summary.wpnsRemoveWeaponsPrfLocksProperty());
@@ -474,9 +475,10 @@ public class RandomizeController {
                     || summary.randomizeWpnsCriticalProperty().getValue()
                     || summary.randomizeWpnsMaxUsesProperty().getValue()
                     || summary.randomizeWpnsCostProperty().getValue()
-                    || summary.wpnsAddBladeEffectProperty().getValue()
+                    || (summary.wpnsAddBladeEffectProperty().getValue()
+                            && summary.wpnsBladeEffectChanceProperty().getValue() > 0
+                            && summary.wpnsAvailableBladeEffectsProperty().getValue() > 0)
                     || summary.wpnsAddStatBonusProperty().getValue()
-                    || (summary.wpnsAvailableBladeEffectsProperty().getValue() > 0)
                     || summary.wpnsAddWeaponSkillProperty().getValue()
                     || summary.wpnsIncreaseUsesProperty().getValue()
                     || summary.wpnsDowngradeWindTomeProperty().getValue()
@@ -565,12 +567,13 @@ public class RandomizeController {
     
     private BooleanBinding lblItemsBladeEffectVisible = new BooleanBinding() {
         {
-            super.bind(summary.wpnsBladeEffectChanceProperty(), summary.wpnsAvailableBladeEffectsProperty());
+            super.bind(summary.wpnsAddBladeEffectProperty(), summary.wpnsBladeEffectChanceProperty(), summary.wpnsAvailableBladeEffectsProperty());
         }
         
         @Override
         protected boolean computeValue() {
-            return summary.wpnsBladeEffectChanceProperty().getValue() > 0
+            return summary.wpnsAddBladeEffectProperty().getValue()
+                    && summary.wpnsBladeEffectChanceProperty().getValue() > 0
                     && summary.wpnsAvailableBladeEffectsProperty().getValue() > 0;
         }
     };
@@ -864,7 +867,17 @@ public class RandomizeController {
             randomizeRomService.start();
             
             randomizeRomService.setOnFailed((e) -> {
-                randomizeRomService.getException().printStackTrace();
+                mainController.getStatusLabel().textProperty().unbind();
+                mainController.getProgressBar().progressProperty().unbind();
+                mainController.statusBarControlsVisibleProperty().set(false);
+                mainController.disableContentProperty().set(false);
+                
+                Throwable throwable = randomizeRomService.getException();
+                throwable.printStackTrace();
+                
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setContentText(throwable.getMessage());
+                alert.show();
             });
 
             randomizeRomService.setOnSucceeded((e) -> {
@@ -876,11 +889,6 @@ public class RandomizeController {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setContentText("Randomization successful!");
                 alert.show();
-            });
-
-            randomizeRomService.setOnFailed((e) -> {
-                Throwable throwable = randomizeRomService.getException();
-                throwable.printStackTrace();
             });
         }
     }

@@ -193,7 +193,7 @@ public enum ItemReward{
         item = newItem;
     }
 
-    public static void write(Rom rom) {
+    public static void writeItemRewards(Rom rom) {
         int header = 0x200;
 
         for(Map.Entry<ItemReward, Item> entry : oldValues.entrySet()) {

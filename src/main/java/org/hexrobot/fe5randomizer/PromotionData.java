@@ -7,6 +7,7 @@ import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 
 public class PromotionData {
+    private static final int PROMOTION_TABLE_OFFSET = 0x404F1;
     private static final int ENTRY_COUNT = 33;
     private static final int ENTRY_SIZE = 3;
     private static final int LEAF_PROMOTION_OFFSET = 0x338AE5 + 0x200; // Original: 0x2A
@@ -14,9 +15,9 @@ public class PromotionData {
     private Map<GameCharacter, CharacterClass> promotionsTable = new HashMap<>();
     private Map<GameCharacter, CharacterClass> oldValues = new HashMap<>();
     
-    PromotionData(Rom rom, int startingOffset) {
+    PromotionData(Rom rom) {
         for(int i = 0; i < ENTRY_COUNT; i++) {
-            int characterOffset = startingOffset + i * ENTRY_SIZE;
+            int characterOffset = PROMOTION_TABLE_OFFSET + i * ENTRY_SIZE;
             int promotionOffset = characterOffset + 2;
             
             GameCharacter character = GameCharacter.findById(rom.getValueAt(characterOffset));
@@ -45,9 +46,9 @@ public class PromotionData {
         }
     }
     
-    public void writePromotions(Rom rom, int startingOffset) {
+    public void writePromotions(Rom rom) {
         for(int i = 0; i < ENTRY_COUNT; i++) {
-            int characterOffset = startingOffset + i * ENTRY_SIZE;
+            int characterOffset = PROMOTION_TABLE_OFFSET + i * ENTRY_SIZE;
             GameCharacter character = GameCharacter.findById(rom.getValueAt(characterOffset));
             
             if(promotionsTable.containsKey(character)) {
@@ -63,7 +64,13 @@ public class PromotionData {
         CharacterClass leafNewPromotion = GameCharacter.LEAF.getCharacterClass().getPromotion();
         rom.setValueAt(LEAF_PROMOTION_OFFSET, leafNewPromotion.getOffset());
         
-        CharacterClass linoanNewPromotion = GameCharacter.LINONAN.getCharacterClass().getPromotion();
+        CharacterClass linoanNewPromotion = GameCharacter.LINOAN.getCharacterClass().getPromotion();
+
+        if(linoanNewPromotion == null) {
+            throw new UnsupportedOperationException(String.format("Linoan promotion is null! for %s class",
+                    GameCharacter.LINOAN.getCharacterClass().getName()));
+        }
+        
         rom.setValueAt(LINOAN_PROMOTION_OFFSET, linoanNewPromotion.getOffset());
     }
     

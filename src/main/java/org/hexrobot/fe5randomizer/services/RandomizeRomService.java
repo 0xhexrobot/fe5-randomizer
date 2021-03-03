@@ -90,7 +90,7 @@ public class RandomizeRomService extends Service<Void> {
                     if(summary.getGrowthsRandomizationType().equals("variance")) {
                         rom.randomizeUnitsGrowthsVariance(summary.getGrowthsVariance());
                     } else if(summary.getGrowthsRandomizationType().equals("redistribute")) {
-                        rom.randomizeUnitsGrowthsRedistribute(summary.getBasesRedistributeVar());
+                        rom.randomizeUnitsGrowthsRedistribute(summary.getGrowthsRedistributeVar());
                     } else if(summary.getGrowthsRandomizationType().equals("absolute")) {
                         rom.randomizeUnitsGrowthsAbsolute(summary.getGrowthsAbsoluteMin(), summary.getGrowthsAbsoluteMax());
                     }
