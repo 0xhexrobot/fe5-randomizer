@@ -7,11 +7,11 @@ import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 
 public class PromotionData {
-    private static final int PROMOTION_TABLE_OFFSET = 0x404F1;
+    private static final int PROMOTION_TABLE_OFFSET = 0x402F1;
     private static final int ENTRY_COUNT = 33;
     private static final int ENTRY_SIZE = 3;
-    private static final int LEAF_PROMOTION_OFFSET = 0x338AE5 + 0x200; // Original: 0x2A
-    private static final int LINOAN_PROMOTION_OFFSET = 0x3EE78A + 0x200; // Original: 0x67
+    private static final int LEAF_PROMOTION_OFFSET = 0x338AE5; // Original: 0x2A
+    private static final int LINOAN_PROMOTION_OFFSET = 0x3EE78A; // Original: 0x67
     private Map<GameCharacter, CharacterClass> promotionsTable = new HashMap<>();
     private Map<GameCharacter, CharacterClass> oldValues = new HashMap<>();
     

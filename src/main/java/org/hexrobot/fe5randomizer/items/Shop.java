@@ -72,12 +72,11 @@ public enum Shop {
     
     public static void initializeShops(Rom rom) {      
         final int ITEM_SEP = 2;
-        final int HEADER_SIZE = 0x200;
         final int SHOP_ITEM_COUNT = 5;
         
         for(Shop shop : values()) {
             for(int i = 0; i < SHOP_ITEM_COUNT; i++) {
-                int itemOffset = rom.getValueAt(shop.offset + HEADER_SIZE + ITEM_SEP * i);
+                int itemOffset = rom.getValueAt(shop.offset + ITEM_SEP * i);
                 
                 if(itemOffset == 0) {
                     break;
@@ -91,7 +90,6 @@ public enum Shop {
     
     public static void writeShops(Rom rom) {
         final int ITEM_SEP = 2;
-        final int HEADER_SIZE = 0x200;
         final int SHOP_ITEM_COUNT = 5;
         
         for(Shop shop : values()) {
@@ -102,7 +100,7 @@ public enum Shop {
                     itemOffset = shop.items.get(i).getOffset() + 1;
                 }
                 
-                rom.setValueAt(shop.offset + HEADER_SIZE + ITEM_SEP * i, itemOffset);
+                rom.setValueAt(shop.offset + ITEM_SEP * i, itemOffset);
             }
         }
     }

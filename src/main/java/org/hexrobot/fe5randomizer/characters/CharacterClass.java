@@ -203,7 +203,7 @@ public enum CharacterClass {
             DRAGON_KNIGHT, PEGASUS_KNIGHT, DRAGON_MASTER, DRAGON_KNIGHT_F, DRAGON_RIDER_F, FALCON_KNIGHT,
             DRAGON_MASTER_F, DRAGON_RIDER, PEGASUS_RIDER));
     
-    private static final int CHARACTER_CLASSES_OFFSET = 0x30200;
+    private static final int CHARACTER_CLASSES_OFFSET = 0x30000;
     private static final int CLASS_DATA_SIZE = 36;
     private static final int BASE_HP_OFFSET = 0x0;
     private static final int BASE_ATK_OFFSET = 0x01;

@@ -396,7 +396,7 @@ public enum GameCharacter {
     private int mapSprite = -1;
     private boolean randomBases = false;
     
-    private static final int CHARACTERS_OFFSET = 0x31C2D;
+    private static final int CHARACTERS_OFFSET = 0x31A2D;
     private static final int CHARACTER_DATA_SIZE = 48;
     private static final int BASE_HP_OFFSET = 0x0;
     private static final int BASE_ATK_OFFSET = 0x01;

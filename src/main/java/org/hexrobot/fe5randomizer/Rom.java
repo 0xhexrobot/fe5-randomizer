@@ -30,11 +30,11 @@ public class Rom {
     private static final long FE5_HEADERED_CRC32_CHK = 2514651613L;
     private static final long FE5_UNHEADERED_CRC32_CHK = 4233206098L;
     private static final long FE5_REV_1_NP = 3937021011L;
-    private static final long FE5_PROJECT_EXILE_1_04 = 0x17F75FD7; 
+    private static final long FE5_PROJECT_EXILE_1_04 = 402087895L; 
     private static final long FE5_PROJECT_EXILE_1_04_TOP_WAIT = 3995459323L;
     private static final int MIN_FILE_SIZE = 4194304;
     private static final int HEADER_SIZE = 0x200;
-    private static final int GAME_TITLE_OFFSET = 0x81C0;
+    private static final int GAME_TITLE_OFFSET = 0x7FC0;
     private byte[] bytes;
     private byte[] bytesBackup = new byte[0];
     private String name = "Fire Emblem 5 (Unknown)";
@@ -112,8 +112,8 @@ public class Rom {
     }
 
     public int getValueAt(int offset) {
-        if(!headered) {
-            offset -= HEADER_SIZE;
+        if(headered) {
+            offset += HEADER_SIZE;
         }
 
         return bytes[offset] & 0xFF;
@@ -124,8 +124,8 @@ public class Rom {
             throw new IllegalArgumentException("Only retrieving 2 bytes are supported.");
         }
 
-        if(!headered) {
-            offset -= HEADER_SIZE;
+        if(headered) {
+            offset += HEADER_SIZE;
         }
 
         int value = 0;
@@ -142,8 +142,8 @@ public class Rom {
             throw new IllegalArgumentException("Value exceeds 1 byte");
         }
         
-        if(!headered) {
-            offset -= HEADER_SIZE;
+        if(headered) {
+            offset += HEADER_SIZE;
         }
 
         bytes[offset] = (byte)(value & 0xFF);
@@ -154,8 +154,8 @@ public class Rom {
             throw new IllegalArgumentException("Value exceeds 2 bytes");
         }
 
-        if(!headered) {
-            offset -= HEADER_SIZE;
+        if(headered) {
+            offset += HEADER_SIZE;
         }
 
         bytes[offset] = (byte) (value & 0xFF);
@@ -1302,7 +1302,7 @@ public class Rom {
     }
     
     public void lilMansterRenamePugi() {
-        int pugiOffset = 0x1813D7 + 0x200;
+        int pugiOffset = 0x1813D7;
         int[] pugiValues = new int[] {0x20, 0x50, 0x75, 0x67, 0x69, 0x20}; // " Pugi "
         
         for(int i = 0; i < pugiValues.length; i++) {
@@ -1311,7 +1311,7 @@ public class Rom {
     }
     
     public void projectExileRenamePugi() {
-        int pugiOffset = 0x18139B + 0x200;
+        int pugiOffset = 0x18139B;
         int[] pugiValues = new int[] {0x50, 0x75, 0x67, 0x69}; // "Pugi"
         
         for(int i = 0; i < pugiValues.length; i++) {

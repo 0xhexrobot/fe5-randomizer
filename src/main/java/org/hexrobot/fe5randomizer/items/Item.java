@@ -199,7 +199,7 @@ public enum Item {
     private ItemClassification itemClassification = ItemClassification.ITEM;
     private Map<String, Object> oldValues = new HashMap<>();
 
-    private static final int ITEMS_OFFSET = 0x1802C2;
+    private static final int ITEMS_OFFSET = 0x1800C2;
     private static final int ITEM_DATA_SIZE = 23;
     private static final int ITEM_TYPE_OFFSET = 0x0;
     private static final int POWER_OFFSET = 0x01;
