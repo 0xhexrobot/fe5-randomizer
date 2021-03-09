@@ -17,6 +17,7 @@ import org.hexrobot.fe5randomizer.characters.MovementStars;
 import org.hexrobot.fe5randomizer.characters.Skill;
 import org.hexrobot.fe5randomizer.controllers.MainController;
 import org.hexrobot.fe5randomizer.items.ItemReward;
+import org.hexrobot.fe5randomizer.items.Scroll;
 import org.hexrobot.fe5randomizer.items.Shop;
 import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.WeaponBladeEffect;
@@ -196,6 +197,7 @@ public class Rom {
     
     public void initialize() {
         Item.initializeItems(this);
+        Scroll.initializeScrolls(this);
         Shop.initializeShops(this);
         CharacterClass.initializeCharacterClasses(this);
         promotionData = new PromotionData(this);
@@ -1217,6 +1219,154 @@ public class Rom {
         }
     }
     
+    public void randomizeScrollsRandom() {
+        List<int[]> scrollPatterns = new ArrayList<>();
+        scrollPatterns.add(new int[] {6});
+        scrollPatterns.add(new int[] {6,2,1,-1,-2});
+        scrollPatterns.add(new int[] {6,2,-2});
+        scrollPatterns.add(new int[] {6,1,1,-2});
+        scrollPatterns.add(new int[] {4,4,-2});
+        scrollPatterns.add(new int[] {4,2});
+        scrollPatterns.add(new int[] {4,2,2,-2});
+        scrollPatterns.add(new int[] {4,2,1,1,-2});
+        scrollPatterns.add(new int[] {4,1,1});
+        scrollPatterns.add(new int[] {4,2,1,-1});
+        scrollPatterns.add(new int[] {2,2,2,2,-2});
+        scrollPatterns.add(new int[] {2,2,2});
+        scrollPatterns.add(new int[] {2,2,1,1});
+        scrollPatterns.add(new int[] {2,1,1,1,1});
+        scrollPatterns.add(new int[] {1,1,1,1,1,1});
+        
+        Collections.shuffle(scrollPatterns, random);
+
+        for(Scroll scroll : Scroll.values()) {
+            int[] pattern = scrollPatterns.remove(0);
+            WeightedList<String> statWeights = new WeightedList<>();
+            statWeights.add("hp", 1.0f);
+            statWeights.add("atk", 1.0f);
+            statWeights.add("mag", 1.0f);
+            statWeights.add("skl", 1.0f);
+            statWeights.add("spd", 1.0f);
+            statWeights.add("lck", 1.0f);
+            statWeights.add("def", 1.0f);
+            statWeights.add("bld", 0.25f);
+            statWeights.add("mov", 0.25f);
+            
+            scroll.setToZero();
+            
+            for(int i = 0; i < pattern.length; i++) {
+                String stat = statWeights.getSelection(random.nextFloat());
+                statWeights.remove(stat);
+                int statValue = pattern[i] * 5;
+                
+                switch(stat) {
+                case "hp":
+                    scroll.setHp(statValue);
+                    break;
+                case "atk":
+                    scroll.setAtk(statValue);
+                    break;
+                case "mag":
+                    scroll.setMag(statValue);
+                    break;
+                case "skl":
+                    scroll.setSkl(statValue);
+                    break;
+                case "spd":
+                    scroll.setSpd(statValue);
+                    break;
+                case "lck":
+                    scroll.setLck(statValue);
+                    break;
+                case "def":
+                    scroll.setDef(statValue);
+                    break;
+                case "bld":
+                    scroll.setBld(statValue);
+                    break;
+                case "mov":
+                    scroll.setMov(statValue);
+                    break;
+                }
+            }
+        }
+    }
+    
+    // TODO randomize scrolls shuffle attributes
+    public void randomizeScrollsShuffleAttributes() {
+        for(Scroll scroll : Scroll.values()) {
+            shuffleScrollAttributes(scroll);
+        }
+    }
+    
+    private void shuffleScrollAttributes(Scroll scroll) {
+        List<Integer> attributes = new ArrayList<>();
+        
+        attributes.add(scroll.getHp());
+        attributes.add(scroll.getAtk());
+        attributes.add(scroll.getMag());
+        attributes.add(scroll.getSkl());
+        attributes.add(scroll.getSpd());
+        attributes.add(scroll.getLck());
+        attributes.add(scroll.getDef());
+        attributes.add(scroll.getBld());
+        attributes.add(scroll.getMov());
+        
+        Collections.shuffle(attributes, random);
+        
+        scroll.setHp(attributes.remove(0));
+        scroll.setAtk(attributes.remove(0));
+        scroll.setMag(attributes.remove(0));
+        scroll.setSkl(attributes.remove(0));
+        scroll.setSpd(attributes.remove(0));
+        scroll.setLck(attributes.remove(0));
+        scroll.setDef(attributes.remove(0));
+        scroll.setBld(attributes.remove(0));
+        scroll.setMov(attributes.remove(0));
+    }
+    
+    // TODO randomize scrolls shuffle
+    public void randomizeScrollsShuffle(boolean shuffleAttributes) {
+        List<int[]> scrollAttributes = new ArrayList<>();
+        
+        for(Scroll scroll : Scroll.values()) {
+            int[] attributes = new int[9];
+            
+            attributes[0] = scroll.getHp();
+            attributes[1] = scroll.getAtk();
+            attributes[2] = scroll.getMag();
+            attributes[3] = scroll.getSkl();
+            attributes[4] = scroll.getSpd();
+            attributes[5] = scroll.getLck();
+            attributes[6] = scroll.getDef();
+            attributes[7] = scroll.getBld();
+            attributes[8] = scroll.getMov();
+            
+            scrollAttributes.add(attributes);
+        }
+        
+        Collections.shuffle(scrollAttributes, random);
+        
+        for(Scroll scroll : Scroll.values()) {
+            int[] attributes = scrollAttributes.remove(0);
+            
+            scroll.setToZero();
+            scroll.setHp(attributes[0]);
+            scroll.setAtk(attributes[1]);
+            scroll.setMag(attributes[2]);
+            scroll.setSkl(attributes[3]);
+            scroll.setSpd(attributes[4]);
+            scroll.setLck(attributes[5]);
+            scroll.setDef(attributes[6]);
+            scroll.setBld(attributes[7]);
+            scroll.setMov(attributes[8]);
+            
+            if(shuffleAttributes) {
+                shuffleScrollAttributes(scroll);
+            }
+        }
+    }
+    
     private void setCostForPrfweapons() {
         Item.BEOSWORD.setCostPerUse(200);
         Item.HOLY_SWORD.setCostPerUse(200);
@@ -1332,6 +1482,7 @@ public class Rom {
         }
         
         Item.resetItems();
+        Scroll.resetScrolls();
         ItemReward.reset();
         Shop.resetShops();
         
@@ -1348,6 +1499,7 @@ public class Rom {
         }
         
         Item.writeItems(this);
+        Scroll.writeScrolls(this);
         ItemReward.writeItemRewards(this);
         Shop.writeShops(this);
         

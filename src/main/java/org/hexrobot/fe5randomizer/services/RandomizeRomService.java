@@ -16,6 +16,7 @@ import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.items.ItemReward;
+import org.hexrobot.fe5randomizer.items.Scroll;
 import org.hexrobot.fe5randomizer.items.Shop;
 import org.hexrobot.fe5randomizer.items.Item;
 
@@ -145,6 +146,20 @@ public class RandomizeRomService extends Service<Void> {
                             summary.getWpnsExcludeIronWeapons());
                 }
                 
+                if(summary.getRandomizeScrolls()) {
+                    switch(summary.getScrollsRandomizationType()) {
+                    case "random":
+                        rom.randomizeScrollsRandom();
+                        break;
+                    case "shuffleAttributes":
+                        rom.randomizeScrollsShuffleAttributes();
+                        break;
+                    case "shuffle":
+                        rom.randomizeScrollsShuffle(summary.getScrollsShuffleAttributes());
+                        break;
+                    }
+                }
+                
                 if(summary.getRandomizeRewards()) {
                     switch(summary.getRewardsRandomizationType()) {
                     case "random":
@@ -203,6 +218,7 @@ public class RandomizeRomService extends Service<Void> {
                     input.put("units", GameCharacter.values());
                     input.put("classes", CharacterClass.values());
                     input.put("items", Item.values());
+                    input.put("scrolls", Scroll.values());
                     input.put("eventRewards", ItemReward.getEventRewards());
                     input.put("chestRewards", ItemReward.getChestRewards());
                     input.put("houseRewards", ItemReward.getHouseRewards());

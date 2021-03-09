@@ -85,6 +85,10 @@ public class RandomizationSummary {
     private final SimpleBooleanProperty randomizeShops = new SimpleBooleanProperty(false);
     private final SimpleObjectProperty<Toggle> shopsRandomizationType = new SimpleObjectProperty<Toggle>();
     private final SimpleBooleanProperty shopsMaintainItemCount = new SimpleBooleanProperty(false);
+    // scrolls
+    private final SimpleBooleanProperty randomizeScrolls = new SimpleBooleanProperty(false);
+    private final SimpleObjectProperty<Toggle> scrollsRandomizationType = new SimpleObjectProperty<Toggle>();
+    private final SimpleBooleanProperty scrollsShuffleAttributes = new SimpleBooleanProperty(false);
     // Lil Manster
     private final SimpleBooleanProperty lilMansterRenamePugi = new SimpleBooleanProperty(false);
     // Project Exile
@@ -359,6 +363,18 @@ public class RandomizationSummary {
     public SimpleBooleanProperty shopsMaintainItemCountProperty() {
         return shopsMaintainItemCount;
     }
+    
+    public SimpleBooleanProperty randomizeScrollsProperty() {
+        return randomizeScrolls;
+    }
+
+    public SimpleObjectProperty<Toggle> scrollsRandomizationTypeProperty() {
+        return scrollsRandomizationType;
+    }
+    
+    public SimpleBooleanProperty scrollsShuffleAttributesProperty() {
+        return scrollsShuffleAttributes;
+    }
 
     public BooleanBinding anyItemRandomizationProperty() {
         return anyItemRandomization;
@@ -628,16 +644,28 @@ public class RandomizationSummary {
         return rewardsSafeKnightProofs.getValue();
     }
     
+    public boolean getRandomizeScrolls() {
+        return randomizeScrolls.getValue();
+    }
+
+    public String getScrollsRandomizationType() {
+        return (String)scrollsRandomizationType.getValue().getUserData();
+    }
+    
+    public boolean getScrollsShuffleAttributes() {
+        return scrollsShuffleAttributes.getValue();
+    }
+
+    public boolean getShopsMaintainItemCount() {
+        return shopsMaintainItemCount.getValue();
+    }
+    
     public boolean getRandomizeShops() {
         return randomizeShops.getValue();
     }
 
     public String getShopsRandomizationType() {
         return (String)shopsRandomizationType.getValue().getUserData();
-    }
-
-    public boolean getShopsMaintainItemCount() {
-        return shopsMaintainItemCount.getValue();
     }
 
     public BooleanBinding getAnyItemRandomization() {
@@ -690,6 +718,8 @@ public class RandomizationSummary {
                 randomizeRewards.getValue(), getRewardsRandomizationType(), rewardsSafeScrolls.getValue(), rewardsSafeKnightProofs.getValue());
         text += String.format("Randomize shops: %b... Randomization type: %s, Maintain item count: %b\n",
                 randomizeShops.getValue(), getShopsRandomizationType(), shopsMaintainItemCount.getValue());
+        text += String.format("Randomize scrolls: %b... Randomization type: %s, Shuffle attributes: %b\n",
+                randomizeScrolls.getValue(), getScrollsRandomizationType(), scrollsShuffleAttributes.getValue());
         text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterRenamePugi.getValue());
         text += String.format("Project Exile Rename to Pugi: %b\n", exileRenamePugi.getValue());
         

@@ -110,6 +110,8 @@ public class RandomizeController {
     @FXML
     private Label lblRandomizeShops;
     @FXML
+    private Label lblRandomizeScrolls;
+    @FXML
     private Label lblLilManster;
     @FXML
     private Label lblLilMansterRenamePugi;
@@ -610,13 +612,15 @@ public class RandomizeController {
     
     private BooleanBinding itemsLabelVisible = new BooleanBinding() {
         {
-            super.bind(summary.randomizeRewardsProperty(), summary.randomizeShopsProperty());
+            super.bind(summary.randomizeRewardsProperty(), summary.randomizeShopsProperty(),
+                    summary.randomizeScrollsProperty());
         }
         
         @Override
         protected boolean computeValue() {
             boolean visible = summary.randomizeRewardsProperty().getValue() 
-                    || summary.randomizeShopsProperty().getValue();
+                    || summary.randomizeShopsProperty().getValue()
+                    || summary.randomizeScrollsProperty().getValue();
 
             return visible;
         }
@@ -665,23 +669,53 @@ public class RandomizeController {
         
         @Override
         protected String computeValue() {
-            String rewardsType = "";
+            String shopMethod = "";
             String randomizationType = (String)summary.shopsRandomizationTypeProperty().getValue().getUserData();
             
             switch(randomizationType) {
             case "random":
-                rewardsType = "chaotic random"; break;
+                shopMethod = "chaotic random"; break;
             case "shuffle":
-                rewardsType = "shuffling"; break;
+                shopMethod = "shuffling"; break;
             case "replace":
-                rewardsType = "replacing for similar items"; break;
+                shopMethod = "replacing for similar items"; break;
             }
             
-            String text = String.format("Randomize shop items by %s", rewardsType);
+            String text = String.format("Randomize shop items by %s", shopMethod);
             
             if(!randomizationType.equals("replace")
                     && summary.shopsMaintainItemCountProperty().getValue()) {
                 text += ", maintain item count";
+            }
+                                    
+            return text;
+        }
+    };
+    
+    private StringBinding txtScrollRandomization = new StringBinding() {
+        {
+            super.bind(summary.scrollsRandomizationTypeProperty(), summary.scrollsShuffleAttributesProperty());
+        }
+        
+        @Override
+        protected String computeValue() {
+            String scrollMethod = "";
+            String randomizationType = (String)summary.scrollsRandomizationTypeProperty().getValue().getUserData();
+            
+            switch(randomizationType) {
+            case "random":
+                scrollMethod = "random"; break;
+            case "shuffleAttributes":
+                scrollMethod = "shuffling attributes"; break;
+            case "shuffle":
+                scrollMethod = "shuffling"; break;
+            }
+            
+            String text = String.format("Randomize Scrolls by %s", scrollMethod);
+            
+            if(randomizationType.equals("shuffle")
+                    && summary.scrollsShuffleAttributesProperty().getValue()) {
+                text += " and then shuffling attributes";
             }
                                     
             return text;
@@ -781,17 +815,20 @@ public class RandomizeController {
         lblItemsStatBonus.textProperty().bind(txtItemsStatBonus);
         lblItemsWeaponSkill.textProperty().bind(txtItemsWeaponSkill);
         
-        // item rewards, shops
+        // item rewards, shops, scrolls
         lblItems.managedProperty().bind(lblItems.visibleProperty());
         lblRandomizeRewards.managedProperty().bind(lblRandomizeRewards.visibleProperty());
         lblRandomizeShops.managedProperty().bind(lblRandomizeShops.visibleProperty());
+        lblRandomizeScrolls.managedProperty().bind(lblRandomizeScrolls.visibleProperty());
         
         lblItems.visibleProperty().bind(itemsLabelVisible);
         lblRandomizeRewards.visibleProperty().bind(summary.randomizeRewardsProperty());
         lblRandomizeShops.visibleProperty().bind(summary.randomizeShopsProperty());
+        lblRandomizeScrolls.visibleProperty().bind(summary.randomizeScrollsProperty());
         
         lblRandomizeRewards.textProperty().bind(txtItemRewards);
         lblRandomizeShops.textProperty().bind(txtShopRandomization);
+        lblRandomizeScrolls.textProperty().bind(txtScrollRandomization);
         
         // lil master
         lblLilManster.managedProperty().bind(lblLilManster.visibleProperty());

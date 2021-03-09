@@ -83,6 +83,7 @@
                <children>
                   <Label fx:id="lblRandomizeRewards" text="randomizeRewards" />
                   <Label fx:id="lblRandomizeShops" text="randomizeShops" />
+                  <Label fx:id="lblRandomizeScrolls" text="randomizeScrolls" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" />

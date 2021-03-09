@@ -38,10 +38,23 @@ public class ItemRewardsController {
     private CheckBox chkShopsMaintainItemCount;
     @FXML
     private ToggleGroup tgShopsRandomization;
+    @FXML
+    private CheckBox chkRandomizeScrolls;
+    @FXML
+    private RadioButton rbScrollsRandom;
+    @FXML
+    private RadioButton rbScrollsShuffleAttributes;
+    @FXML
+    private RadioButton rbScrollsShuffle;
+    @FXML
+    private CheckBox chkScrollsShuffleAttributes;
+    @FXML
+    private ToggleGroup tgScrollsRandomization;
     private RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
     
     @FXML
     private void initialize() {
+        // rewards
         rbRewardsRandom.disableProperty().bind(chkRandomizeRewards.selectedProperty().not());
         rbRewardsShuffle.disableProperty().bind(chkRandomizeRewards.selectedProperty().not());
         rbRewardsReplace.disableProperty().bind(chkRandomizeRewards.selectedProperty().not());
@@ -62,6 +75,12 @@ public class ItemRewardsController {
         chkSafeScrolls.disableProperty().bind(safeUniqueItems.not());
         chkSafeKnightProofs.disableProperty().bind(safeUniqueItems.not());
         
+        chkRandomizeRewards.selectedProperty().bindBidirectional(summary.randomizeRewardsProperty());
+        summary.rewardsRandomizationTypeProperty().bind(tgRewardsRandomization.selectedToggleProperty());
+        summary.rewardsSafeScrollsProperty().bind(chkSafeScrolls.selectedProperty());
+        summary.rewardsSafeKnightProofsProperty().bind(chkSafeKnightProofs.selectedProperty());
+        
+        // shops
         rbShopsRandom.disableProperty().bind(chkRandomizeShops.selectedProperty().not());
         rbShopsShuffle.disableProperty().bind(chkRandomizeShops.selectedProperty().not());
         rbShopsReplace.disableProperty().bind(chkRandomizeShops.selectedProperty().not());
@@ -80,13 +99,18 @@ public class ItemRewardsController {
         
         chkShopsMaintainItemCount.disableProperty().bind(enableMaintainShopItemCount.not());
         
-        chkRandomizeRewards.selectedProperty().bindBidirectional(summary.randomizeRewardsProperty());
-        summary.rewardsRandomizationTypeProperty().bind(tgRewardsRandomization.selectedToggleProperty());
-        summary.rewardsSafeScrollsProperty().bind(chkSafeScrolls.selectedProperty());
-        summary.rewardsSafeKnightProofsProperty().bind(chkSafeKnightProofs.selectedProperty());
-        
         chkRandomizeShops.selectedProperty().bindBidirectional(summary.randomizeShopsProperty());
         summary.shopsRandomizationTypeProperty().bind(tgShopsRandomization.selectedToggleProperty());
         summary.shopsMaintainItemCountProperty().bind(chkShopsMaintainItemCount.selectedProperty());
+        
+        // scrolls
+        rbScrollsRandom.disableProperty().bind(chkRandomizeScrolls.selectedProperty().not());
+        rbScrollsShuffleAttributes.disableProperty().bind(chkRandomizeScrolls.selectedProperty().not());
+        rbScrollsShuffle.disableProperty().bind(chkRandomizeScrolls.selectedProperty().not());
+        chkScrollsShuffleAttributes.disableProperty().bind(chkRandomizeScrolls.selectedProperty().not().or(rbScrollsShuffle.selectedProperty().not()));
+        
+        chkRandomizeScrolls.selectedProperty().bindBidirectional(summary.randomizeScrollsProperty());
+        summary.scrollsRandomizationTypeProperty().bind(tgScrollsRandomization.selectedToggleProperty());
+        summary.scrollsShuffleAttributesProperty().bind(chkScrollsShuffleAttributes.selectedProperty());
     }
 }

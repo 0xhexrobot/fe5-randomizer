@@ -64,6 +64,30 @@
                   <Insets left="20.0" />
                </VBox.margin>
             </CheckBox>
+            <CheckBox fx:id="chkRandomizeScrolls" mnemonicParsing="false" text="Randomize Scrolls" />
+            <RadioButton fx:id="rbScrollsRandom" mnemonicParsing="false" selected="true" text="Random" userData="random">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+               <toggleGroup>
+                  <ToggleGroup fx:id="tgScrollsRandomization" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="rbScrollsShuffleAttributes" mnemonicParsing="false" text="Shuffle attributes" userData="shuffleAttributes" toggleGroup="$tgScrollsRandomization">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="rbScrollsShuffle" mnemonicParsing="false" text="Shuffle" toggleGroup="$tgScrollsRandomization" userData="shuffle">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </RadioButton>
+            <CheckBox fx:id="chkScrollsShuffleAttributes" mnemonicParsing="false" text="Also shuffle attributes">
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin>
+            </CheckBox>
 			</children>
 			<padding>
 				<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

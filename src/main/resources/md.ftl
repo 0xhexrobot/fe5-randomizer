@@ -53,6 +53,8 @@ Randomize rewards: <#if summary.randomizeRewards>**Yes**, randomization type: ${
 
 Randomize shop items: <#if summary.randomizeShops>**Yes**, randomization type: ${summary.shopsRandomizationType}<#else>No</#if><#if summary.shopsRandomizationType != "replace">, maintain item count: <#if summary.shopsMaintainItemCount>**Yes**<#else>No</#if></#if>
 
+Randomize Scrolls: <#if summary.randomizeScrolls>**Yes**, randomization type: ${summary.scrollsRandomizationType}<#else>No</#if>
+
 <#if summary.lilMansterRenamePugi>
 Lil' Manster
 * Rename *Voulge* to _**Pugi**_
@@ -157,6 +159,14 @@ Name | Mt | Acc | Wt | Crt | Rng | Rank | Uses | Skills1 | Skills2 | Skills | Bl
 ${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} -> **${item.power}**<#else>${item.power}</#if> | <#if item.oldValues["accuracy"]??>${item.oldValues["accuracy"]} -> **${item.accuracy}**<#else>${item.accuracy}</#if> | <#if item.oldValues["weight"]??>${item.oldValues["weight"]} -> **${item.weight}**<#else>${item.weight}</#if> | <#if item.oldValues["critical"]??>${item.oldValues["critical"]} -> **${item.critical}**<#else>${item.critical}</#if> | <#if item.oldValues["weaponRange"]??>${item.olValues["weaponRange"].getName()} -> **${item.weaponRange.getName()}**<#else>${item.weaponRange.getName()}</#if> | <#if item.oldValues["weaponRank"]??>${item.oldValues["weaponRank"].getName()} -> **${item.weaponRank.getName()}**<#else>${item.weaponRank.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} -> **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["skills1"]??>*${item.oldValues["skills1"]?string.@hex_2}* -> _**${item.skills1?string.@hex_2}**_<#else>*${item.skills1?string.@hex_2}*</#if> | <#if item.oldValues["skills2"]??>*${item.oldValues["skills2"]?string.@hex_2}* -> _**${item.skills2?string.@hex_2}**_<#else>*${item.skills2?string.@hex_2}*</#if> | <#if item.oldValues["skills1"]?? || item.oldValues["skills2"]??>**<#list item.skills as skill>${skill.getName()}<#sep>, </#list>**<#else><#list item.skills as skill>${skill.getName()}<#sep>, </#list></#if> | <#if item.oldValues["weaponBladeEffect"]??>${item.oldValues["weaponBladeEffect"].getName()} -> **${item.weaponBladeEffect.getName()}**<#else>${item.weaponBladeEffect.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} -> **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["costPerUse"]??>${item.oldValues["costPerUse"]} -> **${item.costPerUse}**<#else>${item.costPerUse}</#if> | <#if item.oldValues["weaponStatBonus"]??>${item.oldValues["weaponStatBonus"].getName()} -> **${item.weaponStatBonus.getName()}**<#else>${item.weaponStatBonus.getName()}</#if> |
 </#list>
 </#if>
+
+## Scrolls
+
+Scroll name | Hp | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov |
+----------- | -- | --- | --- | --- | --- | --- | --- | --- | --- |
+<#list scrolls as scroll>
+<#if scroll.modified>**${scroll.getName()}**<#else>${scroll.getName()}</#if> | <#if scroll.oldValues["hp"]??>${scroll.oldValues["hp"]} -> **${scroll.hp}**<#else>${scroll.hp}</#if> | <#if scroll.oldValues["atk"]??>${scroll.oldValues["atk"]} -> **${scroll.atk}**<#else>${scroll.atk}</#if> | <#if scroll.oldValues["mag"]??>${scroll.oldValues["mag"]} -> **${scroll.mag}**<#else>${scroll.mag}</#if> | <#if scroll.oldValues["skl"]??>${scroll.oldValues["skl"]} -> **${scroll.skl}**<#else>${scroll.skl}</#if> | <#if scroll.oldValues["spd"]??>${scroll.oldValues["spd"]} -> **${scroll.spd}**<#else>${scroll.spd}</#if> | <#if scroll.oldValues["lck"]??>${scroll.oldValues["lck"]} -> **${scroll.lck}**<#else>${scroll.lck}</#if> | <#if scroll.oldValues["def"]??>${scroll.oldValues["def"]} -> **${scroll.def}**<#else>${scroll.def}</#if> | <#if scroll.oldValues["bld"]??>${scroll.oldValues["bld"]} -> **${scroll.bld}**<#else>${scroll.bld}</#if> | <#if scroll.oldValues["mov"]??>${scroll.oldValues["mov"]} -> **${scroll.mov}**<#else>${scroll.mov}</#if> |
+</#list>
 
 <#if summary.randomizeRewards>
 ## Event rewards
