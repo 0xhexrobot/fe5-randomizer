@@ -5,13 +5,18 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.VBox?>
 
 <ScrollPane fx:id="itemRewards" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.ItemRewardsController">
 	<content>
 		<VBox spacing="5.0">
 			<children>
-				<CheckBox fx:id="chkRandomizeRewards" mnemonicParsing="false" text="Randomize Event/Chest/House rewards" />
+				<CheckBox fx:id="chkRandomizeRewards" mnemonicParsing="false" text="Randomize Event/Chest/House rewards">
+				<tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes all rewards except Member Card, Kia staff and Blagi sword." wrapText="true" />
+               </tooltip>
+				</CheckBox>
             <RadioButton fx:id="rbRewardsRandom" mnemonicParsing="false" selected="true" text="Random" toggleGroup="$tgRewardsRandomization" userData="random">
                <padding>
                   <Insets left="20.0" />
@@ -19,28 +24,47 @@
                <toggleGroup>
 	           <ToggleGroup fx:id="tgRewardsRandomization" />
                 </toggleGroup>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes item rewards, the new rewards could be better or worse than original items." wrapText="true" />
+               </tooltip>
             </RadioButton>
             <RadioButton fx:id="rbRewardsShuffle" mnemonicParsing="false" text="Shuffle" toggleGroup="$tgRewardsRandomization" userData="shuffle">
                <padding>
                   <Insets left="20.0" />
                </padding>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Merges all Chest, House and Event rewards into a single pool and then shuffles given items." wrapText="true" />
+               </tooltip>
             </RadioButton>
             <RadioButton fx:id="rbRewardsReplace" mnemonicParsing="false" text="Replace for similar items" toggleGroup="$tgRewardsRandomization" userData="replace">
                <padding>
                   <Insets left="20.0" />
                </padding>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Replaces rewards for similar items (same ranked weapon, similar ring, etc)." wrapText="true" />
+               </tooltip>
             </RadioButton>
             <CheckBox fx:id="chkSafeScrolls" mnemonicParsing="false" text="Safe Scrolls">
                <padding>
                   <Insets left="20.0" />
                </padding>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Prevents Scroll duplication and makes sure every Scroll is obtainable." wrapText="true" />
+               </tooltip>
             </CheckBox>
             <CheckBox fx:id="chkSafeKnightProofs" mnemonicParsing="false" text="Safe Knight Proofs">
                <padding>
                   <Insets left="20.0" />
                </padding>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Maintains Knight Proof count." wrapText="true" />
+               </tooltip>
             </CheckBox>
-            <CheckBox fx:id="chkRandomizeShops" mnemonicParsing="false" text="Randomize Shop items" />
+            <CheckBox fx:id="chkRandomizeShops" mnemonicParsing="false" text="Randomize Shop items">
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes shop inventories. Battle Preparations shop and the Secret Shop are excluded." wrapText="true" />
+               </tooltip>
+            </CheckBox>
             <RadioButton fx:id="rbShopsRandom" mnemonicParsing="false" selected="true" text="Random" userData="random">
                <VBox.margin>
                   <Insets left="20.0" />
@@ -48,23 +72,39 @@
                <toggleGroup>
                   <ToggleGroup fx:id="tgShopsRandomization" />
                </toggleGroup>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes shop inventories. The new items could be better or worse than original items." wrapText="true" />
+               </tooltip>
             </RadioButton>
             <RadioButton fx:id="rbShopsShuffle" mnemonicParsing="false" text="Shuffle" toggleGroup="$tgShopsRandomization" userData="shuffle">
                <VBox.margin>
                   <Insets left="20.0" />
                </VBox.margin>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Shuffles items among most shops." wrapText="true" />
+               </tooltip>
             </RadioButton>
             <RadioButton fx:id="rbShopsReplace" mnemonicParsing="false" text="Replace for similar items" toggleGroup="$tgShopsRandomization" userData="replace">
                <VBox.margin>
                   <Insets left="20.0" />
                </VBox.margin>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Replaces shop item inventories for similar items (same ranked item, same Ring type, etc)." wrapText="true" />
+               </tooltip>
             </RadioButton>
             <CheckBox fx:id="chkShopsMaintainItemCount" mnemonicParsing="false" text="Maintain item count">
                <VBox.margin>
                   <Insets left="20.0" />
                </VBox.margin>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Prevents shop item count from being changed." wrapText="true" />
+               </tooltip>
             </CheckBox>
-            <CheckBox fx:id="chkRandomizeScrolls" mnemonicParsing="false" text="Randomize Scrolls" />
+            <CheckBox fx:id="chkRandomizeScrolls" mnemonicParsing="false" text="Randomize Scrolls">
+            <tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes Scroll effects." wrapText="true" />
+               </tooltip>
+            </CheckBox>
             <RadioButton fx:id="rbScrollsRandom" mnemonicParsing="false" selected="true" text="Random" userData="random">
                <VBox.margin>
                   <Insets left="20.0" />
@@ -72,21 +112,33 @@
                <toggleGroup>
                   <ToggleGroup fx:id="tgScrollsRandomization" />
                </toggleGroup>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes Scroll attributes for random pattern." wrapText="true" />
+               </tooltip>
             </RadioButton>
-            <RadioButton fx:id="rbScrollsShuffleAttributes" mnemonicParsing="false" text="Shuffle attributes" userData="shuffleAttributes" toggleGroup="$tgScrollsRandomization">
+            <RadioButton fx:id="rbScrollsShuffleAttributes" mnemonicParsing="false" text="Shuffle attributes" toggleGroup="$tgScrollsRandomization" userData="shuffleAttributes">
                <VBox.margin>
                   <Insets left="20.0" />
                </VBox.margin>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Shuffles Scroll attributes within itself (Odo Scroll could be +30% Mag instead of +30% Skl)." wrapText="true" />
+               </tooltip>
             </RadioButton>
             <RadioButton fx:id="rbScrollsShuffle" mnemonicParsing="false" text="Shuffle" toggleGroup="$tgScrollsRandomization" userData="shuffle">
                <VBox.margin>
                   <Insets left="20.0" />
                </VBox.margin>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Shuffles Scroll attributes between them so the Sety Scroll could have the effect of a Tordo Scroll." wrapText="true" />
+               </tooltip>
             </RadioButton>
             <CheckBox fx:id="chkScrollsShuffleAttributes" mnemonicParsing="false" text="Also shuffle attributes">
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Shuffles Scroll attributes within itself (a Scroll could be +30% Def instead of +30% Skl)." wrapText="true" />
+               </tooltip>
             </CheckBox>
 			</children>
 			<padding>

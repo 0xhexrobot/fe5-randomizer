@@ -950,7 +950,7 @@ public class Rom {
     public void randomizeRewardsChaotic(boolean safeScrolls, boolean safeKnightProofs) {
         ArrayList<Item> availableItems = Item.getItems(true, true);
         List<ItemReward> excludedRewards = new ArrayList<ItemReward>(List.of(
-                ItemReward.CH18_MEMBER_CARD, ItemReward.CH24_KIA_STAFF));
+                ItemReward.CH18_MEMBER_CARD, ItemReward.CH24_KIA_STAFF, ItemReward.CH23_BLAGI_SWORD));
         List<Item> safeItems = new ArrayList<Item>();
         int possibleSafeItems = ItemReward.values().length - excludedRewards.size();
         
@@ -993,7 +993,7 @@ public class Rom {
     public void randomizeRewardsShuffle() {
         List<Item> allRewards = new ArrayList<>();
         List<ItemReward> excludedRewards = new ArrayList<ItemReward>(
-                List.of(ItemReward.CH24_KIA_STAFF));
+                List.of(ItemReward.CH18_MEMBER_CARD, ItemReward.CH24_KIA_STAFF, ItemReward.CH23_BLAGI_SWORD));
         
         for(ItemReward reward : ItemReward.values()) {
             if(excludedRewards.contains(reward)) {
@@ -1017,7 +1017,7 @@ public class Rom {
     public void randomizeRewardsReplaceSimilar(boolean safeScrolls, boolean safeKnightProofs) {
         List<Item> availableScrolls = Item.getScrolls();
         List<ItemReward> excludedRewards = new ArrayList<>(List.of(
-                ItemReward.CH18_MEMBER_CARD, ItemReward.CH24_KIA_STAFF));
+                ItemReward.CH18_MEMBER_CARD, ItemReward.CH24_KIA_STAFF, ItemReward.CH23_BLAGI_SWORD));
         int remainingKnightProofs = 11;
         int possibleKnightProofs = 39;
         

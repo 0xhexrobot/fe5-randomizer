@@ -8,15 +8,19 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
 
 <ScrollPane fx:id="units" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.UnitsController">
    <content>
       <VBox minWidth="400.0" spacing="5.0">
       	<children>
-      		<CheckBox fx:id="chkBases" mnemonicParsing="false" text="Randomize bases" />
+      		<CheckBox fx:id="chkBases" mnemonicParsing="false" text="Randomize bases">
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes unit bases." wrapText="true" />
+               </tooltip>
+               </CheckBox>
       		<VBox fx:id="parBasesControls" spacing="5.0">
       			<children>
       				<HBox spacing="10.0">
@@ -25,8 +29,15 @@
       							<toggleGroup>
       								<ToggleGroup fx:id="tgBases" />
       							</toggleGroup>
+      							<tooltip>
+                  <Tooltip maxWidth="400.0" text="Applies variance on each stat by ± Delta" wrapText="true" />
+               </tooltip>
       						</RadioButton>
-      						<RadioButton fx:id="rbBasesRedistribute" mnemonicParsing="false" text="Redistribute" toggleGroup="$tgBases" />
+      						<RadioButton fx:id="rbBasesRedistribute" mnemonicParsing="false" text="Redistribute" toggleGroup="$tgBases">
+      						<tooltip>
+                  <Tooltip maxWidth="400.0" text="Applies ± Variance to bases sum then redistributes base points among stats." wrapText="true" />
+               </tooltip>
+      						</RadioButton>
       					</children>
       				</HBox>
       				<HBox fx:id="parBasesVarianceOptions" alignment="CENTER_RIGHT" spacing="10.0">
@@ -46,7 +57,11 @@
       				<Insets left="20.0" />
       			</padding>
       		</VBox>
-      		<CheckBox fx:id="chkGrowths" mnemonicParsing="false" text="Randomize growths" />
+      		<CheckBox fx:id="chkGrowths" mnemonicParsing="false" text="Randomize growths">
+               <tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes units growths." wrapText="true" />
+               </tooltip>
+               </CheckBox>
       		<VBox fx:id="parGrowthsControls" spacing="5.0">
       			<children>
       				<HBox spacing="10.0">
@@ -55,9 +70,20 @@
       							<toggleGroup>
       								<ToggleGroup fx:id="tgGrowths" />
       							</toggleGroup>
+      							<tooltip>
+                  <Tooltip maxWidth="400.0" text="Applies a variance of ± Delta to each stat." wrapText="true" />
+               </tooltip>
       						</RadioButton>
-      						<RadioButton fx:id="rbGrowthsRedistribute" mnemonicParsing="false" text="Redistribute" toggleGroup="$tgGrowths" />
-      						<RadioButton fx:id="rbGrowthsAbsolute" mnemonicParsing="false" text="Absolute" toggleGroup="$tgGrowths" />
+      						<RadioButton fx:id="rbGrowthsRedistribute" mnemonicParsing="false" text="Redistribute" toggleGroup="$tgGrowths">
+      						<tooltip>
+                  <Tooltip maxWidth="400.0" text="Applies ± Variance to growths sum, then redistributes unit growths among stats." wrapText="true" />
+               </tooltip>
+      						</RadioButton>
+      						<RadioButton fx:id="rbGrowthsAbsolute" mnemonicParsing="false" text="Absolute" toggleGroup="$tgGrowths">
+      						<tooltip>
+                  <Tooltip maxWidth="400.0" text="Sets growth of each stat between min - max." wrapText="true" />
+               </tooltip>
+      						</RadioButton>
       					</children>
       				</HBox>
       				<HBox fx:id="parGrowthsVarianceOptions" alignment="CENTER_RIGHT" spacing="10.0">
@@ -93,29 +119,59 @@
       				<Insets left="20.0" />
       			</padding>
       		</VBox>
-      		<CheckBox fx:id="chkClasses" mnemonicParsing="false" text="Randomize classes" />
+      		<CheckBox fx:id="chkClasses" mnemonicParsing="false" text="Randomize classes">
+      		<tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes unit classes." wrapText="true" />
+               </tooltip>
+      		</CheckBox>
       		<VBox fx:id="parClassesControls" spacing="5.0">
       			<children>
-      				<CheckBox fx:id="chkExcludeHealers" mnemonicParsing="false" text="Exclude healers" />
-      				<CheckBox fx:id="chkExcludeThieves" mnemonicParsing="false" text="Exclude thieves" />
+      				<CheckBox fx:id="chkExcludeHealers" mnemonicParsing="false" text="Exclude healers">
+      				<tooltip>
+                  <Tooltip maxWidth="400.0" text="Units with healer classes won't be randomized. Healer classes are removed from pool to avoid excess of healers." wrapText="true" />
+               </tooltip>
+      				</CheckBox>
+      				<CheckBox fx:id="chkExcludeThieves" mnemonicParsing="false" text="Exclude thieves">
+      				<tooltip>
+                  <Tooltip maxWidth="400.0" text="Thieves classes won't be randomized. Thief class is removed from pool to avoid excess of thieves." wrapText="true" />
+               </tooltip>
+      				</CheckBox>
       			</children>
       			<padding>
       				<Insets left="20.0" />
       			</padding>
       		</VBox>
-      		<CheckBox fx:id="chkRandomizeMovStars" mnemonicParsing="false" text="Randomize Movement stars" />
+      		<CheckBox fx:id="chkRandomizeMovStars" mnemonicParsing="false" text="Randomize Movement stars">
+      		<tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes Movement stars for all playable characters." wrapText="true" />
+               </tooltip>
+      		</CheckBox>
       		<CheckBox fx:id="chkMovExcludeZero" mnemonicParsing="false" text="Exclude units with 0 stars">
       			<padding>
       				<Insets left="20.0" />
       			</padding>
+      			<tooltip>
+                  <Tooltip maxWidth="400.0" text="Limits Movement star randomization to units who already have stars." wrapText="true" />
+               </tooltip>
       		</CheckBox>
-      		<CheckBox fx:id="chkRandomizeLeadershipStars" mnemonicParsing="false" text="Randomize Leadership stars" />
+      		<CheckBox fx:id="chkRandomizeLeadershipStars" mnemonicParsing="false" text="Randomize Leadership stars">
+      		<tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes Leadership stars for all characters. This option makes the game easier." wrapText="true" />
+               </tooltip>
+      		</CheckBox>
       		<CheckBox fx:id="chkLeadershipExcludeZero" mnemonicParsing="false" text="Exclude units with 0 stars">
       			<padding>
       				<Insets left="20.0" />
       			</padding>
+      			<tooltip>
+                  <Tooltip maxWidth="400.0" text="Limits Leadership star randomization to units who already have stars." wrapText="true" />
+               </tooltip>
       		</CheckBox>
-      		<CheckBox fx:id="chkRandomizeSkills" mnemonicParsing="false" text="Randomize skills" />
+      		<CheckBox fx:id="chkRandomizeSkills" mnemonicParsing="false" text="Randomize skills">
+      		<tooltip>
+                  <Tooltip maxWidth="400.0" text="Randomizes unit skills." wrapText="true" />
+               </tooltip>
+      		</CheckBox>
       		<HBox fx:id="parSkillCount" alignment="CENTER_RIGHT" spacing="10.0">
       			<children>
       				<Label text="Max skill count" />
