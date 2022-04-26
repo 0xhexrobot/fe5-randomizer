@@ -867,6 +867,10 @@ public class Rom {
             }
             
             if(randomizeMight) {
+            	if(weapon.getPower() == 255) {
+            		return;
+            	}
+            	
                 int newMight = Math.max(weapon.getPower() - mightDelta + random.nextInt(mightDelta * 2 + 1), 0);
                 weapon.setPower(newMight);
             }
@@ -1292,7 +1296,6 @@ public class Rom {
         }
     }
     
-    // TODO randomize scrolls shuffle attributes
     public void randomizeScrollsShuffleAttributes() {
         for(Scroll scroll : Scroll.values()) {
             shuffleScrollAttributes(scroll);
@@ -1325,7 +1328,6 @@ public class Rom {
         scroll.setMov(attributes.remove(0));
     }
     
-    // TODO randomize scrolls shuffle
     public void randomizeScrollsShuffle(boolean shuffleAttributes) {
         List<int[]> scrollAttributes = new ArrayList<>();
         

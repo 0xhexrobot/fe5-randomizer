@@ -394,6 +394,7 @@ public enum GameCharacter {
     private CharacterClass characterClass = CharacterClass.LORD;
     private int leadershipStars = -1;
     private int mapSprite = -1;
+    private int portrait = -1;
     private boolean randomBases = false;
     
     private static final int CHARACTERS_OFFSET = 0x31A2D;
@@ -435,6 +436,7 @@ public enum GameCharacter {
     private static final int CLASS_OFFSET = 0x2C;
     private static final int LEADERSHIP_STARS_OFFSET = 0x2D;
     private static final int MAP_SPRITE_OFFSET = 0x2E;
+    private static final int PORTRAIT_OFFSET = 0x2F;
     private Map<String, Object> oldValues = new HashMap<>();
     
     private static final ArrayList<GameCharacter> PLAYABLE_UNITS = new ArrayList<>(List.of(
@@ -531,6 +533,7 @@ public enum GameCharacter {
         characterClass = CharacterClass.findById(rom.getValueAt(relOffset + CLASS_OFFSET));
         leadershipStars = rom.getValueAt(relOffset + LEADERSHIP_STARS_OFFSET);
         mapSprite = rom.getValueAt(relOffset + MAP_SPRITE_OFFSET);
+        portrait = rom.getValueAt(relOffset + PORTRAIT_OFFSET);
         randomBases = baseHp > 0x7F;
         
         if(!randomBases) {
@@ -869,6 +872,10 @@ public enum GameCharacter {
     
     public int getMapSprite() {
         return mapSprite;
+    }
+    
+    public int getPortrait() {
+    	return portrait;
     }
     
     public Map<String, Object> getOldValues() {

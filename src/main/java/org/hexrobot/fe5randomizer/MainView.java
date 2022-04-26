@@ -15,7 +15,7 @@ public class MainView extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 	    FXMLLoader mainLoader = new FXMLLoader(getClass().getClassLoader().getResource("Main.fxml"));
@@ -23,6 +23,10 @@ public class MainView extends Application {
 		Scene scene = new Scene(root);
 		MainController mainController = mainLoader.getController();
 		
+		if(getParameters().getRaw().contains("debug")) {
+			mainController.setDebug();
+		}
+
 		mainController.setStage(primaryStage);
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/lopto-sword.gif")));
 		primaryStage.setScene(scene);

@@ -843,6 +843,9 @@ public class RandomizeController {
         imgSeed4.imageProperty().bind(icon4);
         imgSeed5.imageProperty().bind(icon5);
         imgSeed6.imageProperty().bind(icon6);
+        
+        chkWriteDebugLog.managedProperty().bind(chkWriteDebugLog.visibleProperty());
+        chkWriteDebugLog.visibleProperty().bind(MainController.getInstance().debugProperty());
         chkWriteDebugLog.selectedProperty().bindBidirectional(summary.writeDebugLogProperty());
     }
     

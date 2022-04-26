@@ -53,6 +53,7 @@ public class MainController {
     private SimpleBooleanProperty mainSections = new SimpleBooleanProperty(false);
     private SimpleBooleanProperty disableContent = new SimpleBooleanProperty(false);
     private SimpleBooleanProperty statusBarControlsVisible = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty debug = new SimpleBooleanProperty(false);
     
     public MainController() {
         instance = this;
@@ -116,6 +117,10 @@ public class MainController {
         dialog.showAndWait();
     }
     
+    public void setDebug() {
+    	debug.setValue(true);
+    }
+    
     public void switchToSectionsController(Rom rom) {
         mainSections.set(true);
         sectionsController.setRom(rom, stage);
@@ -154,6 +159,10 @@ public class MainController {
     
     public SimpleBooleanProperty statusBarControlsVisibleProperty() {
         return statusBarControlsVisible;
+    }
+    
+    public SimpleBooleanProperty debugProperty() {
+        return debug;
     }
     
     public long getSeed() {

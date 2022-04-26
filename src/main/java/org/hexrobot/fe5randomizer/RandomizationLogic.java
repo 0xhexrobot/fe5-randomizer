@@ -41,6 +41,7 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.LOPTO_DARK_BISHOP, mountedClasses);
         bannedClasses.put(GameCharacter.MAREETA, mountedClasses);
         bannedClasses.put(GameCharacter.NANNA, mountedClasses);
+        bannedClasses.put(GameCharacter.LINOAN, new ArrayList<CharacterClass>(List.of(CharacterClass.DANCER)));
         bannedClasses.put(GameCharacter.ENVOY_MERCENARY, mountedClasses);
         bannedClasses.put(GameCharacter.ENVOY_WARRIOR, mountedClasses);
         bannedClasses.put(GameCharacter.ENVOY_GENERAL, mountedClasses);

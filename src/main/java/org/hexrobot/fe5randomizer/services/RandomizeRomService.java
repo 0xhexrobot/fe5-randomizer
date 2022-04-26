@@ -208,8 +208,7 @@ public class RandomizeRomService extends Service<Void> {
                 }
 
                 if(summary.getWriteDebugLog()) {
-                    updateMessage("Writing log...");
-                    // TODO put missing hashes
+                    updateMessage("Writing debug log...");
                     input.put("romName", rom.getName());
                     input.put("romHeadered", rom.isHeadered());
                     input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
@@ -223,12 +222,44 @@ public class RandomizeRomService extends Service<Void> {
                     input.put("chestRewards", ItemReward.getChestRewards());
                     input.put("houseRewards", ItemReward.getHouseRewards());
                     input.put("shops", Shop.values());
-                    //input.put("armyData", rom.getArmyUnits());
-                    //input.put("chapterData", Chapter.values());
+                    input.put("armyData", rom.getArmyUnits());
+                    input.put("chapterData", Chapter.values());
 
                     try {
                         Writer fileWriter = new FileWriter(new File(romFile.getAbsolutePath().concat(".md")));
                         Template template = cfg.getTemplate("md.ftl");
+                        
+                        template.process(input, fileWriter);
+                        fileWriter.close();
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    } catch(TemplateException e) {
+                        e.printStackTrace();
+                    }
+                }
+                
+                // TODO summary get write log
+                if(true) {
+                    updateMessage("Writing log...");
+                    input.put("romName", rom.getName());
+                    input.put("romHeadered", rom.isHeadered());
+                    input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
+                    input.put("seed", rom.getSeedAsWeaponArray());
+                    input.put("summary", summary);
+                    input.put("units", GameCharacter.values());
+                    input.put("classes", CharacterClass.values());
+                    input.put("items", Item.values());
+                    input.put("scrolls", Scroll.values());
+                    input.put("eventRewards", ItemReward.getEventRewards());
+                    input.put("chestRewards", ItemReward.getChestRewards());
+                    input.put("houseRewards", ItemReward.getHouseRewards());
+                    input.put("shops", Shop.values());
+                    input.put("armyData", rom.getArmyUnits());
+                    input.put("chapterData", Chapter.values());
+
+                    try {
+                        Writer fileWriter = new FileWriter(new File(romFile.getAbsolutePath().concat(".html")));
+                        Template template = cfg.getTemplate("html.ftl");
                         
                         template.process(input, fileWriter);
                         fileWriter.close();

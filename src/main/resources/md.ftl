@@ -31,15 +31,15 @@ Randomize Boss skills: <#if summary.randomizeBossSkills>**Yes**, Max skill count
 Nerf Ballistae: <#if summary.nerfBallistae>**Yes**<#else>No</#if>
 
 Randomize items: 
-<#if summary.randomizeWpnsMight>* Might: **±${summary.WpnsMightDelta}**</#if>
-<#if summary.randomizeWpnsAccuracy>* Accuracy **±${summary.WpnsAccuracyDelta}**</#if>
-<#if summary.randomizeWpnsWeight>* Weight **±${summary.WpnsWeightDelta}**</#if>
-<#if summary.randomizeWpnsCritical>* Critical **±${summary.WpnsCriticalDelta}**</#if>
+<#if summary.randomizeWpnsMight>* Might: **±${summary.wpnsMightDelta}**</#if>
+<#if summary.randomizeWpnsAccuracy>* Accuracy **±${summary.wpnsAccuracyDelta}**</#if>
+<#if summary.randomizeWpnsWeight>* Weight **±${summary.wpnsWeightDelta}**</#if>
+<#if summary.randomizeWpnsCritical>* Critical **±${summary.wpnsCriticalDelta}**</#if>
 <#if summary.randomizeWpnsMaxUses>* Max uses</#if>
 <#if summary.randomizeWpnsCost>* Cost</#if>
-<#if summary.wpnsAddBladeEffect>* Add Blade effect, chance: **${summary.wpnsBladeEffectChance}%**, available effects: <#list summary.itemsAvailableBladeEffectsList as effect>**${effect.getName()}**<#sep>, <#else>None</#list></#if>
+<#if summary.wpnsAddBladeEffect>* Add Blade effect, chance: **${summary.wpnsBladeEffectChance}%**, available effects: <#list summary.wpnsAvailableBladeEffectsList as effect>**${effect.getName()}**<#sep>, <#else>None</#list></#if>
 <#if summary.wpnsAddStatBonus>* Add stat bonus, chance: **${summary.wpnsStatBonusChance}%**</#if>
-<#if summary.wpnsAddWeaponSkill>* Add weapon skill: chance: **${summary.wpnsSkillChance}%**, allow multiple skills: <#if summary.itemsAllowMultipleWeaponSkills>**Yes**<#else>No</#if></#if>
+<#if summary.wpnsAddWeaponSkill>* Add weapon skill: chance: **${summary.wpnsSkillChance}%**, allow multiple skills: <#if summary.wpnsAllowMultipleWeaponSkills>**Yes**<#else>No</#if></#if>
 <#if summary.wpnsExcludeIronWeapons>* Exclude Iron weapons</#if>
 
 <#if summary.wpnsIncreaseUses || summary.wpnsDowngradeWindTome || summary.wpnsRemoveWeaponsPrfLocks>

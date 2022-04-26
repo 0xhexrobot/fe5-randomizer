@@ -95,7 +95,7 @@ public class RandomizationSummary {
     private final SimpleBooleanProperty exileRenamePugi = new SimpleBooleanProperty(false);
     // summary
     private final SimpleIntegerProperty seed = new SimpleIntegerProperty(0);
-    private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(true);
+    private final SimpleBooleanProperty writeDebugLog = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty writeToFile = new SimpleBooleanProperty(false);
     
     public BooleanBinding anyItemRandomization = new BooleanBinding() {
