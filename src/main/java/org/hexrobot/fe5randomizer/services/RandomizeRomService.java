@@ -1,11 +1,15 @@
 package org.hexrobot.fe5randomizer.services;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -206,25 +210,30 @@ public class RandomizeRomService extends Service<Void> {
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
-
+                
+                InputStream is = getClass().getClassLoader().getResourceAsStream("style.css");
+                String cssStyle = getFileContent(is);
+                
+                input.put("cssStyle", cssStyle);
+                input.put("romName", rom.getName());
+                input.put("romHeadered", rom.isHeadered());
+                input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
+                input.put("seed", rom.getSeedAsWeaponArray());
+                input.put("summary", summary);
+                input.put("units", GameCharacter.values());
+                input.put("classes", CharacterClass.values());
+                input.put("items", Item.values());
+                input.put("scrolls", Scroll.values());
+                input.put("eventRewards", ItemReward.getEventRewards());
+                input.put("chestRewards", ItemReward.getChestRewards());
+                input.put("houseRewards", ItemReward.getHouseRewards());
+                input.put("shops", Shop.values());
+                input.put("armyData", rom.getArmyUnits());
+                input.put("chapterData", Chapter.values());
+                
                 if(summary.getWriteDebugLog()) {
                     updateMessage("Writing debug log...");
-                    input.put("romName", rom.getName());
-                    input.put("romHeadered", rom.isHeadered());
-                    input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
-                    input.put("seed", rom.getSeedAsWeaponArray());
-                    input.put("summary", summary);
-                    input.put("units", GameCharacter.values());
-                    input.put("classes", CharacterClass.values());
-                    input.put("items", Item.values());
-                    input.put("scrolls", Scroll.values());
-                    input.put("eventRewards", ItemReward.getEventRewards());
-                    input.put("chestRewards", ItemReward.getChestRewards());
-                    input.put("houseRewards", ItemReward.getHouseRewards());
-                    input.put("shops", Shop.values());
-                    input.put("armyData", rom.getArmyUnits());
-                    input.put("chapterData", Chapter.values());
-
+                    
                     try {
                         Writer fileWriter = new FileWriter(new File(romFile.getAbsolutePath().concat(".md")));
                         Template template = cfg.getTemplate("md.ftl");
@@ -238,24 +247,8 @@ public class RandomizeRomService extends Service<Void> {
                     }
                 }
                 
-                // TODO summary get write log
-                if(true) {
+                if(summary.getWriteLog()) {
                     updateMessage("Writing log...");
-                    input.put("romName", rom.getName());
-                    input.put("romHeadered", rom.isHeadered());
-                    input.put("romChecksum", Long.toHexString(rom.getCrc32Checksum()));
-                    input.put("seed", rom.getSeedAsWeaponArray());
-                    input.put("summary", summary);
-                    input.put("units", GameCharacter.values());
-                    input.put("classes", CharacterClass.values());
-                    input.put("items", Item.values());
-                    input.put("scrolls", Scroll.values());
-                    input.put("eventRewards", ItemReward.getEventRewards());
-                    input.put("chestRewards", ItemReward.getChestRewards());
-                    input.put("houseRewards", ItemReward.getHouseRewards());
-                    input.put("shops", Shop.values());
-                    input.put("armyData", rom.getArmyUnits());
-                    input.put("chapterData", Chapter.values());
 
                     try {
                         Writer fileWriter = new FileWriter(new File(romFile.getAbsolutePath().concat(".html")));
@@ -273,5 +266,23 @@ public class RandomizeRomService extends Service<Void> {
                 return null;
             }
         };
+    }
+    
+    private String getFileContent(InputStream is) {
+    	String fileContents = "";
+    	
+        try (InputStreamReader streamReader =
+                    new InputStreamReader(is, StandardCharsets.UTF_8);
+             BufferedReader reader = new BufferedReader(streamReader)) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                fileContents += line;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return fileContents;
     }
 }

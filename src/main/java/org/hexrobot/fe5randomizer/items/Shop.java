@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hexrobot.fe5randomizer.Rom;
+import org.hexrobot.fe5randomizer.util.GenericDiff;
 
 public enum Shop {
     BATTLE_PREPS(0X29D6B, "Battle Preps"),
@@ -64,6 +65,50 @@ public enum Shop {
         }
         
         this.items = items;
+    }
+    
+    private ArrayList<Item> getOldItems() {
+    	ArrayList<Item> oldItems = new ArrayList<>();
+    	List<?> items = (List<?>)oldValues.get("items");
+    	
+    	for(Object item: items) {
+    		if(item instanceof Item) {
+    			oldItems.add((Item)item);
+    		}
+    	}
+    	
+    	return oldItems;
+    }
+    
+    public ArrayList<GenericDiff<Item>> getComparedItems() {
+    	ArrayList<GenericDiff<Item>> compItems = new ArrayList<>();
+    	
+    	if(oldValues.containsKey("items")) {
+    		ArrayList<Item> newItems = (ArrayList<Item>) getItems();
+    		ArrayList<Item> oldItems = getOldItems();
+    		
+    		while(!newItems.isEmpty()) {
+    			Item newItem = newItems.remove(0);
+    			
+    			if(oldItems.contains(newItem)) {
+    				compItems.add(new GenericDiff<Item>(newItem, 0));
+    				oldItems.remove(newItem);
+    			} else {
+    				compItems.add(new GenericDiff<Item>(newItem, 1));
+    			}
+    		}
+    		
+    		while(!oldItems.isEmpty()) {
+    			Item oldItem = oldItems.remove(0);
+    			compItems.add(new GenericDiff<Item>(oldItem, -1));
+    		}
+    	} else {
+    		for(Item item : items) {
+    			compItems.add(new GenericDiff<Item>(item, 0));
+    		}
+    	}
+    	
+    	return compItems;
     }
     
     public boolean isModified() {

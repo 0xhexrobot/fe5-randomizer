@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hexrobot.fe5randomizer.Rom;
+import org.hexrobot.fe5randomizer.util.GenericDiff;
 
 public enum Item {
 	IRON_SWORD(0x00, "Iron Sword"),
@@ -362,6 +363,44 @@ public enum Item {
     
     public ArrayList<WeaponSkill> getSkills() {
         return new ArrayList<>(skills);
+    }
+    
+    public ArrayList<GenericDiff<WeaponSkill>> getComparedSkills() {
+    	ArrayList<GenericDiff<WeaponSkill>> compSkills = new ArrayList<GenericDiff<WeaponSkill>>();
+    	ArrayList<WeaponSkill> oldSkills = new ArrayList<WeaponSkill>();
+    	ArrayList<WeaponSkill> newSkills = new ArrayList<WeaponSkill>();
+    	int oldSkills1 = skills1;
+    	int oldSkills2 = skills2;
+    	
+    	if(oldValues.containsKey("skills1")) {
+    		oldSkills1 = (int) oldValues.get("skills1");
+    	}
+    	
+    	if(oldValues.containsKey("skills2")) {
+    		oldSkills2 = (int) oldValues.get("skills2");
+    	}
+    	
+    	newSkills = WeaponSkill.getSkills(skills1, skills2);
+    	oldSkills = WeaponSkill.getSkills(oldSkills1, oldSkills2);
+    	
+    	while(!newSkills.isEmpty()) {
+    		WeaponSkill newSkill = newSkills.remove(0);
+    		
+    		if(oldSkills.contains(newSkill)) {
+    			compSkills.add(new GenericDiff<WeaponSkill>(newSkill, 0));
+    			oldSkills.remove(newSkill);
+    		} else {
+    			compSkills.add(new GenericDiff<WeaponSkill>(newSkill, 1));
+    		}
+    	}
+    	
+    	while(!oldSkills.isEmpty()) {
+    		WeaponSkill oldSkill = oldSkills.remove(0);
+    		
+    		compSkills.add(new GenericDiff<WeaponSkill>(oldSkill, -1));
+    	}
+    	
+    	return compSkills;
     }
 
     public ItemClassification getItemClassification() {

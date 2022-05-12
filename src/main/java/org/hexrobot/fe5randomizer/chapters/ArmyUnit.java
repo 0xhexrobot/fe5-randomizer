@@ -2,6 +2,7 @@ package org.hexrobot.fe5randomizer.chapters;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.hexrobot.fe5randomizer.Rom;
@@ -10,6 +11,7 @@ import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.ItemType;
 import org.hexrobot.fe5randomizer.items.WeaponRank;
+import org.hexrobot.fe5randomizer.util.GenericDiff;
 
 public class ArmyUnit {
     private int offset;
@@ -237,6 +239,56 @@ public class ArmyUnit {
             
             oldValues.clear();
         }
+    }
+    
+    public boolean isModified() {
+    	return !oldValues.isEmpty();
+    }
+    
+    private ArrayList<Item> getOldInventory() {
+    	ArrayList<Item> oldInventory = new ArrayList<>();
+    	List<?> items = (List<?>)oldValues.get("inventory");
+    	
+    	for(Object item: items) {
+    		if(item instanceof Item) {
+    			oldInventory.add((Item)item);
+    		}
+    	}
+    	
+    	return oldInventory;
+    }
+
+    // returns item paired with:
+    // 1 -> was added, 0 -> unchanged, -1 -> is removed
+    public ArrayList<GenericDiff<Item>> getComparedInventory() {
+    	ArrayList<GenericDiff<Item>> compInventory = new ArrayList<>();
+    	
+    	if(oldValues.containsKey("inventory")) {
+    		ArrayList<Item> newInventory = getInventory();
+    		ArrayList<Item> oldInventory = getOldInventory();
+    		
+    		while(!newInventory.isEmpty()) {
+    			Item newItem = newInventory.remove(0);
+    			
+    			if(oldInventory.contains(newItem)) {
+    				compInventory.add(new GenericDiff<Item>(newItem, 0));
+    				oldInventory.remove(newItem);
+    			} else {
+    				compInventory.add(new GenericDiff<Item>(newItem, 1));
+    			}
+    		}
+    		
+    		while(!oldInventory.isEmpty()) {
+    			Item oldItem = oldInventory.remove(0);
+    			compInventory.add(new GenericDiff<Item>(oldItem, -1));
+    		}
+    	} else {
+    		for(Item item : inventory) {
+    			compInventory.add(new GenericDiff<Item>(item, 0));
+    		}
+    	}
+    	
+    	return compInventory;
     }
     
     @Override

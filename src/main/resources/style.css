@@ -1,0 +1,13 @@
+:root {
+  --main-color: #222;
+  --background-color: #f7f7f7;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--main-color);
+}
+
+body > section {
+  padding: 40px 60px;
+}

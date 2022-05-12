@@ -9,6 +9,7 @@ import java.util.Random;
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.items.ItemType;
+import org.hexrobot.fe5randomizer.util.GenericDiff;
 
 public enum GameCharacter {
     LEAF(0x0001, "Leaf"),
@@ -860,6 +861,49 @@ public enum GameCharacter {
 
     public ArrayList<Skill> getSkills() {
         return new ArrayList<Skill>(skills);
+    }
+    
+    public ArrayList<GenericDiff<Skill>> getComparedSkills() {
+    	ArrayList<GenericDiff<Skill>> compSkills = new ArrayList<GenericDiff<Skill>>();
+    	ArrayList<Skill> oldSkills = new ArrayList<Skill>();
+    	ArrayList<Skill> newSkills = new ArrayList<Skill>();
+    	int oldSkills1 = skills1;
+    	int oldSkills2 = skills2;
+    	int oldSkills3 = skills3;
+    	
+    	if(oldValues.containsKey("skills1")) {
+    		oldSkills1 = (int) oldValues.get("skills1");
+    	}
+    	
+    	if(oldValues.containsKey("skills2")) {
+    		oldSkills2 = (int) oldValues.get("skills2");
+    	}
+    	
+    	if(oldValues.containsKey("skills3")) {
+    		oldSkills3 = (int) oldValues.get("skills3");
+    	}
+    	
+    	newSkills = Skill.getSkills(skills1, skills2, skills3);
+    	oldSkills = Skill.getSkills(oldSkills1, oldSkills2, oldSkills3);
+    	
+    	while(!newSkills.isEmpty()) {
+    		Skill newSkill = newSkills.remove(0);
+    		
+    		if(oldSkills.contains(newSkill)) {
+    			compSkills.add(new GenericDiff<Skill>(newSkill, 0));
+    			oldSkills.remove(newSkill);
+    		} else {
+    			compSkills.add(new GenericDiff<Skill>(newSkill, 1));
+    		}
+    	}
+    	
+    	while(!oldSkills.isEmpty()) {
+    		Skill oldSkill = oldSkills.remove(0);
+    		
+    		compSkills.add(new GenericDiff<Skill>(oldSkill, -1));
+    	}
+    	
+    	return compSkills;
     }
 
     public CharacterClass getCharacterClass() {

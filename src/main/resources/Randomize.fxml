@@ -99,11 +99,8 @@
                </VBox.margin>
             </VBox>
             <Pane VBox.vgrow="ALWAYS" />
-            <HBox spacing="10.0">
-               <children>
-                  <CheckBox fx:id="chkWriteDebugLog" mnemonicParsing="false" text="Write debug log" />
-               </children>
-            </HBox>
+            <CheckBox fx:id="chkWriteDebugLog" mnemonicParsing="false" text="Write debug log" />
+            <CheckBox fx:id="chkWriteLog" layoutX="30.0" layoutY="846.0" mnemonicParsing="false" text="Write log" />
             <HBox VBox.vgrow="NEVER">
                <children>
                   <Pane HBox.hgrow="ALWAYS" />

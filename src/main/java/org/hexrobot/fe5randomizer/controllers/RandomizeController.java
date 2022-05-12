@@ -117,6 +117,8 @@ public class RandomizeController {
     private Label lblLilMansterRenamePugi;
     @FXML
     private CheckBox chkWriteDebugLog;
+    @FXML
+    private CheckBox chkWriteLog;
     private RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
     
     private ObjectBinding<Image> icon1 = new ObjectBinding<Image>() {
@@ -844,9 +846,13 @@ public class RandomizeController {
         imgSeed5.imageProperty().bind(icon5);
         imgSeed6.imageProperty().bind(icon6);
         
+        // debug log
         chkWriteDebugLog.managedProperty().bind(chkWriteDebugLog.visibleProperty());
         chkWriteDebugLog.visibleProperty().bind(MainController.getInstance().debugProperty());
         chkWriteDebugLog.selectedProperty().bindBidirectional(summary.writeDebugLogProperty());
+        // html log
+        chkWriteLog.managedProperty().bind(chkWriteLog.visibleProperty());
+        chkWriteLog.selectedProperty().bindBidirectional(summary.writeLogProperty());
     }
     
     public void setRom(Rom rom) {

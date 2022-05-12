@@ -89,7 +89,7 @@ HP | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov | Lead * | Mov * | P Crit |
 
 HP | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov |
 -- | --- | --- | --- | --- | --- | --- | --- | --- |
-<#if unit.oldValues["hpGrowth"]??>${unit.oldValues["hpGrowth"]} -> **${unit.hpGrowth}**<#else>${unit.hpGrowth}</#if> | <#if unit.oldValues["atkGrowth"]??>${unit.oldValues["atkGrowth"]} -> **${unit.atkGrowth}**<#else>${unit.atkGrowth}</#if> | <#if unit.oldValues["magGrowth"]??>${unit.oldValues["magGrowth"]} -> **${unit.magGrowth}**<#else>${unit.magGrowth}</#if> | <#if unit.oldValues["sklGrowth"]??>${unit.oldValues["sklGrowth"]} -> **${unit.sklGrowth}**<#else>${unit.sklGrowth}</#if> | <#if unit.oldValues["sklGrowth"]??>${unit.oldValues["sklGrowth"]} -> **${unit.sklGrowth}**<#else>${unit.sklGrowth}</#if> | <#if unit.oldValues["spdGrowth"]??>${unit.oldValues["spdGrowth"]} -> **${unit.spdGrowth}**<#else>${unit.spdGrowth}</#if> | <#if unit.oldValues["lckGrowth"]??>${unit.oldValues["lckGrowth"]} -> **${unit.lckGrowth}**<#else>${unit.lckGrowth}</#if> | <#if unit.oldValues["defGrowth"]??>${unit.oldValues["defGrowth"]} -> **${unit.defGrowth}**<#else>${unit.defGrowth}</#if> | <#if unit.oldValues["bldGrowth"]??>${unit.oldValues["bldGrowth"]} -> **${unit.bldGrowth}**<#else>${unit.bldGrowth}</#if> | <#if unit.oldValues["movGrowth"]??>${unit.oldValues["movGrowth"]} -> **${unit.movGrowth}**<#else>${unit.movGrowth}</#if> |
+<#if unit.oldValues["hpGrowth"]??>${unit.oldValues["hpGrowth"]} -> **${unit.hpGrowth}**<#else>${unit.hpGrowth}</#if> | <#if unit.oldValues["atkGrowth"]??>${unit.oldValues["atkGrowth"]} -> **${unit.atkGrowth}**<#else>${unit.atkGrowth}</#if> | <#if unit.oldValues["magGrowth"]??>${unit.oldValues["magGrowth"]} -> **${unit.magGrowth}**<#else>${unit.magGrowth}</#if> | <#if unit.oldValues["sklGrowth"]??>${unit.oldValues["sklGrowth"]} -> **${unit.sklGrowth}**<#else>${unit.sklGrowth}</#if> | <#if unit.oldValues["spdGrowth"]??>${unit.oldValues["spdGrowth"]} -> **${unit.spdGrowth}**<#else>${unit.spdGrowth}</#if> | <#if unit.oldValues["lckGrowth"]??>${unit.oldValues["lckGrowth"]} -> **${unit.lckGrowth}**<#else>${unit.lckGrowth}</#if> | <#if unit.oldValues["defGrowth"]??>${unit.oldValues["defGrowth"]} -> **${unit.defGrowth}**<#else>${unit.defGrowth}</#if> | <#if unit.oldValues["bldGrowth"]??>${unit.oldValues["bldGrowth"]} -> **${unit.bldGrowth}**<#else>${unit.bldGrowth}</#if> | <#if unit.oldValues["movGrowth"]??>${unit.oldValues["movGrowth"]} -> **${unit.movGrowth}**<#else>${unit.movGrowth}</#if> |
 
 #### Weapon Proficiency
 
@@ -107,11 +107,7 @@ Staff | <#if unit.oldValues["baseStaffLv"]??>${unit.oldValues["baseStaffLv"]} ->
 ----------- | ----------- | ----------- |
 <#if unit.oldValues["skills1"]??>*${unit.oldValues["skills1"]?string.@hex_2}* -> _**${unit.skills1?string.@hex_2}**_<#else>*${unit.skills1?string.@hex_2}*</#if> | <#if unit.oldValues["skills2"]??>*${unit.oldValues["skills2"]?string.@hex_2}* -> _**${unit.skills2?string.@hex_2}**_<#else>*${unit.skills2?string.@hex_2}*</#if> | <#if unit.oldValues["skills3"]??>*${unit.oldValues["skills3"]?string.@hex_2}* -> _**${unit.skills3?string.@hex_2}**_<#else>*${unit.skills3?string.@hex_2}*</#if> |
 
-<#if unit.oldValues["skills1"]?? || unit.oldValues["skills2"]?? || unit.oldValues["skills3"]??>
-**<#list unit.skills as skill>${skill.getName()}<#sep>, </#list>**
-<#else>
-<#list unit.skills as skill>${skill.getName()}<#sep>, </#list>
-</#if>
+<#list unit.comparedSkills as skillsDiff><#if skillsDiff.value gt 0>**<#elseif skillsDiff.value lt 0>~~</#if>${skillsDiff.key.getName()} (${skillsDiff.value})<#if skillsDiff.value gt 0>**<#elseif skillsDiff.value lt 0>~~</#if><#sep>, </#list>
 
 </#list>
 </#if>
@@ -153,10 +149,10 @@ Staff | ${class.baseStaffLv.amount} | ${class.baseStaffLv.name} | Dark | ${class
 <#if items??>
 ## Items
 
-Name | Mt | Acc | Wt | Crt | Rng | Rank | Uses | Skills1 | Skills2 | Skills | Blade Eff | Uses | CostPerUse | Stat Bonus |
----- | -- | --- | -- | --- | --- | ---- | ---- | ------- | ------- | ------ | --------- | ---- | ---------- | ---------- |
+Name | Mt | Acc | Wt | Crt | Rng | Rank | Uses | Skills1 | Skills2 | Skills | Blade Eff | CostPerUse | Stat Bonus |
+---- | -- | --- | -- | --- | --- | ---- | ---- | ------- | ------- | ------ | --------- | ---------- | ---------- |
 <#list items as item>
-${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} -> **${item.power}**<#else>${item.power}</#if> | <#if item.oldValues["accuracy"]??>${item.oldValues["accuracy"]} -> **${item.accuracy}**<#else>${item.accuracy}</#if> | <#if item.oldValues["weight"]??>${item.oldValues["weight"]} -> **${item.weight}**<#else>${item.weight}</#if> | <#if item.oldValues["critical"]??>${item.oldValues["critical"]} -> **${item.critical}**<#else>${item.critical}</#if> | <#if item.oldValues["weaponRange"]??>${item.olValues["weaponRange"].getName()} -> **${item.weaponRange.getName()}**<#else>${item.weaponRange.getName()}</#if> | <#if item.oldValues["weaponRank"]??>${item.oldValues["weaponRank"].getName()} -> **${item.weaponRank.getName()}**<#else>${item.weaponRank.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} -> **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["skills1"]??>*${item.oldValues["skills1"]?string.@hex_2}* -> _**${item.skills1?string.@hex_2}**_<#else>*${item.skills1?string.@hex_2}*</#if> | <#if item.oldValues["skills2"]??>*${item.oldValues["skills2"]?string.@hex_2}* -> _**${item.skills2?string.@hex_2}**_<#else>*${item.skills2?string.@hex_2}*</#if> | <#if item.oldValues["skills1"]?? || item.oldValues["skills2"]??>**<#list item.skills as skill>${skill.getName()}<#sep>, </#list>**<#else><#list item.skills as skill>${skill.getName()}<#sep>, </#list></#if> | <#if item.oldValues["weaponBladeEffect"]??>${item.oldValues["weaponBladeEffect"].getName()} -> **${item.weaponBladeEffect.getName()}**<#else>${item.weaponBladeEffect.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} -> **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["costPerUse"]??>${item.oldValues["costPerUse"]} -> **${item.costPerUse}**<#else>${item.costPerUse}</#if> | <#if item.oldValues["weaponStatBonus"]??>${item.oldValues["weaponStatBonus"].getName()} -> **${item.weaponStatBonus.getName()}**<#else>${item.weaponStatBonus.getName()}</#if> |
+${item.getName()} | <#if item.oldValues["power"]??>${item.oldValues["power"]} -> **${item.power}**<#else>${item.power}</#if> | <#if item.oldValues["accuracy"]??>${item.oldValues["accuracy"]} -> **${item.accuracy}**<#else>${item.accuracy}</#if> | <#if item.oldValues["weight"]??>${item.oldValues["weight"]} -> **${item.weight}**<#else>${item.weight}</#if> | <#if item.oldValues["critical"]??>${item.oldValues["critical"]} -> **${item.critical}**<#else>${item.critical}</#if> | <#if item.oldValues["weaponRange"]??>${item.olValues["weaponRange"].getName()} -> **${item.weaponRange.getName()}**<#else>${item.weaponRange.getName()}</#if> | <#if item.oldValues["weaponRank"]??>${item.oldValues["weaponRank"].getName()} -> **${item.weaponRank.getName()}**<#else>${item.weaponRank.getName()}</#if> | <#if item.oldValues["maxUses"]??>${item.oldValues["maxUses"]} -> **${item.maxUses}**<#else>${item.maxUses}</#if> | <#if item.oldValues["skills1"]??>*${item.oldValues["skills1"]?string.@hex_2}* -> _**${item.skills1?string.@hex_2}**_<#else>*${item.skills1?string.@hex_2}*</#if> | <#if item.oldValues["skills2"]??>*${item.oldValues["skills2"]?string.@hex_2}* -> _**${item.skills2?string.@hex_2}**_<#else>*${item.skills2?string.@hex_2}*</#if> | <#list item.comparedSkills as skillDiff><#if skillDiff.value gt 0>**<#elseif skillDiff.value lt 0>~~</#if>${skillDiff.key.getName()} (${skillDiff.value})<#if skillDiff.value gt 0>**<#elseif skillDiff.value lt 0>~~</#if><#sep>, </#list> | <#if item.oldValues["weaponBladeEffect"]??>${item.oldValues["weaponBladeEffect"].getName()} -> **${item.weaponBladeEffect.getName()}**<#else>${item.weaponBladeEffect.getName()}</#if> | <#if item.oldValues["costPerUse"]??>${item.oldValues["costPerUse"]} -> **${item.costPerUse}**<#else>${item.costPerUse}</#if> | <#if item.oldValues["weaponStatBonus"]??>${item.oldValues["weaponStatBonus"].getName()} -> **${item.weaponStatBonus.getName()}**<#else>${item.weaponStatBonus.getName()}</#if> |
 </#list>
 </#if>
 
@@ -189,8 +185,8 @@ Scroll name | Hp | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov |
 <#list shops as shop>
 ${shop.getName()} |
 ----------------- |
-<#list shop.items as item>
-<#if shop.modified>**${item.getName()} ${item.totalCost}**<#else>${item.getName()} ${item.totalCost}</#if> |
+<#list shop.comparedItems as itemDiff>
+<#if itemDiff.value gt 0>**<#elseif itemDiff.value lt 0>~~</#if>${itemDiff.key.getName()} ${itemDiff.key.totalCost} (${itemDiff.value})<#if itemDiff.value gt 0>**<#elseif itemDiff.value lt 0>~~</#if> |
 </#list>
 
 </#list>
@@ -207,23 +203,13 @@ ${shop.getName()} |
 
 X: ${unit.getXCoord()}, Y: ${unit.getYCoord()}, Army: ${unit.armyOrigin?string.@hex_4}, Level: ${unit.level}<#if unit.autoLeveled>(A)</#if>,
 
-<#if unit.oldValues["inventory"]??>
 Inventory |
 --------- |
-<#list unit.inventory as item>
-**${item.getName()}(${item.offset?string.@hex_2})** |
-<#else>
-_**Empty**_ |
-</#list>
-<#else>
-Inventory |
---------- |
-<#list unit.inventory as item>
-${item.getName()}(${item.offset?string.@hex_2}) |
+<#list unit.comparedInventory as itemDiffPair>
+<#if itemDiffPair.value gt 0>**${itemDiffPair.key.getName()}(${itemDiffPair.key.offset?string.@hex_2}) (${itemDiffPair.value})** |<#elseif itemDiffPair.value lt 0>~~${itemDiffPair.key.getName()}(${itemDiffPair.key.offset?string.@hex_2}) (${itemDiffPair.value})~~ |<#else>${itemDiffPair.key.getName()}(${itemDiffPair.key.offset?string.@hex_2}) (${itemDiffPair.value}) |</#if>
 <#else>
 *Empty* |
 </#list>
-</#if>
 
 Unknown1: ${unit.unknown1?string.@hex_2}, Unknown2: ${unit.unknown2?string.@hex_2}, Unknown3: ${unit.unknown3?string.@hex_2}, Unknown4: ${unit.unknown4?string.@hex_2}
 
