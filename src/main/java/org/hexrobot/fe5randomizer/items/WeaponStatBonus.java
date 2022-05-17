@@ -39,6 +39,14 @@ public enum WeaponStatBonus {
 		return name;
 	}
 	
+	public String getShortName() {
+	    if(name.equals("None")) {
+	        return "--";
+	    }
+	    
+	    return name;
+	}
+	
 	public static WeaponStatBonus findById(int offset) {
 		WeaponStatBonus weaponStatBonus = null;
 		

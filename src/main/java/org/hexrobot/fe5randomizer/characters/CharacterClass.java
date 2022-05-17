@@ -500,7 +500,7 @@ public enum CharacterClass {
         
         return promotion;
     }
-    
+
     public static CharacterClass findById(int offset) {
         CharacterClass characterClass = null;
         

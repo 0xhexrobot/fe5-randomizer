@@ -3,7 +3,7 @@ package org.hexrobot.fe5randomizer.items;
 import java.util.ArrayList;
 
 public enum WeaponBladeEffect {
-	NOTHING(0x00, "Nothing"),
+	NOTHING(0x00, "--"),
 	POISON(0x02, "Poison"),
 	DEVIL(0x04, "Devil"),
 	STEAL_HP(0x06, "Steal HP"),

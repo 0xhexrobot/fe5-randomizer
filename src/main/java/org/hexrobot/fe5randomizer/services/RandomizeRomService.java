@@ -42,7 +42,7 @@ public class RandomizeRomService extends Service<Void> {
         this.summary = randomizeSummary;
         this.romFile = romFile;
         
-        cfg = new Configuration(Configuration.VERSION_2_3_28);
+        cfg = new Configuration(Configuration.VERSION_2_3_29);
         cfg.setClassForTemplateLoading(getClass(), "/");
         cfg.setDefaultEncoding("UTF-8");
 

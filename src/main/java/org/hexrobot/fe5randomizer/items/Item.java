@@ -705,6 +705,10 @@ public enum Item {
         
         return similarItems;
     }
+    
+    public boolean isModified() {
+        return !oldValues.isEmpty();
+    }
 
     private void readItem(Rom rom, int startingOffset) {
         int relOffset = startingOffset + offset * ITEM_DATA_SIZE;

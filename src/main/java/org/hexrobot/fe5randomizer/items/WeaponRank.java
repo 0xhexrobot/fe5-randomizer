@@ -78,6 +78,14 @@ public enum WeaponRank {
 		return name;
 	}
 	
+	public String getShortName() {
+	    if(isStdRank()) {
+	        return name;
+	    }
+	    
+	    return "Prf*";
+	}
+	
 	public boolean isStdRank() {
 	    return STD_RANKS.contains(this);
 	}

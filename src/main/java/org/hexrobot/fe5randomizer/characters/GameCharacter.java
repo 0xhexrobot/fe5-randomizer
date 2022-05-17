@@ -1332,6 +1332,40 @@ public enum GameCharacter {
         this.mapSprite = mapSprite;
     }
     
+    private boolean usesWeapons() {
+        return baseSwordLv.getAmount() > 0
+            || baseLanceLv.getAmount() > 0
+            || baseAxeLv.getAmount() > 0
+            || baseBowLv.getAmount() > 0
+            || baseStaffLv.getAmount() > 0
+            || baseFireLv.getAmount() > 0
+            || baseThunderLv.getAmount() > 0
+            || baseWindLv.getAmount() > 0
+            || baseLightLv.getAmount() > 0
+            || baseDarkLv.getAmount() > 0;
+    }
+    
+    private boolean usedWeapons() {
+        if(oldValues.isEmpty()) {
+            return usesWeapons();
+        }
+        
+        return (oldValues.containsKey("baseSwordLv") && ((int) oldValues.get("baseSwordLv") > 0))
+            || (oldValues.containsKey("baseLanceLv") && ((int) oldValues.get("baseLanceLv") > 0))
+            || (oldValues.containsKey("baseAxeLv") && ((int) oldValues.get("baseAxeLv") > 0))
+            || (oldValues.containsKey("baseBowLv") && ((int) oldValues.get("baseBowLv") > 0))
+            || (oldValues.containsKey("baseStaffLv") && ((int) oldValues.get("baseStaffLv") > 0))
+            || (oldValues.containsKey("baseFireLv") && ((int) oldValues.get("baseFireLv") > 0))
+            || (oldValues.containsKey("baseThunderLv") && ((int) oldValues.get("baseThunderLv") > 0))
+            || (oldValues.containsKey("baseWindLv") && ((int) oldValues.get("baseWindLv") > 0))
+            || (oldValues.containsKey("baseLightLv") && ((int) oldValues.get("baseLightLv") > 0))
+            || (oldValues.containsKey("baseDarkLv") && ((int) oldValues.get("baseDarkLv") > 0));
+    }
+    
+    public boolean getUsedOrUsesWeapons() {
+        return usesWeapons() || usedWeapons();
+    }
+    
     private void reset() {
         if(isModified()) {
             if(oldValues.containsKey("baseHp")) {
