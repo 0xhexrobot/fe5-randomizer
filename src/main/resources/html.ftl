@@ -304,7 +304,7 @@
                 <#else>
                 <p>--</p>
                 </#if>
-                <#if unit.hasRandomBases()><p><i>(Random bases)</i></p></#if>
+                <em>Bases/Growths<#if unit.hasRandomBases()><sup>* Has random bases</sup></#if></em>
                 <table>
                     <tr>
                         <th>Stat</th>
@@ -480,7 +480,7 @@
                                 
                 <em>Skills</em>
                 
-                <#list unit.comparedSkills>
+                <#list unit.comparedSkills?filter(skillDiff -> !skillDiff.key.unknown)>
                 <ul>
                     <#items as skillDiff>
                     <@m.skillDiff skill=skillDiff.key value=skillDiff.value />
@@ -754,13 +754,19 @@
         </section>
         <section id="army-data-section">
             <h2 id="army-data">Army data</h2>
-            
+            <#list chapterData>
+            <ul>
+                <#items as chapter>
+                <li><a href="#${chapter.shortName}">${chapter.getName()}</a></li>
+                </#items>
+            </ul>
+            </#list>
             <#list chapterData as chapter>
-            <h3>${chapter.getName()}</h3>
-            
+            <h3 id="${chapter.shortName}">${chapter.getName()}</h3>
+            <@m.map chapter=chapter />
             <#list chapter.getArmyData() as unit>
             <section>
-	            <div><p><strong>#${unit?index+1}</strong></p></div>
+	            <div id="${chapter.shortName}-${unit?index+1}"><p><strong>#${unit?index+1}</strong></p></div>
 	            <div>
 	               <em>${unit.character.getName()}</em>
 	               <p>
@@ -790,10 +796,9 @@
 	                <#else>
 	                <p>--</p>
 	                </#list>
-	            </div>                
+	            </div>
             </section>
             </#list>
-            
             </#list>
         </section>
     </body>

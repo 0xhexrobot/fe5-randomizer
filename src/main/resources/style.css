@@ -108,11 +108,11 @@ a {
 }
 
 #summary-section > ul >li {
-  margin: 5px 0;
+  margin: 8px 0;
 }
 
 #summary-section strong {
-  padding: 4px;
+  padding: 3px 5px;
   background-color: #c8dbda;
   border-radius: 4px;
   border-bottom: 1px solid teal;
@@ -141,6 +141,10 @@ a {
   font-size: 0.9em;
 }
 
+#units-section > section > em > sup {
+  font-size: 0.7em;
+}
+
 #units-section > section > p {
   margin: 4px 0 4px 20px;
 }
@@ -148,7 +152,10 @@ a {
 #units-section > section > p > del {
   margin-left: 8px;
   font-size: 0.9em;
-  color: slategray;
+  padding: 2px 5px;
+  background-color: #e7e7e7;
+  color: #7a7a7a;
+  border-radius: 4px;
 }
 
 #units-section > section > ul {
@@ -218,16 +225,19 @@ a {
 
 #rewards-section span {
   background-color: var(--table-alt-bg-color);
+  border-bottom: 1px solid var(--table-dark-border);
 }
 
 #rewards-section del {
   background-color: var(--del-bg-color);
   color: var(--del-color);
+  border-bottom: 1px solid var(--del-color);
 }
 
 #rewards-section ins {
   background-color: var(--ins-bg-color);
   color: var(--ins-color);
+  border-bottom: 1px solid var(--ins-color);
 }
 
 /*------ Shops ------*/
@@ -236,8 +246,7 @@ a {
   float: left;
   display: inline-block;
   width: 240px;
-  min-height: 280px;
-  color: white;
+  min-height: 240px;
 }
 
 #shops-section > section > div {
@@ -248,9 +257,10 @@ a {
 #shops-section > section > div:nth-child(1) {
   padding-top: 12px;
   padding-bottom: 6px;
-  background-color: #1a2a3c;
+  background-color: teal;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  color: white;
 }
 
 #shops-section p {
@@ -265,7 +275,7 @@ a {
 #shops-section > section > div:nth-child(2) {
   padding-top: 6px;
   padding-bottom: 12px;
-  background-color: #2344c0;
+  background-color: #cce9de;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -279,7 +289,7 @@ a {
 #shops-section li {
   padding: 5px 12px;
   margin: 3px 0;
-  background-color: #2059d9;
+  background-color: #def1ea;
   font-family: var(--font-monospace);
   border-radius: 4px;
   font-size: 0.8em;
@@ -292,12 +302,12 @@ a {
 }
 
 #shops-section ins > li {
-  background-color: #206ad9;
+  background-color: #f3fbf8;
 }
 
 #shops-section del > li {
-  background-color: unset;
-  color: #5d79d7;
+  background-color: #b9d9d2;
+  color: #83938e;
   text-decoration: line-through;
   font-style: italic;
 }
@@ -308,13 +318,17 @@ a {
 
 /*------ Army data section ------*/
 #army-data {
-	clear: both;
+    clear: both;
+}
+
+#army-data-section > ul > li {
+	margin: 4px 0;
 }
 
 #army-data-section > section {
   height: 60px;
   width: 920px;
-  border-bottom: 2px solid #2e3a68;
+  border-bottom: 2px solid #31585e;
 }
 
 #army-data-section > section > div {
@@ -326,7 +340,7 @@ a {
 
 #army-data-section > section > div > em {
   display: block;
-  margin-top: 4px;
+  margin-top: 3px;
   margin-bottom: 2px;
   margin-left: 8px;
   font-size: 0.9em;
@@ -352,7 +366,7 @@ a {
 /* Character */
 #army-data-section > section > div:nth-child(2) {
   width: 300px;
-  background-color: #3e59b9;
+  background-color: #4295af;
   color: white;
 }
 
@@ -366,8 +380,9 @@ a {
 
 #army-data-section > section > div:nth-child(2) > p > del {
   font-size: 0.8em;
-  background-color: #3e4f9f;
-  color: #84a6e7;
+  background-color: #3d8095;
+  color: #79c5d7;
+  margin-left: 5px;
   padding: 2px 4px;
   border-radius: 4px;
 }
@@ -388,7 +403,11 @@ a {
 /* Inventory */
 #army-data-section > section > div:nth-child(4) {
   width: 500px;
-  background-color: #c7e0f5;
+  background-color: #c7f3f5;
+}
+
+#army-data-section > section > div:nth-child(4) > p {
+  margin-left: 6px;
 }
 
 #army-data-section > section > div:nth-child(4) > ul {
@@ -428,7 +447,7 @@ a {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 60px;
-  border: 1px solid var(--main-color);
+  border: unset;
 }
 
 .map tr {
@@ -436,13 +455,17 @@ a {
 }
 
 .map td {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   padding: 2px;
   color: gray;
   font-size: 0.7em;
   font-weight: bold;
-  border: 1px dashed var(--main-color);
+  border: 1px solid var(--table-dark-border);
+}
+
+.unit {
+  background-color: #deefee;
 }
 
 /*------ Multiple ------*/
@@ -471,8 +494,4 @@ a {
   color: var(--del-color);
   font-weight: bold;
   text-decoration: none;
-}
-
-.clear {
-  clear: both;
 }

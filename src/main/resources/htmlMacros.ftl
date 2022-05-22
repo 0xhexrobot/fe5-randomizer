@@ -19,3 +19,25 @@ ${name}: <strong>${newValue}</strong>
 <li>${skill.getName()}</li>
 </#if>
 </#macro>
+
+<#macro map chapter>
+<table class="map">
+    <#assign count = 1 />
+    <#list 1 .. chapter.height as y>
+    <tr>
+        <#list 1 .. chapter.width as x>
+        <#assign foundUnit = false />
+        <#list chapter.getArmyData() as unit>
+        <#if unit.getXCoord() == x?index && unit.getYCoord() == y?index>
+        <td class="unit"><a href="#${chapter.shortName}-${count}">##{count}</a></td>
+        <#assign count = count + 1>
+        <#assign foundUnit = true />
+        <#break>
+        </#if>
+        </#list>
+        <#if !foundUnit><td></td></#if>
+        </#list>
+    </tr>
+    </#list>
+</table>
+</#macro>

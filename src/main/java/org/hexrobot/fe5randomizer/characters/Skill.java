@@ -43,6 +43,8 @@ public enum Skill {
     private static final ArrayList<Skill> RANDOMIZABLE_SKILLS = new ArrayList<Skill>(
             List.of(BARGAIN, LIFE, CONTINUE, CHARISMA, PRAYER, AMBUSH, DUEL, BIG_SHIELD, AWARENESS, WRATH, METEOR_SWORD,
                     MOONLIGHT_SWORD, SUNLIGHT_SWORD, ELITE));
+    private static final ArrayList<Skill> UNKNOWN = new ArrayList<Skill>(
+            List.of(UNKNOWN_1A, UNKNOWN_1B, UNKNOWN2, UNKNOWN_3A, UNKNOWN_3B, UNKNOWN_3C));
     
     private Skill(int offset, String name) {
         this.offset = offset;
@@ -111,5 +113,9 @@ public enum Skill {
     
     public boolean isRandomizableSkill() {
         return RANDOMIZABLE_SKILLS.contains(this);
+    }
+    
+    public boolean isUnknown() {
+        return UNKNOWN.contains(this);
     }
 }
