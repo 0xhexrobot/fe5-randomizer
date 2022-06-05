@@ -31,11 +31,17 @@ Bases, Growths, Classes, Movement stars, Leadership stars, Skills.
 
 ![Playable units](images/pugi.png)
 
+### Portrait palette randomizer
+
+![Randomized palettes](images/r-palette.png)
+
 ## How to run
+
+Requires Java 11.
 
 ### Windows
 
-Double click `gradlew.bat` (it takes a while) then execute `gradlew run`.
+Double click `gradlew.bat` then execute `gradlew run`.
 
 ### Linux
 

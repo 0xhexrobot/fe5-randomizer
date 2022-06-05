@@ -11,10 +11,7 @@ import java.util.zip.CRC32;
 import org.hexrobot.fe5randomizer.chapters.Army;
 import org.hexrobot.fe5randomizer.chapters.ArmyUnit;
 import org.hexrobot.fe5randomizer.chapters.Chapter;
-import org.hexrobot.fe5randomizer.characters.CharacterClass;
-import org.hexrobot.fe5randomizer.characters.GameCharacter;
-import org.hexrobot.fe5randomizer.characters.MovementStars;
-import org.hexrobot.fe5randomizer.characters.Skill;
+import org.hexrobot.fe5randomizer.characters.*;
 import org.hexrobot.fe5randomizer.controllers.MainController;
 import org.hexrobot.fe5randomizer.items.ItemReward;
 import org.hexrobot.fe5randomizer.items.Scroll;
@@ -203,6 +200,7 @@ public class Rom {
         promotionData = new PromotionData(this);
         GameCharacter.initializeCharacters(this);
         initializeArmyData();
+        PortraitPalette.readAll(this);
     }
     
     private void initializeArmyData() {
@@ -1452,7 +1450,62 @@ public class Rom {
     public ArrayList<ArmyUnit> getArmyUnits() {
         return armyUnits;
     }
-    
+
+    public void shufflePalettes() {
+        ArrayList<PortraitPalette> availablePalettes = PortraitPalette.getAvailablePalettes();
+        ArrayList<PortraitPalette> shuffledPalettes = new ArrayList<>(PortraitPalette.getAvailablePalettes());
+        Collections.shuffle(shuffledPalettes, random);
+
+        System.out.println("Shuffle palettes");
+        for (PortraitPalette pPalette : availablePalettes) {
+            PortraitPalette selPorPalette = shuffledPalettes.remove(0);
+            ColorBGR555[] selPalette = selPorPalette.getPalette();
+            ColorBGR555[] newPalette;
+
+            if(selPorPalette.isModified()) {
+                selPalette = selPorPalette.getOldPalette();
+            }
+
+            newPalette = PortraitPalette.getPaletteConverted(
+                    selPorPalette.getPaletteHairType(), selPalette, pPalette.getPaletteHairType());
+            pPalette.setPalette(newPalette);
+
+            System.out.println(String.format("%s(0x%02x) -> %s(0x%02x)",
+                    pPalette.getLabel(), pPalette.getOffset(), selPorPalette.getLabel(), selPorPalette.getOffset()));
+        }
+    }
+
+    public void testPalettes() {
+        System.out.println("Palette test");
+        PortraitPalette test = PortraitPalette.DAISY;
+        System.out.println("Testing " + test.name());
+
+        for (PortraitPalette pPalette : PortraitPalette.values()) {
+            if(pPalette.equals(test)) {
+                continue;
+            }
+
+            ColorBGR555[] newPalette;
+
+            newPalette = PortraitPalette.getPaletteConverted(
+                    test.getPaletteHairType(), test.getPalette(), pPalette.getPaletteHairType());
+            pPalette.setPalette(newPalette);
+        }
+    }
+
+    public void testPortraits() {
+        System.out.println("Portrait test");
+
+        GameCharacter.LEAF.setPortrait(GameCharacter.KEMPF_BOSS.getPortrait());
+        GameCharacter.FINN.setPortrait(GameCharacter.IZENAU_BOSS.getPortrait());
+        GameCharacter.OTHIN.setPortrait(GameCharacter.MIRANDA.getPortrait());
+        GameCharacter.SARA.setPortrait(GameCharacter.AMALDA.getPortrait());
+
+        //GameCharacter.LEAF.setPortrait(0x41);
+        //GameCharacter.FINN.setPortrait(0x8F);
+        //GameCharacter.EYVEL.setPortrait(0xA2);
+    }
+
     public void lilMansterRenamePugi() {
         int pugiOffset = 0x1813D7;
         int[] pugiValues = new int[] {0x20, 0x50, 0x75, 0x67, 0x69, 0x20}; // " Pugi "
@@ -1489,6 +1542,7 @@ public class Rom {
         Shop.resetShops();
         
         promotionData.reset();
+        PortraitPalette.resetAll();
     }
     
     public void applyChanges() {
@@ -1506,6 +1560,7 @@ public class Rom {
         Shop.writeShops(this);
         
         promotionData.writePromotions(this);
+        PortraitPalette.writeAll(this);
     }
     
     public byte[] getBytes() {

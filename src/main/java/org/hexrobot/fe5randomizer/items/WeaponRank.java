@@ -51,10 +51,10 @@ public enum WeaponRank {
             put(NANNA_DELMUD_FERGUS_LEAF, new ArrayList<GameCharacter>(List.of(GameCharacter.NANNA,GameCharacter.DELMUD,GameCharacter.FELGUS,GameCharacter.LEAF)));
             put(LEIDRICK_AINS, new ArrayList<GameCharacter>(List.of(GameCharacter.LEIDRICK_1,GameCharacter.LEIDRICK_2, GameCharacter.EINS)));
             put(FERGUS_DELMUD, new ArrayList<GameCharacter>(List.of(GameCharacter.FELGUS, GameCharacter.DELMUD)));
-            put(OLWEN_REINHARDT, new ArrayList<GameCharacter>(List.of(GameCharacter.ORUEN, GameCharacter.REINHARDT)));
+            put(OLWEN_REINHARDT, new ArrayList<GameCharacter>(List.of(GameCharacter.OLWEN, GameCharacter.REINHARDT)));
             put(LEAF, new ArrayList<GameCharacter>(List.of(GameCharacter.LEAF)));
             put(MAREETA, new ArrayList<GameCharacter>(List.of(GameCharacter.MAREETA)));
-            put(ALTHENNA_DEAN, new ArrayList<GameCharacter>(List.of(GameCharacter.ALTHENNA_ENEMY_ONLY, GameCharacter.DEAN)));
+            put(ALTHENNA_DEAN, new ArrayList<GameCharacter>(List.of(GameCharacter.ALTHENNA, GameCharacter.DEAN)));
             put(FINN, new ArrayList<GameCharacter>(List.of(GameCharacter.FINN)));
             put(OTHIN_BERSERKER, new ArrayList<GameCharacter>(List.of(GameCharacter.OTHIN, GameCharacter.BERSERKER)));
             put(SAPHY, new ArrayList<GameCharacter>(List.of(GameCharacter.SAPHY)));

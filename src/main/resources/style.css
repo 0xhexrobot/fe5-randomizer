@@ -185,6 +185,46 @@ a {
   text-decoration: line-through;
 }
 
+/*------ Portrait palettes ------*/
+ #palettes-section > ul > li {
+   margin: 4px 0;
+ }
+
+ #palettes-section > ul > li span {
+   display: inline-block;
+   min-width: 150px;
+ }
+
+ #palettes-section > ul > li span > span {
+   min-width: unset;
+   font-size: 0.6em;
+   margin-left: 2px;
+ }
+
+ #palettes-section > ul > li > table {
+   display: inline-block;
+   margin-left: 12px;
+   border: none;
+ }
+
+ #palettes-section > ul > li th {
+   background-color: unset;
+   border: unset;
+   font-size: 0.7em;
+   padding: 1px 4px;
+ }
+
+ #palettes-section > ul > li tr {
+   background-color: unset;
+ }
+
+ #palettes-section > ul > li > table td {
+   width: 16px;
+   height: 16px;
+   padding: 0;
+   border: 1px solid var(--main-color);
+ }
+
 /*------ Items ------*/
 #items-section ul {
   margin: 0;

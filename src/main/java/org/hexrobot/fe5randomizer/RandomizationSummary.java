@@ -89,6 +89,8 @@ public class RandomizationSummary {
     private final SimpleBooleanProperty randomizeScrolls = new SimpleBooleanProperty(false);
     private final SimpleObjectProperty<Toggle> scrollsRandomizationType = new SimpleObjectProperty<Toggle>();
     private final SimpleBooleanProperty scrollsShuffleAttributes = new SimpleBooleanProperty(false);
+    // palettes
+    private final SimpleBooleanProperty shufflePalettes = new SimpleBooleanProperty(false);
     // Lil Manster
     private final SimpleBooleanProperty lilMansterRenamePugi = new SimpleBooleanProperty(false);
     // Project Exile
@@ -378,6 +380,10 @@ public class RandomizationSummary {
 
     public BooleanBinding anyItemRandomizationProperty() {
         return anyItemRandomization;
+    }
+
+    public SimpleBooleanProperty shufflePalettesProperty() {
+        return shufflePalettes;
     }
 
     public SimpleBooleanProperty lilMansterRenamePugiProperty() {
@@ -672,6 +678,10 @@ public class RandomizationSummary {
         return anyItemRandomization;
     }
 
+    public boolean getShufflePalettes() {
+        return shufflePalettes.getValue();
+    }
+
     public boolean getLilMansterRenamePugi() {
         return lilMansterRenamePugi.getValue();
     }
@@ -720,6 +730,7 @@ public class RandomizationSummary {
                 randomizeShops.getValue(), getShopsRandomizationType(), shopsMaintainItemCount.getValue());
         text += String.format("Randomize scrolls: %b... Randomization type: %s, Shuffle attributes: %b\n",
                 randomizeScrolls.getValue(), getScrollsRandomizationType(), scrollsShuffleAttributes.getValue());
+        text += String.format("Randomize palettes: %b\n", shufflePalettes.getValue());
         text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterRenamePugi.getValue());
         text += String.format("Project Exile Rename to Pugi: %b\n", exileRenamePugi.getValue());
         

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="sections" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.SectionsController">
+<VBox fx:id="sections" xmlns="http://javafx.com/javafx/14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.SectionsController">
 	<children>
 		<VBox alignment="TOP_CENTER" spacing="5.0" VBox.vgrow="NEVER">
 			<children>
@@ -70,6 +70,11 @@
                   <fx:include fx:id="itemRewards" source="ItemRewards.fxml" />
                </content>
             </Tab>
+			<Tab text="Palettes" userData="palettes">
+				<content>
+					<fx:include fx:id="palettes" source="palettes.fxml" />
+				</content>
+			</Tab>
             <Tab fx:id="tabLilManster" text="Lil' Manster">
             <content>
                 <fx:include fx:id="lilManster" source="LilManster.fxml" />

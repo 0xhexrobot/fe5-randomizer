@@ -14,6 +14,7 @@
             <ul>
                 <li><a href="#randomization-details">Randomization details</a></li>
                 <li><a href="#units">Units</a></li>
+                <li><a href="#portrait-palettes">Portrait palettes</a></li>
                 <li><a href="#items">Items</a></li>
                 <li><a href="#scrolls">Scrolls</a></li>
                 <li><a href="#rewards">Rewards</a></li>
@@ -196,6 +197,10 @@
             <p>
                 Randomize Scrolls, randomization type: <strong>${summary.scrollsRandomizationType}</strong>
             </p>
+            </#if>
+
+            <#if summary.shufflePalettes>
+            <p>Shuffle palettes</p>
             </#if>
             
             <#if summary.lilMansterRenamePugi>
@@ -491,6 +496,40 @@
                 </#list>
             </section>
                 
+            </#list>
+        </section>
+        <section id="palettes-section">
+            <h2 id="portrait-palettes">Portrait palettes</h2>
+            <#list portraitPalettes>
+            <ul>
+                <#items as palette>
+                <li>
+                    <span>${palette.label}<span>(${palette.offset?string.@hex_2})</span>:</span>
+                    <table>
+                        <#if palette.modified>
+                        <tr>
+                            <th>New</th>
+                            <#list palette.palette as i>
+                            <td style="background-color: #${i.toRgbString()};"></td>
+                            </#list>
+                        </tr>
+                        <tr>
+                            <th>Old</th>
+                            <#list palette.oldPalette as i>
+                            <td style="background-color: #${i.toRgbString()};"></td>
+                        </#list>
+                        </tr>
+                        <#else>
+                        <tr>
+                            <#list palette.palette as i>
+                            <td style="background-color: #${i.toRgbString()};"></td>
+                            </#list>
+                        </tr>
+                        </#if>
+                    </table>
+                </li>
+                </#items>
+            </ul>
             </#list>
         </section>
         <section id="items-section">

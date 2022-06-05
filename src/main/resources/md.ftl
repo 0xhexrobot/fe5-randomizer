@@ -55,6 +55,8 @@ Randomize shop items: <#if summary.randomizeShops>**Yes**, randomization type: $
 
 Randomize Scrolls: <#if summary.randomizeScrolls>**Yes**, randomization type: ${summary.scrollsRandomizationType}<#else>No</#if>
 
+Shuffle palettes: <#if summary.shufflePalettes>**Yes**<#else>No</#if>
+
 <#if summary.lilMansterRenamePugi>
 Lil' Manster
 * Rename *Voulge* to _**Pugi**_
@@ -145,6 +147,11 @@ Staff | ${class.baseStaffLv.amount} | ${class.baseStaffLv.name} | Dark | ${class
 
 </#list>
 </#if>
+
+## Portrait palettes
+<#list portraitPalettes as palette>
+* ${palette.label}(${palette.offset?string.@hex_2}): <#list palette.palette as i>${i.toRgbString()}<#sep>, </#sep></#list>
+</#list>
 
 <#if items??>
 ## Items

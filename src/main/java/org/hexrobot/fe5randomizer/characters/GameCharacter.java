@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Random;
 
 import org.hexrobot.fe5randomizer.Rom;
-import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.items.ItemType;
 import org.hexrobot.fe5randomizer.util.GenericDiff;
 
@@ -17,7 +16,7 @@ public enum GameCharacter {
     OTHIN(0x0003, "Othin"),
     HALVAN(0x0004, "Halvan"),
     EYVEL(0x0005, "Eyvel"),
-    DAGUDAR(0x0006, "Dagudar"),
+    DAGDA(0x0006, "Dagda"),
     RALF(0x0007, "Ralf"),
     MARTY(0x0008, "Marty"),
     RONAN(0x0009, "Ronan"),
@@ -41,7 +40,7 @@ public enum GameCharacter {
     ALBA(0x001B, "Alba"),
     ROBERTO(0x001C, "Roberto"),
     FRED(0x001D, "Fred"),
-    ORUEN(0x001E, "Oruen"),
+    OLWEN(0x001E, "Olwen"),
     SETY_CH23(0x001F, "Sety Ch23"),
     RIFIS(0x0020, "Rifis"),
     KARIN(0x0021, "Karin"),
@@ -97,7 +96,7 @@ public enum GameCharacter {
     MANSTER_ARCH_KNIGHT(0x0053, "Manster - Arch Knight"),
     MANSTER_TROUBADOUR(0x0054, "Manster - Troubadour"),
     IZENAU_BOSS(0x0055, "Izenau (Boss)"),
-    HANNIBAL_DIALOGUE(0x0056, "Hannibal (Dialogue,FE4 cameo)"),
+    HANNIBAL(0x0056, "Hannibal"),
     MANSTER_AXE_KNIGHT(0x0057, "Manster - Axe Knight"),
     BANDIT_MOUNTAIN_THIEF(0x0058, "Bandit - Mountain Thief"),
     BANDIT_HUNTER(0x0059, "Bandit - Hunter"),
@@ -108,8 +107,8 @@ public enum GameCharacter {
     THRACIA_DRAGON_KNIGHT(0x005E, "Thracia - Dragon Knight"),
     THRACIA_SWORD_FIGHTER(0x005F, "Thracia - Sword Fighter"),
     THRACIA_AXE_FIGHTER(0x0060, "Thracia - Axe Fighter"),
-    ALTHENNA_ENEMY_ONLY(0x0061, "Althenna (Enemy only,FE4 cameo)"),
-    TORABANT_DIALOGUE(0x0062, "Torabant (Dialogue,FE4 cameo)"),
+    ALTHENNA(0x0061, "Althenna"),
+    TRABANT(0x0062, "Trabant"),
     RALGO_BOSS(0x0063, "Ralgo (Boss)"),
     MANSTER_LONG_ARCH(0x0064, "Manster - Long Arch"),
     MANSTER_AXE_ARMOR(0x0065, "Manster - Axe Armor"),
@@ -125,8 +124,8 @@ public enum GameCharacter {
     THRACIA_LANCE_ARMOR(0x006F, "Thracia - Lance Armor"),
     LENSTER_LANCE_KNIGHT(0x0070, "Lenster - Lance Knight"),
     LENSTER_ARCH_KNIGHT(0x0071, "Lenster - Arch Knight"),
-    ARION_DIALOGUE(0x0072, "Arion (Dialogue,FE4 cameo)"),
-    MAKROI_BOSS(0x0073, "Makroi (Boss)"),
+    ARION(0x0072, "Arion"),
+    MAKCLOY_BOSS(0x0073, "Macloy (Boss)"),
     KODDA_BOSS(0x0074, "Kodda (Boss)"),
     ROPUTO_DARK_MAGE(0x0075, "Roputo - Dark Mage"),
     CIVILIAN(0x0076, "Civilian"),
@@ -135,7 +134,7 @@ public enum GameCharacter {
     MERCENARY_SOCIAL_KNIGHT(0x0079, "Mercenary - Social Knight"),
     PRIEST(0x007A, "Priest"),
     MERCENARY_SWORD_FIGHTER2(0x007B, "Mercenary - Sword Fighter"),
-    CH21_IRON_ARCH(0x007C, "21 - Iron Arch"),
+    CH21_IRON_ARCH(0x007C, "Ch21 - Iron Arch"),
     SHUPEL_BOSS(0x007D, "Shupel (Boss)"),
     BLUKE_BOSS(0x007E, "Bluke (Boss)"),
     SILESIA_PEGASUS_RIDER(0x007F, "Silesia - Pegasus Rider"),
@@ -159,12 +158,12 @@ public enum GameCharacter {
     KORUTA_BOSS(0x0091, "Koruta (Boss)"),
     REINHARDT(0x0092, "Reinhardt"),
     NANCY_NPC(0x0093, "Nancy (NPC)"),
-    TAHRA_CIVILIAN1(0x0094, "Tahra Civilian"),
-    TAHRA_CIVILIAN2(0x0095, "Tahra Civilian"),
-    TAHRA_CIVILIAN3(0x0096, "Tahra Civilian"),
-    TAHRA_CIVILIAN4(0x0097, "Tahra Civilian"),
-    TAHRA_CIVILIAN5(0x0098, "Tahra Civilian"),
-    TAHRA_CIVILIAN6(0x0099, "Tahra Civilian"),
+    TAHRA_CIVILIAN_1(0x0094, "Tahra Civilian 1"),
+    TAHRA_CIVILIAN_2(0x0095, "Tahra Civilian 2"),
+    TAHRA_CIVILIAN_3(0x0096, "Tahra Civilian 3"),
+    TAHRA_CIVILIAN_4(0x0097, "Tahra Civilian 4"),
+    TAHRA_CIVILIAN_5(0x0098, "Tahra Civilian 5"),
+    TAHRA_CIVILIAN_6(0x0099, "Tahra Civilian 6"),
     MERCENARY_SWORD_FIGHTER3(0x009A, "Mercenary - Sword Fighter"),
     FREEGE_LONG_ARCH(0x009B, "Freege - Long Arch"),
     FREEGE_SOCIAL_KNIGHT(0x009C, "Freege - Social Knight"),
@@ -176,12 +175,12 @@ public enum GameCharacter {
     FREEGE_MAGE(0x00A2, "Freege - Mage"),
     RILKE_KEMPF_PORTRAIT(0x00A3, "Rilke (with Kempf portrait...)"),
     MANSTER_LANCE_ARMOR(0x00A4, "Manster - Lance Armor"),
-    CIVILIAN_1(0x00A5, "Civilian"),
-    CIVILIAN_2(0x00A6, "Civilian"),
-    CIVILIAN_3(0x00A7, "Civilian"),
-    CIVILIAN_4(0x00A8, "Civilian"),
-    CIVILIAN_5(0x00A9, "Civilian"),
-    CIVILIAN_6(0x00AA, "Civilian"),
+    CIVILIAN_1(0x00A5, "Civilian 1"),
+    CIVILIAN_2(0x00A6, "Civilian 2"),
+    CIVILIAN_3(0x00A7, "Civilian 3"),
+    CIVILIAN_4(0x00A8, "Civilian 4"),
+    CIVILIAN_5(0x00A9, "Civilian 5"),
+    CIVILIAN_6(0x00AA, "Civilian 6"),
     MANSTER_MAGE(0x00AB, "Manster - Mage"),
     MANSTER_PRIEST(0x00AC, "Manster - Priest"),
     YURIUS_YURIA_PORTRAIT(0x00AD, "Yurius (with Yuria portrait...)"),
@@ -441,9 +440,9 @@ public enum GameCharacter {
     private Map<String, Object> oldValues = new HashMap<>();
     
     private static final ArrayList<GameCharacter> PLAYABLE_UNITS = new ArrayList<>(List.of(
-            LEAF, FINN, OTHIN, HALVAN, EYVEL, DAGUDAR, RALF, MARTY, RONAN, MIRANDA, SAPHY, LARA, BRIGHTON, FELGUS, EDA,
+            LEAF, FINN, OTHIN, HALVAN, EYVEL, DAGDA, RALF, MARTY, RONAN, MIRANDA, SAPHY, LARA, BRIGHTON, FELGUS, EDA,
             ASVEL, MACHYUA, HICKS, NANNA, SELFINA, DALSHEIN, CARRION, SHIVA, PAHN, GLADE, KEIN, ALBA, ROBERTO, FRED,
-            ORUEN, SETY_CH23, RIFIS, KARIN, DEAN, SHANAM, TREWD, TANYA, LINOAN, MISHA, SEIRAM, SLEUF, MAREETA, TINA,
+            OLWEN, SETY_CH23, RIFIS, KARIN, DEAN, SHANAM, TREWD, TANYA, LINOAN, MISHA, SEIRAM, SLEUF, MAREETA, TINA,
             AMALDA, CONOMORE, HOMEROS, DELMUD, SARA, CYAS, EYRIOS, XAVIER));
     private static final ArrayList<GameCharacter> ENEMY_UNITS = new ArrayList<>(List.of(
             LEIDRICK_1, BELDO, WEISSMAN, MANSTER_ARCHER, BUGS, JABAL, RIFIS_GANG_PIRATE, RIFIS_GANG_HUNTER,
@@ -453,7 +452,7 @@ public enum GameCharacter {
             BANDIT_HUNTER, BANDIT_WARRIOR, LUMEI_BOSS, GOMEZ_BOSS, MALLOCK_BOSS, THRACIA_DRAGON_KNIGHT,
             THRACIA_SWORD_FIGHTER, THRACIA_AXE_FIGHTER, RALGO_BOSS, MANSTER_LONG_ARCH, MANSTER_AXE_ARMOR, KEMPF_BOSS,
             OLTOV_BOSS, KOLHO_MINI_BOSS, RIST_BOSS, PALUCE_BOSS, BALDACK_BOSS, THRACIA_LANCE_ARMOR,
-            LENSTER_LANCE_KNIGHT, LENSTER_ARCH_KNIGHT, MAKROI_BOSS, KODDA_BOSS, ROPUTO_DARK_MAGE, THIEF, MANSTER_SNIPER,
+            LENSTER_LANCE_KNIGHT, LENSTER_ARCH_KNIGHT, MAKCLOY_BOSS, KODDA_BOSS, ROPUTO_DARK_MAGE, THIEF, MANSTER_SNIPER,
             MERCENARY_SOCIAL_KNIGHT, PRIEST, MERCENARY_SWORD_FIGHTER2, CH21_IRON_ARCH, SHUPEL_BOSS, BLUKE_BOSS,
             SILESIA_PEGASUS_RIDER, NIKOLAF_BOSS, MUUA_BOSS, MYURA_BOSS, REINCOCK_BOSS, PALMAN_BOSS, KANTO_BOSS,
             GUSTAF_BOSS, DANCER, SISTER, MANHEIM_BOSS, PHLAUS_BOSS, SEMITOL_BOSS, ZAOM_BOSS, KOEN_BOSS, ALPHAN_BOSS,
@@ -487,7 +486,7 @@ public enum GameCharacter {
             THRACIA_SWORD_ARMOR, WOLF_BOSS));
     private static final ArrayList<GameCharacter> BOSSES = new ArrayList<>(List.of(
             LEIDRICK_1, BELDO, WEISSMAN, BUGS, JABAL, ROBOS, ISHTAR, IZENAU_BOSS, LUMEI_BOSS, GOMEZ_BOSS, MALLOCK_BOSS,
-            RALGO_BOSS, KEMPF_BOSS, OLTOV_BOSS, KOLHO_MINI_BOSS, RIST_BOSS, PALUCE_BOSS, BALDACK_BOSS, MAKROI_BOSS,
+            RALGO_BOSS, KEMPF_BOSS, OLTOV_BOSS, KOLHO_MINI_BOSS, RIST_BOSS, PALUCE_BOSS, BALDACK_BOSS, MAKCLOY_BOSS,
             KODDA_BOSS, SHUPEL_BOSS, BLUKE_BOSS, NIKOLAF_BOSS, MUUA_BOSS, MYURA_BOSS, REINCOCK_BOSS, PALMAN_BOSS,
             KANTO_BOSS, GUSTAF_BOSS, MANHEIM_BOSS, PHLAUS_BOSS, SEMITOL_BOSS, ZAOM_BOSS, KOEN_BOSS, ALPHAN_BOSS,
             OPISU_BOSS, FERDEN_BOSS, KORUTA_BOSS, REINHARDT, BANTOL_BOSS, TORMAN_BOSS, TOBOLZARK_BOSS, AIGHTMAN_BOSS,
@@ -497,7 +496,7 @@ public enum GameCharacter {
             List.of(MANSTER_LONG_ARCH, CH21_IRON_ARCH, FREEGE_LONG_ARCH, FREEGE_LONG_ARCH2, IRON_ARCH,
                     FREEGE_LONG_ARCH3, FREEGE_LONG_ARCH1, FREEGE_POISON_ARCH, MANSTER_POISON_ARCH, FREEGE_IRON_ARCH));
     private static final ArrayList<GameCharacter> PRF_WPN_OWNERS = new ArrayList<>(List.of(
-            LEAF, NANNA, MAREETA, DELMUD, FINN, ORUEN, FRED, SAPHY, TINA));
+            LEAF, NANNA, MAREETA, DELMUD, FINN, OLWEN, FRED, SAPHY, TINA));
     
     private GameCharacter(int offset, String name) {
         this.offset = offset;
@@ -696,6 +695,10 @@ public enum GameCharacter {
         
         if(oldValues.containsKey("mapSprite")) {
             rom.setValueAt(relOffset + MAP_SPRITE_OFFSET, mapSprite);
+        }
+
+        if(oldValues.containsKey("portrait")) {
+            rom.setValueAt(relOffset + PORTRAIT_OFFSET, portrait);
         }
     }
     
@@ -1231,6 +1234,14 @@ public enum GameCharacter {
         
         setMapSprite(characterClass.getMapSprite());
     }
+
+    public void setPortrait(int portraitOffset) {
+        if(!oldValues.containsKey("portrait") && portrait != portraitOffset) {
+            oldValues.put("portrait", portrait);
+        }
+
+        portrait = portraitOffset;
+    }
     
     private void reassignWeaponLevels(CharacterClass newClass, Random random) {
         if(randomBases) {
@@ -1512,6 +1523,10 @@ public enum GameCharacter {
             
             if(oldValues.containsKey("mapSprite")) {
                 mapSprite = (int)oldValues.get("mapSprite");
+            }
+
+            if(oldValues.containsKey("portrait")) {
+                portrait = (int)oldValues.get("portrait");
             }
             
             oldValues.clear();

@@ -112,6 +112,10 @@ public class RandomizeController {
     @FXML
     private Label lblRandomizeScrolls;
     @FXML
+    private Label lblShufflePalettes;
+    @FXML
+    private Label lblPalettes;
+    @FXML
     private Label lblLilManster;
     @FXML
     private Label lblLilMansterRenamePugi;
@@ -831,6 +835,12 @@ public class RandomizeController {
         lblRandomizeRewards.textProperty().bind(txtItemRewards);
         lblRandomizeShops.textProperty().bind(txtShopRandomization);
         lblRandomizeScrolls.textProperty().bind(txtScrollRandomization);
+
+        // palettes
+        lblPalettes.managedProperty().bind(lblPalettes.visibleProperty());
+        lblShufflePalettes.managedProperty().bind(lblShufflePalettes.visibleProperty());
+        lblPalettes.visibleProperty().bind(summary.shufflePalettesProperty());
+        lblShufflePalettes.visibleProperty().bind(summary.shufflePalettesProperty());
         
         // lil master
         lblLilManster.managedProperty().bind(lblLilManster.visibleProperty());

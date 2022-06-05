@@ -19,6 +19,7 @@ import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.chapters.Chapter;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
+import org.hexrobot.fe5randomizer.characters.PortraitPalette;
 import org.hexrobot.fe5randomizer.items.ItemReward;
 import org.hexrobot.fe5randomizer.items.Scroll;
 import org.hexrobot.fe5randomizer.items.Shop;
@@ -191,6 +192,12 @@ public class RandomizeRomService extends Service<Void> {
                         break;
                     }
                 }
+
+                if(summary.getShufflePalettes()) {
+                    rom.shufflePalettes();
+                    //rom.testPalettes();
+                    //rom.testPortraits();
+                }
                 
                 updateMessage("Writing rom...");
                 rom.applyChanges();
@@ -230,6 +237,7 @@ public class RandomizeRomService extends Service<Void> {
                 input.put("shops", Shop.values());
                 input.put("armyData", rom.getArmyUnits());
                 input.put("chapterData", Chapter.values());
+                input.put("portraitPalettes", PortraitPalette.values());
                 
                 if(summary.getWriteDebugLog()) {
                     updateMessage("Writing debug log...");
