@@ -710,8 +710,8 @@ public enum Item {
         return !oldValues.isEmpty();
     }
 
-    private void readItem(Rom rom, int startingOffset) {
-        int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
+    private void readItem(Rom rom) {
+        int relOffset = ITEMS_OFFSET + offset * ITEM_DATA_SIZE;
 
         itemType = ItemType.findById(rom.getValueAt(relOffset + ITEM_TYPE_OFFSET));
         power = rom.getValueAt(relOffset + POWER_OFFSET);
@@ -733,8 +733,8 @@ public enum Item {
         itemClassification = ItemClassification.findById(rom.getValueAt(relOffset + ITEM_CLASSIFICATION_OFFSET));
     }
     
-    private void writeItem(Rom rom, int startingOffset) {
-        int relOffset = startingOffset + offset * ITEM_DATA_SIZE;
+    private void writeItem(Rom rom) {
+        int relOffset = ITEMS_OFFSET + offset * ITEM_DATA_SIZE;
 
         if(oldValues.containsKey("power")) {
             rom.setValueAt(relOffset + POWER_OFFSET, power);
@@ -791,13 +791,13 @@ public enum Item {
     
     public static void initializeItems(Rom rom) {
         for(Item item : values()) {
-            item.readItem(rom, ITEMS_OFFSET);
+            item.readItem(rom);
         }
     }
     
     public static void writeItems(Rom rom) {
         for(Item item: values()) {
-            item.writeItem(rom, ITEMS_OFFSET);
+            item.writeItem(rom);
         }
     }
     

@@ -461,27 +461,27 @@ public enum CharacterClass {
     }
 
     public static ArrayList<CharacterClass> getUnpromotedClasses() {
-        return new ArrayList<CharacterClass>(UNPROMOTED);
+        return new ArrayList<>(UNPROMOTED);
     }
     
     public static ArrayList<CharacterClass> getPromotedClasses() {
-        return new ArrayList<CharacterClass>(PROMOTED);
+        return new ArrayList<>(PROMOTED);
     }
     
     public static ArrayList<CharacterClass> getUnusedPromotedClasses() {
-        return new ArrayList<CharacterClass>(UNUSED_PROMOTED);
+        return new ArrayList<>(UNUSED_PROMOTED);
     }
     
     public static ArrayList<CharacterClass> getMountedClasses() {
-        return new ArrayList<CharacterClass>(MOUNTED);
+        return new ArrayList<>(MOUNTED);
     }
     
     public static ArrayList<CharacterClass> getFlyingClasses() {
-        return new ArrayList<CharacterClass>(FLYING);
+        return new ArrayList<>(FLYING);
     }
     
     public static ArrayList<CharacterClass> getCanTraverseWaterClasses() {
-        ArrayList<CharacterClass> canTraverseWater = new ArrayList<CharacterClass>(FLYING);
+        ArrayList<CharacterClass> canTraverseWater = new ArrayList<>();
         canTraverseWater.add(PIRATE);
         
         return canTraverseWater;

@@ -41,7 +41,7 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.LOPTO_DARK_BISHOP, mountedClasses);
         bannedClasses.put(GameCharacter.MAREETA, mountedClasses);
         bannedClasses.put(GameCharacter.NANNA, mountedClasses);
-        bannedClasses.put(GameCharacter.LINOAN, new ArrayList<CharacterClass>(List.of(CharacterClass.DANCER)));
+        bannedClasses.put(GameCharacter.LINOAN, new ArrayList<>(List.of(CharacterClass.DANCER)));
         bannedClasses.put(GameCharacter.ENVOY_MERCENARY, mountedClasses);
         bannedClasses.put(GameCharacter.ENVOY_WARRIOR, mountedClasses);
         bannedClasses.put(GameCharacter.ENVOY_GENERAL, mountedClasses);
@@ -59,7 +59,6 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.FREEGE_SOLDIER, mountedClasses);
         bannedClasses.put(GameCharacter.FREEGE_AXE_ARMOR, mountedClasses);
         bannedClasses.put(GameCharacter.FREEGE_ARCHER, mountedClasses);
-        bannedClasses.put(GameCharacter.FREEGE_MAGE, mountedClasses);
         bannedClasses.put(GameCharacter.FREEGE_SWORD_ARMOR2, mountedClasses);
         bannedClasses.put(GameCharacter.SEIRAM, mountedClasses);
         bannedClasses.put(GameCharacter.BOW_FIGHTER, mountedClasses);
@@ -98,7 +97,12 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.ZWOLF_LIFIS, mountedClasses);
         bannedClasses.put(GameCharacter.ZWOLF, mountedClasses);
         bannedClasses.put(GameCharacter.FUNF_EYVEL, mountedClasses);
-        bannedClasses.put(GameCharacter.FUNF_EYVEL, mountedClasses);
+        bannedClasses.put(GameCharacter.FELGUS, mountedClasses);
+        bannedClasses.put(GameCharacter.LARA, mountedClasses);
+        bannedClasses.put(GameCharacter.KARIN, mountedClasses);
+        bannedClasses.put(GameCharacter.DALSHEIN, mountedClasses);
+        bannedClasses.put(GameCharacter.BRIGHTON, mountedClasses);
+        bannedClasses.put(GameCharacter.MACHYUA, mountedClasses);
         
         if(!summary.getExcludeThieves()) {
             bannedClasses.put(GameCharacter.RIFIS, mountedClasses);
@@ -115,6 +119,7 @@ public class RandomizationLogic {
         limitedClassPool.put(GameCharacter.SEMITOL_BOSS, flyingClasses);
         limitedClassPool.put(GameCharacter.KORUTA_BOSS, flyingClasses);
         limitedClassPool.put(GameCharacter.THRACIA_DRAGON_KNIGHT3, flyingClasses);
+        limitedClassPool.put(GameCharacter.MALLOCK_BOSS, flyingClasses);
         
         populateUniqueRewards();
     }

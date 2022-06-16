@@ -20,5 +20,15 @@ dependencies {
     compile group: 'org.freemarker', name: 'freemarker', version: '2.3.29'
 }
 
+distributions {
+    main {
+        distributionBaseName = "${project.name}"
+        contents {
+            from 'src/dist'
+        }
+    }
+}
+
 // Define the main class for the application
 mainClassName = 'org.hexrobot.fe5randomizer.Launcher'
+project.version = 'v1.1.1'

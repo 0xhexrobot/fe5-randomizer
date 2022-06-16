@@ -158,10 +158,10 @@ public enum PortraitPalette {
     VILLAGE_GIRL_2C(0xE6, "Village Girl 2C", HairType.HAIR_1E0),
     VILLAGE_GIRL_2D(0xE7, "Village Girl 2D", HairType.HAIR_1E0),
     VILLAGE_GIRL_2E(0xE8, "Village Girl 2E", HairType.HAIR_1E0),
-    FÜNF_EYVEL(0xED, "Fünf Eyvel", HairType.HAIR_1E0),
+    FUNF_EYVEL(0xED, "Funf Eyvel", HairType.HAIR_1E0),
     DREI_DAGDA(0xEE, "Drei Dagda", HairType.HAIR_1C0),
     ELF_SARA(0xEF, "Elf Sara", HairType.HAIR_F0),
-    ZWÖLF_LIFIS(0xF0, "Zwölf Lifis", HairType.HAIR_E0),
+    ZWOLF_LIFIS(0xF0, "Zwolf Lifis", HairType.HAIR_E0),
     ZWEI_GALZUS(0xF1, "Zwei Galzus", HairType.HAIR_1E0),
     EINS_LEIDRICK(0xF2, "Eins Leidrick", HairType.HAIR_E0);
 
@@ -313,7 +313,7 @@ public enum PortraitPalette {
                     case HAIR_E3:
                         pal = convertHair1E0ToE3(pal); break;
                 }
-            }; break;
+            } break;
             case HAIR_E0: {
                 switch(outputType) {
                     case HAIR_1E0:
@@ -338,7 +338,7 @@ public enum PortraitPalette {
                         pal = convertHairE0To1E0(pal);
                         pal = convertHair1E0ToE3(pal); break;
                 }
-            }; break;
+            } break;
             case HAIR_E1: {
                 switch(outputType) {
                     case HAIR_1E0:
@@ -392,7 +392,7 @@ public enum PortraitPalette {
                         pal = convertHairF0To1E0(pal);
                         pal = convertHair1E0ToE3(pal); break;
                 }
-            }; break;
+            } break;
             case HAIR_1C0: {
                 switch(outputType) {
                     case HAIR_1E0:
@@ -444,7 +444,7 @@ public enum PortraitPalette {
                         pal = convertHairE2To1E0(pal);
                         pal = convertHair1E0ToE3(pal); break;
                 }
-            }; break;
+            } break;
             case HAIR_1C1: {
                 switch(outputType) {
                     case HAIR_E0:
