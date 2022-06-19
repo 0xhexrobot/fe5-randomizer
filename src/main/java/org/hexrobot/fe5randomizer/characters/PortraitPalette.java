@@ -173,7 +173,8 @@ public enum PortraitPalette {
     private ColorBGR555[] palette = new ColorBGR555[PALETTE_SIZE / 2];
     private ColorBGR555[] oldPalette = new ColorBGR555[0];
     private static ArrayList<PortraitPalette> excluded = new ArrayList<>(List.of(JABAL, VILLAGE_MAN_1A,
-            VILLAGE_MAN_1B, VILLAGE_MAN_1C, VILLAGE_MAN_1D, VILLAGE_MAN_1E));
+            VILLAGE_MAN_1B, VILLAGE_MAN_1C, VILLAGE_MAN_1D, VILLAGE_MAN_1E, FUNF_EYVEL, DREI_DAGDA,
+            ELF_SARA, ZWOLF_LIFIS, ZWEI_GALZUS, EINS_LEIDRICK));
 
     private PortraitPalette(int offset, String label, HairType hairType) {
         this.offset = offset;
@@ -283,6 +284,16 @@ public enum PortraitPalette {
         availablePalettes.removeAll(excluded);
 
         return availablePalettes;
+    }
+    
+    public ColorBGR555[] getPaletteDeadified() {
+        ColorBGR555[] pal = palette.clone();
+
+        for (int i = 0; i < pal.length; i++) {
+            pal[i] = ColorBGR555.deadify(pal[i]);
+        }
+
+        return pal;
     }
 
     public static ColorBGR555[] getPaletteConverted(HairType inputType, ColorBGR555[] inputPalette,

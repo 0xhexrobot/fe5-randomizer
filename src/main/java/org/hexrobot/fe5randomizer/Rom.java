@@ -1470,6 +1470,13 @@ public class Rom {
             System.out.println(String.format("%s(0x%02x) -> %s(0x%02x)",
                     pPalette.getLabel(), pPalette.getOffset(), selPorPalette.getLabel(), selPorPalette.getOffset()));
         }
+
+        // fix revived character palettes
+        PortraitPalette.EINS_LEIDRICK.setPalette(PortraitPalette.LEIDRICK.getPaletteDeadified());
+        PortraitPalette.ZWEI_GALZUS.setPalette(PortraitPalette.GALZUS.getPaletteDeadified());
+        PortraitPalette.DREI_DAGDA.setPalette(PortraitPalette.DAGDA.getPaletteDeadified());
+        PortraitPalette.ELF_SARA.setPalette(PortraitPalette.SARA.getPaletteDeadified());
+        PortraitPalette.ZWOLF_LIFIS.setPalette(PortraitPalette.LIFIS.getPaletteDeadified());
     }
 
     public void testPalettes() {
@@ -1486,6 +1493,20 @@ public class Rom {
 
             newPalette = PortraitPalette.getPaletteConverted(
                     test.getPaletteHairType(), test.getPalette(), pPalette.getPaletteHairType());
+            pPalette.setPalette(newPalette);
+        }
+    }
+
+    public void testDeadify() {
+        System.out.println("Testing Deadify");
+        for (PortraitPalette pPalette : PortraitPalette.values()) {
+            ColorBGR555[] palette = pPalette.getPalette();
+            ColorBGR555[] newPalette = new ColorBGR555[16];
+
+            for (int i = 0; i < palette.length; i++) {
+                newPalette[i] = ColorBGR555.deadify(palette[i]);
+            }
+
             pPalette.setPalette(newPalette);
         }
     }

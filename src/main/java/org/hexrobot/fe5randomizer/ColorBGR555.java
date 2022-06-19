@@ -49,6 +49,26 @@ public class ColorBGR555 {
         return new ColorBGR555(newRed, newGreen, newBlue);
     }
 
+    public static ColorBGR555 deadify(ColorBGR555 color) {
+        final float OPACITY = 0.35f;
+        ColorHSV hsv = new ColorHSV(color);
+        float sat = hsv.getSaturation();
+        hsv.setSaturation(sat * 0.55f);
+        ColorBGR555 desaturated = hsv.getAsColorBGR555();
+
+        int ovR = 0x60;
+        int ovG = 0xFF;
+        int ovB = 0;
+        float mulR = (desaturated.red * 8.0f * ovR) / 255.0f;
+        float mulG = (desaturated.green * 8.0f * ovG) / 255.0f;
+        float mulB = (desaturated.blue * 8.0f * ovB) / 255.0f;
+        float pR = (1 - OPACITY) * desaturated.red * 8.0f + mulR * OPACITY;
+        float pG = (1 - OPACITY) * desaturated.green * 8.0f + mulG * OPACITY;
+        float pB = (1 - OPACITY) * desaturated.blue * 8.0f + mulB * OPACITY;
+
+        return new ColorBGR555((int)(pR / 8), (int)(pG / 8), (int)(pB / 8));
+    }
+
     public String toRgbString() {
         return String.format("%02x%02x%02x", red * 8, green * 8, blue * 8);
     }

@@ -195,8 +195,6 @@ public class RandomizeRomService extends Service<Void> {
 
                 if(summary.getShufflePalettes()) {
                     rom.shufflePalettes();
-                    //rom.testPalettes();
-                    //rom.testPortraits();
                 }
                 
                 updateMessage("Writing rom...");

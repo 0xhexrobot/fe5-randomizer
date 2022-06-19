@@ -47,6 +47,10 @@ public class ColorHSV {
         this.saturation = saturation;
     }
 
+    public float getSaturation() {
+        return saturation;
+    }
+
     public void setValue(float value) {
         this.value = value;
     }
