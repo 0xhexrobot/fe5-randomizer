@@ -13,6 +13,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.hexrobot.fe5randomizer.HexTemplateNumberFormatFactory;
 import org.hexrobot.fe5randomizer.RandomizationSummary;
 import org.hexrobot.fe5randomizer.Rom;
@@ -26,9 +29,6 @@ import org.hexrobot.fe5randomizer.items.Shop;
 import org.hexrobot.fe5randomizer.items.Item;
 
 import freemarker.core.TemplateNumberFormatFactory;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -218,7 +218,7 @@ public class RandomizeRomService extends Service<Void> {
                 
                 InputStream is = getClass().getClassLoader().getResourceAsStream("style.css");
                 String cssStyle = getFileContent(is);
-                
+
                 input.put("cssStyle", cssStyle);
                 input.put("romName", rom.getName());
                 input.put("romHeadered", rom.isHeadered());

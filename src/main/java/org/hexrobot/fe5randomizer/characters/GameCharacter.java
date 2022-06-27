@@ -1245,16 +1245,16 @@ public enum GameCharacter {
     
     private void reassignWeaponLevels(CharacterClass newClass, Random random) {
         if(randomBases) {
-            setBaseSwordLv(0);
-            setBaseLanceLv(0);
-            setBaseAxeLv(0);
-            setBaseBowLv(0);
-            setBaseStaffLv(0);
-            setBaseFireLv(0);
-            setBaseThunderLv(0);
-            setBaseWindLv(0);
-            setBaseLightLv(0);
-            setBaseDarkLv(0);
+            setBaseSwordLv(250);
+            setBaseLanceLv(250);
+            setBaseAxeLv(250);
+            setBaseBowLv(250);
+            setBaseStaffLv(250);
+            setBaseFireLv(250);
+            setBaseThunderLv(250);
+            setBaseWindLv(250);
+            setBaseLightLv(250);
+            setBaseDarkLv(250);
             
             return;
         }
@@ -1341,6 +1341,26 @@ public enum GameCharacter {
         }
         
         this.mapSprite = mapSprite;
+    }
+
+    public AutoLevelType getAutoLevelType() {
+        if(!hasRandomBases()) {
+            System.out.println("Warning: " + name + " doesn't have random bases.");
+        }
+
+        return AutoLevelType.getAutoLevelTypeByOffset(baseHp);
+    }
+
+    public AutoLevelType getOldAutoLevelType() {
+        if(!hasRandomBases()) {
+            System.out.println("Warning: " + name + " doesn't have random bases.");
+        }
+
+        if(!oldValues.containsKey("baseHp")) {
+            System.out.println("Warning: " + name + " doesn't have old auto level type");
+        }
+
+        return AutoLevelType.getAutoLevelTypeByOffset((int)oldValues.get("baseHp"));
     }
     
     private boolean usesWeapons() {

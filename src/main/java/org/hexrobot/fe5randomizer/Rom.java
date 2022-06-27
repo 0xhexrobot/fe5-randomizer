@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.zip.CRC32;
 
+import javafx.util.Pair;
 import org.hexrobot.fe5randomizer.chapters.Army;
 import org.hexrobot.fe5randomizer.chapters.ArmyUnit;
 import org.hexrobot.fe5randomizer.chapters.Chapter;
@@ -201,6 +202,7 @@ public class Rom {
         GameCharacter.initializeCharacters(this);
         initializeArmyData();
         PortraitPalette.readAll(this);
+        AutoLevelType.initializeAutoLevelTypes(this);
     }
     
     private void initializeArmyData() {
@@ -595,9 +597,32 @@ public class Rom {
             }
             
             character.setCharacterClass(newCharacterClass, random);
+
+            if(character.hasRandomBases()) {
+                assignAutoLevelType(character, newCharacterClass, random);
+            }
         }
         
         assignUnitInventories(characters);
+    }
+
+    private void assignAutoLevelType(GameCharacter character, CharacterClass newClass, Random random) {
+        List<Pair<AutoLevelType, Float>> autoLevelOptions = AutoLevelType.getClassToAutoLevelType(newClass);
+        int newBaseHp = 0;
+
+        if(autoLevelOptions.size() == 1) {
+            newBaseHp = autoLevelOptions.get(0).getKey().getOffset();
+        } else if(autoLevelOptions.size() > 1) {
+            WeightedList<AutoLevelType> options = new WeightedList<>();
+
+            for (Pair<AutoLevelType, Float> autoLevelOption: autoLevelOptions) {
+                options.add(autoLevelOption.getKey(), autoLevelOption.getValue());
+            }
+
+            newBaseHp = options.getSelection(random.nextFloat()).getOffset();
+        }
+
+        character.setBaseHp(newBaseHp);
     }
     
     private void assignUnitInventories(ArrayList<GameCharacter> characters) {

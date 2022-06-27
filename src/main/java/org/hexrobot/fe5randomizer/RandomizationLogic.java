@@ -134,7 +134,8 @@ public class RandomizationLogic {
         }
         
         float value = 0;
-        
+
+        // lower value to repeated items
         if(unit.canUseWeapon(item)) {
             int countSameItems = 0;
             
@@ -146,6 +147,36 @@ public class RandomizationLogic {
             
             value = 1 / (float)(Math.pow(4, countSameItems));
         }
+
+        float rankValue;
+        if(unit.getCharacter().hasRandomBases()) {
+            int unitLevel = unit.getLevel();
+
+            if(unit.getCharacter().getCharacterClass().isPromoted()) {
+                unitLevel += 20;
+            }
+
+            // lower ranked wpns for low level units, high ranked wpns for high level units
+            switch(item.getWeaponRank()) {
+                case A: rankValue = Math.max(unitLevel / 5.0f - 3.0f, 0); break;
+                case B: rankValue = Math.max(2.0f * unitLevel / 15.0f - 4.0f / 3.0f, 0); break;
+                case C: rankValue = 2.0f - unitLevel * unitLevel / 400.0f + unitLevel / 10.0f; break;
+                case D: rankValue = Math.max(4.0f - 2.0f * unitLevel / 15.0f, 0); break;
+                case E: rankValue = Math.max(5.0f - unitLevel / 5.0f, 0); break;
+                default: rankValue = 1.0f; break;
+            }
+        } else {
+            // higher value to higher ranked weapons
+            switch(item.getWeaponRank()) {
+                case A: rankValue = 5.0f; break;
+                case B: rankValue = 4.0f; break;
+                case C: rankValue = 3.0f; break;
+                case D: rankValue = 2.0f; break;
+                default: rankValue = 1.0f; break;
+            }
+        }
+
+        value *= rankValue;
         
         return value;
     }

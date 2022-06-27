@@ -232,6 +232,7 @@
                     ${unit.characterClass.getName()}
                     </#if>
                 </p>
+                <#if !unit.hasRandomBases()>
                 <em>Weapon Proficiency</em>
                 <#if unit.getUsedOrUsesWeapons()>
                 <ul>
@@ -309,7 +310,15 @@
                 <#else>
                 <p>--</p>
                 </#if>
+                </#if>
                 <em>Bases/Growths<#if unit.hasRandomBases()><sup>* Has random bases</sup></#if></em>
+                <#if unit.hasRandomBases()>
+                <#if unit.oldValues["baseHp"]??>
+                <p>Type: <del>${unit.oldAutoLevelType.label}</del> -> <ins>${unit.autoLevelType.label}</ins></p>
+                <#else>
+                <p>Type: ${unit.autoLevelType.label}</p>
+                </#if>
+                <#else>
                 <table>
                     <tr>
                         <th>Stat</th>
@@ -482,9 +491,9 @@
                         <td>--</td>
                     </tr>
                 </table>
-                                
+                </#if>
                 <em>Skills</em>
-                
+
                 <#list unit.comparedSkills?filter(skillDiff -> !skillDiff.key.unknown)>
                 <ul>
                     <#items as skillDiff>
