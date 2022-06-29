@@ -460,6 +460,183 @@ public enum CharacterClass {
         return weaponTypes;
     }
 
+    public static int getGenericPortrait(CharacterClass characterClass) {
+        int portrait = 0;
+
+        switch(characterClass) {
+            case ARCH_KNIGHT:
+            case ARCH_KNIGHT_DISMOUNTED:
+            case ARCH_KNIGHT_F:
+            case ARCH_KNIGHT_F_DISMOUNTED:
+                portrait = 0xA5; break;
+            case ARCHER:
+                portrait = 0xF7; break;
+            case AXE_ARMOR:
+                portrait = 0xC0; break;
+            case AXE_FIGHTER:
+                portrait = 0xDC; break;
+            case AXE_KNIGHT:
+            case AXE_KNIGHT_DISMOUNTED:
+                portrait = 0xA6; break;
+            case BARD:
+                portrait = 0xD2; break;
+            case BARON:
+                portrait = 0x82; break;
+            case BERSERKER:
+                portrait = 0xC3; break;
+            case BISHOP:
+                portrait = 0xD1; break;
+            case BOW_ARMOR:
+                portrait = 0xC1; break;
+            case BOW_FIGHTER:
+                portrait = 0xB7; break;
+            case BOW_FIGHTER_F:
+                portrait = 0xEF; break;
+            case BOW_KNIGHT:
+            case BOW_KNIGHT_DISMOUNTED:
+            case BOW_KNIGHT_F:
+            case BOW_KNIGHT_F_DISMOUNTED:
+                portrait = 0xAE; break;
+            case DANCER:
+                portrait = 0xCA; break;
+            case DARK_BISHOP:
+                portrait = 0xD5; break;
+            case DARK_MAGE:
+                portrait = 0xD4; break;
+            case DRAGON_KNIGHT:
+            case DRAGON_KNIGHT_DISMOUNTED:
+            case DRAGON_KNIGHT_F:
+            case DRAGON_KNIGHT_F_DISMOUNTED:
+                portrait = 0xB5; break;
+            case DRAGON_RIDER:
+            case DRAGON_RIDER_DISMOUNTED:
+            case DRAGON_RIDER_F:
+            case DRAGON_RIDER_F_DISMOUNTED:
+                portrait = 0xB4; break;
+            case DUKE_KNIGHT:
+            case DUKE_KNIGHT_DISMOUNTED:
+                portrait = 0xAA; break;
+            case FORREST:
+            case FORREST_F:
+                portrait = 0xB9; break;
+            case FORREST_KNIGHT:
+            case FORREST_KNIGHT_DISMOUNTED:
+            case FREE_KNIGHT:
+            case FREE_KNIGHT_DISMOUNTED:
+                portrait = 0xA7; break;
+            case GENERAL:
+                portrait = 0xBC; break;
+            case GREAT_KNIGHT:
+            case GREAT_KNIGHT_DISMOUNTED:
+                portrait = 0xB1; break;
+            case HIGH_PRIEST:
+            case HIGH_PRIEST_F:
+                portrait = 0xCB; break;
+            case HUNTER:
+                portrait = 0xC7; break;
+            case IRON_ARCH:
+                portrait = 0xDA; break;
+            case LANCE_ARMOR:
+                portrait = 0xBF; break;
+            case LANCE_KNIGHT:
+            case LANCE_KNIGHT_DISMOUNTED:
+                portrait = 0xA4; break;
+            case LONG_ARCH:
+                portrait = 0xD9; break;
+            case LOPTO_MAGE:
+            case LOPTO_MAGE_F:
+                portrait = 0xD4; break;
+            case LORD:
+            case JUNIOR_LORD:
+                portrait = 0xB9; break;
+            case LORD_KNIGHT:
+            case LORD_KNIGHT_DISMOUNTED:
+                portrait = 0xA9; break;
+            case MAGE:
+            case MAGE_F:
+                portrait = 0xCC; break;
+            case MAGE_KNIGHT:
+            case MAGE_KNIGHT2:
+            case MAGE_KNIGHT_F:
+            case MAGE_KNIGHT_F2:
+                portrait = 0xB0; break;
+            case MERCENARY:
+                portrait = 0xF3; break;
+            case MERCENARY_F:
+                portrait = 0xF8; break;
+            case MOUNTAIN_THIEF:
+            case MOUNTAIN_THIEF2:
+                portrait = 0xC4; break;
+            case PALADIN:
+            case PALADIN_DISMOUNTED:
+            case PALADIN_F:
+            case PALADIN_F_DISMOUNTED:
+                portrait = 0xAC; break;
+            case PEGASUS_RIDER:
+            case PEGASUS_RIDER_DISMOUNTED:
+            case PEGASUS_KNIGHT:
+            case PEGASUS_KNIGHT_DISMOUNTED:
+                portrait = 0xF5; break;
+            case PIRATE:
+                portrait = 0xC8; break;
+            case POISON_ARCH:
+                portrait = 0xE3; break;
+            case PRIEST:
+                portrait = 0xCB; break;
+            case PRIEST_F:
+                portrait = 0xEA; break;
+            case PRINCE:
+                portrait = 0xB9; break;
+            case SAGE:
+            case SAGE_F:
+                portrait = 0xE9; break;
+            case SISTER:
+                portrait = 0xCB; break;
+            case SNIPER:
+                portrait = 0xBA; break;
+            case SNIPER_F:
+                portrait = 0xF0; break;
+            case SOCIAL_KNIGHT:
+            case SOCIALKNIGHT_DISMOUNTED:
+                portrait = 0xA3; break;
+            case SOLDIER:
+                portrait = 0xF6; break;
+            case SWORD_ARMOR:
+                portrait = 0xC2; break;
+            case SWORD_FIGHTER:
+                portrait = 0xB8; break;
+            case SWORD_FIGHTER_F:
+                portrait = 0xEC; break;
+            case SWORDMASTER:
+            case SWORD_MASTER_F:
+                portrait = 0xB9; break;
+            case THIEF:
+            case THIEF_F:
+                portrait = 0xF4; break;
+            case THIEF_FIGHTER:
+            case THIEF_FIGHTER_F:
+                portrait = 0xD7; break;
+            case THUNDER_MAGE:
+                portrait = 0xCC; break;
+            case THUNDER_MAGE_F:
+                portrait = 0xE5; break;
+            case TROUBADOUR:
+            case TROUBADOUR_DISMOUNTED:
+                portrait = 0xA8; break;
+            case WARRIOR:
+                portrait = 0xC6; break;
+            case WIND_MAGE:
+            case WIND_MAGE_F:
+                portrait = 0xCF; break;
+        }
+
+        if(portrait == 0) {
+            System.out.println("Warning: No portrait for " + characterClass.name);
+        }
+
+        return portrait;
+    }
+
     public static ArrayList<CharacterClass> getUnpromotedClasses() {
         return new ArrayList<>(UNPROMOTED);
     }

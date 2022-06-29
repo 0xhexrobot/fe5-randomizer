@@ -61,7 +61,6 @@ public enum AutoLevelType {
     public static void initializeAutoLevelTypes(Rom rom) {
         for (AutoLevelType type : values()) {
             type.readAutoLevelType(rom);
-            System.out.println(type);
         }
     }
 

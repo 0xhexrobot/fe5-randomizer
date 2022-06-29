@@ -562,9 +562,21 @@ public class Rom {
         }
 
         assignNewClasses(characters, bannedClasses);
+
+        updateEyvelCh5Weapon();
         
         promotionData.updatePromotions();
-        System.out.println(promotionData);
+    }
+
+    public void updateEyvelCh5Weapon() {
+        final int CH5_EYVEL_ITEM_OFFSET = 0xCA204;
+        if(GameCharacter.EYVEL.getOldValues().containsKey("characterClass")) {
+            ArmyUnit eyvelUnit = Chapter.CHAPTER_1.getArmyData().get(21);
+            Item selectedItem = getSelectedItem(eyvelUnit, new ArrayList<>(1));
+
+            setValueAt(CH5_EYVEL_ITEM_OFFSET, selectedItem.getOffset() + 1);
+            System.out.println("Ch5 Eyvel item: " + selectedItem.getName());
+        }
     }
     
     public void randomizeEnemyUnitClasses(boolean excludeBosses) {
@@ -599,6 +611,7 @@ public class Rom {
             character.setCharacterClass(newCharacterClass, random);
 
             if(character.hasRandomBases()) {
+                character.setPortrait(CharacterClass.getGenericPortrait(newCharacterClass));
                 assignAutoLevelType(character, newCharacterClass, random);
             }
         }
