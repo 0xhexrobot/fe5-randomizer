@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<ScrollPane fx:id="enemies" fitToHeight="true" fitToWidth="true" minViewportWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.EnemiesController">
+<ScrollPane fx:id="enemies" fitToHeight="true" fitToWidth="true" minViewportWidth="400.0" xmlns="http://javafx.com/javafx/14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.EnemiesController">
    <content>
       <VBox minWidth="400.0" spacing="5.0">
          <children>
@@ -48,20 +47,12 @@
                   <Insets left="20.0" />
                </padding>
                <tooltip>
-                  <Tooltip maxWidth="400.0" text="Limits Movement star randamization to units who already have stars." wrapText="true" />
+                  <Tooltip maxWidth="400.0" text="Limits Movement star randomization to units who already have stars." wrapText="true" />
                </tooltip>
             </CheckBox>
             <CheckBox fx:id="chkLeadershipStars" mnemonicParsing="false" text="Randomize Leadership stars">
             <tooltip>
-                  <Tooltip maxWidth="400.0" text="Randomizes leadership stars for all enemies.&#10;&#10;Warning: This option will make the game **MUCH** harder. Combine with 'Exclude units with 0 stars' to have a fairer experience." wrapText="true" />
-               </tooltip>
-            </CheckBox>
-            <CheckBox fx:id="chkLeadershipExcludeZero" mnemonicParsing="false" text="Exclude units with 0 stars">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <tooltip>
-                  <Tooltip maxWidth="400.0" text="Limits leadership stars randomization to units who already have stars." wrapText="true" />
+                  <Tooltip maxWidth="400.0" text="Randomizes leadership stars for leader enemies (generic enemies are excluded)." wrapText="true" />
                </tooltip>
             </CheckBox>
             <CheckBox fx:id="chkRandomizeBossSkills" mnemonicParsing="false" text="Randomize boss skills">
@@ -86,11 +77,6 @@
                   <Spinner fx:id="spEnemiesMaxSkillCount" max="5" min="0" prefWidth="70.0" />
                </children>
             </HBox>
-            <CheckBox fx:id="chkNerfBallistae" mnemonicParsing="false" text="Nerf Ballistae">
-            <tooltip>
-                  <Tooltip maxWidth="400.0" text="Reduces Ballistae hit rate to 65 hit." wrapText="true" />
-               </tooltip>
-            </CheckBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />

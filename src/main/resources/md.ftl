@@ -24,11 +24,9 @@ Add enemy inventory: <#if summary.enemiesAddExtraInventory>**Yes**, Max new item
 
 Randomize enemy movement stars: <#if summary.randomizeEnemyMovStars>**Yes**, Exclude units with zero stars: <#if summary.enemyMovStarsExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
 
-Randomize enemy leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Yes**, Exclude units with zero stars: <#if summary.enemyLeadershipExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
+Randomize enemy leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Yes**<#else>No</#if>
 
 Randomize Boss skills: <#if summary.randomizeBossSkills>**Yes**, Max skill count: ${summary.maxBossSkillCount}<#else> No</#if>, Randomize Enemy skills: <#if summary.randomizeEnemySkills>**Yes**, Max skill count: ${summary.maxEnemySkillCount}<#else>No</#if>
-
-Nerf Ballistae: <#if summary.nerfBallistae>**Yes**<#else>No</#if>
 
 Randomize items: 
 <#if summary.randomizeWpnsMight>* Might: **±${summary.wpnsMightDelta}**</#if>
@@ -42,18 +40,19 @@ Randomize items:
 <#if summary.wpnsAddWeaponSkill>* Add weapon skill: chance: **${summary.wpnsSkillChance}%**, allow multiple skills: <#if summary.wpnsAllowMultipleWeaponSkills>**Yes**<#else>No</#if></#if>
 <#if summary.wpnsExcludeIronWeapons>* Exclude Iron weapons</#if>
 
-<#if summary.wpnsIncreaseUses || summary.wpnsDowngradeWindTome || summary.wpnsRemoveWeaponsPrfLocks>
-Other item options:
-<#if summary.wpnsIncreaseUses>* Weapon increase uses</#if>
-<#if summary.wpnsDowngradeWindTome>* Downgrade Wind tome</#if>
-<#if summary.wpnsRemoveWeaponsPrfLocks>* Remove Prf locks</#if>
-</#if>
-
 Randomize rewards: <#if summary.randomizeRewards>**Yes**, randomization type: ${summary.rewardsRandomizationType}<#if summary.rewardsRandomizationType != "shuffle">, Safe scrolls: <#if summary.rewardsSafeScrolls>**Yes**<#else>No</#if>, Safe Knight Proofs: <#if summary.rewardsSafeKnightProofs>**Yes**<#else>No</#if></#if><#else>No</#if>
 
 Randomize shop items: <#if summary.randomizeShops>**Yes**, randomization type: ${summary.shopsRandomizationType}<#else>No</#if><#if summary.shopsRandomizationType != "replace">, maintain item count: <#if summary.shopsMaintainItemCount>**Yes**<#else>No</#if></#if>
 
 Randomize Scrolls: <#if summary.randomizeScrolls>**Yes**, randomization type: ${summary.scrollsRandomizationType}<#else>No</#if>
+
+Balance:
+<#if summary.balanceChangeBraveAxeToBRank>* Change Brave axe to B rank</#if>
+<#if summary.balanceBuffAllyUnits>* Buff ally units</#if>
+<#if summary.nerfBallistae>* Nerf ballistae accuracy</#if>
+<#if summary.balanceWpnsIncreaseUses>* Increase weapon uses</#if>
+<#if summary.balanceDowngradeWindTome>* Downgrade Wind tome</#if>
+<#if summary.balanceRemovePrfLocks>* Remove Prf* locks</#if>
 
 Shuffle palettes: <#if summary.shufflePalettes>**Yes**<#else>No</#if>
 

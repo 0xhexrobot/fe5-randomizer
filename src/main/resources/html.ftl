@@ -102,10 +102,7 @@
             </#if>
             
             <#if summary.randomizeEnemyLeadershipStars>
-            <p>
-                Randomize enemy leadership stars
-                , exclude units with zero stars: <strong><#if summary.enemyLeadershipExcludeZero>Yes<#else>No</#if></strong>
-            </p>
+            <p>Randomize enemy leadership stars</p>
             </#if>
             
             <#if summary.randomizeBossSkills>
@@ -117,9 +114,7 @@
                 Randomize Enemy skills, max skill count: <strong>${summary.maxEnemySkillCount}</strong>
             </p>
             </#if>
-            
-            <#if summary.nerfBallistae><p>Nerf Ballistae</p></#if>
-            
+
             <#if summary.randomizeWpnsMight
             || summary.randomizeWpnsAccuracy
             || summary.randomizeWpnsWeight
@@ -162,16 +157,7 @@
 	            || summary.wpnsAddWeaponSkill)><li>Exclude Iron weapons</li></#if>
             </ul>
             </#if>
-            
-            <#if summary.wpnsIncreaseUses || summary.wpnsDowngradeWindTome || summary.wpnsRemoveWeaponsPrfLocks>
-            <p>Other item options:</p>
-            <ul>
-                <#if summary.wpnsIncreaseUses><li>Weapon increase uses</li></#if>
-                <#if summary.wpnsDowngradeWindTome><li>Downgrade Wind tome</li></#if>
-                <#if summary.wpnsRemoveWeaponsPrfLocks><li>Remove Prf locks</li></#if>
-            </ul>
-            </#if>
-            
+
             <#if summary.randomizeRewards>
             <p>
                 Randomize rewards,
@@ -197,6 +183,18 @@
             <p>
                 Randomize Scrolls, randomization type: <strong>${summary.scrollsRandomizationType}</strong>
             </p>
+            </#if>
+
+            <#if summary.balanceChangeBraveAxeToBRank || summary.balanceBuffAllyUnits || summary.nerfBallistae || summary.balanceWpnsIncreaseUses || summary.balanceDowngradeWindTome || summary.balanceRemovePrfLocks>
+            <p>Balance:</p>
+            <ul>
+                <#if summary.balanceChangeBraveAxeToBRank><li>Change Brave axe to B rank</li></#if>
+                <#if summary.balanceBuffAllyUnits><li>Buff ally units</li></#if>
+                <#if summary.nerfBallistae><li>Nerf ballistae accuracy</li></#if>
+                <#if summary.balanceWpnsIncreaseUses><li>Increase weapon uses</li></#if>
+                <#if summary.balanceDowngradeWindTome><li>Downgrade Wind tome</li></#if>
+                <#if summary.balanceRemovePrfLocks><li>Remove Prf* locks</li></#if>
+            </ul>
             </#if>
 
             <#if summary.shufflePalettes>

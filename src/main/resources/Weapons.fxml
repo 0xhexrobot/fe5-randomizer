@@ -148,21 +148,6 @@
                   <Tooltip maxWidth="400.0" text="Excludes Iron Sword/Lance/Axe/Bow from any modification." wrapText="true" />
                </tooltip>
             </CheckBox>
-            <CheckBox fx:id="chkAddWeaponUses" mnemonicParsing="false" text="Add Weapon uses">
-            <tooltip>
-                  <Tooltip maxWidth="400.0" text="Changes Max uses of several Weapons:&#010;&#010;Max uses 30: Master Sword, Thin Lance, Killer Lance, Master Lance, Killer Axe, Master Axe, Killer Bow, Master Bow, Fire.&#010;Max uses 20: Tron, Tornado, Mend.&#010;Max uses 10: Torch staff, Physic, Restore.&#010;Torch -> 5, Pure Water -> 3." wrapText="true" />
-               </tooltip>
-            </CheckBox>
-            <CheckBox fx:id="chkDowngradeWindTome" mnemonicParsing="false" text="Downgrade Wind tome">
-            <tooltip>
-                  <Tooltip maxWidth="400.0" text="Downgrades Wind Tome to E rank so it can be equipped by most magic classes.&#010;Might: 6 -> 4, Accuracy: 90 -> 80, Critical: 10 -> 5." wrapText="true" />
-               </tooltip>
-            </CheckBox>
-            <CheckBox fx:id="chkRemoveWeaponPrfLocks" mnemonicParsing="false" text="Remove weapon Prf locks">
-            <tooltip>
-                  <Tooltip maxWidth="400.0" text="Removes Weapon-Character locks.&#010;&#010;Light Sword -> B&#010;Earth Sword -> B&#010;Darkness Sword -> C&#010;Mareetas Sword -> C&#010;Beosword -> A&#010;Holy Sword -> A&#010;Blagi Sword -> B&#010;Dragon Lance -> B&#010;Brave Lance -> B&#010;Pugi -> C&#010;Daim Thunder -> B&#010;Grafcalibur -> B&#010;Repair -> B&#010;Thief Staff -> B&#010;Unlock -> C&#010;Kia Staff -> C" wrapText="true" />
-               </tooltip>
-            </CheckBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />

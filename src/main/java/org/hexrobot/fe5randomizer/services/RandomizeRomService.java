@@ -59,40 +59,60 @@ public class RandomizeRomService extends Service<Void> {
             @Override
             protected Void call() throws Exception {
                 Map<String, Object> input = new HashMap<String, Object>();
-                
+
                 rom.reset();
-                
-                if(summary.getWpnsRemoveWeaponsPrfLocks()) {
+
+                // apply balance first
+
+                if(summary.getBalanceRemovePrfLocks()) {
                     rom.removePrfLocks();
                 }
-                
-                if(summary.getWpnsDowngradeWindTome()) {
+
+                if(summary.getBalanceDowngradeWindTome()) {
                     rom.downgradeWindTome();
                 }
-                
+
+                if(summary.getNerfBallistae()) {
+                    rom.nerfBallistae();
+                }
+
+                if(summary.getBalanceWpnsIncreaseUses()) {
+                    rom.addWeaponUses();
+                }
+
+                if(summary.getBalanceChangeBraveAxeToBRank()) {
+                    rom.changeBraveAxeToBRank();
+                }
+
+                if(summary.getBalanceBuffAllyUnits()) {
+                    rom.buffAllyUnits();
+                }
+
+                // then randomize
+
                 if(summary.getRandomizePlayableUnitClasses()) {
                     updateMessage("Randomize playable unit classes...");
                     rom.randomizePlayableUnitClasses(summary.getExcludeHealers(), summary.getExcludeThieves());
                 }
-                
+
                 if(summary.getRandomizeEnemyUnitClasses()) {
                     updateMessage("Randomize enemy classes...");
                     rom.randomizeEnemyUnitClasses(summary.getRandomizeEnemyUnitClassesExcludeBosses());
                 }
-                
+
                 if(summary.getRandomizeBases()) {
                     updateMessage("Randomize unit bases...");
-                    
+
                     if(summary.getBasesRandomizationType().equals("variance")) {
                         rom.randomizeUnitsBasesVariance(summary.getBasesVariance());
                     } else if(summary.getBasesRandomizationType().equals("redistribute")) {
                         rom.randomizeUnitsBasesRedistribute(summary.getBasesRedistributeVar());
                     }
                 }
-                
+
                 if(summary.getRandomizeGrowths()) {
                     updateMessage("Randomize unit growths...");
-                    
+
                     if(summary.getGrowthsRandomizationType().equals("variance")) {
                         rom.randomizeUnitsGrowthsVariance(summary.getGrowthsVariance());
                     } else if(summary.getGrowthsRandomizationType().equals("redistribute")) {
@@ -115,7 +135,7 @@ public class RandomizeRomService extends Service<Void> {
                 }
                 
                 if(summary.getRandomizeEnemyLeadershipStars()) {
-                    rom.randomizeEnemyLeadershipStars(summary.getEnemyLeadershipExcludeZero());
+                    rom.randomizeEnemyLeadershipStars();
                 }
                 
                 if(summary.getRandomizeSkills()) {
@@ -129,15 +149,7 @@ public class RandomizeRomService extends Service<Void> {
                 if(summary.getEnemiesAddExtraInventory()) {
                     rom.enemiesAddExtraInventory(summary.getEnemiesMaxExtraInventoryCount());
                 }
-                
-                if(summary.getNerfBallistae()) {
-                    rom.nerfBallistae();
-                }
-                
-                if(summary.getWpnsIncreaseUses()) {
-                    rom.addWeaponUses();
-                }
-                
+
                 if(summary.getRandomizeWpns()) {
                     rom.randomizeWeapons(
                             summary.getRandomizeWpnsMight(), summary.getWpnsMightDelta(),

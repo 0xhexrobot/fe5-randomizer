@@ -79,6 +79,10 @@ public class ArmyUnit {
     }
     
     public void writeArmyUnit(Rom rom) {
+        if(oldValues.containsKey("level")) {
+            rom.setValueAt(offset + LEVEL_OFFSET, level | (autoLeveled ? 128: 0));
+        }
+
         if(oldValues.containsKey("inventory")) {
             for(int i = 0; i < 7; i++) {
                 int itemOffset = 0;
@@ -138,6 +142,14 @@ public class ArmyUnit {
     
     public int getUnknown4() {
         return unknown4;
+    }
+
+    public void setLevel(int level) {
+        if(!oldValues.containsKey("level") && this.level != level) {
+            oldValues.put("level", this.level);
+        }
+
+        this.level = level;
     }
     
     public void setInventory(ArrayList<Item> inventory) {
@@ -224,6 +236,10 @@ public class ArmyUnit {
     
     public void reset() {
         if(!oldValues.isEmpty()) {
+            if(oldValues.containsKey("level")) {
+                level = (int)oldValues.get("level");
+            }
+
             if(oldValues.containsKey("inventory")) {
                 ArrayList<?> result = (ArrayList<?>) oldValues.get("inventory");
                 ArrayList<Item> inventory = new ArrayList<>();

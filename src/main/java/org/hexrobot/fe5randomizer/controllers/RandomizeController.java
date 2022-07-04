@@ -74,8 +74,6 @@ public class RandomizeController {
     @FXML
     private Label lblEnemySkills;
     @FXML
-    private Label lblEnemyNerfBallistae;
-    @FXML
     private Label lblWeapons;
     @FXML
     private Label lblItemsMight;
@@ -98,12 +96,6 @@ public class RandomizeController {
     @FXML
     private Label lblItemsExcludeIronWeapons;
     @FXML
-    private Label lblItemsAddWeaponUses;
-    @FXML
-    private Label lblItemsDowngradeWindTome;
-    @FXML
-    private Label lblItemsRemovePrfLocks;
-    @FXML
     private Label lblItems;
     @FXML
     private Label lblRandomizeRewards;
@@ -111,6 +103,20 @@ public class RandomizeController {
     private Label lblRandomizeShops;
     @FXML
     private Label lblRandomizeScrolls;
+    @FXML
+    private Label lblBalance;
+    @FXML
+    private Label lblBalanceNerfBallistaeAcc;
+    @FXML
+    private Label lblBalanceAddWeaponUses;
+    @FXML
+    private Label lblBalanceDowngradeWindTome;
+    @FXML
+    private Label lblBalanceRemovePrfLocks;
+    @FXML
+    private Label lblBalanceChangeBraveAxeToBRank;
+    @FXML
+    private Label lblBalanceBuffAllyUnits;
     @FXML
     private Label lblShufflePalettes;
     @FXML
@@ -356,20 +362,17 @@ public class RandomizeController {
         {
             super.bind(summary.randomizeEnemyUnitClassesProperty(), summary.enemiesAddExtraInventoryProperty(),
                     summary.randomizeEnemyMovStarsProperty(), summary.randomizeEnemyLeadershipStarsProperty(),
-                    summary.randomizeBossSkillsProperty(), summary.randomizeEnemySkillsProperty(), summary.enemyNerfBallistaeProperty());
+                    summary.randomizeBossSkillsProperty(), summary.randomizeEnemySkillsProperty());
         }
         
         @Override
         protected boolean computeValue() {
-            boolean visible = summary.randomizeEnemyUnitClassesProperty().getValue()
+            return summary.randomizeEnemyUnitClassesProperty().getValue()
                     || summary.enemiesAddExtraInventoryProperty().getValue()
                     || summary.randomizeEnemyMovStarsProperty().getValue()
                     || summary.randomizeEnemyLeadershipStarsProperty().getValue()
                     || summary.randomizeBossSkillsProperty().getValue()
-                    || summary.randomizeEnemySkillsProperty().getValue()
-                    || summary.enemyNerfBallistaeProperty().getValue();
-
-            return visible;
+                    || summary.randomizeEnemySkillsProperty().getValue();
         }
     };
     
@@ -421,19 +424,9 @@ public class RandomizeController {
     };
 
     private StringBinding txtEnemyLeadStars = new StringBinding() {
-        {
-            super.bind(summary.enemyLeadershipExcludeZeroProperty());
-        }
-        
         @Override
         protected String computeValue() {
-            String text = "Randomize enemy Leadership stars";
-            
-            if(summary.enemyLeadershipExcludeZeroProperty().getValue()) {
-                text += ", exclude units with 0 stars";
-            }
-                                    
-            return text;
+            return "Randomize enemy Leadership stars";
         }
     };
     
@@ -471,8 +464,7 @@ public class RandomizeController {
                     summary.wpnsBladeEffectChanceProperty(), summary.wpnsAddStatBonusProperty(),
                     summary.wpnsAddBladeEffectProperty(), summary.wpnsBladeEffectChanceProperty(),
                     summary.wpnsAvailableBladeEffectsProperty(), summary.wpnsAddWeaponSkillProperty(),
-                    summary.wpnsExcludeIronWeaponsProperty(), summary.wpnsIncreaseUsesProperty(),
-                    summary.wpnsDowngradeWindTomeProperty(), summary.wpnsRemoveWeaponsPrfLocksProperty());
+                    summary.wpnsExcludeIronWeaponsProperty());
         }
         
         @Override
@@ -487,12 +479,27 @@ public class RandomizeController {
                             && summary.wpnsBladeEffectChanceProperty().getValue() > 0
                             && summary.wpnsAvailableBladeEffectsProperty().getValue() > 0)
                     || summary.wpnsAddStatBonusProperty().getValue()
-                    || summary.wpnsAddWeaponSkillProperty().getValue()
-                    || summary.wpnsIncreaseUsesProperty().getValue()
-                    || summary.wpnsDowngradeWindTomeProperty().getValue()
-                    || summary.wpnsRemoveWeaponsPrfLocksProperty().getValue();
+                    || summary.wpnsAddWeaponSkillProperty().getValue();
 
             return visible;
+        }
+    };
+
+    private BooleanBinding balanceLabelVisible = new BooleanBinding() {
+        {
+            super.bind(summary.balanceBuffAllyUnitsProperty(), summary.balanceChangeBraveAxeToBRankProperty(),
+                    summary.balanceDowngradeWindTomeProperty(), summary.balanceNerfBallistaeProperty(),
+                    summary.balanceRemovePrfLocksProperty(), summary.balanceWpnsIncreaseUsesProperty());
+        }
+
+        @Override
+        protected boolean computeValue() {
+            return summary.balanceBuffAllyUnitsProperty().getValue()
+                    || summary.balanceChangeBraveAxeToBRankProperty().getValue()
+                    || summary.balanceDowngradeWindTomeProperty().getValue()
+                    || summary.balanceNerfBallistaeProperty().getValue()
+                    || summary.balanceRemovePrfLocksProperty().getValue()
+                    || summary.balanceWpnsIncreaseUsesProperty().getValue();
         }
     };
     
@@ -529,9 +536,7 @@ public class RandomizeController {
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize items Weight ±%d", summary.wpnsWeightDeltaProperty().getValue());
-                                    
-            return text;
+            return String.format("Randomize items Weight ±%d", summary.wpnsWeightDeltaProperty().getValue());
         }
     };
     
@@ -764,7 +769,6 @@ public class RandomizeController {
         lblEnemyLeadStars.managedProperty().bind(lblEnemyLeadStars.visibleProperty());
         lblEnemyBossSkills.managedProperty().bind(lblEnemyBossSkills.visibleProperty());
         lblEnemySkills.managedProperty().bind(lblEnemySkills.visibleProperty());
-        lblEnemyNerfBallistae.managedProperty().bind(lblEnemyNerfBallistae.visibleProperty());
         
         lblEnemies.visibleProperty().bind(enemyLabelVisible);
         lblEnemyClasses.visibleProperty().bind(summary.randomizeEnemyUnitClassesProperty());
@@ -773,7 +777,6 @@ public class RandomizeController {
         lblEnemyLeadStars.visibleProperty().bind(summary.randomizeEnemyLeadershipStarsProperty());
         lblEnemyBossSkills.visibleProperty().bind(summary.randomizeBossSkillsProperty());
         lblEnemySkills.visibleProperty().bind(summary.randomizeEnemySkillsProperty());
-        lblEnemyNerfBallistae.visibleProperty().bind(summary.enemyNerfBallistaeProperty());
         
         lblEnemyClasses.textProperty().bind(txtEnemyClases);
         lblEnemyExtraInventory.textProperty().bind(txtEnemyExtraInventory);
@@ -794,24 +797,18 @@ public class RandomizeController {
         lblItemsStatBonus.managedProperty().bind(lblItemsStatBonus.visibleProperty());
         lblItemsWeaponSkill.managedProperty().bind(lblItemsWeaponSkill.visibleProperty());
         lblItemsExcludeIronWeapons.managedProperty().bind(lblItemsExcludeIronWeapons.visibleProperty());
-        lblItemsAddWeaponUses.managedProperty().bind(lblItemsAddWeaponUses.visibleProperty());
-        lblItemsDowngradeWindTome.managedProperty().bind(lblItemsDowngradeWindTome.visibleProperty());
-        lblItemsRemovePrfLocks.managedProperty().bind(lblItemsRemovePrfLocks.visibleProperty());
         
         lblWeapons.visibleProperty().bind(weaponsLabelVisible);
         lblItemsMight.visibleProperty().bind(summary.randomizeWpnsMightProperty());
         lblItemsAccuracy.visibleProperty().bind((summary.randomizeWpnsAccuracyProperty()));
         lblItemsWeight.visibleProperty().bind(summary.randomizeWpnsWeightProperty());
         lblItemsCritical.visibleProperty().bind(summary.randomizeWpnsCriticalProperty());
-        lblItemsMaxUses.visibleProperty().bind(summary.randomizeWpnsMaxUsesProperty().and(summary.wpnsIncreaseUsesProperty().not()));
+        lblItemsMaxUses.visibleProperty().bind(summary.randomizeWpnsMaxUsesProperty().and(summary.balanceWpnsIncreaseUsesProperty().not()));
         lblItemsCost.visibleProperty().bind(summary.randomizeWpnsCostProperty());
         lblItemsBladeEffect.visibleProperty().bind(lblItemsBladeEffectVisible);
         lblItemsStatBonus.visibleProperty().bind(summary.wpnsAddStatBonusProperty());
         lblItemsWeaponSkill.visibleProperty().bind(summary.wpnsAddWeaponSkillProperty());
         lblItemsExcludeIronWeapons.visibleProperty().bind(summary.wpnsExcludeIronWeaponsProperty().and(summary.anyItemRandomization));
-        lblItemsAddWeaponUses.visibleProperty().bind(summary.wpnsIncreaseUsesProperty().and(summary.randomizeWpnsMaxUsesProperty().not()));
-        lblItemsDowngradeWindTome.visibleProperty().bind(summary.wpnsDowngradeWindTomeProperty());
-        lblItemsRemovePrfLocks.visibleProperty().bind(summary.wpnsRemoveWeaponsPrfLocksProperty());
         
         lblItemsMight.textProperty().bind(txtItemsMight);
         lblItemsAccuracy.textProperty().bind(txtItemsAccuracy);
@@ -835,6 +832,23 @@ public class RandomizeController {
         lblRandomizeRewards.textProperty().bind(txtItemRewards);
         lblRandomizeShops.textProperty().bind(txtShopRandomization);
         lblRandomizeScrolls.textProperty().bind(txtScrollRandomization);
+
+        // balance
+        lblBalance.managedProperty().bind(lblBalance.visibleProperty());
+        lblBalanceNerfBallistaeAcc.managedProperty().bind(lblBalanceNerfBallistaeAcc.visibleProperty());
+        lblBalanceAddWeaponUses.managedProperty().bind(lblBalanceAddWeaponUses.visibleProperty());
+        lblBalanceDowngradeWindTome.managedProperty().bind(lblBalanceDowngradeWindTome.visibleProperty());
+        lblBalanceRemovePrfLocks.managedProperty().bind(lblBalanceRemovePrfLocks.visibleProperty());
+        lblBalanceChangeBraveAxeToBRank.managedProperty().bind(lblBalanceChangeBraveAxeToBRank.visibleProperty());
+        lblBalanceBuffAllyUnits.managedProperty().bind(lblBalanceBuffAllyUnits.visibleProperty());
+
+        lblBalance.visibleProperty().bind(balanceLabelVisible);
+        lblBalanceNerfBallistaeAcc.visibleProperty().bind(summary.balanceNerfBallistaeProperty());
+        lblBalanceAddWeaponUses.visibleProperty().bind(summary.balanceWpnsIncreaseUsesProperty().and(summary.randomizeWpnsMaxUsesProperty().not()));
+        lblBalanceDowngradeWindTome.visibleProperty().bind(summary.balanceDowngradeWindTomeProperty());
+        lblBalanceRemovePrfLocks.visibleProperty().bind(summary.balanceRemovePrfLocksProperty());
+        lblBalanceChangeBraveAxeToBRank.visibleProperty().bind(summary.balanceChangeBraveAxeToBRankProperty());
+        lblBalanceBuffAllyUnits.visibleProperty().bind(summary.balanceBuffAllyUnitsProperty());
 
         // palettes
         lblPalettes.managedProperty().bind(lblPalettes.visibleProperty());

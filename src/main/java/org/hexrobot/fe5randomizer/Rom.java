@@ -563,12 +563,30 @@ public class Rom {
 
         assignNewClasses(characters, bannedClasses);
 
+        laraPahnRemoveStealSkill();
         updateEyvelCh5Weapon();
         
         promotionData.updatePromotions();
     }
 
-    public void updateEyvelCh5Weapon() {
+    private void laraPahnRemoveStealSkill() {
+        GameCharacter lara = GameCharacter.LARA;
+        GameCharacter pahn = GameCharacter.PAHN;
+
+        if(!lara.getCharacterClass().isThief()) {
+            ArrayList<Skill> laraSkills = lara.getSkills();
+            laraSkills.remove(Skill.STEAL);
+            lara.setSkills(laraSkills);
+        }
+
+        if(!pahn.getCharacterClass().isThief()) {
+            ArrayList<Skill> pahnSkills = pahn.getSkills();
+            pahnSkills.remove(Skill.STEAL);
+            pahn.setSkills(pahnSkills);
+        }
+    }
+
+    private void updateEyvelCh5Weapon() {
         final int CH5_EYVEL_ITEM_OFFSET = 0xCA204;
         if(GameCharacter.EYVEL.getOldValues().containsKey("characterClass")) {
             ArmyUnit eyvelUnit = Chapter.CHAPTER_1.getArmyData().get(21);
@@ -756,13 +774,9 @@ public class Rom {
         assignLeadershipStars(playableCharacters, false);
     }
     
-    public void randomizeEnemyLeadershipStars(boolean excludeZeroStars) {
+    public void randomizeEnemyLeadershipStars() {
         ArrayList<GameCharacter> enemyCharacters = GameCharacter.getEnemyUnits();
-
-        if(excludeZeroStars) {
-            enemyCharacters.removeIf(unit -> unit.getLeadershipStars() == 0);
-        }
-
+        enemyCharacters.removeIf(unit -> unit.getLeadershipStars() == 0);
         assignLeadershipStars(enemyCharacters, true);
     }
     
@@ -1099,7 +1113,7 @@ public class Rom {
     
     public void randomizeShopsChaotic(boolean maintainItemCount) {
         List<Item> availableItems = Item.getItemsForShops();
-        List<Shop> excludedShops = new ArrayList<>(List.of(Shop.BATTLE_PREPS, Shop.CH24_SECRET));
+        List<Shop> excludedShops = Shop.getExcludedShops();
         
         for(Shop shop: Shop.values()) {
             if(excludedShops.contains(shop)) {
@@ -1133,7 +1147,7 @@ public class Rom {
     }
     
     public void randomizeShopsShuffle(boolean maintainItemCount) {
-        List<Shop> excludedShops = new ArrayList<>(List.of(Shop.BATTLE_PREPS, Shop.CH24_SECRET));
+        List<Shop> excludedShops = Shop.getExcludedShops();
         List<Item> allShopItems = new ArrayList<>();
         List<Integer> shopItemCounts = new ArrayList<>();
         List<Shop> shopsDuplicatedItems = new ArrayList<>();
@@ -1231,7 +1245,7 @@ public class Rom {
     }
     
     public void randomizeShopsReplaceSimilar() {
-        List<Shop> excludedShops = new ArrayList<>(List.of(Shop.BATTLE_PREPS, Shop.CH24_SECRET));
+        List<Shop> excludedShops = Shop.getExcludedShops();
         
         for(Shop shop: Shop.values()) {
             if(excludedShops.contains(shop)) {
@@ -1426,7 +1440,6 @@ public class Rom {
         windTome.setWeaponRank(WeaponRank.E);
         windTome.setPower(4); // Was 6
         windTome.setAccuracy(80); // Was 90
-        windTome.setCritical(5); // Was 10
     }
     
     public void addWeaponUses() {
@@ -1458,8 +1471,8 @@ public class Rom {
     public void removePrfLocks() {
         Item.LIGHT_SWORD.setWeaponRank(WeaponRank.B);
         Item.EARTH_SWORD.setWeaponRank(WeaponRank.B);
-        Item.DARKNESS_SWORD.setWeaponRank(WeaponRank.C);
-        Item.MAREETAS_SWORD.setWeaponRank(WeaponRank.C);
+        Item.DARKNESS_SWORD.setWeaponRank(WeaponRank.B);
+        Item.MAREETAS_SWORD.setWeaponRank(WeaponRank.B);
         Item.BEOSWORD.setWeaponRank(WeaponRank.A);
         Item.HOLY_SWORD.setWeaponRank(WeaponRank.A);
         Item.BLAGI_SWORD.setWeaponRank(WeaponRank.B);
@@ -1467,7 +1480,7 @@ public class Rom {
         Item.BRAVE_LANCE.setWeaponRank(WeaponRank.B);
         Item.PUGI.setWeaponRank(WeaponRank.C);
         Item.DAIM_THUNDER.setWeaponRank(WeaponRank.B);
-        Item.GRAFCALIBUR.setWeaponRank(WeaponRank.B);
+        Item.GRAFCALIBUR.setWeaponRank(WeaponRank.A);
         Item.REPAIR.setWeaponRank(WeaponRank.B);
         Item.THIEF_STAFF.setWeaponRank(WeaponRank.B);
         Item.UNLOCK.setWeaponRank(WeaponRank.C);
@@ -1480,6 +1493,25 @@ public class Rom {
         Item.LONG_ARCH.setAccuracy(65);
         Item.IRON_ARCH.setAccuracy(65);
         Item.KILLER_ARCH.setAccuracy(65);
+    }
+
+    public void changeBraveAxeToBRank() {
+        Item.BRAVE_AXE.setWeaponRank(WeaponRank.B);
+    }
+
+    public void buffAllyUnits() {
+        ArrayList<ArmyUnit> ch4Units = Chapter.CHAPTER_4.getArmyData();
+        ArrayList<ArmyUnit> ch13Units = Chapter.CHAPTER_13.getArmyData();
+
+        ch4Units.get(0).setLevel(10);
+        ch4Units.get(1).setLevel(10);
+        ch4Units.get(2).setLevel(10);
+
+        ch13Units.get(2).setLevel(12);
+        ch13Units.get(3).setLevel(12);
+        ch13Units.get(4).setLevel(12);
+        ch13Units.get(5).setLevel(12);
+        ch13Units.get(6).setLevel(12);
     }
     
     public ArrayList<ArmyUnit> getArmyUnits() {

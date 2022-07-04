@@ -41,6 +41,7 @@ public enum Shop {
     private String name;
     private List<Item> items = new ArrayList<Item>();
     private Map<String, Object> oldValues = new HashMap<>();
+    private static final ArrayList<Shop> EXCLUDED_SHOPS = new ArrayList<>(List.of(BATTLE_PREPS, CH24_SECRET));
     
     private Shop(int offset, String name) {
         this.offset = offset;
@@ -78,6 +79,10 @@ public enum Shop {
     	}
     	
     	return oldItems;
+    }
+
+    public static ArrayList<Shop> getExcludedShops() {
+        return new ArrayList<>(EXCLUDED_SHOPS);
     }
     
     public ArrayList<GenericDiff<Item>> getComparedItems() {

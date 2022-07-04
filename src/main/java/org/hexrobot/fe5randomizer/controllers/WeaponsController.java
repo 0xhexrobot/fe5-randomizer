@@ -43,8 +43,6 @@ public class WeaponsController {
     @FXML
     private CheckBox chkAddBladeEffect;
     @FXML
-    private CheckBox chkRandomizeScrolls;
-    @FXML
     private CheckBox chkAddSkill;
     @FXML
     private HBox parAddWeaponSkill;
@@ -78,12 +76,6 @@ public class WeaponsController {
     private Spinner<Integer> spStatBonusChance;
     @FXML
     private CheckBox chkExcludeIronWeapons;
-    @FXML
-    private CheckBox chkAddWeaponUses;
-    @FXML
-    private CheckBox chkDowngradeWindTome;
-    @FXML
-    private CheckBox chkRemoveWeaponPrfLocks;
     private RandomizationSummary summary = MainController.getInstance().getRandomizeSummary();
         
     @FXML
@@ -123,27 +115,20 @@ public class WeaponsController {
             
             @Override
             protected int computeValue() {
-                int value = (chkPoison.selectedProperty().get() ? 1 : 0)
+                return (chkPoison.selectedProperty().get() ? 1 : 0)
                         + (chkDevil.selectedProperty().get() ? 2 : 0)
                         + (chkStealHp.selectedProperty().get() ? 4 : 0)
                         + (chkStone.selectedProperty().get() ? 8 : 0)
                         + (chkHell.selectedProperty().get() ? 16 : 0)
                         + (chkBerserk.selectedProperty().get() ? 32 : 0)
                         + (chkSleep.selectedProperty().get() ? 64 : 0);
-                
-                return value;
             }
         };
         
         summary.wpnsAvailableBladeEffectsProperty().bind(bladeEffectBinding);
         
         chkExcludeIronWeapons.selectedProperty().bindBidirectional(summary.wpnsExcludeIronWeaponsProperty());
-        chkAddWeaponUses.selectedProperty().bindBidirectional(summary.wpnsIncreaseUsesProperty());
-        chkDowngradeWindTome.selectedProperty().bindBidirectional(summary.wpnsDowngradeWindTomeProperty());
-        chkRemoveWeaponPrfLocks.selectedProperty().bindBidirectional(summary.wpnsRemoveWeaponsPrfLocksProperty());
-        
-        chkUses.disableProperty().bind(summary.wpnsIncreaseUsesProperty());
-        chkAddWeaponUses.disableProperty().bind(summary.randomizeWpnsMaxUsesProperty());
+        chkUses.disableProperty().bind(summary.balanceWpnsIncreaseUsesProperty());
         chkExcludeIronWeapons.disableProperty().bind(summary.anyItemRandomization.not());
     }
 }

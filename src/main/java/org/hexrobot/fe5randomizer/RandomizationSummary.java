@@ -45,14 +45,11 @@ public class RandomizationSummary {
     private final SimpleBooleanProperty randomizeEnemyMovStars = new SimpleBooleanProperty();
     private final SimpleBooleanProperty enemyMovStarsExcludeZero = new SimpleBooleanProperty();
     private final SimpleBooleanProperty randomizeEnemyLeadershipStars = new SimpleBooleanProperty();
-    private final SimpleBooleanProperty enemyLeadershipExcludeZero = new SimpleBooleanProperty();
     // enemy skills
     private final SimpleBooleanProperty randomizeBossSkills = new SimpleBooleanProperty();
     private final SimpleObjectProperty<Integer> maxBossSkillCount = new SimpleObjectProperty<Integer>(3);
     private final SimpleBooleanProperty randomizeEnemySkills = new SimpleBooleanProperty();
     private final SimpleObjectProperty<Integer> maxEnemySkillCount = new SimpleObjectProperty<Integer>(1);
-    // enemy other
-    private final SimpleBooleanProperty enemyNerfBallistae = new SimpleBooleanProperty();
     // weapons
     private final SimpleBooleanProperty randomizeWpnsMight = new SimpleBooleanProperty();
     private final SimpleBooleanProperty randomizeWpnsAccuracy = new SimpleBooleanProperty();
@@ -73,9 +70,6 @@ public class RandomizationSummary {
     private final SimpleIntegerProperty wpnsAvailableBladeEffects = new SimpleIntegerProperty(0);
     private final SimpleBooleanProperty wpnsAllowMultipleWeaponSkills = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty wpnsExcludeIronWeapons = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty wpnsIncreaseUses = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty wpnsDowngradeWindTome = new SimpleBooleanProperty(false);
-    private final SimpleBooleanProperty wpnsRemoveWeaponsPrfLocks = new SimpleBooleanProperty(false);
     // item rewards
     private final SimpleBooleanProperty randomizeRewards = new SimpleBooleanProperty(false);
     private final SimpleObjectProperty<Toggle> rewardsRandomizationType = new SimpleObjectProperty<Toggle>();
@@ -89,6 +83,13 @@ public class RandomizationSummary {
     private final SimpleBooleanProperty randomizeScrolls = new SimpleBooleanProperty(false);
     private final SimpleObjectProperty<Toggle> scrollsRandomizationType = new SimpleObjectProperty<Toggle>();
     private final SimpleBooleanProperty scrollsShuffleAttributes = new SimpleBooleanProperty(false);
+    // balance
+    private final SimpleBooleanProperty balanceChangeBraveAxeToBRank = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty balanceBuffAllyUnits = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty balanceNerfBallistae = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty balanceWpnsIncreaseUses = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty balanceDowngradeWindTome = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty balanceRemovePrfLocks = new SimpleBooleanProperty(false);
     // palettes
     private final SimpleBooleanProperty shufflePalettes = new SimpleBooleanProperty(false);
     // Lil Manster
@@ -226,10 +227,6 @@ public class RandomizationSummary {
         return randomizeEnemyLeadershipStars;
     }
 
-    public SimpleBooleanProperty enemyLeadershipExcludeZeroProperty() {
-        return enemyLeadershipExcludeZero;
-    }
-    
     public SimpleBooleanProperty randomizeBossSkillsProperty() {
         return randomizeBossSkills;
     }
@@ -245,9 +242,17 @@ public class RandomizationSummary {
     public SimpleObjectProperty<Integer> maxEnemySkillCountProperty() {
         return maxEnemySkillCount;
     }
+
+    public SimpleBooleanProperty balanceChangeBraveAxeToBRankProperty() {
+        return balanceChangeBraveAxeToBRank;
+    }
+
+    public SimpleBooleanProperty balanceBuffAllyUnitsProperty() {
+        return balanceBuffAllyUnits;
+    }
     
-    public SimpleBooleanProperty enemyNerfBallistaeProperty() {
-        return enemyNerfBallistae;
+    public SimpleBooleanProperty balanceNerfBallistaeProperty() {
+        return balanceNerfBallistae;
     }
 
     public SimpleBooleanProperty randomizeWpnsMightProperty() {
@@ -326,16 +331,16 @@ public class RandomizationSummary {
         return wpnsExcludeIronWeapons;
     }
 
-    public SimpleBooleanProperty wpnsIncreaseUsesProperty() {
-        return wpnsIncreaseUses;
+    public SimpleBooleanProperty balanceWpnsIncreaseUsesProperty() {
+        return balanceWpnsIncreaseUses;
     }
 
-    public SimpleBooleanProperty wpnsDowngradeWindTomeProperty() {
-        return wpnsDowngradeWindTome;
+    public SimpleBooleanProperty balanceDowngradeWindTomeProperty() {
+        return balanceDowngradeWindTome;
     }
 
-    public SimpleBooleanProperty wpnsRemoveWeaponsPrfLocksProperty() {
-        return wpnsRemoveWeaponsPrfLocks;
+    public SimpleBooleanProperty balanceRemovePrfLocksProperty() {
+        return balanceRemovePrfLocks;
     }
     
     public SimpleBooleanProperty randomizeRewardsProperty() {
@@ -510,10 +515,6 @@ public class RandomizationSummary {
         return randomizeEnemyLeadershipStars.getValue();
     }
 
-    public boolean getEnemyLeadershipExcludeZero() {
-        return enemyLeadershipExcludeZero.getValue();
-    }
-    
     public boolean getRandomizeBossSkills() {
         return randomizeBossSkills.getValue();
     }
@@ -529,9 +530,17 @@ public class RandomizationSummary {
     public int getMaxEnemySkillCount() {
         return maxEnemySkillCount.getValue();
     }
+
+    public boolean getBalanceChangeBraveAxeToBRank() {
+        return balanceChangeBraveAxeToBRank.getValue();
+    }
+
+    public boolean getBalanceBuffAllyUnits() {
+        return balanceBuffAllyUnits.getValue();
+    }
     
     public boolean getNerfBallistae() {
-        return enemyNerfBallistae.getValue();
+        return balanceNerfBallistae.getValue();
     }
 
     public boolean getRandomizeWpnsMight() {
@@ -622,16 +631,16 @@ public class RandomizationSummary {
         return wpnsExcludeIronWeapons.getValue();
     }
 
-    public boolean getWpnsIncreaseUses() {
-        return wpnsIncreaseUses.getValue();
+    public boolean getBalanceWpnsIncreaseUses() {
+        return balanceWpnsIncreaseUses.getValue();
     }
 
-    public boolean getWpnsDowngradeWindTome() {
-        return wpnsDowngradeWindTome.getValue();
+    public boolean getBalanceDowngradeWindTome() {
+        return balanceDowngradeWindTome.getValue();
     }
 
-    public boolean getWpnsRemoveWeaponsPrfLocks() {
-        return wpnsRemoveWeaponsPrfLocks.getValue();
+    public boolean getBalanceRemovePrfLocks() {
+        return balanceRemovePrfLocks.getValue();
     }
     
     public boolean getRandomizeRewards() {
@@ -714,22 +723,22 @@ public class RandomizationSummary {
                 randomizeMovStars.getValue(), movStarsExcludeZero.getValue(), randomizeLeadershipStars.getValue(), leadershipExcludeZero.getValue());
         text += String.format("Randomize enemy classes: %b, Exclude bosses: %b\n",
                 randomizeEnemyUnitClasses.getValue(), randomizeEnemyUnitClassesExcludeBosses.getValue());
-        text += String.format("Randomize enemy Mov stars? %b, Exclude units with zero stars: %b, Randomize enemy Leadership stars? %b, Exclude units with zero stars: %b\n",
-                randomizeEnemyMovStars.getValue(), enemyMovStarsExcludeZero.getValue(), randomizeEnemyLeadershipStars.getValue(), enemyLeadershipExcludeZero.getValue());
+        text += String.format("Randomize enemy Mov stars? %b, Exclude units with zero stars: %b, Randomize enemy Leadership stars? %b\n",
+                randomizeEnemyMovStars.getValue(), enemyMovStarsExcludeZero.getValue(), randomizeEnemyLeadershipStars.getValue());
         text += String.format("Randomize boss skills? %b, Max skill count: %d, Randomize normal enemy skills? %b, Max skill count: %d, Nerf Ballistae: %b\n",
-                randomizeBossSkills.getValue(), maxBossSkillCount.getValue(), randomizeEnemySkills.getValue(), maxEnemySkillCount.getValue(), enemyNerfBallistae.getValue());
+                randomizeBossSkills.getValue(), maxBossSkillCount.getValue(), randomizeEnemySkills.getValue(), maxEnemySkillCount.getValue(), balanceNerfBallistae.getValue());
         text += String.format("Randomize weapons... Might? %b, Delta: %d, Accuracy? %b, Delta: %d, Weight? %b, Delta: %d, Critical: %b, Delta %d\n",
                 randomizeWpnsMight.getValue(), wpnsMightDelta.getValue(), randomizeWpnsAccuracy.getValue(), wpnsAccuracyDelta.getValue(), randomizeWpnsWeight.getValue(), wpnsWeightDelta.getValue(), randomizeWpnsCritical.getValue(), wpnsCriticalDelta.getValue());
-        text += String.format("Randomize weapons... Max uses? %b, Cost? %b, Blade effect? %b, Chance: %d, Effects: %d, Stat bonus: %b, Chance %d, Weapon skill: %b, Chance: %d, Allow multiple: %b\n",
-                randomizeWpnsMaxUses.getValue(), randomizeWpnsCost.getValue(), wpnsAddBladeEffect.getValue(), wpnsBladeEffectChance.getValue(), wpnsAvailableBladeEffects.getValue(), wpnsAddStatBonus.getValue(), wpnsStatBonusChance.getValue(), wpnsAddWeaponSkill.getValue(), wpnsSkillChance.getValue(), wpnsAllowMultipleWeaponSkills.getValue());
-        text += String.format("Randomize weapons... Exclude iron weapons? %b, Add weapon uses? %b, Downgrade Wind tome? %b, Remove wpn Prf locks: %b\n",
-                wpnsExcludeIronWeapons.getValue(), wpnsIncreaseUses.getValue(), wpnsDowngradeWindTome.getValue(), wpnsRemoveWeaponsPrfLocks.getValue());
+        text += String.format("Randomize weapons... Max uses? %b, Cost? %b, Blade effect? %b, Chance: %d, Effects: %d, Stat bonus: %b, Chance %d, Weapon skill: %b, Chance: %d, Allow multiple: %b, Exclude iron weapons? %b\n",
+                randomizeWpnsMaxUses.getValue(), randomizeWpnsCost.getValue(), wpnsAddBladeEffect.getValue(), wpnsBladeEffectChance.getValue(), wpnsAvailableBladeEffects.getValue(), wpnsAddStatBonus.getValue(), wpnsStatBonusChance.getValue(), wpnsAddWeaponSkill.getValue(), wpnsSkillChance.getValue(), wpnsAllowMultipleWeaponSkills.getValue(), wpnsExcludeIronWeapons.getValue());
         text += String.format("Randomize rewards: %b... Randomization type: %s, Safe scrolls: %b, Safe KnightProofs: %b\n",
                 randomizeRewards.getValue(), getRewardsRandomizationType(), rewardsSafeScrolls.getValue(), rewardsSafeKnightProofs.getValue());
         text += String.format("Randomize shops: %b... Randomization type: %s, Maintain item count: %b\n",
                 randomizeShops.getValue(), getShopsRandomizationType(), shopsMaintainItemCount.getValue());
         text += String.format("Randomize scrolls: %b... Randomization type: %s, Shuffle attributes: %b\n",
                 randomizeScrolls.getValue(), getScrollsRandomizationType(), scrollsShuffleAttributes.getValue());
+        text += String.format("Balance. Brave axe rank B: %b, Nerf ballistae acc: %b, Buff Ally units: %b, Add weapon uses: %b, Downgrade Wind tome: %b, Remove Prf* locks: %b\n",
+                balanceChangeBraveAxeToBRank.getValue(), balanceNerfBallistae.getValue(), balanceBuffAllyUnits.getValue(), balanceWpnsIncreaseUses.getValue(), balanceDowngradeWindTome.getValue(), balanceRemovePrfLocks.getValue());
         text += String.format("Randomize palettes: %b\n", shufflePalettes.getValue());
         text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterRenamePugi.getValue());
         text += String.format("Project Exile Rename to Pugi: %b\n", exileRenamePugi.getValue());
