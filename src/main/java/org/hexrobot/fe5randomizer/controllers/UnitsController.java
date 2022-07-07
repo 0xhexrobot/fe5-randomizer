@@ -72,7 +72,7 @@ public class UnitsController {
     @FXML
     private CheckBox chkClasses;
     @FXML
-    private VBox parClassesControls;
+    private CheckBox chkAllyUnitClasses;
     @FXML
     private CheckBox chkExcludeHealers;
     @FXML
@@ -171,6 +171,7 @@ public class UnitsController {
         chkClasses.selectedProperty().bindBidirectional(summary.randomizePlayableUnitClassesProperty());
         chkExcludeHealers.selectedProperty().bindBidirectional(summary.excludeHealersProperty());
         chkExcludeThieves.selectedProperty().bindBidirectional(summary.excludeThievesProperty());
+        chkAllyUnitClasses.selectedProperty().bindBidirectional(summary.randomizeAllyUnitClassesProperty());
         
         // skills
         chkRandomizeSkills.selectedProperty().bindBidirectional(summary.RandomizeSkillsProperty());

@@ -124,7 +124,7 @@
                   <Tooltip maxWidth="400.0" text="Randomizes unit classes." wrapText="true" />
                </tooltip>
       		</CheckBox>
-      		<VBox fx:id="parClassesControls" spacing="5.0">
+      		<VBox spacing="5.0">
       			<children>
       				<CheckBox fx:id="chkExcludeHealers" mnemonicParsing="false" text="Exclude healers">
       				<tooltip>
@@ -141,6 +141,11 @@
       				<Insets left="20.0" />
       			</padding>
       		</VBox>
+			<CheckBox fx:id="chkAllyUnitClasses" mnemonicParsing="false" text="Randomize ally unit classes">
+				<tooltip>
+					<Tooltip maxWidth="400.0" text="Randomizes green ally unit classes (except the ones in ch4, they are treated as enemies) and blue generic units in ch13." wrapText="true" />
+				</tooltip>
+			</CheckBox>
       		<CheckBox fx:id="chkRandomizeMovStars" mnemonicParsing="false" text="Randomize Movement stars">
       		<tooltip>
                   <Tooltip maxWidth="400.0" text="Randomizes Movement stars for all playable characters." wrapText="true" />

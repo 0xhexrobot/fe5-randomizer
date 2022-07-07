@@ -29,8 +29,8 @@
             <CheckBox fx:id="chkExtraInventory" mnemonicParsing="false" text="Add extra inventory">
             <tooltip>
                   <Tooltip maxWidth="400.0" text="Adds extra inventory items to enemies." wrapText="true" />
-               </tooltip>
-               </CheckBox>
+            </tooltip>
+            </CheckBox>
             <HBox fx:id="parExtraInventory" alignment="CENTER_RIGHT" spacing="10.0">
                <children>
                   <Label text="Max extra items" />

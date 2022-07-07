@@ -34,6 +34,7 @@
                   <Label fx:id="lblUnitBases" text="unitBases" />
                   <Label fx:id="lblUnitGrowths" text="unitGrowths" />
                   <Label fx:id="lblUnitClasses" text="unitClasses" />
+                  <Label fx:id="lblAllyUnitClasses" text="Randomize ally unit classes" />
                   <Label fx:id="lblUnitMovStars" text="unitMovStars" />
                   <Label fx:id="lblUnitLeadStars" text="unitLeadStars" />
                   <Label fx:id="lblUnitSkills" text="unitSkills" />
@@ -92,6 +93,7 @@
                   <Label fx:id="lblBalanceNerfBallistaeAcc" text="Nerf ballistae accuracy" />
                   <Label fx:id="lblBalanceAddWeaponUses" text="Add weapon uses" />
                   <Label fx:id="lblBalanceBuffAllyUnits" text="Buff ally units" />
+                  <Label fx:id="lblBalanceAllyAddInventory" text="lblBalanceAllyUnits" />
                   <Label fx:id="lblBalanceDowngradeWindTome" text="Downgrade Wind tome" />
                   <Label fx:id="lblBalanceRemovePrfLocks" text="Remove weapon Prf* locks" />
                </children>

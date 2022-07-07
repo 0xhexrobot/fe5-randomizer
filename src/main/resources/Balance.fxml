@@ -2,8 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <ScrollPane fx:id="balance" fitToHeight="true" fitToWidth="true" prefHeight="415.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.BalanceController">
@@ -25,6 +29,17 @@
                   <Tooltip maxWidth="400.0" text="Levels up green ally units in ch4 and playable generic units in ch13." wrapText="true" />
                </tooltip>
       		</CheckBox>
+            <CheckBox fx:id="chkExtraInventory" mnemonicParsing="false" text="Add extra inventory to ally units">
+                <tooltip>
+                    <Tooltip maxWidth="400.0" text="Adds extra inventory items to ally units." wrapText="true" />
+                </tooltip>
+            </CheckBox>
+            <HBox fx:id="parExtraInventory" alignment="CENTER_RIGHT" spacing="10.0">
+                <children>
+                    <Label text="Max extra items" />
+                    <Spinner fx:id="spExtraInventory" max="7" min="1" prefHeight="26.0" prefWidth="70.0" />
+                </children>
+            </HBox>
       		<CheckBox fx:id="chkAddWeaponUses" mnemonicParsing="false" text="Add weapon uses">
       		<tooltip>
                 <Tooltip maxWidth="400.0" text="Changes Max uses of several Weapons:&#010;&#010;Max uses 30: Master Sword, Thin Lance, Killer Lance, Master Lance, Killer Axe, Master Axe, Killer Bow, Master Bow, Fire.&#010;Max uses 20: Tron, Tornado, Mend.&#010;Max uses 10: Torch staff, Physic, Restore.&#010;Torch -> 5, Pure Water -> 3." wrapText="true" />

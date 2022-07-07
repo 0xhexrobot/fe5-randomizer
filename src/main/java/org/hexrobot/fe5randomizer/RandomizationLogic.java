@@ -1,9 +1,6 @@
 package org.hexrobot.fe5randomizer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.hexrobot.fe5randomizer.chapters.ArmyUnit;
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
@@ -11,6 +8,7 @@ import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.characters.Gender;
 import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.ItemType;
+import org.hexrobot.fe5randomizer.items.WeaponRank;
 
 public class RandomizationLogic {
     private Map<GameCharacter, List<CharacterClass>> bannedClasses = new HashMap<>();
@@ -22,6 +20,10 @@ public class RandomizationLogic {
         List<CharacterClass> mountedClasses = CharacterClass.getMountedClasses();
         List<CharacterClass> flyingClasses = CharacterClass.getFlyingClasses();
         List<CharacterClass> canTraverseWaterClasses = CharacterClass.getCanTraverseWaterClasses();
+        List<CharacterClass> healerClasses = CharacterClass.getHealerClasses();
+        List<CharacterClass> mountedOrHealers = new ArrayList<>();
+        mountedOrHealers.addAll(mountedClasses);
+        mountedOrHealers.addAll(healerClasses);
         
         // exclude these classes for these characters
         bannedClasses.put(GameCharacter.GALZUS, mountedClasses);
@@ -55,7 +57,7 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.MAGI_SQUAD_BOW_FIGHTER, mountedClasses);
         bannedClasses.put(GameCharacter.LUMEI_BOSS, mountedClasses);
         bannedClasses.put(GameCharacter.BANDIT_HUNTER, mountedClasses);
-        bannedClasses.put(GameCharacter.BANDIT_MOUNTAIN_THIEF, mountedClasses);
+        bannedClasses.put(GameCharacter.BANDIT_MOUNTAIN_THIEF, mountedOrHealers);
         bannedClasses.put(GameCharacter.THIEF_F, mountedClasses);
         bannedClasses.put(GameCharacter.FREEGE_MAGE, mountedClasses);
         bannedClasses.put(GameCharacter.FREEGE_SOLDIER, mountedClasses);
@@ -106,6 +108,8 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.BRIGHTON, mountedClasses);
         bannedClasses.put(GameCharacter.MACHYUA, mountedClasses);
         bannedClasses.put(GameCharacter.EYVEL, mountedClasses);
+        bannedClasses.put(GameCharacter.LENSTER_LANCE_KNIGHT, healerClasses);
+        bannedClasses.put(GameCharacter.LENSTER_ARCH_KNIGHT, healerClasses);
         
         if(!summary.getExcludeThieves()) {
             bannedClasses.put(GameCharacter.RIFIS, mountedClasses);
@@ -124,9 +128,7 @@ public class RandomizationLogic {
         limitedClassPool.put(GameCharacter.THRACIA_DRAGON_KNIGHT3, flyingClasses);
         limitedClassPool.put(GameCharacter.MALLOCK_BOSS, flyingClasses);
 
-        // item scarcity
-        itemScarcity.put(Item.ELITE_SWORD, 0.25f);
-        
+        setItemScarcity();
         populateUniqueRewards();
     }
     
@@ -139,22 +141,18 @@ public class RandomizationLogic {
             return 0;
         }
 
-        float value = 0;
-
-        // lower value to repeated items
-        if(unit.canUseWeapon(item)) {
-            int countSameItems = 0;
-            
-            for(Item invItem : inventory) {
-                if(invItem.equals(item)) {
-                    countSameItems++;
-                }
-            }
-            
-            value = 1 / (float)(Math.pow(4, countSameItems));
+        if (!unit.canUseWeapon(item)) {
+            return 0;
         }
 
-        value *= itemScarcity.getOrDefault(item, 1.0f);
+        // relative item scarcity
+        float value = itemScarcity.getOrDefault(item, 1.0f);
+
+        // lower value to repeated items
+        int countSameItems = Collections.frequency(inventory, item);
+        value *= 1 / (float)(Math.pow(4, countSameItems));
+
+        // weapon rank value
         float rankValue;
         if(unit.getCharacter().hasRandomBases()) {
             int unitLevel = unit.getLevel();
@@ -223,6 +221,33 @@ public class RandomizationLogic {
 
         return value;
     }
+
+    private void setItemScarcity() {
+
+        itemScarcity.put(Item.BRAVE_AXE, 0.2f);
+        itemScarcity.put(Item.LIGHT_SWORD, 0.2f);
+        itemScarcity.put(Item.EARTH_SWORD, 0.2f);
+        itemScarcity.put(Item.DARKNESS_SWORD, 0.1f);
+        itemScarcity.put(Item.MAREETAS_SWORD, 0.1f);
+        itemScarcity.put(Item.BEOSWORD, 0.2f);
+        itemScarcity.put(Item.HOLY_SWORD, 0.2f);
+        itemScarcity.put(Item.BLAGI_SWORD, 0.2f);
+        itemScarcity.put(Item.DRAGON_LANCE, 0.2f);
+        itemScarcity.put(Item.BRAVE_LANCE, 0.2f);
+        itemScarcity.put(Item.PUGI, 0.2f);
+        itemScarcity.put(Item.DAIM_THUNDER, 0.2f);
+        itemScarcity.put(Item.GRAFCALIBUR, 0.2f);
+        itemScarcity.put(Item.THIEF_STAFF, 0.2f);
+        itemScarcity.put(Item.UNLOCK, 0.1f);
+        itemScarcity.put(Item.ELITE_SWORD, 0.25f);
+        itemScarcity.put(Item.BLIZZARD, 0.25f);
+        itemScarcity.put(Item.METEOR, 0.25f);
+        itemScarcity.put(Item.FENRIR, 0.25f);
+        itemScarcity.put(Item.POISON, 0.25f);
+        itemScarcity.put(Item.HELL, 0.25f);
+        itemScarcity.put(Item.SLEEP, 0.25f);
+        itemScarcity.put(Item.BERSERK, 0.25f);
+    }
     
     public void reset() {
         populateUniqueRewards();
@@ -243,13 +268,5 @@ public class RandomizationLogic {
         uniqueRewards.remove(Item.DAIN_SCROLL);
         uniqueRewards.remove(Item.BLAGI_SCROLL);
         uniqueRewards.remove(Item.TORDO_SCROLL);
-    }
-    
-    public void shuffleRewards() {
-        
-    }
-    
-    public void randomizeRewards() {
-        
     }
 }

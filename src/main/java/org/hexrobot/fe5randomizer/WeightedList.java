@@ -30,6 +30,10 @@ public class WeightedList<T> {
     }
     
     public T getSelection(float randomNumber) {
+        if(elements.isEmpty()) {
+            throw new UnsupportedOperationException("Cannot get selection because there are no available options!");
+        }
+
         T selection = null;
         randomNumber *= totalWeights;
         
@@ -41,7 +45,7 @@ public class WeightedList<T> {
                 randomNumber -= entry.getValue();
             }
         }
-        
+
         return selection;
     }
     

@@ -88,11 +88,22 @@ public class RandomizeRomService extends Service<Void> {
                     rom.buffAllyUnits();
                 }
 
+                if(summary.getRandomizeAllyUnitClasses() || summary.getRandomizeEnemyUnitClasses()
+                || summary.getEnemiesAddExtraInventory() || summary.getRandomizeEnemySkills()
+                || summary.getBalanceAllyAddExtraInventory()
+                || (summary.getRandomizeEnemyMovStars() && summary.getEnemyMovStarsExcludeZero())) {
+                    rom.convertCh4AlliesToAllyCharacter();
+                }
+
                 // then randomize
 
                 if(summary.getRandomizePlayableUnitClasses()) {
                     updateMessage("Randomize playable unit classes...");
                     rom.randomizePlayableUnitClasses(summary.getExcludeHealers(), summary.getExcludeThieves());
+                }
+
+                if(summary.getRandomizeAllyUnitClasses()) {
+                    rom.randomizeAllyUnitClasses();
                 }
 
                 if(summary.getRandomizeEnemyUnitClasses()) {
@@ -148,6 +159,10 @@ public class RandomizeRomService extends Service<Void> {
                 
                 if(summary.getEnemiesAddExtraInventory()) {
                     rom.enemiesAddExtraInventory(summary.getEnemiesMaxExtraInventoryCount());
+                }
+
+                if(summary.getBalanceAllyAddExtraInventory()) {
+                    rom.alliesAddExtraInventory(summary.getEnemiesMaxExtraInventoryCount());
                 }
 
                 if(summary.getRandomizeWpns()) {

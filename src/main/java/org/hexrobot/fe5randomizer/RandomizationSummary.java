@@ -32,6 +32,8 @@ public class RandomizationSummary {
     private final SimpleBooleanProperty randomizePlayableUnitClasses = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty excludeHealers = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty excludeThieves = new SimpleBooleanProperty(false);
+    // ally unit classes
+    private final SimpleBooleanProperty randomizeAllyUnitClasses = new SimpleBooleanProperty(false);
     // skills
     private final SimpleBooleanProperty randomizeSkills = new SimpleBooleanProperty(false);
     private final SimpleObjectProperty<Integer> maxSkillCount = new SimpleObjectProperty<Integer>(3);
@@ -86,6 +88,8 @@ public class RandomizationSummary {
     // balance
     private final SimpleBooleanProperty balanceChangeBraveAxeToBRank = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty balanceBuffAllyUnits = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty balanceAllyAddExtraInventory = new SimpleBooleanProperty(false);
+    private final SimpleObjectProperty<Integer> balanceAllyMaxExtraInventoryCount = new SimpleObjectProperty<Integer>(2);
     private final SimpleBooleanProperty balanceNerfBallistae = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty balanceWpnsIncreaseUses = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty balanceDowngradeWindTome = new SimpleBooleanProperty(false);
@@ -182,6 +186,10 @@ public class RandomizationSummary {
     public SimpleBooleanProperty randomizePlayableUnitClassesProperty() {
         return randomizePlayableUnitClasses;
     }
+
+    public SimpleBooleanProperty randomizeAllyUnitClassesProperty() {
+        return randomizeAllyUnitClasses;
+    }
     
     public SimpleBooleanProperty excludeHealersProperty() {
         return excludeHealers;
@@ -249,6 +257,14 @@ public class RandomizationSummary {
 
     public SimpleBooleanProperty balanceBuffAllyUnitsProperty() {
         return balanceBuffAllyUnits;
+    }
+
+    public SimpleBooleanProperty balanceAllyAddExtraInventoryProperty() {
+        return balanceAllyAddExtraInventory;
+    }
+
+    public SimpleObjectProperty<Integer> balanceAllyMaxExtraInventoryCountProperty() {
+        return balanceAllyMaxExtraInventoryCount;
     }
     
     public SimpleBooleanProperty balanceNerfBallistaeProperty() {
@@ -454,6 +470,10 @@ public class RandomizationSummary {
     public boolean getRandomizePlayableUnitClasses() {
         return randomizePlayableUnitClasses.getValue();
     }
+
+    public boolean getRandomizeAllyUnitClasses() {
+        return randomizeAllyUnitClasses.getValue();
+    }
     
     public boolean getExcludeHealers() {
         return excludeHealers.getValue();
@@ -537,6 +557,14 @@ public class RandomizationSummary {
 
     public boolean getBalanceBuffAllyUnits() {
         return balanceBuffAllyUnits.getValue();
+    }
+
+    public boolean getBalanceAllyAddExtraInventory() {
+        return balanceAllyAddExtraInventory.getValue();
+    }
+
+    public int getBalanceAllyMaxExtraInventoryCount() {
+        return balanceAllyMaxExtraInventoryCount.getValue();
     }
     
     public boolean getNerfBallistae() {
@@ -719,6 +747,8 @@ public class RandomizationSummary {
                 randomizeBases.getValue(), getBasesRandomizationType(), basesVariance.getValue(), basesRedistributeVar.getValue());
         text += String.format("Randomize growths? %b, Randomize type: %s, Delta: %d, Variance: %d, Absolute: [%d - %d]\n",
                 randomizeGrowths.getValue(), getGrowthsRandomizationType(), growthsVariance.getValue(), growthsRedistributeVar.getValue(), growthsAbsoluteMin.getValue(), growthsAbsoluteMax.getValue());
+        text += String.format("Randomize playable unit clases? %b, Exclude healers: %b, Exclude thieves: %b, Randomize ally unit classes? %b\n",
+                randomizePlayableUnitClasses.getValue(), excludeHealers.getValue(), excludeThieves.getValue(), randomizeAllyUnitClasses.getValue());
         text += String.format("Randomize Mov stars? %b, Exclude units with zero stars: %b, Randomize Leadership stars? %b, Exclude units with 0 stars: %b\n",
                 randomizeMovStars.getValue(), movStarsExcludeZero.getValue(), randomizeLeadershipStars.getValue(), leadershipExcludeZero.getValue());
         text += String.format("Randomize enemy classes: %b, Exclude bosses: %b\n",
@@ -737,8 +767,8 @@ public class RandomizationSummary {
                 randomizeShops.getValue(), getShopsRandomizationType(), shopsMaintainItemCount.getValue());
         text += String.format("Randomize scrolls: %b... Randomization type: %s, Shuffle attributes: %b\n",
                 randomizeScrolls.getValue(), getScrollsRandomizationType(), scrollsShuffleAttributes.getValue());
-        text += String.format("Balance. Brave axe rank B: %b, Nerf ballistae acc: %b, Buff Ally units: %b, Add weapon uses: %b, Downgrade Wind tome: %b, Remove Prf* locks: %b\n",
-                balanceChangeBraveAxeToBRank.getValue(), balanceNerfBallistae.getValue(), balanceBuffAllyUnits.getValue(), balanceWpnsIncreaseUses.getValue(), balanceDowngradeWindTome.getValue(), balanceRemovePrfLocks.getValue());
+        text += String.format("Balance. Brave axe rank B: %b, Nerf ballistae acc: %b, Buff Ally units: %b, Allies add extra inventory: %b, Allies max etra inventory: %d, Add weapon uses: %b, Downgrade Wind tome: %b, Remove Prf* locks: %b\n",
+                balanceChangeBraveAxeToBRank.getValue(), balanceNerfBallistae.getValue(), balanceBuffAllyUnits.getValue(), balanceAllyAddExtraInventory.getValue(), balanceAllyMaxExtraInventoryCount.getValue(), balanceWpnsIncreaseUses.getValue(), balanceDowngradeWindTome.getValue(), balanceRemovePrfLocks.getValue());
         text += String.format("Randomize palettes: %b\n", shufflePalettes.getValue());
         text += String.format("Lil' Manster Rename to Pugi: %b\n", lilMansterRenamePugi.getValue());
         text += String.format("Project Exile Rename to Pugi: %b\n", exileRenamePugi.getValue());

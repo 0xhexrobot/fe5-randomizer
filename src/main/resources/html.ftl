@@ -58,7 +58,11 @@
                 , <em>Exclude thieves</em>: <strong><#if summary.excludeThieves>Yes<#else>No</#if></strong>
             </p>
             </#if>
-            
+
+            <#if summary.randomizeAllyUnitClasses>
+            <p>Randomize ally unit classes</p>
+            </#if>
+
             <#if summary.randomizeMovStars>
             <p>
                 Randomize movement stars
@@ -185,11 +189,12 @@
             </p>
             </#if>
 
-            <#if summary.balanceChangeBraveAxeToBRank || summary.balanceBuffAllyUnits || summary.nerfBallistae || summary.balanceWpnsIncreaseUses || summary.balanceDowngradeWindTome || summary.balanceRemovePrfLocks>
+            <#if summary.balanceChangeBraveAxeToBRank || summary.balanceBuffAllyUnits || summary.balanceAllyAddExtraInventory || summary.nerfBallistae || summary.balanceWpnsIncreaseUses || summary.balanceDowngradeWindTome || summary.balanceRemovePrfLocks>
             <p>Balance:</p>
             <ul>
                 <#if summary.balanceChangeBraveAxeToBRank><li>Change Brave axe to B rank</li></#if>
                 <#if summary.balanceBuffAllyUnits><li>Buff ally units</li></#if>
+                <#if summary.balanceAllyAddExtraInventory><li>Add ally units up to ${summary.balanceAllyMaxExtraInventoryCount} items</li></#if>
                 <#if summary.nerfBallistae><li>Nerf ballistae accuracy</li></#if>
                 <#if summary.balanceWpnsIncreaseUses><li>Increase weapon uses</li></#if>
                 <#if summary.balanceDowngradeWindTome><li>Downgrade Wind tome</li></#if>

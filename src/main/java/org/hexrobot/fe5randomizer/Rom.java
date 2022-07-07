@@ -565,6 +565,12 @@ public class Rom {
 
         laraPahnRemoveStealSkill();
         updateEyvelCh5Weapon();
+
+        if(!GameCharacter.BRIGHTON.getCharacterClass().isThief()
+                && !GameCharacter.LARA.getCharacterClass().isThief()
+                && !GameCharacter.MACHYUA.getCharacterClass().isThief()) {
+            thiefSubstituteCh4();
+        }
         
         promotionData.updatePromotions();
     }
@@ -595,6 +601,42 @@ public class Rom {
             setValueAt(CH5_EYVEL_ITEM_OFFSET, selectedItem.getOffset() + 1);
             System.out.println("Ch5 Eyvel item: " + selectedItem.getName());
         }
+    }
+
+    private void thiefSubstituteCh4() {
+        ArrayList<ArmyUnit> ch4Units = Chapter.CHAPTER_4.getArmyData();
+        ArmyUnit brighton = ch4Units.get(39);
+        ArmyUnit machyua = ch4Units.get(40);
+        ArmyUnit lara = ch4Units.get(41);
+        ArrayList<Item> brightonInv = brighton.getInventory();
+        ArrayList<Item> machyuaInv = machyua.getInventory();
+        ArrayList<Item> laraInv = lara.getInventory();
+
+        brightonInv.add(Item.DOOR_KEY);
+        brightonInv.add(Item.DOOR_KEY);
+        brightonInv.add(Item.DOOR_KEY);
+        machyuaInv.add(Item.DOOR_KEY);
+        machyuaInv.add(Item.DOOR_KEY);
+        machyuaInv.add(Item.DOOR_KEY);
+        laraInv.add(Item.DOOR_KEY);
+        laraInv.add(Item.DOOR_KEY);
+        laraInv.add(Item.DOOR_KEY);
+
+        brighton.setInventory(brightonInv);
+        machyua.setInventory(machyuaInv);
+        lara.setInventory(laraInv);
+    }
+
+    public void convertCh4AlliesToAllyCharacter() {
+        ArrayList<ArmyUnit> ch4Units = Chapter.CHAPTER_4.getArmyData();
+        ch4Units.get(0).setCharacter(GameCharacter.MAGI_SQUAD_AXE_FIGHTER);
+        ch4Units.get(1).setCharacter(GameCharacter.MAGI_SQUAD_AXE_FIGHTER);
+        ch4Units.get(2).setCharacter(GameCharacter.MAGI_SQUAD_AXE_FIGHTER);
+    }
+
+    public void randomizeAllyUnitClasses() {
+        ArrayList<GameCharacter> characters = GameCharacter.getAllyUnits();
+        assignNewClasses(characters, List.of());
     }
     
     public void randomizeEnemyUnitClasses(boolean excludeBosses) {
@@ -712,13 +754,23 @@ public class Rom {
     public void enemiesAddExtraInventory(int maxExtraItems) {
         ArrayList<ArmyUnit> enemies = new ArrayList<>(armyUnits);
         enemies.removeIf(unit -> !unit.getCharacter().isEnemyUnit() || unit.getCharacter().isBallistaUnit());
-        
-        for(ArmyUnit unit : enemies) {
+        addExtraInventoryItems(enemies, maxExtraItems);
+    }
+
+    public void alliesAddExtraInventory(int maxExtraItems) {
+        ArrayList<ArmyUnit> allies = new ArrayList<>(armyUnits);
+        ArrayList<GameCharacter> allyCharacters = GameCharacter.getAllyUnits();
+        allies.removeIf(unit -> !allyCharacters.contains(unit.getCharacter()));
+        addExtraInventoryItems(allies, maxExtraItems);
+    }
+
+    private void addExtraInventoryItems(ArrayList<ArmyUnit> units, int maxExtraItems) {
+        for(ArmyUnit unit : units) {
             ArrayList<Item> inventory = unit.getInventory();
             maxExtraItems = Math.min(maxExtraItems, 7 - inventory.size());
             int itemsToAdd = random.nextInt(maxExtraItems + 1);
             int itemsAdded = 0;
-            
+
             while(itemsAdded < itemsToAdd) {
                 Item item = getSelectedItem(unit, inventory);
                 inventory.add(item);
@@ -1501,17 +1553,41 @@ public class Rom {
 
     public void buffAllyUnits() {
         ArrayList<ArmyUnit> ch4Units = Chapter.CHAPTER_4.getArmyData();
+        ArrayList<ArmyUnit> ch6Units = Chapter.CHAPTER_6.getArmyData();
         ArrayList<ArmyUnit> ch13Units = Chapter.CHAPTER_13.getArmyData();
+        ArrayList<ArmyUnit> ch17bUnits = Chapter.CHAPTER_17B.getArmyData();
 
-        ch4Units.get(0).setLevel(10);
-        ch4Units.get(1).setLevel(10);
-        ch4Units.get(2).setLevel(10);
+        ch4Units.get(0).setLevel(8); // were Lv4
+        ch4Units.get(1).setLevel(8);
+        ch4Units.get(2).setLevel(8);
 
-        ch13Units.get(2).setLevel(12);
+        ch6Units.get(40).setLevel(10); // added +3Lv to each
+        ch6Units.get(41).setLevel(7);
+        ch6Units.get(42).setLevel(8);
+        ch6Units.get(43).setLevel(8);
+        ch6Units.get(44).setLevel(7);
+        ch6Units.get(45).setLevel(7);
+        ch6Units.get(46).setLevel(8);
+        ch6Units.get(47).setLevel(8);
+        ch6Units.get(48).setLevel(8);
+
+        ch13Units.get(2).setLevel(12); // were Lv5
         ch13Units.get(3).setLevel(12);
         ch13Units.get(4).setLevel(12);
         ch13Units.get(5).setLevel(12);
         ch13Units.get(6).setLevel(12);
+
+        ch17bUnits.get(40).setLevel(5); // were Lv1
+        ch17bUnits.get(41).setLevel(5);
+        ch17bUnits.get(42).setLevel(5);
+        ch17bUnits.get(43).setLevel(5);
+        ch17bUnits.get(44).setLevel(5);
+        ch17bUnits.get(45).setLevel(5);
+        ch17bUnits.get(46).setLevel(5);
+        ch17bUnits.get(47).setLevel(5);
+        ch17bUnits.get(48).setLevel(5);
+        ch17bUnits.get(49).setLevel(5);
+        ch17bUnits.get(50).setLevel(5);
     }
     
     public ArrayList<ArmyUnit> getArmyUnits() {

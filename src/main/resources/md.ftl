@@ -12,6 +12,8 @@ Randomize growths: <#if summary.randomizeGrowths>**Yes**<#else>No</#if><#if summ
 
 Randomize playable unit classes: <#if summary.randomizePlayableUnitClasses>**Yes**, Exclude healers: <#if summary.excludeHealers>**Yes**<#else>No</#if>, Exclude thieves: <#if summary.excludeThieves>**Yes**<#else>No</#if><#else>No</#if>
 
+Randomize ally unit classes: <#if summary.randomizeAllyUnitClasses>**Yes**<#else>No</#if>
+
 Randomize movement stars: <#if summary.randomizeMovStars>**Yes**, Exclude units with zero stars: <#if summary.movStarsExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
 
 Randomize leadership stars: <#if summary.randomizeLeadershipStars>**Yes**, Exclude units with zero stars: <#if summary.leadershipExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
@@ -49,6 +51,7 @@ Randomize Scrolls: <#if summary.randomizeScrolls>**Yes**, randomization type: ${
 Balance:
 <#if summary.balanceChangeBraveAxeToBRank>* Change Brave axe to B rank</#if>
 <#if summary.balanceBuffAllyUnits>* Buff ally units</#if>
+<#if summary.balanceAllyAddExtraInventory>* Add ally units up to ${summary.balanceAllyMaxExtraInventoryCount} items</#if>
 <#if summary.nerfBallistae>* Nerf ballistae accuracy</#if>
 <#if summary.balanceWpnsIncreaseUses>* Increase weapon uses</#if>
 <#if summary.balanceDowngradeWindTome>* Downgrade Wind tome</#if>

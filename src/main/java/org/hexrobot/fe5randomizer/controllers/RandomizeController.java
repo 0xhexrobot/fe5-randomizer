@@ -54,6 +54,8 @@ public class RandomizeController {
     @FXML
     private Label lblUnitClasses;
     @FXML
+    private Label lblAllyUnitClasses;
+    @FXML
     private Label lblUnitMovStars;
     @FXML
     private Label lblUnitLeadStars;
@@ -117,6 +119,8 @@ public class RandomizeController {
     private Label lblBalanceChangeBraveAxeToBRank;
     @FXML
     private Label lblBalanceBuffAllyUnits;
+    @FXML
+    private Label lblBalanceAllyAddInventory;
     @FXML
     private Label lblShufflePalettes;
     @FXML
@@ -225,16 +229,16 @@ public class RandomizeController {
         {
             super.bind(summary.randomizeBasesProperty(), summary.randomizeGrowthsProperty(),
                     summary.randomizePlayableUnitClassesProperty(), summary.randomizeMovStarsProperty(),
-                    summary.randomizeLeadershipStarsProperty(), summary.RandomizeSkillsProperty());
+                    summary.randomizeLeadershipStarsProperty(), summary.RandomizeSkillsProperty(),
+                    summary.randomizeAllyUnitClassesProperty());
         }
         
         @Override
         protected boolean computeValue() {
-            boolean visible = summary.randomizeBasesProperty().getValue() || summary.randomizeGrowthsProperty().getValue() ||
-                    summary.randomizePlayableUnitClassesProperty().getValue() || summary.randomizeMovStarsProperty().getValue() ||
-                    summary.randomizeLeadershipStarsProperty().getValue() || summary.RandomizeSkillsProperty().getValue();
-            
-            return visible;
+            return summary.randomizeBasesProperty().getValue() || summary.randomizeGrowthsProperty().getValue()
+                    || summary.randomizePlayableUnitClassesProperty().getValue() || summary.randomizeMovStarsProperty().getValue()
+                    || summary.randomizeLeadershipStarsProperty().getValue() || summary.RandomizeSkillsProperty().getValue()
+                    || summary.randomizeAllyUnitClassesProperty().getValue();
         }
     };
     
@@ -297,7 +301,7 @@ public class RandomizeController {
         
         @Override
         protected String computeValue() {
-            String text = "Randomize unit classes";
+            String text = "Randomize playable unit classes";
             
             if(summary.excludeHealersProperty().getValue()) {
                 text += ", exclude healers";
@@ -489,7 +493,8 @@ public class RandomizeController {
         {
             super.bind(summary.balanceBuffAllyUnitsProperty(), summary.balanceChangeBraveAxeToBRankProperty(),
                     summary.balanceDowngradeWindTomeProperty(), summary.balanceNerfBallistaeProperty(),
-                    summary.balanceRemovePrfLocksProperty(), summary.balanceWpnsIncreaseUsesProperty());
+                    summary.balanceRemovePrfLocksProperty(), summary.balanceWpnsIncreaseUsesProperty(),
+                    summary.balanceAllyAddExtraInventoryProperty());
         }
 
         @Override
@@ -499,10 +504,23 @@ public class RandomizeController {
                     || summary.balanceDowngradeWindTomeProperty().getValue()
                     || summary.balanceNerfBallistaeProperty().getValue()
                     || summary.balanceRemovePrfLocksProperty().getValue()
-                    || summary.balanceWpnsIncreaseUsesProperty().getValue();
+                    || summary.balanceWpnsIncreaseUsesProperty().getValue()
+                    || summary.balanceAllyAddExtraInventoryProperty().getValue();
         }
     };
-    
+
+    private StringBinding txtAllyExtraInventory = new StringBinding() {
+        {
+            super.bind(summary.balanceAllyMaxExtraInventoryCountProperty());
+        }
+
+        @Override
+        protected String computeValue() {
+            return String.format("Add ally units up to %d extra items",
+                    summary.balanceAllyMaxExtraInventoryCountProperty().getValue());
+        }
+    };
+
     private StringBinding txtItemsMight = new StringBinding() {
         {
             super.bind(summary.wpnsMightDeltaProperty());
@@ -510,9 +528,7 @@ public class RandomizeController {
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize items Might ±%d", summary.wpnsMightDeltaProperty().getValue());
-                                    
-            return text;
+            return String.format("Randomize items Might ±%d", summary.wpnsMightDeltaProperty().getValue());
         }
     };
     
@@ -742,6 +758,7 @@ public class RandomizeController {
         lblUnitBases.managedProperty().bind(lblUnitBases.visibleProperty());
         lblUnitGrowths.managedProperty().bind(lblUnitGrowths.visibleProperty());
         lblUnitClasses.managedProperty().bind(lblUnitClasses.visibleProperty());
+        lblAllyUnitClasses.managedProperty().bind(lblAllyUnitClasses.visibleProperty());
         lblUnitMovStars.managedProperty().bind(lblUnitMovStars.visibleProperty());
         lblUnitLeadStars.managedProperty().bind(lblUnitLeadStars.visibleProperty());
         lblUnitSkills.managedProperty().bind(lblUnitSkills.visibleProperty());
@@ -750,6 +767,7 @@ public class RandomizeController {
         lblUnitBases.visibleProperty().bind(summary.randomizeBasesProperty());
         lblUnitGrowths.visibleProperty().bind(summary.randomizeGrowthsProperty());
         lblUnitClasses.visibleProperty().bind(summary.randomizePlayableUnitClassesProperty());
+        lblAllyUnitClasses.visibleProperty().bind(summary.randomizeAllyUnitClassesProperty());
         lblUnitMovStars.visibleProperty().bind(summary.randomizeMovStarsProperty());
         lblUnitLeadStars.visibleProperty().bind(summary.randomizeLeadershipStarsProperty());
         lblUnitSkills.visibleProperty().bind(summary.RandomizeSkillsProperty());
@@ -841,6 +859,7 @@ public class RandomizeController {
         lblBalanceRemovePrfLocks.managedProperty().bind(lblBalanceRemovePrfLocks.visibleProperty());
         lblBalanceChangeBraveAxeToBRank.managedProperty().bind(lblBalanceChangeBraveAxeToBRank.visibleProperty());
         lblBalanceBuffAllyUnits.managedProperty().bind(lblBalanceBuffAllyUnits.visibleProperty());
+        lblBalanceAllyAddInventory.managedProperty().bind(lblBalanceAllyAddInventory.visibleProperty());
 
         lblBalance.visibleProperty().bind(balanceLabelVisible);
         lblBalanceNerfBallistaeAcc.visibleProperty().bind(summary.balanceNerfBallistaeProperty());
@@ -849,6 +868,9 @@ public class RandomizeController {
         lblBalanceRemovePrfLocks.visibleProperty().bind(summary.balanceRemovePrfLocksProperty());
         lblBalanceChangeBraveAxeToBRank.visibleProperty().bind(summary.balanceChangeBraveAxeToBRankProperty());
         lblBalanceBuffAllyUnits.visibleProperty().bind(summary.balanceBuffAllyUnitsProperty());
+        lblBalanceAllyAddInventory.visibleProperty().bind(summary.balanceAllyAddExtraInventoryProperty());
+
+        lblBalanceAllyAddInventory.textProperty().bind(txtAllyExtraInventory);
 
         // palettes
         lblPalettes.managedProperty().bind(lblPalettes.visibleProperty());

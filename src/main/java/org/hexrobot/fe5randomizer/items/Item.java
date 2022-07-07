@@ -272,7 +272,7 @@ public enum Item {
             List.of(KNIGHT_PROOF, TREASURE_KEY, DOOR_KEY, BRIDGE_KEY, LOCKPICK, STAMINA_DRINK, VULNERARY, HOLY_WATER,
                     TORCH, ANTIDOTE));
     private static final ArrayList<Item> NO_REWARD = new ArrayList<>(
-            List.of(LONG_ARCH, IRON_ARCH, POISON_ARCH, LOPUTOUS_SWORD, HOLSETY, HOLSETY_UNLIMITED, KIA_STAFF));
+            List.of(LONG_ARCH, IRON_ARCH, POISON_ARCH, LOPUTOUS_SWORD, HOLSETY, HOLSETY_UNLIMITED, KIA_STAFF, REPAIR));
     
     private Item(int offset, String name) {
         this.offset = offset;
