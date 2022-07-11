@@ -314,41 +314,7 @@ public class RandomizeController {
             return text;
         }
     };
-    
-    private StringBinding txtUnitMovStars = new StringBinding() {
-        {
-            super.bind(summary.randomizeMovStarsProperty(), summary.movStarsExcludeZeroProperty());
-        }
-        
-        @Override
-        protected String computeValue() {
-            String text = "Randomize unit Move stars";
-            
-            if(summary.movStarsExcludeZeroProperty().getValue()) {
-                text += ", exclude units with 0 stars";
-            }
-            
-            return text;
-        }
-    };
-    
-    private StringBinding txtUnitLeadStars = new StringBinding() {
-        {
-            super.bind(summary.randomizeLeadershipStarsProperty(), summary.leadershipExcludeZeroProperty());
-        }
-        
-        @Override
-        protected String computeValue() {
-            String text = "Randomize unit Leadership stars";
-            
-            if(summary.leadershipExcludeZeroProperty().getValue()) {
-                text += ", exclude units with 0 stars";
-            }
-            
-            return text;
-        }
-    };
-    
+
     private StringBinding txtUnitSkills = new StringBinding() {
         {
             super.bind(summary.maxSkillCountProperty());
@@ -428,9 +394,13 @@ public class RandomizeController {
     };
 
     private StringBinding txtEnemyLeadStars = new StringBinding() {
+        {
+            super.bind(summary.enemyLeadershipStarsCapProperty());
+        }
         @Override
         protected String computeValue() {
-            return "Randomize enemy Leadership stars";
+            return String.format("Randomize enemy Leadership stars, cap at %s stars",
+                    summary.enemyLeadershipStarsCapProperty().getValue().getUserData().equals("capAt5") ? "5" : "10");
         }
     };
     
@@ -775,8 +745,6 @@ public class RandomizeController {
         lblUnitBases.textProperty().bind(txtUnitBases);
         lblUnitGrowths.textProperty().bind(txtUnitGrowths);
         lblUnitClasses.textProperty().bind(txtUnitClasses);
-        lblUnitMovStars.textProperty().bind(txtUnitMovStars);
-        lblUnitLeadStars.textProperty().bind(txtUnitLeadStars);
         lblUnitSkills.textProperty().bind(txtUnitSkills);
         
         // enemies

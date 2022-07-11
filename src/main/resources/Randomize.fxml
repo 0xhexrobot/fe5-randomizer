@@ -35,8 +35,8 @@
                   <Label fx:id="lblUnitGrowths" text="unitGrowths" />
                   <Label fx:id="lblUnitClasses" text="unitClasses" />
                   <Label fx:id="lblAllyUnitClasses" text="Randomize ally unit classes" />
-                  <Label fx:id="lblUnitMovStars" text="unitMovStars" />
-                  <Label fx:id="lblUnitLeadStars" text="unitLeadStars" />
+                  <Label fx:id="lblUnitMovStars" text="Randomize movement stars" />
+                  <Label fx:id="lblUnitLeadStars" text="Randomize leadership stars" />
                   <Label fx:id="lblUnitSkills" text="unitSkills" />
                </children>
                <VBox.margin>

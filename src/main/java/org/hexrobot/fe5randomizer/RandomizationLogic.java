@@ -15,6 +15,7 @@ public class RandomizationLogic {
     private Map<GameCharacter, List<CharacterClass>> limitedClassPool = new HashMap<>();
     private List<Item> uniqueRewards = new ArrayList<>();
     private Map<Item, Float> itemScarcity = new HashMap<>();
+    private Map<Item, Integer> rewardFreq = new HashMap<>();
     
     public RandomizationLogic(RandomizationSummary summary) {
         List<CharacterClass> mountedClasses = CharacterClass.getMountedClasses();
@@ -186,6 +187,34 @@ public class RandomizationLogic {
         return value;
     }
 
+    public float assignRewardWeight(Item item, List<Item> inventory) {
+        // don't allow duplicates
+        if(inventory.contains(item)) {
+            return 0;
+        }
+
+        float value = 1;
+
+        // global frequency
+        int itemFreq = rewardFreq.getOrDefault(item, 0);
+        value *= 1 / (float)(Math.pow(4, itemFreq));
+
+        // scarcity
+        float itemScarcity = 1.0f;
+        if(!item.isCommonItem()) {
+            itemScarcity = 0.1f;
+        }
+
+        value *= itemScarcity;
+
+        return value;
+    }
+
+    public void registerReward(Item item) {
+        int occurrences = rewardFreq.getOrDefault(item, 0);
+        rewardFreq.put(item, occurrences + 1);
+    }
+
     public float assignClassWeight(GameCharacter character, CharacterClass characterClass) {
         if(bannedClasses.containsKey(character)) {
             List<CharacterClass> banned = bannedClasses.get(character);
@@ -250,6 +279,7 @@ public class RandomizationLogic {
     }
     
     public void reset() {
+        rewardFreq.clear();
         populateUniqueRewards();
     }
     

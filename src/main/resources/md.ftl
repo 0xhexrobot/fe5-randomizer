@@ -14,9 +14,11 @@ Randomize playable unit classes: <#if summary.randomizePlayableUnitClasses>**Yes
 
 Randomize ally unit classes: <#if summary.randomizeAllyUnitClasses>**Yes**<#else>No</#if>
 
-Randomize movement stars: <#if summary.randomizeMovStars>**Yes**, Exclude units with zero stars: <#if summary.movStarsExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
+Randomize pursuit critical: <#if summary.randomizePursuitCrit>**Yes**<#else>No</#if>
 
-Randomize leadership stars: <#if summary.randomizeLeadershipStars>**Yes**, Exclude units with zero stars: <#if summary.leadershipExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
+Randomize movement stars: <#if summary.randomizeMovStars>**Yes**<#else>No</#if>
+
+Randomize leadership stars: <#if summary.randomizeLeadershipStars>**Yes**<#else>No</#if>
 
 Randomize skills: <#if summary.randomizeSkills>**Yes**, Max skill count: ${summary.maxSkillCount}<#else>No</#if> 
 
@@ -26,7 +28,7 @@ Add enemy inventory: <#if summary.enemiesAddExtraInventory>**Yes**, Max new item
 
 Randomize enemy movement stars: <#if summary.randomizeEnemyMovStars>**Yes**, Exclude units with zero stars: <#if summary.enemyMovStarsExcludeZero>**Yes**<#else>No</#if><#else>No</#if>
 
-Randomize enemy leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Yes**<#else>No</#if>
+Randomize enemy leadership stars: <#if summary.randomizeEnemyLeadershipStars>**Yes**, ${summary.enemyLeadershipStarsCap}<#else>No</#if>
 
 Randomize Boss skills: <#if summary.randomizeBossSkills>**Yes**, Max skill count: ${summary.maxBossSkillCount}<#else> No</#if>, Randomize Enemy skills: <#if summary.randomizeEnemySkills>**Yes**, Max skill count: ${summary.maxEnemySkillCount}<#else>No</#if>
 
@@ -97,19 +99,19 @@ HP | Atk | Mag | Skl | Spd | Lck | Def | Bld | Mov |
 
 #### Weapon Proficiency
 
-Weapon | Proficiency | Extra Ranks | Weapon | Proficiency | Extra Ranks |
------- | ----------- | ------------| ------ | ----------- | ------------|
-Sword | <#if unit.oldValues["baseSwordLv"]??>${unit.oldValues["baseSwordLv"]} -> **${unit.baseSwordLv.amount}**<#else>${unit.baseSwordLv.amount}</#if> | ${unit.baseSwordLv.name} | Fire | <#if unit.oldValues["baseFireLv"]??>${unit.oldValues["baseFireLv"]} -> **${unit.baseFireLv.amount}**<#else>${unit.baseFireLv.amount}</#if> | ${unit.baseFireLv.name} |
-Lance | <#if unit.oldValues["baseLanceLv"]??>${unit.oldValues["baseLanceLv"]} -> **${unit.baseLanceLv.amount}**<#else>${unit.baseLanceLv.amount}</#if> | ${unit.baseLanceLv.name} | Thunder | <#if unit.oldValues["baseThunderLv"]??>${unit.oldValues["baseThunderLv"]} -> **${unit.baseThunderLv.amount}**<#else>${unit.baseThunderLv.amount}</#if> | ${unit.baseThunderLv.name} |
-Axe | <#if unit.oldValues["baseAxeLv"]??>${unit.oldValues["baseAxeLv"]} -> **${unit.baseAxeLv.amount}**<#else>${unit.baseAxeLv.amount}</#if> | ${unit.baseAxeLv.name} | Wind | <#if unit.oldValues["baseWindLv"]??>${unit.oldValues["baseWindLv"]} -> **${unit.baseWindLv.amount}**<#else>${unit.baseWindLv.amount}</#if> | ${unit.baseWindLv.name} |
-Bow | <#if unit.oldValues["baseBowLv"]??>${unit.oldValues["baseBowLv"]} -> **${unit.baseBowLv.amount}**<#else>${unit.baseBowLv.amount}</#if> | ${unit.baseBowLv.name} | Light | <#if unit.oldValues["baseLightLv"]??>${unit.oldValues["baseLightLv"]} -> **${unit.baseLightLv.amount}**<#else>${unit.baseLightLv.amount}</#if> | ${unit.baseLightLv.name} |
-Staff | <#if unit.oldValues["baseStaffLv"]??>${unit.oldValues["baseStaffLv"]} -> **${unit.baseStaffLv.amount}**<#else>${unit.baseStaffLv.amount}</#if> | ${unit.baseStaffLv.name} | Dark | <#if unit.oldValues["baseDarkLv"]??>${unit.oldValues["baseDarkLv"]} -> **${unit.baseDarkLv.amount}**<#else>${unit.baseDarkLv.amount}</#if> | ${unit.baseDarkLv.name} |
+| Weapon | Proficiency                                                                                                                                    | Extra Ranks              | Weapon  | Proficiency                                                                                                                                            | Extra Ranks                |
+|--------|------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------|
+| Sword  | <#if unit.oldValues["baseSwordLv"]??>${unit.oldValues["baseSwordLv"]} -> **${unit.baseSwordLv.amount}**<#else>${unit.baseSwordLv.amount}</#if> | ${unit.baseSwordLv.name} | Fire    | <#if unit.oldValues["baseFireLv"]??>${unit.oldValues["baseFireLv"]} -> **${unit.baseFireLv.amount}**<#else>${unit.baseFireLv.amount}</#if>             | ${unit.baseFireLv.name}    |
+| Lance  | <#if unit.oldValues["baseLanceLv"]??>${unit.oldValues["baseLanceLv"]} -> **${unit.baseLanceLv.amount}**<#else>${unit.baseLanceLv.amount}</#if> | ${unit.baseLanceLv.name} | Thunder | <#if unit.oldValues["baseThunderLv"]??>${unit.oldValues["baseThunderLv"]} -> **${unit.baseThunderLv.amount}**<#else>${unit.baseThunderLv.amount}</#if> | ${unit.baseThunderLv.name} |
+| Axe    | <#if unit.oldValues["baseAxeLv"]??>${unit.oldValues["baseAxeLv"]} -> **${unit.baseAxeLv.amount}**<#else>${unit.baseAxeLv.amount}</#if>         | ${unit.baseAxeLv.name}   | Wind    | <#if unit.oldValues["baseWindLv"]??>${unit.oldValues["baseWindLv"]} -> **${unit.baseWindLv.amount}**<#else>${unit.baseWindLv.amount}</#if>             | ${unit.baseWindLv.name}    |
+| Bow    | <#if unit.oldValues["baseBowLv"]??>${unit.oldValues["baseBowLv"]} -> **${unit.baseBowLv.amount}**<#else>${unit.baseBowLv.amount}</#if>         | ${unit.baseBowLv.name}   | Light   | <#if unit.oldValues["baseLightLv"]??>${unit.oldValues["baseLightLv"]} -> **${unit.baseLightLv.amount}**<#else>${unit.baseLightLv.amount}</#if>         | ${unit.baseLightLv.name}   |
+| Staff  | <#if unit.oldValues["baseStaffLv"]??>${unit.oldValues["baseStaffLv"]} -> **${unit.baseStaffLv.amount}**<#else>${unit.baseStaffLv.amount}</#if> | ${unit.baseStaffLv.name} | Dark    | <#if unit.oldValues["baseDarkLv"]??>${unit.oldValues["baseDarkLv"]} -> **${unit.baseDarkLv.amount}**<#else>${unit.baseDarkLv.amount}</#if>             | ${unit.baseDarkLv.name}    |
 
 #### Skills
 
-**Skills1** | **Skills2** | **Skills3** |
------------ | ----------- | ----------- |
-<#if unit.oldValues["skills1"]??>*${unit.oldValues["skills1"]?string.@hex_2}* -> _**${unit.skills1?string.@hex_2}**_<#else>*${unit.skills1?string.@hex_2}*</#if> | <#if unit.oldValues["skills2"]??>*${unit.oldValues["skills2"]?string.@hex_2}* -> _**${unit.skills2?string.@hex_2}**_<#else>*${unit.skills2?string.@hex_2}*</#if> | <#if unit.oldValues["skills3"]??>*${unit.oldValues["skills3"]?string.@hex_2}* -> _**${unit.skills3?string.@hex_2}**_<#else>*${unit.skills3?string.@hex_2}*</#if> |
+| **Skills1**                                                                                                                                                      | **Skills2**                                                                                                                                                      | **Skills3**                                                                                                                                                      |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <#if unit.oldValues["skills1"]??>*${unit.oldValues["skills1"]?string.@hex_2}* -> _**${unit.skills1?string.@hex_2}**_<#else>*${unit.skills1?string.@hex_2}*</#if> | <#if unit.oldValues["skills2"]??>*${unit.oldValues["skills2"]?string.@hex_2}* -> _**${unit.skills2?string.@hex_2}**_<#else>*${unit.skills2?string.@hex_2}*</#if> | <#if unit.oldValues["skills3"]??>*${unit.oldValues["skills3"]?string.@hex_2}* -> _**${unit.skills3?string.@hex_2}**_<#else>*${unit.skills3?string.@hex_2}*</#if> |
 
 <#list unit.comparedSkills as skillsDiff><#if skillsDiff.value gt 0>**<#elseif skillsDiff.value lt 0>~~</#if>${skillsDiff.key.getName()} (${skillsDiff.value})<#if skillsDiff.value gt 0>**<#elseif skillsDiff.value lt 0>~~</#if><#sep>, </#list>
 
@@ -132,13 +134,13 @@ HP | Atk | Mag | Skl | Spd | Def | Bld | Mov |
 
 #### Weapon Proficiency
 
-Weapon | Proficiency | Extra Ranks | Weapon | Proficiency | Extra Ranks |
------- | ----------- | ------------| ------ | ----------- | ------------|
-Sword | ${class.baseSwordLv.amount} | ${class.baseSwordLv.name} | Fire | ${class.baseFireLv.amount} | ${class.baseFireLv.name} |
-Lance | ${class.baseLanceLv.amount} | ${class.baseLanceLv.name} | Thunder | ${class.baseThunderLv.amount} | ${class.baseThunderLv.name} |
-Axe | ${class.baseAxeLv.amount} | ${class.baseAxeLv.name} | Wind | ${class.baseWindLv.amount} | ${class.baseWindLv.name} |
-Bow | ${class.baseBowLv.amount} | ${class.baseBowLv.name} | Light | ${class.baseLightLv.amount} | ${class.baseLightLv.name} |
-Staff | ${class.baseStaffLv.amount} | ${class.baseStaffLv.name} | Dark | ${class.baseDarkLv.amount} | ${class.baseDarkLv.name} |
+| Weapon | Proficiency                 | Extra Ranks               | Weapon  | Proficiency                   | Extra Ranks                 |
+|--------|-----------------------------|---------------------------|---------|-------------------------------|-----------------------------|
+| Sword  | ${class.baseSwordLv.amount} | ${class.baseSwordLv.name} | Fire    | ${class.baseFireLv.amount}    | ${class.baseFireLv.name}    |
+| Lance  | ${class.baseLanceLv.amount} | ${class.baseLanceLv.name} | Thunder | ${class.baseThunderLv.amount} | ${class.baseThunderLv.name} |
+| Axe    | ${class.baseAxeLv.amount}   | ${class.baseAxeLv.name}   | Wind    | ${class.baseWindLv.amount}    | ${class.baseWindLv.name}    |
+| Bow    | ${class.baseBowLv.amount}   | ${class.baseBowLv.name}   | Light   | ${class.baseLightLv.amount}   | ${class.baseLightLv.name}   |
+| Staff  | ${class.baseStaffLv.amount} | ${class.baseStaffLv.name} | Dark    | ${class.baseDarkLv.amount}    | ${class.baseDarkLv.name}    |
 
 
 #### Skills

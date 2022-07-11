@@ -50,6 +50,10 @@
                  <em>Absolute</em>: <strong>[${summary.growthsAbsoluteMin}% - ${summary.growthsAbsoluteMax}%]</strong></#if>
             </p>
             </#if>
+
+            <#if summary.randomizePursuitCrit>
+            <p>Randomize pursuit critical</p>
+            </#if>
             
             <#if summary.randomizePlayableUnitClasses>
             <p>
@@ -64,17 +68,11 @@
             </#if>
 
             <#if summary.randomizeMovStars>
-            <p>
-                Randomize movement stars
-                , Exclude units with zero stars: <strong><#if summary.movStarsExcludeZero>Yes<#else>No</#if></strong>
-            </p>
+            <p>Randomize movement stars</p>
             </#if>
             
             <#if summary.randomizeLeadershipStars>
-            <p>
-                Randomize leadership stars
-                , Exclude units with zero stars: <strong><#if summary.leadershipExcludeZero>Yes<#else>No</#if></strong>
-            </p>
+            <p>Randomize leadership stars</p>
             </#if>
             
             <#if summary.randomizeSkills>
@@ -106,7 +104,10 @@
             </#if>
             
             <#if summary.randomizeEnemyLeadershipStars>
-            <p>Randomize enemy leadership stars</p>
+            <p>
+                Randomize enemy leadership stars,
+                <#if summary.enemyLeadershipStarsCap == "capAt5">cap at 5<#else>cap at 10</#if>
+            </p>
             </#if>
             
             <#if summary.randomizeBossSkills>

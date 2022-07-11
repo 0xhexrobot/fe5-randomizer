@@ -62,13 +62,11 @@ public class UnitsController {
     @FXML
     private ToggleGroup tgGrowths;
     @FXML
+    private CheckBox chkPursuitCrit;
+    @FXML
     private CheckBox chkRandomizeMovStars;
     @FXML
-    private CheckBox chkMovExcludeZero;
-    @FXML
     private CheckBox chkRandomizeLeadershipStars;
-    @FXML
-    private CheckBox chkLeadershipExcludeZero;
     @FXML
     private CheckBox chkClasses;
     @FXML
@@ -108,11 +106,7 @@ public class UnitsController {
         rbGrowthsVariance.setUserData("variance");
         rbGrowthsRedistribute.setUserData("redistribute");
         rbGrowthsAbsolute.setUserData("absolute");
-        
-        // Movement & Leadership stars
-        chkMovExcludeZero.disableProperty().bind(chkRandomizeMovStars.selectedProperty().not());
-        chkLeadershipExcludeZero.disableProperty().bind(chkRandomizeLeadershipStars.selectedProperty().not());
-        
+
         // skills
         parSkillCount.disableProperty().bind(chkRandomizeSkills.selectedProperty().not());
         
@@ -158,13 +152,14 @@ public class UnitsController {
         
         fMin.maxProperty().bind(minUpperValue);
         fMax.minProperty().bind(maxLowerValue);
-        
-        // Movement & Leadership stars
+
+        // pursuit crit
+        chkPursuitCrit.selectedProperty().bindBidirectional(summary.randomizePursuitCritProperty());
+
+        // movement & leadership stars
         chkRandomizeMovStars.selectedProperty().bindBidirectional(summary.randomizeMovStarsProperty());
-        chkMovExcludeZero.selectedProperty().bindBidirectional(summary.movStarsExcludeZeroProperty());
         chkRandomizeLeadershipStars.selectedProperty().bindBidirectional(summary.randomizeLeadershipStarsProperty());
-        chkLeadershipExcludeZero.selectedProperty().bindBidirectional(summary.leadershipExcludeZeroProperty());
-        
+
         // classes
         chkExcludeHealers.disableProperty().bind(chkClasses.selectedProperty().not());
         chkExcludeThieves.disableProperty().bind(chkClasses.selectedProperty().not());

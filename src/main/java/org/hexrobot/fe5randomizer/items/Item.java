@@ -260,7 +260,7 @@ public enum Item {
     private static final ArrayList<Item> ENEMY_ONLY = new ArrayList<Item>(
             List.of(POISON_SWORD, POISON_LANCE, POISON_AXE, POISON_BOW, STONE, HELL));
     private static final ArrayList<Item> PLAYER_ONLY = new ArrayList<Item>(
-            List.of(THIEF_STAFF));
+            List.of(THIEF_STAFF, UNLOCK));
     private static final ArrayList<Item> BROKEN = new ArrayList<Item>(
             List.of(BROKEN_SWORD, BROKEN_LANCE, BROKEN_AXE, BROKEN_BOW, BROKEN_STAFF, BROKEN_BOOK));
     private static final ArrayList<Item> MANUALS = new ArrayList<>(
@@ -637,6 +637,15 @@ public enum Item {
     
     public static List<Item> getManuals() {
         return new ArrayList<Item>(MANUALS);
+    }
+
+    public static List<Item> getRewardItems() {
+        List<Item> rewards = new ArrayList<>();
+        rewards.addAll(COMMON_ITEMS);
+        rewards.addAll(MANUALS);
+        rewards.addAll(RINGS);
+
+        return rewards;
     }
     
     public static ArrayList<Item> getWeapons(boolean excludeUnused) {

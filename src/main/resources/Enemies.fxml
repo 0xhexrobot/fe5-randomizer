@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <ScrollPane fx:id="enemies" fitToHeight="true" fitToWidth="true" minViewportWidth="400.0" xmlns="http://javafx.com/javafx/14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexrobot.fe5randomizer.controllers.EnemiesController">
    <content>
       <VBox minWidth="400.0" spacing="5.0">
@@ -28,7 +30,7 @@
             </CheckBox>
             <CheckBox fx:id="chkExtraInventory" mnemonicParsing="false" text="Add extra inventory">
             <tooltip>
-                  <Tooltip maxWidth="400.0" text="Adds extra inventory items to enemies." wrapText="true" />
+                  <Tooltip maxWidth="400.0" text="Gives extra weapons to enemies with 2% chance to get non-weapons." wrapText="true" />
             </tooltip>
             </CheckBox>
             <HBox fx:id="parExtraInventory" alignment="CENTER_RIGHT" spacing="10.0">
@@ -51,20 +53,36 @@
                </tooltip>
             </CheckBox>
             <CheckBox fx:id="chkLeadershipStars" mnemonicParsing="false" text="Randomize Leadership stars">
-            <tooltip>
+               <tooltip>
                   <Tooltip maxWidth="400.0" text="Randomizes leadership stars for leader enemies (generic enemies are excluded)." wrapText="true" />
                </tooltip>
             </CheckBox>
+            <HBox fx:id="parLeadershipCap" spacing="10.0">
+               <RadioButton mnemonicParsing="false" selected="true" text="Cap stars at 5" userData="capAt5">
+                  <toggleGroup>
+                     <ToggleGroup fx:id="tgLeadershipCap" />
+                  </toggleGroup>
+                  <tooltip>
+                     <Tooltip maxWidth="400.0" text="Caps leadership stars at 5." wrapText="true" />
+                  </tooltip>
+               </RadioButton>
+               <RadioButton mnemonicParsing="false" text="Cap stars at 10" toggleGroup="$tgLeadershipCap" userData="capAt10">
+                  <tooltip>
+                     <Tooltip maxWidth="400.0" text="Caps leadership stars at 10." wrapText="true" />
+                  </tooltip>
+               </RadioButton>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </HBox>
             <CheckBox fx:id="chkRandomizeBossSkills" mnemonicParsing="false" text="Randomize boss skills">
             <tooltip>
                   <Tooltip maxWidth="400.0" text="Randomizes boss skills." wrapText="true" />
                </tooltip>
             </CheckBox>
             <HBox fx:id="parBossMaxSkillCount" alignment="CENTER_RIGHT" spacing="10.0">
-               <children>
-                  <Label text="Max skill count" />
-                  <Spinner fx:id="spBossMaxSkillCount" max="5" min="0" prefWidth="70.0" />
-               </children>
+               <Label text="Max skill count" />
+               <Spinner fx:id="spBossMaxSkillCount" max="5" min="0" prefWidth="70.0" />
             </HBox>
             <CheckBox fx:id="chkRandomizeEnemiesSkills" mnemonicParsing="false" text="Randomize normal enemies skills">
             <tooltip>
@@ -72,10 +90,8 @@
                </tooltip>
             </CheckBox>
             <HBox fx:id="parEnemiesSkillCount" alignment="CENTER_RIGHT" spacing="10.0">
-               <children>
-                  <Label text="Max skill count" />
-                  <Spinner fx:id="spEnemiesMaxSkillCount" max="5" min="0" prefWidth="70.0" />
-               </children>
+               <Label text="Max skill count" />
+               <Spinner fx:id="spEnemiesMaxSkillCount" max="5" min="0" prefWidth="70.0" />
             </HBox>
          </children>
          <padding>

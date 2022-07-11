@@ -132,13 +132,17 @@ public class RandomizeRomService extends Service<Void> {
                         rom.randomizeUnitsGrowthsAbsolute(summary.getGrowthsAbsoluteMin(), summary.getGrowthsAbsoluteMax());
                     }
                 }
+
+                if(summary.getRandomizePursuitCrit()) {
+                    rom.randomizePursuitCrit();
+                }
                 
                 if(summary.getRandomizeMovStars()) {
-                    rom.randomizeMoveStars(summary.getMovStarsExcludeZero());
+                    rom.randomizeMoveStars();
                 }
                 
                 if(summary.getRandomizeLeadershipStars()) {
-                    rom.randomizeLeadershipStars(summary.getLeadershipExcludeZero());
+                    rom.randomizeLeadershipStars();
                 }
                 
                 if(summary.getRandomizeEnemyMovStars() ) {
@@ -146,7 +150,8 @@ public class RandomizeRomService extends Service<Void> {
                 }
                 
                 if(summary.getRandomizeEnemyLeadershipStars()) {
-                    rom.randomizeEnemyLeadershipStars();
+                    int cap = summary.getEnemyLeadershipStarsCap().equals("capAt10") ? 10 : 5;
+                    rom.randomizeEnemyLeadershipStars(cap);
                 }
                 
                 if(summary.getRandomizeSkills()) {

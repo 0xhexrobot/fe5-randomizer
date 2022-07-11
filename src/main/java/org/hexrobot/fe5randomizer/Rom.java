@@ -546,6 +546,22 @@ public class Rom {
             character.setMovGrowth(newMovGrowth);
         }
     }
+
+    public void randomizePursuitCrit() {
+        ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
+        WeightedList<Integer> pCritWeights = new WeightedList<>();
+        int cap = 5;
+
+        for(int i = 0; i < cap + 1; i++) {
+            float weight = i == 0 ? 0.5f: 1.0f - (i - 2.0f) / 4.0f;
+            pCritWeights.add(i, weight);
+        }
+
+        for(GameCharacter character : characters) {
+            int selectedAmount = pCritWeights.getSelection(random.nextFloat());
+            character.setCounterCritBoost(selectedAmount);
+        }
+    }
     
     public void randomizePlayableUnitClasses(boolean excludeHealers, boolean excludeThieves) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
@@ -720,7 +736,7 @@ public class Rom {
     }
     
     private Item getSelectedItem(ArmyUnit unit, ArrayList<Item> inventory) {
-        Item selectedItem = Item.BROKEN_SWORD;
+        Item selectedItem;
         WeightedList<Item> itemWeights = new WeightedList<>();
         ArrayList<Item> items = Item.getItems(true, false);
         
@@ -733,9 +749,25 @@ public class Rom {
         
         return selectedItem;
     }
+
+    private Item getSelectedReward(ArrayList<Item> inventory) {
+        Item selectedItem;
+        WeightedList<Item> itemWeights = new WeightedList<>();
+        List<Item> items = Item.getRewardItems();
+
+        for(Item item : items) {
+            float weight = logic.assignRewardWeight(item, inventory);
+            itemWeights.add(item, weight);
+        }
+
+        selectedItem = itemWeights.getSelection(random.nextFloat());
+        logic.registerReward(selectedItem);
+
+        return selectedItem;
+    }
     
     private CharacterClass getSelectedClass(GameCharacter character, ArrayList<CharacterClass> classesList) {
-        CharacterClass selectedClass = character.getCharacterClass();
+        CharacterClass selectedClass;
         WeightedList<CharacterClass> classWeights = new WeightedList<>();
         
         for(CharacterClass characterClass : classesList) {
@@ -754,17 +786,17 @@ public class Rom {
     public void enemiesAddExtraInventory(int maxExtraItems) {
         ArrayList<ArmyUnit> enemies = new ArrayList<>(armyUnits);
         enemies.removeIf(unit -> !unit.getCharacter().isEnemyUnit() || unit.getCharacter().isBallistaUnit());
-        addExtraInventoryItems(enemies, maxExtraItems);
+        addExtraInventoryItems(enemies, maxExtraItems, 0.02f);
     }
 
     public void alliesAddExtraInventory(int maxExtraItems) {
         ArrayList<ArmyUnit> allies = new ArrayList<>(armyUnits);
         ArrayList<GameCharacter> allyCharacters = GameCharacter.getAllyUnits();
         allies.removeIf(unit -> !allyCharacters.contains(unit.getCharacter()));
-        addExtraInventoryItems(allies, maxExtraItems);
+        addExtraInventoryItems(allies, maxExtraItems, 0);
     }
 
-    private void addExtraInventoryItems(ArrayList<ArmyUnit> units, int maxExtraItems) {
+    private void addExtraInventoryItems(ArrayList<ArmyUnit> units, int maxExtraItems, float rewardChance) {
         for(ArmyUnit unit : units) {
             ArrayList<Item> inventory = unit.getInventory();
             maxExtraItems = Math.min(maxExtraItems, 7 - inventory.size());
@@ -772,7 +804,13 @@ public class Rom {
             int itemsAdded = 0;
 
             while(itemsAdded < itemsToAdd) {
-                Item item = getSelectedItem(unit, inventory);
+                Item item;
+                if(random.nextFloat() < rewardChance) {
+                    item = getSelectedReward(inventory);
+                } else {
+                    item = getSelectedItem(unit, inventory);
+                }
+
                 inventory.add(item);
                 itemsAdded++;
             }
@@ -781,13 +819,8 @@ public class Rom {
         }
     }
     
-    public void randomizeMoveStars(boolean excludeZeroStars) {
+    public void randomizeMoveStars() {
         ArrayList<GameCharacter> playableCharacters = GameCharacter.getPlayableUnits();
-        
-        if(excludeZeroStars) {
-            playableCharacters.removeIf(unit -> unit.getMovementStars().getAmount() == 0);
-        }
-        
         assignMoveStars(playableCharacters);
     }
     
@@ -806,7 +839,7 @@ public class Rom {
         int cap = 5;
 
         for(int i = 0; i < cap + 1; i++) {
-            float weight = 1 / (float)Math.pow(1.8f, i);
+            float weight = i == 0 ? 2.0f: 1.0f / (float)Math.pow(2.0f, i);
             starWeights.add(i, weight);
         }
 
@@ -816,43 +849,33 @@ public class Rom {
         }
     }
     
-    public void randomizeLeadershipStars(boolean excludeZeroStars) {
+    public void randomizeLeadershipStars() {
         ArrayList<GameCharacter> playableCharacters = GameCharacter.getPlayableUnits();
-        
-        if(excludeZeroStars) {
-            playableCharacters.removeIf(unit -> unit.getLeadershipStars() == 0);
-        }
-
-        assignLeadershipStars(playableCharacters, false);
+        assignLeadershipStars(playableCharacters, 3);
     }
     
-    public void randomizeEnemyLeadershipStars() {
+    public void randomizeEnemyLeadershipStars(int cap) {
         ArrayList<GameCharacter> enemyCharacters = GameCharacter.getEnemyUnits();
         enemyCharacters.removeIf(unit -> unit.getLeadershipStars() == 0);
-        assignLeadershipStars(enemyCharacters, true);
+        // exclude Cyas from randomization
+        enemyCharacters.remove(GameCharacter.CYAS);
+        assignLeadershipStars(enemyCharacters, cap);
     }
     
-    private void assignLeadershipStars(ArrayList<GameCharacter> characters, boolean capAt10) {
-        int cap = 5;
-        
-        if(capAt10) {
-            cap = 10;
-        }
-        
+    private void assignLeadershipStars(ArrayList<GameCharacter> characters, int cap) {
         WeightedList<Integer> starWeights = new WeightedList<>();
 
         for(int i = 0; i < cap + 1; i++) {
-            float weight;
-            
-            if(capAt10) {
-                weight = 1 / (float)Math.pow(1.5f, i);
-            } else {
-                weight = 1 / (float)Math.pow(1.8f, i);
+            float weight = 0;
+            switch(cap) {
+                case 3: weight = i == 0 ? 3.0f : 1.0f - 3.0f * i / 10.0f; break;
+                case 5: weight = i == 0 ? 0.2f : 0.7f - i / 10.0f; break;
+                case 10: weight = i == 0 ? 0.3f : 1.0f - 9.0f * i / 100.0f; break;
             }
-            
+
             starWeights.add(i, weight);
         }
-        
+
         for(GameCharacter character : characters) {
             int selectedAmount = starWeights.getSelection(random.nextFloat());
             character.setLeadershipStars(selectedAmount);
@@ -1707,6 +1730,7 @@ public class Rom {
         
         promotionData.reset();
         PortraitPalette.resetAll();
+        logic.reset();
     }
     
     public void applyChanges() {

@@ -1,5 +1,6 @@
 package org.hexrobot.fe5randomizer.controllers;
 
+import javafx.scene.control.ToggleGroup;
 import org.hexrobot.fe5randomizer.RandomizationSummary;
 
 import javafx.fxml.FXML;
@@ -28,6 +29,10 @@ public class EnemiesController {
     @FXML
     private CheckBox chkLeadershipStars;
     @FXML
+    private HBox parLeadershipCap;
+    @FXML
+    private ToggleGroup tgLeadershipCap;
+    @FXML
     private CheckBox chkRandomizeBossSkills;
     @FXML
     private HBox parBossMaxSkillCount;
@@ -46,6 +51,8 @@ public class EnemiesController {
         chkClassExcludeBosses.disableProperty().bind(chkClasses.selectedProperty().not());
         // inventory
         parExtraInventory.disableProperty().bind(chkExtraInventory.selectedProperty().not());
+        // leadership
+        parLeadershipCap.disableProperty().bind(chkLeadershipStars.selectedProperty().not());
         // movement
         chkMovementExcludeZero.disableProperty().bind(chkMovementStars.selectedProperty().not());
         // skills
@@ -64,6 +71,7 @@ public class EnemiesController {
         chkMovementExcludeZero.selectedProperty().bindBidirectional(summary.enemyMovStarsExcludeZeroProperty());
         // leadership
         chkLeadershipStars.selectedProperty().bindBidirectional(summary.randomizeEnemyLeadershipStarsProperty());
+        summary.enemyLeadershipStarsCapProperty().bind(tgLeadershipCap.selectedToggleProperty());
         // skills
         chkRandomizeBossSkills.selectedProperty().bindBidirectional(summary.randomizeBossSkillsProperty());
         spBossMaxSkillCount.getValueFactory().valueProperty().bindBidirectional(summary.maxBossSkillCountProperty());
