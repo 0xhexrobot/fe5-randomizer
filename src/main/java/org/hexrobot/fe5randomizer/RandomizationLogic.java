@@ -8,7 +8,6 @@ import org.hexrobot.fe5randomizer.characters.GameCharacter;
 import org.hexrobot.fe5randomizer.characters.Gender;
 import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.ItemType;
-import org.hexrobot.fe5randomizer.items.WeaponRank;
 
 public class RandomizationLogic {
     private Map<GameCharacter, List<CharacterClass>> bannedClasses = new HashMap<>();
@@ -16,8 +15,23 @@ public class RandomizationLogic {
     private List<Item> uniqueRewards = new ArrayList<>();
     private Map<Item, Float> itemScarcity = new HashMap<>();
     private Map<Item, Integer> rewardFreq = new HashMap<>();
+    private Map<CharacterClass, Integer> playerClassFreq = new HashMap<>();
+    private Map<ItemType, Integer> playerWpnFreq = new HashMap<>();
+    private ItemType[] weaponTypes = new ItemType[] {ItemType.SWORD, ItemType.LANCE, ItemType.AXE, ItemType.BOW,
+            ItemType.STAFF, ItemType.FIRE, ItemType.THUNDER, ItemType.WIND, ItemType.LIGHT, ItemType.DARK};
+    private Map<ItemType, Integer> wpnsTargetCount = new HashMap<>();
     
     public RandomizationLogic(RandomizationSummary summary) {
+        setClassRescrictions(!summary.getExcludeThieves());
+        setItemScarcity();
+        populateUniqueRewards();
+
+        wpnsTargetCount.put(ItemType.SWORD, 20);
+        wpnsTargetCount.put(ItemType.LIGHT, 5);
+        wpnsTargetCount.put(ItemType.DARK, 5);
+    }
+
+    private void setClassRescrictions(boolean lifisClassRandomized) {
         List<CharacterClass> mountedClasses = CharacterClass.getMountedClasses();
         List<CharacterClass> flyingClasses = CharacterClass.getFlyingClasses();
         List<CharacterClass> canTraverseWaterClasses = CharacterClass.getCanTraverseWaterClasses();
@@ -25,7 +39,7 @@ public class RandomizationLogic {
         List<CharacterClass> mountedOrHealers = new ArrayList<>();
         mountedOrHealers.addAll(mountedClasses);
         mountedOrHealers.addAll(healerClasses);
-        
+
         // exclude these classes for these characters
         bannedClasses.put(GameCharacter.GALZUS, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_SOLDIER, mountedClasses);
@@ -111,11 +125,12 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.EYVEL, mountedClasses);
         bannedClasses.put(GameCharacter.LENSTER_LANCE_KNIGHT, healerClasses);
         bannedClasses.put(GameCharacter.LENSTER_ARCH_KNIGHT, healerClasses);
-        
-        if(!summary.getExcludeThieves()) {
+        bannedClasses.put(GameCharacter.GUSTAF_BOSS, mountedClasses);
+
+        if(lifisClassRandomized) {
             bannedClasses.put(GameCharacter.RIFIS, mountedClasses);
         }
-        
+
         // only these classes are available for these characters
         limitedClassPool.put(GameCharacter.RIFIS_GANG_PIRATE, canTraverseWaterClasses);
         limitedClassPool.put(GameCharacter.TOBOLZARK_BOSS, flyingClasses);
@@ -128,17 +143,17 @@ public class RandomizationLogic {
         limitedClassPool.put(GameCharacter.KORUTA_BOSS, flyingClasses);
         limitedClassPool.put(GameCharacter.THRACIA_DRAGON_KNIGHT3, flyingClasses);
         limitedClassPool.put(GameCharacter.MALLOCK_BOSS, flyingClasses);
-
-        setItemScarcity();
-        populateUniqueRewards();
     }
-    
+
     public float assignItemWeight(ArmyUnit unit, Item item, List<Item> inventory) {
-        if(unit.getCharacter().isPlayableUnit() && item.isEnemyOnly()) {
+        GameCharacter character = unit.getCharacter();
+        CharacterClass chClass = character.getCharacterClass();
+
+        if(character.isPlayableUnit() && item.isEnemyOnly()) {
             return 0;
         }
         
-        if(unit.getCharacter().isEnemyUnit() && item.isPlayerOnly()) {
+        if(character.isEnemyUnit() && item.isPlayerOnly()) {
             return 0;
         }
 
@@ -155,10 +170,10 @@ public class RandomizationLogic {
 
         // weapon rank value
         float rankValue;
-        if(unit.getCharacter().hasRandomBases()) {
+        if(character.hasRandomBases()) {
             int unitLevel = unit.getLevel();
 
-            if(unit.getCharacter().getCharacterClass().isPromoted()) {
+            if(character.getCharacterClass().isPromoted()) {
                 unitLevel += 20;
             }
 
@@ -183,8 +198,45 @@ public class RandomizationLogic {
         }
 
         value *= rankValue;
+
+        //biased to give weapon to healers if posible
+        float healerSelfDef = 1.0f;
+
+        if(chClass.isHealer()) {
+            if(chClass.canUseWeaponType(ItemType.SWORD) || chClass.canUseWeaponType(ItemType.FIRE)
+                || chClass.canUseWeaponType(ItemType.THUNDER) || chClass.canUseWeaponType(ItemType.WIND)
+            || chClass.canUseWeaponType(ItemType.LIGHT) || chClass.canUseWeaponType(ItemType.DARK)) {
+                if(!canHealerDefend(unit, inventory)) {
+                    if(item.getItemType().equals(ItemType.STAFF)) {
+                        healerSelfDef = 0.1f;
+                    }
+                }
+            }
+        }
+
+        value *= healerSelfDef;
         
         return value;
+    }
+
+    private boolean canHealerDefend(ArmyUnit unit, List<Item> inventory) {
+        boolean canDefend = false;
+
+        for(Item item : inventory) {
+            ItemType type = item.getItemType();
+
+            // ignore normal items
+            if(type.equals(ItemType.ITEM)) {
+                continue;
+            }
+
+            if(unit.canUseWeapon(item) && !type.equals(ItemType.STAFF)) {
+                canDefend = true;
+                break;
+            }
+        }
+
+        return canDefend;
     }
 
     public float assignRewardWeight(Item item, List<Item> inventory) {
@@ -215,15 +267,41 @@ public class RandomizationLogic {
         rewardFreq.put(item, occurrences + 1);
     }
 
-    public float assignClassWeight(GameCharacter character, CharacterClass characterClass) {
+    public void registerPlayerClass(CharacterClass playerClass) {
+        int occurrences = playerClassFreq.getOrDefault(playerClass, 0);
+        playerClassFreq.put(playerClass, occurrences + 1);
+        registerPlayerWeapon(playerClass);
+    }
+
+    private void registerPlayerWeapon(CharacterClass playerClass) {
+        int occurrences;
+
+        for (ItemType type : weaponTypes) {
+            if(playerClass.canUseWeaponType(type)) {
+                occurrences = playerWpnFreq.getOrDefault(type, 0);
+                playerWpnFreq.put(type, occurrences + 1);
+            }
+        }
+    }
+
+    public float assignClassWeight(GameCharacter character, CharacterClass characterClass, boolean playerCharacter) {
+        // don't allow trans classes
+        if(character.getGender() == Gender.MALE && characterClass.isFemaleClass()) {
+            return 0;
+        } else if(character.getGender() == Gender.FEMALE && !characterClass.isFemaleClass()) {
+            return 0;
+        }
+
+        // don't allow if banned class
         if(bannedClasses.containsKey(character)) {
             List<CharacterClass> banned = bannedClasses.get(character);
-            
+
             if(banned.contains(characterClass)) {
                 return 0;
             }
         }
-        
+
+        // don't allow if not in limited class list
         if(limitedClassPool.containsKey(character)) {
             List<CharacterClass> limitedTo = limitedClassPool.get(character);
             
@@ -231,28 +309,40 @@ public class RandomizationLogic {
                 return 0;
             }
         }
-        
-        float value = 1.0f;
-        
-        if(character.getCharacterClass().equals(characterClass)) {
-            value *= 0.25f;
+
+        // don't allow unmounted if possible
+        if(characterClass.isDismounted() && !bannedClasses.containsKey(character)) {
+            return 0;
         }
 
-        if(character.getGender() == Gender.MALE) {
-            if(characterClass.isFemaleClass()) {
-                value = 0;
+        float value = 1.0f;
+
+        // same class
+        if(character.getCharacterClass().equals(characterClass)) {
+            value *= 0.1f;
+        }
+
+        if(playerCharacter) {
+            // weapon frequency
+            float wpnFreqValue = 0;
+            int usableWpnsCount = 0;
+
+            for(ItemType type : weaponTypes) {
+                if(characterClass.canUseWeaponType(type)) {
+                    int targetCount = wpnsTargetCount.getOrDefault(type, 10);
+                    wpnFreqValue += Math.max(1.0f - playerWpnFreq.getOrDefault(type, 0) / (float)targetCount, 0);
+                    usableWpnsCount++;
+                }
             }
-        } else if(character.getGender() == Gender.FEMALE) {
-            if(!characterClass.isFemaleClass()) {
-                value = 0;
-            }
+
+            wpnFreqValue = wpnFreqValue / usableWpnsCount;
+            value *= wpnFreqValue;
         }
 
         return value;
     }
 
     private void setItemScarcity() {
-
         itemScarcity.put(Item.BRAVE_AXE, 0.2f);
         itemScarcity.put(Item.LIGHT_SWORD, 0.2f);
         itemScarcity.put(Item.EARTH_SWORD, 0.2f);
@@ -280,6 +370,8 @@ public class RandomizationLogic {
     
     public void reset() {
         rewardFreq.clear();
+        playerClassFreq.clear();
+        playerWpnFreq.clear();
         populateUniqueRewards();
     }
     

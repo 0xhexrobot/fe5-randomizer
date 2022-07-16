@@ -577,7 +577,7 @@ public class Rom {
             bannedClasses.addAll(CharacterClass.getThiefClasses());
         }
 
-        assignNewClasses(characters, bannedClasses);
+        assignNewClasses(characters, bannedClasses, true);
 
         laraPahnRemoveStealSkill();
         updateEyvelCh5Weapon();
@@ -587,6 +587,8 @@ public class Rom {
                 && !GameCharacter.MACHYUA.getCharacterClass().isThief()) {
             thiefSubstituteCh4();
         }
+
+        GameCharacter.printplayerClasses();
         
         promotionData.updatePromotions();
     }
@@ -652,7 +654,7 @@ public class Rom {
 
     public void randomizeAllyUnitClasses() {
         ArrayList<GameCharacter> characters = GameCharacter.getAllyUnits();
-        assignNewClasses(characters, List.of());
+        assignNewClasses(characters, List.of(), false);
     }
     
     public void randomizeEnemyUnitClasses(boolean excludeBosses) {
@@ -664,34 +666,40 @@ public class Rom {
             characters.removeAll(GameCharacter.getBossUnits());
         }
 
-        assignNewClasses(characters, List.of());
+        assignNewClasses(characters, List.of(), false);
     }
     
-    private void assignNewClasses(ArrayList<GameCharacter> characters, List<CharacterClass> bannedClasses) {
+    private void assignNewClasses(ArrayList<GameCharacter> characters, List<CharacterClass> bannedClasses, boolean player) {
         ArrayList<CharacterClass> unpromotedClasses = CharacterClass.getUnpromotedClasses();
         ArrayList<CharacterClass> promotedClasses = CharacterClass.getPromotedClasses();
-        
+        ArrayList<CharacterClass> classPool = unpromotedClasses;
+        List<GameCharacter> portraitChangeExcluded = GameCharacter.getPortraitChangeExcluded();
+
         unpromotedClasses.removeIf(chClass -> bannedClasses.contains(chClass));
         promotedClasses.removeIf(chClass -> bannedClasses.contains(chClass));
-        
+
         for(GameCharacter character : characters) {
             CharacterClass characterClass = character.getCharacterClass();
             CharacterClass newCharacterClass = characterClass;
-            
+
             if(characterClass.isPromoted()) {
-                newCharacterClass = getSelectedClass(character, promotedClasses);
+                classPool = promotedClasses;
             } else if(characterClass.isUnpromoted()) {
-                newCharacterClass = getSelectedClass(character, unpromotedClasses);
+                classPool = unpromotedClasses;
             }
-            
+
+            newCharacterClass = getSelectedClass(character, classPool, player);
             character.setCharacterClass(newCharacterClass, random);
 
             if(character.hasRandomBases()) {
-                character.setPortrait(CharacterClass.getGenericPortrait(newCharacterClass));
+                if(!portraitChangeExcluded.contains(character)) {
+                    character.setPortrait(CharacterClass.getGenericPortrait(newCharacterClass));
+                }
+
                 assignAutoLevelType(character, newCharacterClass, random);
             }
         }
-        
+
         assignUnitInventories(characters);
     }
 
@@ -766,12 +774,13 @@ public class Rom {
         return selectedItem;
     }
     
-    private CharacterClass getSelectedClass(GameCharacter character, ArrayList<CharacterClass> classesList) {
+    private CharacterClass getSelectedClass(
+            GameCharacter character, ArrayList<CharacterClass> classesList, boolean player) {
         CharacterClass selectedClass;
         WeightedList<CharacterClass> classWeights = new WeightedList<>();
         
         for(CharacterClass characterClass : classesList) {
-            float weight = logic.assignClassWeight(character, characterClass);
+            float weight = logic.assignClassWeight(character, characterClass, player);
             
             if(weight > 0) {
                 classWeights.add(characterClass, weight);
@@ -779,6 +788,10 @@ public class Rom {
         }
         
         selectedClass = classWeights.getSelection(random.nextFloat());
+
+        if(player) {
+            logic.registerPlayerClass(selectedClass);
+        }
         
         return selectedClass;
     }

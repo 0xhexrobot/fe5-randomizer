@@ -120,7 +120,7 @@
 		  </VBox>
 		  <CheckBox fx:id="chkPursuitCrit" mnemonicParsing="false" text="Randomize pursuit critical">
 			  <tooltip>
-				  <Tooltip maxWidth="400.0" text="Randomizes pursuit critical coeficient." wrapText="true" />
+				  <Tooltip maxWidth="400.0" text="Randomizes pursuit critical coeficient. This is a hidden stat, multiplies critical hit chance on 2nd attacks." wrapText="true" />
 			  </tooltip>
 		  </CheckBox>
 		  <CheckBox fx:id="chkClasses" mnemonicParsing="false" text="Randomize classes">

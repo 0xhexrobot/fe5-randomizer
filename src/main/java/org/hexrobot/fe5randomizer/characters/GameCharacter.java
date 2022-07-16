@@ -125,7 +125,7 @@ public enum GameCharacter {
     LENSTER_LANCE_KNIGHT(0x0070, "Lenster - Lance Knight"),
     LENSTER_ARCH_KNIGHT(0x0071, "Lenster - Arch Knight"),
     ARION(0x0072, "Arion"),
-    MAKCLOY_BOSS(0x0073, "Macloy (Boss)"),
+    MACLOY_BOSS(0x0073, "Macloy (Boss)"),
     KODDA_BOSS(0x0074, "Kodda (Boss)"),
     ROPUTO_DARK_MAGE(0x0075, "Roputo - Dark Mage"),
     CIVILIAN(0x0076, "Civilian"),
@@ -452,7 +452,7 @@ public enum GameCharacter {
             BANDIT_HUNTER, BANDIT_WARRIOR, LUMEI_BOSS, GOMEZ_BOSS, MALLOCK_BOSS, THRACIA_DRAGON_KNIGHT,
             THRACIA_SWORD_FIGHTER, THRACIA_AXE_FIGHTER, RALGO_BOSS, MANSTER_LONG_ARCH, MANSTER_AXE_ARMOR, KEMPF_BOSS,
             OLTOV_BOSS, KOLHO_MINI_BOSS, RIST_BOSS, PALUCE_BOSS, BALDACK_BOSS, THRACIA_LANCE_ARMOR,
-            MAKCLOY_BOSS, KODDA_BOSS, ROPUTO_DARK_MAGE, THIEF_F, MANSTER_SNIPER, MERCENARY_SOCIAL_KNIGHT, PRIEST,
+            MACLOY_BOSS, KODDA_BOSS, ROPUTO_DARK_MAGE, THIEF_F, MANSTER_SNIPER, MERCENARY_SOCIAL_KNIGHT, PRIEST,
             MERCENARY_SWORD_FIGHTER2, CH21_IRON_ARCH, SHUPEL_BOSS, BLUKE_BOSS,
             SILESIA_PEGASUS_RIDER, NIKOLAF_BOSS, MUUA_BOSS, MYURA_BOSS, REINCOCK_BOSS, PALMAN_BOSS, KANTO_BOSS,
             GUSTAF_BOSS, DANCER, SISTER, MANHEIM_BOSS, PHLAUS_BOSS, SEMITOL_BOSS, ZAOM_BOSS, KOEN_BOSS, ALPHAN_BOSS,
@@ -487,7 +487,7 @@ public enum GameCharacter {
             RESISTANCE_BOW_FIGHTER2, RESISTANCE_SWORD_FIGHTER, RESISTANCE_MAGE));
     private static final ArrayList<GameCharacter> BOSSES = new ArrayList<>(List.of(
             LEIDRICK_1, BELDO, WEISSMAN, BUGS, JABAL, ROBOS, ISHTAR, IZENAU_BOSS, LUMEI_BOSS, GOMEZ_BOSS, MALLOCK_BOSS,
-            RALGO_BOSS, KEMPF_BOSS, OLTOV_BOSS, KOLHO_MINI_BOSS, RIST_BOSS, PALUCE_BOSS, BALDACK_BOSS, MAKCLOY_BOSS,
+            RALGO_BOSS, KEMPF_BOSS, OLTOV_BOSS, KOLHO_MINI_BOSS, RIST_BOSS, PALUCE_BOSS, BALDACK_BOSS, MACLOY_BOSS,
             KODDA_BOSS, SHUPEL_BOSS, BLUKE_BOSS, NIKOLAF_BOSS, MUUA_BOSS, MYURA_BOSS, REINCOCK_BOSS, PALMAN_BOSS,
             KANTO_BOSS, GUSTAF_BOSS, MANHEIM_BOSS, PHLAUS_BOSS, SEMITOL_BOSS, ZAOM_BOSS, KOEN_BOSS, ALPHAN_BOSS,
             OPISU_BOSS, FERDEN_BOSS, KORUTA_BOSS, REINHARDT, BANTOL_BOSS, TORMAN_BOSS, TOBOLZARK_BOSS, AIGHTMAN_BOSS,
@@ -498,6 +498,10 @@ public enum GameCharacter {
                     FREEGE_LONG_ARCH3, FREEGE_LONG_ARCH1, FREEGE_POISON_ARCH, MANSTER_POISON_ARCH, FREEGE_IRON_ARCH));
     private static final ArrayList<GameCharacter> PRF_WPN_OWNERS = new ArrayList<>(List.of(
             LEAF, NANNA, MAREETA, DELMUD, FINN, OLWEN, FRED, SAPHY, TINA));
+    private static final ArrayList<GameCharacter> PORTRAIT_CHANGE_EXCLUDED = new ArrayList<>(List.of(WEISSMAN, BUGS,
+            JABAL, ROBOS, OLTOV_BOSS, MACLOY_BOSS, SHUPEL_BOSS, BANTOL_BOSS, TORMAN_BOSS, TOBOLZARK_BOSS,
+            XAVIER_LENSTER_ARMOR1, XAVIER_LENSTER_ARMOR2,XAVIER_LENSTER_ARMOR3,XAVIER_LENSTER_ARMOR4,
+            XAVIER_LENSTER_ARMOR5,XAVIER_LENSTER_ARMOR6,XAVIER_LENSTER_ARMOR7,XAVIER_LENSTER_ARMOR8, AUGUST));
     
     private GameCharacter(int offset, String name) {
         this.offset = offset;
@@ -708,7 +712,29 @@ public enum GameCharacter {
             character.readCharacter(rom, CHARACTERS_OFFSET);
         }
     }
-    
+
+    public static void printplayerClasses() {
+        for (GameCharacter character : GameCharacter.getPlayableUnits()) {
+            CharacterClass chClass = character.characterClass;
+            String className = chClass.getName();
+            int classOffset = chClass.getOffset();
+            int canBeMounted = chClass.getMountedComplement() != null? 1 : 0;
+            int wpns[] = new int[10];
+            wpns[0] = chClass.canUseWeaponType(ItemType.SWORD) ? 1 : 0;
+            wpns[1] = chClass.canUseWeaponType(ItemType.LANCE) ? 1 : 0;
+            wpns[2] = chClass.canUseWeaponType(ItemType.AXE) ? 1 : 0;
+            wpns[3] = chClass.canUseWeaponType(ItemType.BOW) ? 1 : 0;
+            wpns[4] = chClass.canUseWeaponType(ItemType.STAFF) ? 1 : 0;
+            wpns[5] = chClass.canUseWeaponType(ItemType.FIRE) ? 1 : 0;
+            wpns[6] = chClass.canUseWeaponType(ItemType.THUNDER) ? 1 : 0;
+            wpns[7] = chClass.canUseWeaponType(ItemType.WIND) ? 1 : 0;
+            wpns[8] = chClass.canUseWeaponType(ItemType.LIGHT) ? 1 : 0;
+            wpns[9] = chClass.canUseWeaponType(ItemType.DARK) ? 1 : 0;
+            System.out.println(String.format("%s (0x%04x),%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+                    className, classOffset, canBeMounted, wpns[0], wpns[1], wpns[2], wpns[3], wpns[4], wpns[5], wpns[6], wpns[7], wpns[8], wpns[9]));
+        }
+    }
+
     public static void writeCharacters(Rom rom) {
         for(GameCharacter character: values()) {
             character.writeCharacter(rom, CHARACTERS_OFFSET);
@@ -1261,7 +1287,7 @@ public enum GameCharacter {
         }
         
         ArrayList<ItemType> usableWeapons = newClass.getUsableWeaponTypes();
-        CharacterClass mountComplement = CharacterClass.getComplement(newClass);
+        CharacterClass mountComplement = newClass.getMountedComplement();
         
         if(mountComplement != null) {
             ArrayList<ItemType> complementWeapons = mountComplement.getUsableWeaponTypes();
@@ -1624,6 +1650,10 @@ public enum GameCharacter {
     
     public static ArrayList<GameCharacter> getPrfWeaponOwners() {
         return new ArrayList<GameCharacter>(PRF_WPN_OWNERS);
+    }
+
+    public static List<GameCharacter> getPortraitChangeExcluded() {
+        return new ArrayList<>(PORTRAIT_CHANGE_EXCLUDED);
     }
     
     @Override

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hexrobot.fe5randomizer.MountData;
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.items.ItemType;
 
@@ -129,8 +128,11 @@ public enum CharacterClass {
     SOLDIER(0x75, "Soldier", 0x08, 0x1C),
     ARCHER(0x76, "Archer", 0x0B, 0x18),
     MERCENARY_F(0x77, "Mercenary (F)", 0x1C, -1);
-    
-    private static MountData mountData = null;
+
+    private static final int MOUNT_TABLE_OFFSET = 0x40000;
+    private static final int MOUNT_TABLE_SIZE = 28;
+    private static final int UNMOUNTED_OFFSET = 0;
+    private static final int MOUNTED_OFFSET = 0x1C;
     private int offset;
     private String name;
     private int mapSprite;
@@ -158,18 +160,19 @@ public enum CharacterClass {
     private int skills3 = -1;
     private ArrayList<Skill> skills = new ArrayList<Skill>();
     private Map<String, Object> oldValues = new HashMap<>();
+    private CharacterClass mountedComplement = null;
     
     private static final ArrayList<CharacterClass> THIEVES = new ArrayList<>(List.of(
             THIEF, THIEF_F, THIEF_FIGHTER, THIEF_FIGHTER_F));
     private static final ArrayList<CharacterClass> HEALERS = new ArrayList<>(List.of(
-            TROUBADOUR, TROUBADOUR_DISMOUNTED, PALADIN, PALADIN_F, PRIEST, PRIEST_F, SISTER, SAGE, PALADIN_DISMOUNTED,
+            TROUBADOUR, TROUBADOUR_DISMOUNTED, PALADIN_F, PRIEST, PRIEST_F, SISTER, SAGE, PALADIN_DISMOUNTED,
             PALADIN_F_DISMOUNTED, HIGH_PRIEST, HIGH_PRIEST_F, BISHOP, DARK_BISHOP, LOPTO_MAGE, LOPTO_MAGE_F,
             DARK_MAGE, SAGE_F));
     private static final ArrayList<CharacterClass> UNPROMOTED = new ArrayList<>(List.of(
             SOCIAL_KNIGHT, LANCE_KNIGHT, ARCH_KNIGHT, AXE_KNIGHT, FREE_KNIGHT, TROUBADOUR, DRAGON_RIDER, BOW_FIGHTER,
             SWORD_FIGHTER, LANCE_ARMOR, AXE_ARMOR, BOW_ARMOR, SWORD_ARMOR, MOUNTAIN_THIEF, MOUNTAIN_THIEF2,
             HUNTER, PIRATE, LORD, DANCER, PRIEST, MAGE, LOPTO_MAGE, THUNDER_MAGE, WIND_MAGE, BARD, SISTER, THIEF,
-            AXE_FIGHTER, SOCIALKNIGHT_DISMOUNTED, LANCE_KNIGHT_DISMOUNTED, ARCH_KNIGHT_DISMOUNTED, PRINCE,
+            AXE_FIGHTER, SOCIALKNIGHT_DISMOUNTED, LANCE_KNIGHT_DISMOUNTED, ARCH_KNIGHT_DISMOUNTED,
             AXE_KNIGHT_DISMOUNTED, FREE_KNIGHT_DISMOUNTED, TROUBADOUR_DISMOUNTED, DRAGON_RIDER_DISMOUNTED,
             ARCH_KNIGHT_F, ARCH_KNIGHT_F_DISMOUNTED, DRAGON_RIDER_F, DRAGON_RIDER_F_DISMOUNTED, MAGE_F, THUNDER_MAGE_F,
             LOPTO_MAGE_F, WIND_MAGE_F, PRIEST_F, SWORD_FIGHTER_F, BOW_FIGHTER_F, THIEF_F, PEGASUS_RIDER,
@@ -182,8 +185,8 @@ public enum CharacterClass {
             PEGASUS_KNIGHT_DISMOUNTED, FORREST_KNIGHT_DISMOUNTED, DRAGON_KNIGHT_DISMOUNTED, GREAT_KNIGHT_DISMOUNTED,
             DRAGON_KNIGHT_F, DRAGON_KNIGHT_F_DISMOUNTED, MAGE_KNIGHT_F2, SAGE_F, HIGH_PRIEST_F, FORREST_F,
             SWORD_MASTER_F, SNIPER_F, THIEF_FIGHTER_F, MERCENARY, MERCENARY_F));
-    private static final ArrayList<CharacterClass> UNUSED_PROMOTED = new ArrayList<>(List.of(
-            LORD_KNIGHT, MASTER_KNIGHT, EMPEROR, JUNIOR_LORD, KILLER_ARCH, DARK_PRINCE, LORD_KNIGHT_DISMOUNTED,
+    private static final ArrayList<CharacterClass> UNUSED = new ArrayList<>(List.of(
+            LORD_KNIGHT, MASTER_KNIGHT, EMPEROR, PRINCE, JUNIOR_LORD, KILLER_ARCH, DARK_PRINCE, LORD_KNIGHT_DISMOUNTED,
             MASTER_KNIGHT_DISMOUNTED, MASTER_KNIGHT_F, FALCON_KNIGHT_DISMOUNTED, MASTER_KNIGHT_F_DISMOUNTED,
             DRAGON_MASTER_F_DISMOUNTED, DRAGON_MASTER_F, DRAGON_MASTER, DRAGON_MASTER_DISMOUNTED, FALCON_KNIGHT));
     private static final ArrayList<CharacterClass> FEMALE_CLASSES = new ArrayList<>(List.of(
@@ -199,6 +202,12 @@ public enum CharacterClass {
             AXE_KNIGHT, MASTER_KNIGHT, DRAGON_KNIGHT_F, MAGE_KNIGHT_F, LORD_KNIGHT, BOW_KNIGHT_F, LANCE_KNIGHT,
             PALADIN_F, ARCH_KNIGHT_F, DRAGON_RIDER_F, FALCON_KNIGHT, FREE_KNIGHT, SOCIAL_KNIGHT, ARCH_KNIGHT, PALADIN,
             DRAGON_MASTER_F, GREAT_KNIGHT, DRAGON_RIDER, TROUBADOUR, BOW_KNIGHT, PEGASUS_RIDER));
+    private static final ArrayList<CharacterClass> DISMOUNTED = new ArrayList<>(List.of(
+            SOCIALKNIGHT_DISMOUNTED, LANCE_KNIGHT_DISMOUNTED, ARCH_KNIGHT_DISMOUNTED, AXE_KNIGHT_DISMOUNTED,
+            FREE_KNIGHT_DISMOUNTED, TROUBADOUR_DISMOUNTED, DRAGON_RIDER_DISMOUNTED, ARCH_KNIGHT_F_DISMOUNTED,
+            DRAGON_RIDER_F_DISMOUNTED, PEGASUS_RIDER_DISMOUNTED, DUKE_KNIGHT_DISMOUNTED, BOW_KNIGHT_DISMOUNTED,
+            PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED, BOW_KNIGHT_F_DISMOUNTED, PEGASUS_KNIGHT_DISMOUNTED,
+            FORREST_KNIGHT_DISMOUNTED, DRAGON_KNIGHT_DISMOUNTED, GREAT_KNIGHT_DISMOUNTED, DRAGON_KNIGHT_F_DISMOUNTED));
     private static final ArrayList<CharacterClass> FLYING = new ArrayList<>(List.of(
             DRAGON_KNIGHT, PEGASUS_KNIGHT, DRAGON_MASTER, DRAGON_KNIGHT_F, DRAGON_RIDER_F, FALCON_KNIGHT,
             DRAGON_MASTER_F, DRAGON_RIDER, PEGASUS_RIDER));
@@ -234,8 +243,8 @@ public enum CharacterClass {
         this.promotion = promotion;
     }
     
-    private void readCharacterClass(Rom rom, int startingOffset) {
-        int relOffset = startingOffset + (offset - 1) * CLASS_DATA_SIZE;
+    private void readCharacterClass(Rom rom) {
+        int relOffset = CHARACTER_CLASSES_OFFSET + (offset - 1) * CLASS_DATA_SIZE;
         baseHp = rom.getValueAt(relOffset + BASE_HP_OFFSET);
         baseAtk = rom.getValueAt(relOffset + BASE_ATK_OFFSET);
         baseMag = rom.getValueAt(relOffset + BASE_MAG_OFFSET);
@@ -262,14 +271,26 @@ public enum CharacterClass {
     
     public static void initializeCharacterClasses(Rom rom) {
         for(CharacterClass characterClass : values()) {
-            characterClass.readCharacterClass(rom, CHARACTER_CLASSES_OFFSET);
+            characterClass.readCharacterClass(rom);
         }
-        
-        if(mountData == null) {
-            mountData = new MountData(rom);
+
+        // initialize mount data
+        for(int i = 0; i < MOUNT_TABLE_SIZE; i++) {
+            int unmountOffset = MOUNT_TABLE_OFFSET + UNMOUNTED_OFFSET + i;
+            int mountOffset = MOUNT_TABLE_OFFSET + MOUNTED_OFFSET + i;
+
+            CharacterClass unmountedClass = CharacterClass.findById(rom.getValueAt(unmountOffset));
+            CharacterClass mountedClass = CharacterClass.findById(rom.getValueAt(mountOffset));
+
+            unmountedClass.mountedComplement = mountedClass;
+            mountedClass.mountedComplement = unmountedClass;
         }
     }
-        
+
+    public CharacterClass getMountedComplement() {
+        return mountedComplement;
+    }
+
     public int getOffset() {
         return offset;
     }
@@ -392,6 +413,14 @@ public enum CharacterClass {
     
     public boolean isFemaleClass() {
         return FEMALE_CLASSES.contains(this);
+    }
+
+    public boolean isDismounted() {
+        return DISMOUNTED.contains(this);
+    }
+
+    public boolean isMounted() {
+        return MOUNTED.contains(this);
     }
     
     public static ArrayList<CharacterClass> getThiefClasses() {
@@ -645,14 +674,18 @@ public enum CharacterClass {
         return new ArrayList<>(PROMOTED);
     }
     
-    public static ArrayList<CharacterClass> getUnusedPromotedClasses() {
-        return new ArrayList<>(UNUSED_PROMOTED);
+    public static ArrayList<CharacterClass> getUnusedClasses() {
+        return new ArrayList<>(UNUSED);
     }
     
     public static ArrayList<CharacterClass> getMountedClasses() {
         return new ArrayList<>(MOUNTED);
     }
-    
+
+    public static ArrayList<CharacterClass> getDismountedClasses() {
+        return new ArrayList<>(DISMOUNTED);
+    }
+
     public static ArrayList<CharacterClass> getFlyingClasses() {
         return new ArrayList<>(FLYING);
     }
@@ -663,11 +696,7 @@ public enum CharacterClass {
         
         return canTraverseWater;
     }
-    
-    public static CharacterClass getComplement(CharacterClass characterClass) {
-        return mountData.getComplement(characterClass);
-    }
-    
+
     public CharacterClass getPromotion() {
         CharacterClass promotion = null;
         
@@ -715,8 +744,10 @@ public enum CharacterClass {
                 baseHp, baseAtk, baseMag, baseSkl, baseSpd, baseDef, baseBld, baseMov);
         text += String.format("Base Wpn level Sword: %d, Lance: %d Axe: %d, Bow: %d, Staff: %d, Fire: %d, Thunder: %d, Wind: %d, Light: %d, Dark: %d\n",
                 baseSwordLv.getAmount(), baseLanceLv.getAmount(), baseAxeLv.getAmount(), baseBowLv.getAmount(), baseStaffLv.getAmount(), baseFireLv.getAmount(), baseThunderLv.getAmount(), baseWindLv.getAmount(), baseLightLv.getAmount(), baseDarkLv.getAmount());
-        text += String.format("Skill1: 0x%02X, Skill2: 0x%02X, Skill3: 0x%02X, (%s)",
+        text += String.format("Skill1: 0x%02X, Skill2: 0x%02X, Skill3: 0x%02X, (%s)\n",
                 skills1, skills2, skills3, skillsText);
+        text += String.format("Mounted complement: %s",
+                mountedComplement != null ? mountedComplement.name : "--");
         
         return text;
     }
