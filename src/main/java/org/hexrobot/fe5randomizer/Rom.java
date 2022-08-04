@@ -98,7 +98,7 @@ public class Rom {
             if(gameTitle.contains("FIREEMBLEM5")) {
                 fireEmblem5 = true;
             } else if(gameTitle.equals("FE5 Lil' Manster")){
-                name = "Fire Emblem 5 + Lil' Manster hack";
+                name = "Fire Emblem 5 + Lil' Manster QoL";
                 fireEmblem5 = true;
                 lilMansterHack.set(true);
             }
@@ -118,22 +118,12 @@ public class Rom {
         return bytes[offset] & 0xFF;
     }
 
-    public int getValueAt(int offset, int length) {
-        if(length != 2) {
-            throw new IllegalArgumentException("Only retrieving 2 bytes are supported.");
-        }
-
+    public int get2ByteValueAt(int offset) {
         if(headered) {
             offset += HEADER_SIZE;
         }
 
-        int value = 0;
-
-        if(length == 2) {
-            value = (bytes[offset + 1] & 0xFF) << 8 | (bytes[offset] & 0xFF);
-        }
-
-        return value;
+        return (bytes[offset + 1] & 0xFF) << 8 | (bytes[offset] & 0xFF);
     }
     
     public void setValueAt(int offset, int value) {
@@ -281,8 +271,8 @@ public class Rom {
             spdWeight = random.nextFloat();
             lckWeight = random.nextFloat();
             defWeight = random.nextFloat();
-            bldWeight = random.nextFloat() * 0.5f;
-            movWeight = random.nextFloat() * 0.25f;
+            bldWeight = random.nextFloat() * 0.2f;
+            movWeight = random.nextFloat() * 0.05f;
             
             statWeights.add("hp", hpWeight);
             statWeights.add("atk", atkWeight);
@@ -391,11 +381,11 @@ public class Rom {
     public void randomizeUnitsGrowthsVariance(int delta) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
         int deltaPoints = delta / 5;
-        
+
         for(GameCharacter character : characters) {
             int hpGrowth, atkGrowth, magGrowth, sklGrowth, spdGrowth, lckGrowth, defGrowth, bldGrowth, movGrowth;
             int newHpGrowth, newAtkGrowth, newMagGrowth, newSklGrowth, newSpdGrowth, newLckGrowth, newDefGrowth, newBldGrowth, newMovGrowth;
-            
+
             hpGrowth = character.getHpGrowth();
             atkGrowth = character.getAtkGrowth();
             magGrowth = character.getMagGrowth();
@@ -405,7 +395,7 @@ public class Rom {
             defGrowth = character.getDefGrowth();
             bldGrowth = character.getBldGrowth();
             movGrowth = character.getMovGrowth();
-            
+
             newHpGrowth = Math.max(hpGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
             newAtkGrowth = Math.max(atkGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
             newMagGrowth = Math.max(magGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
@@ -415,7 +405,14 @@ public class Rom {
             newDefGrowth = Math.max(defGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
             newBldGrowth = Math.max(bldGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
             newMovGrowth = Math.max(movGrowth / 5 + random.nextInt(deltaPoints * 2 + 1) - deltaPoints, 0) * 5;
-            
+
+            // fix magic
+            if(character.getCharacterClass().isPrimaryMagic() && newAtkGrowth > newMagGrowth) {
+                int temp = newAtkGrowth;
+                newAtkGrowth = newMagGrowth;
+                newMagGrowth = temp;
+            }
+
             character.setHpGrowth(newHpGrowth);
             character.setAtkGrowth(newAtkGrowth);
             character.setMagGrowth(newMagGrowth);
@@ -427,7 +424,8 @@ public class Rom {
             character.setMovGrowth(newMovGrowth);
         }
     }
-    
+
+    // TODO redistribute
     public void randomizeUnitsGrowthsRedistribute(int variance) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
         final int STAT_COUNT = 9;
@@ -442,8 +440,8 @@ public class Rom {
             float spdWeight = random.nextFloat();
             float lckWeight = random.nextFloat();
             float defWeight = random.nextFloat();
-            float bldWeight = random.nextFloat() * 0.5f;
-            float movWeight = random.nextFloat() * 0.25f;
+            float bldWeight = random.nextFloat() * 0.2f;
+            float movWeight = random.nextFloat() * 0.05f;
             WeightedList<String> statWeights = new WeightedList<>();
             int growthPoints;
             int variancePoints = variance / 5;
@@ -504,6 +502,13 @@ public class Rom {
                     break;
                 }
             }
+
+            // fix magic
+            if(character.getCharacterClass().isPrimaryMagic() && atkGrowth > magGrowth) {
+                int temp = atkGrowth;
+                atkGrowth = magGrowth;
+                magGrowth = temp;
+            }
             
             character.setHpGrowth(hpGrowth);
             character.setAtkGrowth(atkGrowth);
@@ -534,6 +539,13 @@ public class Rom {
             newDefGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
             newBldGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
             newMovGrowth = (minPoints + random.nextInt(maxDiff) + 1) * 5;
+
+            // fix magic
+            if(character.getCharacterClass().isPrimaryMagic() && newAtkGrowth > newMagGrowth) {
+                int temp = newAtkGrowth;
+                newAtkGrowth = newMagGrowth;
+                newMagGrowth = temp;
+            }
             
             character.setHpGrowth(newHpGrowth);
             character.setAtkGrowth(newAtkGrowth);
@@ -579,18 +591,29 @@ public class Rom {
 
         assignNewClasses(characters, bannedClasses, true);
 
+        // fixes
+        ensureSaphyHasRepairStaff();
         laraPahnRemoveStealSkill();
         updateEyvelCh5Weapon();
-
-        if(!GameCharacter.BRIGHTON.getCharacterClass().isThief()
-                && !GameCharacter.LARA.getCharacterClass().isThief()
-                && !GameCharacter.MACHYUA.getCharacterClass().isThief()) {
-            thiefSubstituteCh4();
-        }
+        thiefSubstituteCh4();
+        fixCh11xFredOlwenDismountedUnarmed();
 
         GameCharacter.printplayerClasses();
-        
+
         promotionData.updatePromotions();
+    }
+
+    private void ensureSaphyHasRepairStaff() {
+        ArrayList<ArmyUnit> ch2xUnits = Chapter.CHAPTER_2X.getArmyData();
+        ArmyUnit saphy = ch2xUnits.get(29);
+        ArrayList<Item> saphyInventory = saphy.getInventory();
+
+        if(!saphyInventory.contains(Item.REPAIR)) {
+            saphyInventory.add(Item.REPAIR);
+            saphy.setInventory(saphyInventory);
+            // Saphy can't use repair (because of class change), remove Prf* lock
+            Item.REPAIR.setWeaponRank(WeaponRank.C);
+        }
     }
 
     private void laraPahnRemoveStealSkill() {
@@ -614,7 +637,13 @@ public class Rom {
         final int CH5_EYVEL_ITEM_OFFSET = 0xCA204;
         if(GameCharacter.EYVEL.getOldValues().containsKey("characterClass")) {
             ArmyUnit eyvelUnit = Chapter.CHAPTER_1.getArmyData().get(21);
-            Item selectedItem = getSelectedItem(eyvelUnit, new ArrayList<>(1));
+            Item selectedItem;
+
+            if(eyvelUnit.getCharacter().getCharacterClass().isMounted()) {
+                selectedItem = getSelectedItem(eyvelUnit, new ArrayList<>(), true);
+            } else {
+                selectedItem = getSelectedItem(eyvelUnit, new ArrayList<>());
+            }
 
             setValueAt(CH5_EYVEL_ITEM_OFFSET, selectedItem.getOffset() + 1);
             System.out.println("Ch5 Eyvel item: " + selectedItem.getName());
@@ -622,6 +651,11 @@ public class Rom {
     }
 
     private void thiefSubstituteCh4() {
+        if(GameCharacter.BRIGHTON.getCharacterClass().isThief() || GameCharacter.LARA.getCharacterClass().isThief()
+                || GameCharacter.MACHYUA.getCharacterClass().isThief()) {
+            return;
+        }
+
         ArrayList<ArmyUnit> ch4Units = Chapter.CHAPTER_4.getArmyData();
         ArmyUnit brighton = ch4Units.get(39);
         ArmyUnit machyua = ch4Units.get(40);
@@ -645,6 +679,27 @@ public class Rom {
         lara.setInventory(laraInv);
     }
 
+    private void fixCh11xFredOlwenDismountedUnarmed() {
+        List<ArmyUnit> ch11xUnits = Chapter.CHAPTER_11X.getArmyData();
+        ArmyUnit fred = ch11xUnits.get(0);
+        ArmyUnit olwen = ch11xUnits.get(4);
+        ArrayList<Item> fredInventory = fred.getInventory();
+        Item olwenItem;
+
+        if(GameCharacter.FRED.getCharacterClass().isMounted()) {
+            fredInventory.set(0, getSelectedItem(fred, new ArrayList<Item>(), true));
+        }
+
+        if(GameCharacter.OLWEN.getCharacterClass().isMounted()) {
+            olwenItem = getSelectedItem(olwen, new ArrayList<Item>(), true);
+        } else {
+            olwenItem = getSelectedItem(olwen, new ArrayList<Item>());
+        }
+
+        fredInventory.set(1, olwenItem);
+        fred.setInventory(fredInventory);
+    }
+
     public void convertCh4AlliesToAllyCharacter() {
         ArrayList<ArmyUnit> ch4Units = Chapter.CHAPTER_4.getArmyData();
         ch4Units.get(0).setCharacter(GameCharacter.MAGI_SQUAD_AXE_FIGHTER);
@@ -659,14 +714,29 @@ public class Rom {
     
     public void randomizeEnemyUnitClasses(boolean excludeBosses) {
         ArrayList<GameCharacter> characters = GameCharacter.getEnemyUnits();
-        
+        List<GameCharacter> multiInstanceCharacters = GameCharacter.getZombieUnits();
+        multiInstanceCharacters.add(GameCharacter.LEIDRICK_2);
+
         characters.removeAll(GameCharacter.getBallistaeUnits());
-        
+        characters.removeAll(multiInstanceCharacters);
+        characters.remove(GameCharacter.BELDO);
+
         if(excludeBosses) {
             characters.removeAll(GameCharacter.getBossUnits());
         }
 
         assignNewClasses(characters, List.of(), false);
+
+        // multi instance characters get same class as original for consistency
+        GameCharacter.LEIDRICK_2.setCharacterClass(GameCharacter.LEIDRICK_1.getCharacterClass(), random);
+        GameCharacter.EINS.setCharacterClass(GameCharacter.LEIDRICK_1.getCharacterClass(), random);
+        GameCharacter.DREI_DAGDA.setCharacterClass(GameCharacter.DAGDA.getCharacterClass(), random);
+        GameCharacter.ELF_SARA.setCharacterClass(GameCharacter.SARA.getCharacterClass(), random);
+        GameCharacter.ZWEI_GALZUS.setCharacterClass(GameCharacter.GALZUS.getCharacterClass(), random);
+        GameCharacter.ZWOLF_LIFIS.setCharacterClass(GameCharacter.RIFIS.getCharacterClass(), random);
+        GameCharacter.FUNF_EYVEL.setCharacterClass(GameCharacter.EYVEL.getCharacterClass(), random);
+
+        assignUnitInventories(multiInstanceCharacters);
     }
     
     private void assignNewClasses(ArrayList<GameCharacter> characters, List<CharacterClass> bannedClasses, boolean player) {
@@ -691,6 +761,13 @@ public class Rom {
             newCharacterClass = getSelectedClass(character, classPool, player);
             character.setCharacterClass(newCharacterClass, random);
 
+            // register dancer to restrict to 1
+            if(player && newCharacterClass.equals(CharacterClass.DANCER)) {
+                logic.registerDancer();
+            }
+
+            // TODO also update fixed stats generic characters
+            // update portrait
             if(character.hasRandomBases()) {
                 if(!portraitChangeExcluded.contains(character)) {
                     character.setPortrait(CharacterClass.getGenericPortrait(newCharacterClass));
@@ -722,7 +799,7 @@ public class Rom {
         character.setBaseHp(newBaseHp);
     }
     
-    private void assignUnitInventories(ArrayList<GameCharacter> characters) {
+    private void assignUnitInventories(List<GameCharacter> characters) {
         ArrayList<ArmyUnit> unitsToModify = new ArrayList<>(armyUnits);
         unitsToModify.removeIf(unit -> !characters.contains(unit.getCharacter()));
         
@@ -742,14 +819,18 @@ public class Rom {
             armyUnit.setInventory(inventory);
         }
     }
-    
+
     private Item getSelectedItem(ArmyUnit unit, ArrayList<Item> inventory) {
+        return getSelectedItem(unit, inventory, false);
+    }
+    
+    private Item getSelectedItem(ArmyUnit unit, ArrayList<Item> inventory, boolean treatAsUnmounted) {
         Item selectedItem;
         WeightedList<Item> itemWeights = new WeightedList<>();
         ArrayList<Item> items = Item.getItems(true, false);
         
         for(Item item : items) {
-            float weight = logic.assignItemWeight(unit, item, inventory);
+            float weight = logic.assignItemWeight(unit, item, inventory, treatAsUnmounted);
             itemWeights.add(item, weight);
         }
         
@@ -798,7 +879,11 @@ public class Rom {
     
     public void enemiesAddExtraInventory(int maxExtraItems) {
         ArrayList<ArmyUnit> enemies = new ArrayList<>(armyUnits);
-        enemies.removeIf(unit -> !unit.getCharacter().isEnemyUnit() || unit.getCharacter().isBallistaUnit());
+        ArrayList<GameCharacter> bannedCharacters = new ArrayList<>(List.of(
+                GameCharacter.LEIDRICK_1,  GameCharacter.LEIDRICK_2));
+
+        enemies.removeIf(unit -> !unit.getCharacter().isEnemyUnit() || unit.getCharacter().isBallistaUnit()
+        || bannedCharacters.contains(unit.getCharacter()));
         addExtraInventoryItems(enemies, maxExtraItems, 0.02f);
     }
 
@@ -1430,6 +1515,18 @@ public class Rom {
             }
         }
     }
+
+    public void setScrollsInInventory() {
+        ArrayList<ArmyUnit> ch1Units = Chapter.CHAPTER_1.getArmyData();
+        ArmyUnit leaf = ch1Units.get(19);
+        ArmyUnit finn = ch1Units.get(20);
+        ArrayList<Item> leafScrolls = new ArrayList<>(List.of(
+                Item.ODO_SCROLL, Item.BALDO_SCROLL, Item.HEZUL_SCROLL, Item.DAIN_SCROLL, Item.NOBA_SCROLL, Item.NEIR_SCROLL));
+        ArrayList<Item> finnScrolls = new ArrayList<>(List.of(
+                Item.ULIR_SCROLL, Item.TORDO_SCROLL, Item.FALA_SCROLL, Item.SETY_SCROLL, Item.BLAGI_SCROLL, Item.HEIM_SCROLL));
+        leaf.setInventory(leafScrolls);
+        finn.setInventory(finnScrolls);
+    }
     
     public void randomizeScrollsShuffleAttributes() {
         for(Scroll scroll : Scroll.values()) {
@@ -1569,7 +1666,7 @@ public class Rom {
         Item.PUGI.setWeaponRank(WeaponRank.C);
         Item.DAIM_THUNDER.setWeaponRank(WeaponRank.B);
         Item.GRAFCALIBUR.setWeaponRank(WeaponRank.A);
-        Item.REPAIR.setWeaponRank(WeaponRank.B);
+        Item.REPAIR.setWeaponRank(WeaponRank.C);
         Item.THIEF_STAFF.setWeaponRank(WeaponRank.B);
         Item.UNLOCK.setWeaponRank(WeaponRank.C);
         Item.KIA_STAFF.setWeaponRank(WeaponRank.C);

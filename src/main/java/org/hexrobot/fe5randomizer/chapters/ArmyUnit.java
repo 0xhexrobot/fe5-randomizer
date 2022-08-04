@@ -48,10 +48,10 @@ public class ArmyUnit {
     public ArmyUnit(Rom rom, int startingOffset) {
         int relOffset = startingOffset;
         offset = relOffset;
-        character = GameCharacter.findById(rom.getValueAt(relOffset + CHARACTER_NUMBER_OFFSET, 2));
+        character = GameCharacter.findById(rom.get2ByteValueAt(relOffset + CHARACTER_NUMBER_OFFSET));
         xCoord = rom.getValueAt(relOffset + X_COORD_OFFSET);
         yCoord = rom.getValueAt(relOffset + Y_COORD_OFFSET);
-        armyOrigin = rom.getValueAt(relOffset + ARMY_ORIGIN_OFFSET, 2);
+        armyOrigin = rom.get2ByteValueAt(relOffset + ARMY_ORIGIN_OFFSET);
         
         int inventory1 = rom.getValueAt(relOffset + INVENTORY_SLOT_1_OFFSET);
         int inventory2 = rom.getValueAt(relOffset + INVENTORY_SLOT_2_OFFSET);
@@ -171,12 +171,25 @@ public class ArmyUnit {
         
         this.inventory = inventory;
     }
-    
+
     public boolean canUseWeapon(Item item) {
+        return canUseWeapon(item, false);
+    }
+    
+    public boolean canUseWeapon(Item item, boolean asUnmounted) {
         boolean canUseItem = false;
         WeaponRank rank = item.getWeaponRank();
         ItemType type = item.getItemType();
         CharacterClass chClass = character.getCharacterClass();
+
+        if(asUnmounted) {
+            if(!chClass.isMounted()) {
+                throw new UnsupportedOperationException(chClass.getName() + " is not mounted");
+            }
+
+            chClass = chClass.getMountedComplement();
+        }
+
 
         if(chClass.canUseWeaponType(type)) {
             if(rank.isUnlockedFor(character)) {

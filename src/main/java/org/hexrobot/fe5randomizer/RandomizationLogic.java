@@ -20,15 +20,15 @@ public class RandomizationLogic {
     private ItemType[] weaponTypes = new ItemType[] {ItemType.SWORD, ItemType.LANCE, ItemType.AXE, ItemType.BOW,
             ItemType.STAFF, ItemType.FIRE, ItemType.THUNDER, ItemType.WIND, ItemType.LIGHT, ItemType.DARK};
     private Map<ItemType, Integer> wpnsTargetCount = new HashMap<>();
+    private static final int DEFAULT_WPN_TARGET_COUNT = 10;
+    private static final float DEFAULT_ITEM_RARENESS = 1.0f;
+    private boolean dancerAssigned = false;
     
     public RandomizationLogic(RandomizationSummary summary) {
         setClassRescrictions(!summary.getExcludeThieves());
         setItemScarcity();
         populateUniqueRewards();
-
-        wpnsTargetCount.put(ItemType.SWORD, 20);
-        wpnsTargetCount.put(ItemType.LIGHT, 5);
-        wpnsTargetCount.put(ItemType.DARK, 5);
+        setWpnTargetCount();
     }
 
     private void setClassRescrictions(boolean lifisClassRandomized) {
@@ -39,6 +39,7 @@ public class RandomizationLogic {
         List<CharacterClass> mountedOrHealers = new ArrayList<>();
         mountedOrHealers.addAll(mountedClasses);
         mountedOrHealers.addAll(healerClasses);
+        List<CharacterClass> promotedUnmountedSwordUsers = CharacterClass.getPromotedUnmountedSwordUsers();
 
         // exclude these classes for these characters
         bannedClasses.put(GameCharacter.GALZUS, mountedClasses);
@@ -46,18 +47,21 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.MANSTER_ARCHER, mountedClasses);
         bannedClasses.put(GameCharacter.MERCENARY_SWORD_FIGHTER, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_THUNDER_MAGE, mountedClasses);
+        bannedClasses.put(GameCharacter.MANSTER_MAGE, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_MAGE_F, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_BISHOP, mountedClasses);
+        bannedClasses.put(GameCharacter.MANSTER_BISHOP2, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_AXE_ARMOR, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_SWORD_ARMOR, mountedClasses);
+        bannedClasses.put(GameCharacter.MANSTER_BOW_ARMOR, mountedClasses);
+        bannedClasses.put(GameCharacter.MANSTER_LANCE_ARMOR, mountedClasses);
         bannedClasses.put(GameCharacter.ROBOS, mountedClasses);
-        bannedClasses.put(GameCharacter.LEIDRICK_1, mountedClasses);
-        bannedClasses.put(GameCharacter.LEIDRICK_2, mountedClasses);
         bannedClasses.put(GameCharacter.BANTOL_BOSS, mountedClasses);
         bannedClasses.put(GameCharacter.ROPUTO_DARK_MAGE, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_PRIEST, mountedClasses);
         bannedClasses.put(GameCharacter.MANSTER_SNIPER, mountedClasses);
         bannedClasses.put(GameCharacter.LOPTO_DARK_BISHOP, mountedClasses);
+        bannedClasses.put(GameCharacter.ASVEL, mountedClasses);
         bannedClasses.put(GameCharacter.MAREETA, mountedClasses);
         bannedClasses.put(GameCharacter.NANNA, mountedClasses);
         bannedClasses.put(GameCharacter.LINOAN, new ArrayList<>(List.of(CharacterClass.DANCER)));
@@ -107,7 +111,7 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.LOPTO_AXE_ARMOR, mountedClasses);
         bannedClasses.put(GameCharacter.LOPTO_BOW_ARMOR, mountedClasses);
         bannedClasses.put(GameCharacter.LOPTO_LANCE_ARMOR, mountedClasses);
-        bannedClasses.put(GameCharacter.DREI_DAGUDAR, mountedClasses);
+        bannedClasses.put(GameCharacter.DREI_DAGDA, mountedClasses);
         bannedClasses.put(GameCharacter.DREI, mountedClasses);
         bannedClasses.put(GameCharacter.ELF_SARA, mountedClasses);
         bannedClasses.put(GameCharacter.ELF, mountedClasses);
@@ -122,7 +126,6 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.DALSHEIN, mountedClasses);
         bannedClasses.put(GameCharacter.BRIGHTON, mountedClasses);
         bannedClasses.put(GameCharacter.MACHYUA, mountedClasses);
-        bannedClasses.put(GameCharacter.EYVEL, mountedClasses);
         bannedClasses.put(GameCharacter.LENSTER_LANCE_KNIGHT, healerClasses);
         bannedClasses.put(GameCharacter.LENSTER_ARCH_KNIGHT, healerClasses);
         bannedClasses.put(GameCharacter.GUSTAF_BOSS, mountedClasses);
@@ -143,26 +146,33 @@ public class RandomizationLogic {
         limitedClassPool.put(GameCharacter.KORUTA_BOSS, flyingClasses);
         limitedClassPool.put(GameCharacter.THRACIA_DRAGON_KNIGHT3, flyingClasses);
         limitedClassPool.put(GameCharacter.MALLOCK_BOSS, flyingClasses);
+        limitedClassPool.put(GameCharacter.LEIDRICK_1, promotedUnmountedSwordUsers);
     }
 
-    public float assignItemWeight(ArmyUnit unit, Item item, List<Item> inventory) {
+    private void setWpnTargetCount() {
+        wpnsTargetCount.put(ItemType.SWORD, 20);
+        wpnsTargetCount.put(ItemType.LIGHT, 5);
+        wpnsTargetCount.put(ItemType.DARK, 5);
+    }
+
+    public float assignItemWeight(ArmyUnit unit, Item item, List<Item> inventory, boolean treatAsUnmounted) {
         GameCharacter character = unit.getCharacter();
         CharacterClass chClass = character.getCharacterClass();
 
         if(character.isPlayableUnit() && item.isEnemyOnly()) {
             return 0;
         }
-        
+
         if(character.isEnemyUnit() && item.isPlayerOnly()) {
             return 0;
         }
 
-        if (!unit.canUseWeapon(item)) {
+        if (!unit.canUseWeapon(item, treatAsUnmounted)) {
             return 0;
         }
 
         // relative item scarcity
-        float value = itemScarcity.getOrDefault(item, 1.0f);
+        float value = itemScarcity.getOrDefault(item, DEFAULT_ITEM_RARENESS);
 
         // lower value to repeated items
         int countSameItems = Collections.frequency(inventory, item);
@@ -179,11 +189,11 @@ public class RandomizationLogic {
 
             // lower ranked wpns for low level units, high ranked wpns for high level units
             switch(item.getWeaponRank()) {
-                case A: rankValue = Math.max(unitLevel / 5.0f - 3.0f, 0); break;
-                case B: rankValue = Math.max(2.0f * unitLevel / 15.0f - 4.0f / 3.0f, 0); break;
-                case C: rankValue = 2.0f - unitLevel * unitLevel / 400.0f + unitLevel / 10.0f; break;
-                case D: rankValue = Math.max(4.0f - 2.0f * unitLevel / 15.0f, 0); break;
-                case E: rankValue = Math.max(5.0f - unitLevel / 5.0f, 0); break;
+                case A: rankValue = Math.max(unitLevel / 4.0f - 5.0f, 0); break;
+                case B: rankValue = Math.max(4.0f * unitLevel / 25.0f - 12.0f / 5.0f, 0); break;
+                case C: rankValue = Math.max(2.5f - 3.0f / (1 + (float)Math.exp(unitLevel / 3.0f - 3.0f)), 0); break;
+                case D: rankValue = Math.max(4.0f - 3.0f * unitLevel / 40.0f, 0); break;
+                case E: rankValue = Math.max(5.0f - 9.0f * unitLevel / 80.0f, 0); break;
                 default: rankValue = 1.0f; break;
             }
         } else {
@@ -202,13 +212,17 @@ public class RandomizationLogic {
         //biased to give weapon to healers if posible
         float healerSelfDef = 1.0f;
 
-        if(chClass.isHealer()) {
+        if(chClass.isHealer() || chClass.canUseWeaponType(ItemType.STAFF)) {
             if(chClass.canUseWeaponType(ItemType.SWORD) || chClass.canUseWeaponType(ItemType.FIRE)
                 || chClass.canUseWeaponType(ItemType.THUNDER) || chClass.canUseWeaponType(ItemType.WIND)
             || chClass.canUseWeaponType(ItemType.LIGHT) || chClass.canUseWeaponType(ItemType.DARK)) {
                 if(!canHealerDefend(unit, inventory)) {
                     if(item.getItemType().equals(ItemType.STAFF)) {
-                        healerSelfDef = 0.1f;
+                        if(character.isPlayableUnit()) {
+                            healerSelfDef = 0;
+                        } else {
+                            healerSelfDef = 0.1f;
+                        }
                     }
                 }
             }
@@ -273,6 +287,10 @@ public class RandomizationLogic {
         registerPlayerWeapon(playerClass);
     }
 
+    public void registerDancer() {
+        dancerAssigned = true;
+    }
+
     private void registerPlayerWeapon(CharacterClass playerClass) {
         int occurrences;
 
@@ -310,8 +328,13 @@ public class RandomizationLogic {
             }
         }
 
-        // don't allow unmounted if possible
-        if(characterClass.isDismounted() && !bannedClasses.containsKey(character)) {
+        // don't allow unmounted except for player if restricted to unmounted
+        if(characterClass.isDismounted() && (!bannedClasses.containsKey(character) || !character.isPlayableUnit())) {
+            return 0;
+        }
+
+        // don't allow more than 1 dancer for player
+        if(characterClass.equals(CharacterClass.DANCER) && playerCharacter && dancerAssigned) {
             return 0;
         }
 
@@ -329,7 +352,7 @@ public class RandomizationLogic {
 
             for(ItemType type : weaponTypes) {
                 if(characterClass.canUseWeaponType(type)) {
-                    int targetCount = wpnsTargetCount.getOrDefault(type, 10);
+                    int targetCount = wpnsTargetCount.getOrDefault(type, DEFAULT_WPN_TARGET_COUNT);
                     wpnFreqValue += Math.max(1.0f - playerWpnFreq.getOrDefault(type, 0) / (float)targetCount, 0);
                     usableWpnsCount++;
                 }
@@ -343,35 +366,47 @@ public class RandomizationLogic {
     }
 
     private void setItemScarcity() {
-        itemScarcity.put(Item.BRAVE_AXE, 0.2f);
-        itemScarcity.put(Item.LIGHT_SWORD, 0.2f);
-        itemScarcity.put(Item.EARTH_SWORD, 0.2f);
-        itemScarcity.put(Item.DARKNESS_SWORD, 0.1f);
-        itemScarcity.put(Item.MAREETAS_SWORD, 0.1f);
-        itemScarcity.put(Item.BEOSWORD, 0.2f);
-        itemScarcity.put(Item.HOLY_SWORD, 0.2f);
-        itemScarcity.put(Item.BLAGI_SWORD, 0.2f);
-        itemScarcity.put(Item.DRAGON_LANCE, 0.2f);
-        itemScarcity.put(Item.BRAVE_LANCE, 0.2f);
-        itemScarcity.put(Item.PUGI, 0.2f);
-        itemScarcity.put(Item.DAIM_THUNDER, 0.2f);
-        itemScarcity.put(Item.GRAFCALIBUR, 0.2f);
-        itemScarcity.put(Item.THIEF_STAFF, 0.2f);
+        // swords
+        itemScarcity.put(Item.DARKNESS_SWORD, 0.05f);
+        itemScarcity.put(Item.MAREETAS_SWORD, 0.05f);
+        itemScarcity.put(Item.BRAVE_SWORD, 0.1f);
+        itemScarcity.put(Item.LIGHT_SWORD, 0.1f);
+        itemScarcity.put(Item.EARTH_SWORD, 0.1f);
+        itemScarcity.put(Item.BEOSWORD, 0.1f);
+        itemScarcity.put(Item.HOLY_SWORD, 0.f);
+        itemScarcity.put(Item.BLAGI_SWORD, 0.1f);
+        itemScarcity.put(Item.ELITE_SWORD, 0.2f);
+        itemScarcity.put(Item.KING_SWORD, 0.2f);
+        itemScarcity.put(Item.SLEEP_SWORD, 0.25f);
+        itemScarcity.put(Item.BERSERK_SWORD, 0.25f);
+        // lances
+        itemScarcity.put(Item.DRAGON_LANCE, 0.1f);
+        itemScarcity.put(Item.BRAVE_LANCE, 0.1f);
+        // axes
+        itemScarcity.put(Item.PUGI, 0.25f);
+        itemScarcity.put(Item.BRAVE_AXE, 0.1f);
+        // bows
+        itemScarcity.put(Item.BRAVE_BOW, 0.1f);
+        // magic
+        itemScarcity.put(Item.DAIM_THUNDER, 0.1f);
+        itemScarcity.put(Item.GRAFCALIBUR, 0.1f);
+        itemScarcity.put(Item.BLIZZARD, 0.1f);
+        itemScarcity.put(Item.METEOR, 0.2f);
+        itemScarcity.put(Item.FENRIR, 0.2f);
+        itemScarcity.put(Item.POISON, 0.2f);
+        itemScarcity.put(Item.HELL, 0.2f);
+        // staves
+        itemScarcity.put(Item.THIEF_STAFF, 0.1f);
         itemScarcity.put(Item.UNLOCK, 0.1f);
-        itemScarcity.put(Item.ELITE_SWORD, 0.25f);
-        itemScarcity.put(Item.BLIZZARD, 0.25f);
-        itemScarcity.put(Item.METEOR, 0.25f);
-        itemScarcity.put(Item.FENRIR, 0.25f);
-        itemScarcity.put(Item.POISON, 0.25f);
-        itemScarcity.put(Item.HELL, 0.25f);
-        itemScarcity.put(Item.SLEEP, 0.25f);
-        itemScarcity.put(Item.BERSERK, 0.25f);
+        itemScarcity.put(Item.SLEEP, 0.1f);
+        itemScarcity.put(Item.BERSERK, 0.2f);
     }
     
     public void reset() {
         rewardFreq.clear();
         playerClassFreq.clear();
         playerWpnFreq.clear();
+        dancerAssigned = false;
         populateUniqueRewards();
     }
     

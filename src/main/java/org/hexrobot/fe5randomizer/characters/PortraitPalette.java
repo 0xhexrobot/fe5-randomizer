@@ -243,7 +243,7 @@ public enum PortraitPalette {
         int relOffset = startingOffset + offset * PALETTE_SIZE;
 
         for (int i = 0; i < PALETTE_SIZE / 2; i++) {
-            int rawColor = rom.getValueAt(relOffset + i * 2, 2);
+            int rawColor = rom.get2ByteValueAt(relOffset + i * 2);
             palette[i] = new ColorBGR555(rawColor);
         }
 

@@ -151,9 +151,9 @@ public enum AutoLevelType {
             case FORREST_KNIGHT:
             case FORREST_KNIGHT_DISMOUNTED:
             case MAGE_KNIGHT:
-            case MAGE_KNIGHT2:
+            case MAGE_KNIGHT_DISMOUNTED:
             case MAGE_KNIGHT_F:
-            case MAGE_KNIGHT_F2:
+            case MAGE_KNIGHT_F_DISMOUNTED:
             case PALADIN:
             case PALADIN_DISMOUNTED:
             case PALADIN_F:

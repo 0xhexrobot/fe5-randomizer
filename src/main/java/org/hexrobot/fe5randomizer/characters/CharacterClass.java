@@ -48,9 +48,9 @@ public enum CharacterClass {
     HUNTER(0x25, "Hunter", 0x16, 0x24),
     PIRATE(0x26, "Pirate", 0x1B, 0x21),
     JUNIOR_LORD(0x27, "Junior Lord", 0x03, -1),
-    MAGE_KNIGHT2(0x28, "Mage Knight", 0x31, -1),
+    MAGE_KNIGHT_DISMOUNTED(0x28, "Mage Knight (Dismounted)", 0x31, -1),
     LORD(0x29, "Lord", 0x30, 0x2A),
-    PRINCE(0x2A, "Prince", 0x30, 0x2A),
+    PRINCE(0x2A, "Prince", 0x30, -1),
     MAGE_KNIGHT_F(0x2B, "Mage Knight (F)", 0x9D, -1),
     BARON2(0x2C, "Baron (messed up battle sprite)", 0x1D, -1),
     DANCER(0x2D, "Dancer", 0x0C, -1),
@@ -110,8 +110,8 @@ public enum CharacterClass {
     THUNDER_MAGE_F(0x63, "(Thunder) Mage (F)", 0x2A, 0x2B),
     LOPTO_MAGE_F(0x64, "Lopto Mage (F)", 0x28, 0x38),
     WIND_MAGE_F(0x65, "(Wind) Mage (F)", 0x14, 0x2B),
-    MAGE_KNIGHT_F2(0x66, "Mage Knight (F)", 0x9D, -1),
-    SAGE_F(0x67, "Sage (F)", 0x2D, -1),
+    MAGE_KNIGHT_F_DISMOUNTED(0x66, "Mage Knight (F) (Dismounted)", 0x2D, -1),
+    SAGE_F(0x67, "Sage (F)", 0x34, -1),
     PRIEST_F(0x68, "Priest (F)", 0x02, 0x69),
     HIGH_PRIEST_F(0x69, "High Priest (F)", 0x1E, -1),
     SWORD_FIGHTER_F(0x6A, "Sword Fighter (F)", 0x0D, 0x6C),
@@ -179,14 +179,14 @@ public enum CharacterClass {
             PEGASUS_RIDER_DISMOUNTED, SOLDIER, ARCHER));
     private static final ArrayList<CharacterClass> PROMOTED = new ArrayList<>(List.of(
             PALADIN, PALADIN_F, FORREST_KNIGHT, BOW_KNIGHT, MAGE_KNIGHT, GREAT_KNIGHT, DRAGON_KNIGHT, PEGASUS_KNIGHT,
-            SWORDMASTER, SNIPER, FORREST, GENERAL, BARON, BERSERKER, WARRIOR, MAGE_KNIGHT2, MAGE_KNIGHT_F,
+            SWORDMASTER, SNIPER, FORREST, GENERAL, BARON, BERSERKER, WARRIOR, MAGE_KNIGHT_DISMOUNTED, MAGE_KNIGHT_F, PRINCE,
             HIGH_PRIEST, BISHOP, SAGE, DARK_MAGE, DARK_BISHOP, THIEF_FIGHTER, DUKE_KNIGHT, DUKE_KNIGHT_DISMOUNTED,
             BOW_KNIGHT_DISMOUNTED, PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED, BOW_KNIGHT_F, BOW_KNIGHT_F_DISMOUNTED,
             PEGASUS_KNIGHT_DISMOUNTED, FORREST_KNIGHT_DISMOUNTED, DRAGON_KNIGHT_DISMOUNTED, GREAT_KNIGHT_DISMOUNTED,
-            DRAGON_KNIGHT_F, DRAGON_KNIGHT_F_DISMOUNTED, MAGE_KNIGHT_F2, SAGE_F, HIGH_PRIEST_F, FORREST_F,
+            DRAGON_KNIGHT_F, DRAGON_KNIGHT_F_DISMOUNTED, MAGE_KNIGHT_F_DISMOUNTED, SAGE_F, HIGH_PRIEST_F, FORREST_F,
             SWORD_MASTER_F, SNIPER_F, THIEF_FIGHTER_F, MERCENARY, MERCENARY_F));
     private static final ArrayList<CharacterClass> UNUSED = new ArrayList<>(List.of(
-            LORD_KNIGHT, MASTER_KNIGHT, EMPEROR, PRINCE, JUNIOR_LORD, KILLER_ARCH, DARK_PRINCE, LORD_KNIGHT_DISMOUNTED,
+            LORD_KNIGHT, MASTER_KNIGHT, EMPEROR, JUNIOR_LORD, KILLER_ARCH, DARK_PRINCE, LORD_KNIGHT_DISMOUNTED,
             MASTER_KNIGHT_DISMOUNTED, MASTER_KNIGHT_F, FALCON_KNIGHT_DISMOUNTED, MASTER_KNIGHT_F_DISMOUNTED,
             DRAGON_MASTER_F_DISMOUNTED, DRAGON_MASTER_F, DRAGON_MASTER, DRAGON_MASTER_DISMOUNTED, FALCON_KNIGHT));
     private static final ArrayList<CharacterClass> FEMALE_CLASSES = new ArrayList<>(List.of(
@@ -195,7 +195,7 @@ public enum CharacterClass {
             MASTER_KNIGHT_F_DISMOUNTED, DRAGON_RIDER_F, DRAGON_RIDER_F_DISMOUNTED, DRAGON_KNIGHT_F,
             DRAGON_KNIGHT_F_DISMOUNTED, DRAGON_MASTER_F, DRAGON_MASTER_F_DISMOUNTED, MAGE_F, THUNDER_MAGE_F,
             LOPTO_MAGE_F, WIND_MAGE_F, PEGASUS_KNIGHT_DISMOUNTED, FALCON_KNIGHT_DISMOUNTED, TROUBADOUR_DISMOUNTED,
-            MAGE_KNIGHT_F2, SAGE_F, PRIEST_F, HIGH_PRIEST_F, SWORD_FIGHTER_F, FORREST_F, SWORD_MASTER_F, BOW_FIGHTER_F,
+            MAGE_KNIGHT_F_DISMOUNTED, SAGE_F, PRIEST_F, HIGH_PRIEST_F, SWORD_FIGHTER_F, FORREST_F, SWORD_MASTER_F, BOW_FIGHTER_F,
             SNIPER_F, THIEF_F, THIEF_FIGHTER_F, PEGASUS_RIDER, PEGASUS_RIDER_DISMOUNTED, MERCENARY_F));
     private static final ArrayList<CharacterClass> MOUNTED = new ArrayList<>(List.of(
             DRAGON_KNIGHT, FORREST_KNIGHT, PEGASUS_KNIGHT, MASTER_KNIGHT_F, DUKE_KNIGHT, MAGE_KNIGHT, DRAGON_MASTER,
@@ -207,10 +207,19 @@ public enum CharacterClass {
             FREE_KNIGHT_DISMOUNTED, TROUBADOUR_DISMOUNTED, DRAGON_RIDER_DISMOUNTED, ARCH_KNIGHT_F_DISMOUNTED,
             DRAGON_RIDER_F_DISMOUNTED, PEGASUS_RIDER_DISMOUNTED, DUKE_KNIGHT_DISMOUNTED, BOW_KNIGHT_DISMOUNTED,
             PALADIN_DISMOUNTED, PALADIN_F_DISMOUNTED, BOW_KNIGHT_F_DISMOUNTED, PEGASUS_KNIGHT_DISMOUNTED,
-            FORREST_KNIGHT_DISMOUNTED, DRAGON_KNIGHT_DISMOUNTED, GREAT_KNIGHT_DISMOUNTED, DRAGON_KNIGHT_F_DISMOUNTED));
+            FORREST_KNIGHT_DISMOUNTED, DRAGON_KNIGHT_DISMOUNTED, GREAT_KNIGHT_DISMOUNTED, DRAGON_KNIGHT_F_DISMOUNTED,
+            MAGE_KNIGHT_DISMOUNTED, MAGE_KNIGHT_F_DISMOUNTED));
     private static final ArrayList<CharacterClass> FLYING = new ArrayList<>(List.of(
             DRAGON_KNIGHT, PEGASUS_KNIGHT, DRAGON_MASTER, DRAGON_KNIGHT_F, DRAGON_RIDER_F, FALCON_KNIGHT,
             DRAGON_MASTER_F, DRAGON_RIDER, PEGASUS_RIDER));
+    private static final ArrayList<CharacterClass> PROMOTED_UNMOUNTED_SWORD_USERS = new ArrayList<>(List.of(
+            SWORDMASTER, FORREST, GENERAL, BARON, PRINCE, THIEF_FIGHTER, FORREST_F, SWORD_MASTER_F, THIEF_FIGHTER_F,
+            MERCENARY, MERCENARY_F));
+    private static final ArrayList<CharacterClass> PRIMARY_MAGIC = new ArrayList<>(List.of(
+            TROUBADOUR, PRIEST, MAGE, LOPTO_MAGE, THUNDER_MAGE, WIND_MAGE, BARD, SISTER, TROUBADOUR_DISMOUNTED,
+            MAGE_F, THUNDER_MAGE_F, LOPTO_MAGE_F, WIND_MAGE_F, PRIEST_F, PALADIN_F, MAGE_KNIGHT, MAGE_KNIGHT_DISMOUNTED,
+            MAGE_KNIGHT_F, HIGH_PRIEST, BISHOP, SAGE, DARK_MAGE, DARK_BISHOP, PALADIN_F_DISMOUNTED, MAGE_KNIGHT_F_DISMOUNTED,
+            SAGE_F, HIGH_PRIEST_F));
     
     private static final int CHARACTER_CLASSES_OFFSET = 0x30000;
     private static final int CLASS_DATA_SIZE = 36;
@@ -422,6 +431,10 @@ public enum CharacterClass {
     public boolean isMounted() {
         return MOUNTED.contains(this);
     }
+
+    public boolean isPrimaryMagic() {
+        return PRIMARY_MAGIC.contains(this);
+    }
     
     public static ArrayList<CharacterClass> getThiefClasses() {
         return new ArrayList<>(THIEVES);
@@ -509,8 +522,6 @@ public enum CharacterClass {
                 portrait = 0xA6; break;
             case BARD:
                 portrait = 0xD2; break;
-            case BARON:
-                portrait = 0x82; break;
             case BERSERKER:
                 portrait = 0xC3; break;
             case BISHOP:
@@ -554,6 +565,7 @@ public enum CharacterClass {
             case FREE_KNIGHT_DISMOUNTED:
                 portrait = 0xA7; break;
             case GENERAL:
+            case BARON:
                 portrait = 0xBC; break;
             case GREAT_KNIGHT:
             case GREAT_KNIGHT_DISMOUNTED:
@@ -585,9 +597,9 @@ public enum CharacterClass {
             case MAGE_F:
                 portrait = 0xCC; break;
             case MAGE_KNIGHT:
-            case MAGE_KNIGHT2:
+            case MAGE_KNIGHT_DISMOUNTED:
             case MAGE_KNIGHT_F:
-            case MAGE_KNIGHT_F2:
+            case MAGE_KNIGHT_F_DISMOUNTED:
                 portrait = 0xB0; break;
             case MERCENARY:
                 portrait = 0xF3; break;
@@ -688,6 +700,10 @@ public enum CharacterClass {
 
     public static ArrayList<CharacterClass> getFlyingClasses() {
         return new ArrayList<>(FLYING);
+    }
+
+    public static ArrayList<CharacterClass> getPromotedUnmountedSwordUsers() {
+        return new ArrayList<>(PROMOTED_UNMOUNTED_SWORD_USERS);
     }
     
     public static ArrayList<CharacterClass> getCanTraverseWaterClasses() {

@@ -52,7 +52,7 @@
       		</CheckBox>
             <CheckBox fx:id="chkRemovePrfLocks" mnemonicParsing="false" text="Remove weapon Prf* locks">
                 <tooltip>
-                    <Tooltip maxWidth="400.0" text="Removes Weapon-Character locks.&#010;&#010;Light Sword -> B&#010;Earth Sword -> B&#010;Darkness Sword -> B&#010;Mareetas Sword -> B&#010;Beosword -> A&#010;Holy Sword -> A&#010;Blagi Sword -> B&#010;Dragon Lance -> B&#010;Brave Lance -> B&#010;Pugi -> C&#010;Daim Thunder -> B&#010;Grafcalibur -> A&#010;Repair -> B&#010;Thief Staff -> B&#010;Unlock -> C&#010;Kia Staff -> C" wrapText="true" />
+                    <Tooltip maxWidth="400.0" text="Removes Weapon-Character locks.&#010;&#010;Light Sword -> B&#010;Earth Sword -> B&#010;Darkness Sword -> B&#010;Mareetas Sword -> B&#010;Beosword -> A&#010;Holy Sword -> A&#010;Blagi Sword -> B&#010;Dragon Lance -> B&#010;Brave Lance -> B&#010;Pugi -> C&#010;Daim Thunder -> B&#010;Grafcalibur -> A&#010;Repair -> C&#010;Thief Staff -> B&#010;Unlock -> C&#010;Kia Staff -> C" wrapText="true" />
                 </tooltip>
             </CheckBox>
       	</children>
