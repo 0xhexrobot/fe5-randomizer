@@ -271,7 +271,7 @@ public class Rom {
             spdWeight = random.nextFloat();
             lckWeight = random.nextFloat();
             defWeight = random.nextFloat();
-            bldWeight = random.nextFloat() * 0.2f;
+            bldWeight = random.nextFloat() * 0.25f;
             movWeight = random.nextFloat() * 0.05f;
             
             statWeights.add("hp", hpWeight);
@@ -425,7 +425,6 @@ public class Rom {
         }
     }
 
-    // TODO redistribute
     public void randomizeUnitsGrowthsRedistribute(int variance) {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
         final int STAT_COUNT = 9;
@@ -677,6 +676,23 @@ public class Rom {
         brighton.setInventory(brightonInv);
         machyua.setInventory(machyuaInv);
         lara.setInventory(laraInv);
+
+        // fix ch4x
+        ArrayList<ArmyUnit> ch4xUnits = Chapter.CHAPTER_4X.getArmyData();
+        ArmyUnit asvel = ch4xUnits.get(0);
+        ArmyUnit northCellGuard = ch4xUnits.get(28);
+        ArmyUnit southcellGuard = ch4xUnits.get(29);
+        ArrayList<Item> asvelInventory = ch4xUnits.get(0).getInventory();
+        ArrayList<Item> northCellGuardInventory = northCellGuard.getInventory();
+        ArrayList<Item> southcellGuardInventory = southcellGuard.getInventory();
+
+        asvelInventory.add(Item.DOOR_KEY);
+        northCellGuardInventory.add(Item.DOOR_KEY);
+        southcellGuardInventory.add(Item.DOOR_KEY);
+
+        asvel.setInventory(asvelInventory);
+        northCellGuard.setInventory(northCellGuardInventory);
+        southcellGuard.setInventory(southcellGuardInventory);
     }
 
     private void fixCh11xFredOlwenDismountedUnarmed() {
@@ -828,6 +844,7 @@ public class Rom {
         Item selectedItem;
         WeightedList<Item> itemWeights = new WeightedList<>();
         ArrayList<Item> items = Item.getItems(true, false);
+        items.remove(Item.STONE); // do not assign, Stone because is too broken
         
         for(Item item : items) {
             float weight = logic.assignItemWeight(unit, item, inventory, treatAsUnmounted);
