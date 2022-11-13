@@ -596,6 +596,7 @@ public class Rom {
         updateEyvelCh5Weapon();
         thiefSubstituteCh4();
         fixCh11xFredOlwenDismountedUnarmed();
+        ensureTinaHasThiefStaff();
 
         GameCharacter.printplayerClasses();
 
@@ -693,6 +694,23 @@ public class Rom {
         asvel.setInventory(asvelInventory);
         northCellGuard.setInventory(northCellGuardInventory);
         southcellGuard.setInventory(southcellGuardInventory);
+
+        // add keys to ch5
+        ArrayList<ArmyUnit> ch5Units = Chapter.CHAPTER_5.getArmyData();
+        ArmyUnit nwUnit = ch5Units.get(13);
+        ArmyUnit neUnit = ch5Units.get(14);
+        ArmyUnit westUnit = ch5Units.get(22);
+        ArrayList<Item> nwUnitInventory = nwUnit.getInventory();
+        ArrayList<Item> neUnitInventory = neUnit.getInventory();
+        ArrayList<Item> westUnitInventory = westUnit.getInventory();
+
+        nwUnitInventory.add(Item.DOOR_KEY);
+        neUnitInventory.add(Item.DOOR_KEY);
+        westUnitInventory.add(Item.DOOR_KEY);
+
+        nwUnit.setInventory(nwUnitInventory);
+        neUnit.setInventory(neUnitInventory);
+        westUnit.setInventory(westUnitInventory);
     }
 
     private void fixCh11xFredOlwenDismountedUnarmed() {
@@ -721,6 +739,19 @@ public class Rom {
         ch4Units.get(0).setCharacter(GameCharacter.MAGI_SQUAD_AXE_FIGHTER);
         ch4Units.get(1).setCharacter(GameCharacter.MAGI_SQUAD_AXE_FIGHTER);
         ch4Units.get(2).setCharacter(GameCharacter.MAGI_SQUAD_AXE_FIGHTER);
+    }
+
+    private void ensureTinaHasThiefStaff() {
+        ArrayList<ArmyUnit> ch12xUnits = Chapter.CHAPTER_12X.getArmyData();
+        ArmyUnit tina = ch12xUnits.get(11);
+        ArrayList<Item> tinaInventory = tina.getInventory();
+
+        if(!tinaInventory.contains(Item.THIEF_STAFF)) {
+            tinaInventory.add(Item.THIEF_STAFF);
+            tina.setInventory(tinaInventory);
+            // Tina can't use thief (because of class change), remove Prf* lock
+            Item.THIEF_STAFF.setWeaponRank(WeaponRank.B);
+        }
     }
 
     public void randomizeAllyUnitClasses() {

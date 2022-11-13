@@ -129,6 +129,8 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.LENSTER_LANCE_KNIGHT, healerClasses);
         bannedClasses.put(GameCharacter.LENSTER_ARCH_KNIGHT, healerClasses);
         bannedClasses.put(GameCharacter.GUSTAF_BOSS, mountedClasses);
+        bannedClasses.put(GameCharacter.RIFIS_GANG_WARRIOR, mountedClasses);
+        bannedClasses.put(GameCharacter.TINA, mountedClasses);
 
         if(lifisClassRandomized) {
             bannedClasses.put(GameCharacter.RIFIS, mountedClasses);
@@ -191,7 +193,7 @@ public class RandomizationLogic {
             switch(item.getWeaponRank()) {
                 case A: rankValue = Math.max(unitLevel / 4.0f - 5.0f, 0); break;
                 case B: rankValue = Math.max(4.0f * unitLevel / 25.0f - 12.0f / 5.0f, 0); break;
-                case C: rankValue = Math.max(2.5f - 3.0f / (1 + (float)Math.exp(unitLevel / 3.0f - 3.0f)), 0); break;
+                case C: rankValue = Math.max(2.5f - 3.0f / (1 + (float)Math.exp(unitLevel / 3.0f - 4.0f)), 0); break;
                 case D: rankValue = Math.max(4.0f - 3.0f * unitLevel / 40.0f, 0); break;
                 case E: rankValue = Math.max(5.0f - 9.0f * unitLevel / 80.0f, 0); break;
                 default: rankValue = 1.0f; break;
@@ -377,8 +379,8 @@ public class RandomizationLogic {
         itemScarcity.put(Item.BLAGI_SWORD, 0.1f);
         itemScarcity.put(Item.ELITE_SWORD, 0.2f);
         itemScarcity.put(Item.KING_SWORD, 0.2f);
-        itemScarcity.put(Item.SLEEP_SWORD, 0.25f);
-        itemScarcity.put(Item.BERSERK_SWORD, 0.25f);
+        itemScarcity.put(Item.SLEEP_SWORD, 0.2f);
+        itemScarcity.put(Item.BERSERK_SWORD, 0.2f);
         // lances
         itemScarcity.put(Item.DRAGON_LANCE, 0.1f);
         itemScarcity.put(Item.BRAVE_LANCE, 0.1f);
@@ -398,8 +400,8 @@ public class RandomizationLogic {
         // staves
         itemScarcity.put(Item.THIEF_STAFF, 0.1f);
         itemScarcity.put(Item.UNLOCK, 0.1f);
-        itemScarcity.put(Item.SLEEP, 0.1f);
-        itemScarcity.put(Item.BERSERK, 0.2f);
+        itemScarcity.put(Item.SLEEP, 0.05f);
+        itemScarcity.put(Item.BERSERK, 0.1f);
     }
     
     public void reset() {
