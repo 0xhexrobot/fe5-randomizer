@@ -601,7 +601,7 @@ public enum GameCharacter {
         }
         
         if(oldValues.containsKey("counterCritBoost")) {
-            rom.setValueAt(relOffset + MOV_STARS_OFFSET, counterCritBoost);
+            rom.setValueAt(relOffset + COUNTER_CRIT_BOOST_OFFSET, counterCritBoost);
         }
         
         if(oldValues.containsKey("hpGrowth")) {
