@@ -262,12 +262,12 @@ public class Rom {
             int totalBases = 0;
             int baseHp = 0, baseAtk = 0, baseMag = 0, baseSkl = 0, baseSpd = 0, baseLck = 0, baseDef = 0, baseBld = 0, baseMov = 0;
             float hpWeight, atkWeight, magWeight, sklWeight, spdWeight, lckWeight, defWeight, bldWeight, movWeight;
-            float magicBias = character.getCharacterClass().isPrimaryMagic() ? 1.0f : 0.15f;
+            float magicBias = character.getCharacterClass().isPrimaryMagic() ? 0.1f : 1.0f;
             WeightedList<String> statWeights = new WeightedList<>();
             
             hpWeight = random.nextFloat() * 2.0f;
-            atkWeight = random.nextFloat();
-            magWeight = random.nextFloat() * magicBias;
+            atkWeight = random.nextFloat() * magicBias;
+            magWeight = random.nextFloat();
             sklWeight = random.nextFloat();
             spdWeight = random.nextFloat();
             lckWeight = random.nextFloat();
