@@ -262,16 +262,17 @@ public class Rom {
             int totalBases = 0;
             int baseHp = 0, baseAtk = 0, baseMag = 0, baseSkl = 0, baseSpd = 0, baseLck = 0, baseDef = 0, baseBld = 0, baseMov = 0;
             float hpWeight, atkWeight, magWeight, sklWeight, spdWeight, lckWeight, defWeight, bldWeight, movWeight;
+            float magicBias = character.getCharacterClass().isPrimaryMagic() ? 1.0f : 0.15f;
             WeightedList<String> statWeights = new WeightedList<>();
             
             hpWeight = random.nextFloat() * 2.0f;
             atkWeight = random.nextFloat();
-            magWeight = random.nextFloat();
+            magWeight = random.nextFloat() * magicBias;
             sklWeight = random.nextFloat();
             spdWeight = random.nextFloat();
             lckWeight = random.nextFloat();
             defWeight = random.nextFloat();
-            bldWeight = random.nextFloat() * 0.25f;
+            bldWeight = random.nextFloat() * 0.5f;
             movWeight = random.nextFloat() * 0.05f;
             
             statWeights.add("hp", hpWeight);
@@ -439,7 +440,7 @@ public class Rom {
             float spdWeight = random.nextFloat();
             float lckWeight = random.nextFloat();
             float defWeight = random.nextFloat();
-            float bldWeight = random.nextFloat() * 0.2f;
+            float bldWeight = random.nextFloat() * 0.25f;
             float movWeight = random.nextFloat() * 0.05f;
             WeightedList<String> statWeights = new WeightedList<>();
             int growthPoints;
