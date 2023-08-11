@@ -258,7 +258,7 @@ public enum Item {
             List.of(MASTER_PROOF, DARKNESS_LANCE, VOLCANNON, FALAFLAME, TORHAMMER, AURA, LOPUTOUS, WATCH, RETURN,
                     GUNGNIR, GAE_BOLG, KILLER_ARCH));
     private static final ArrayList<Item> ENEMY_ONLY = new ArrayList<Item>(
-            List.of(POISON_SWORD, POISON_LANCE, POISON_AXE, POISON_BOW, STONE, HELL));
+            List.of(POISON_SWORD, POISON_LANCE, POISON_AXE, POISON_BOW, STONE, HELL, POISON));
     private static final ArrayList<Item> PLAYER_ONLY = new ArrayList<Item>(
             List.of(THIEF_STAFF, UNLOCK));
     private static final ArrayList<Item> BROKEN = new ArrayList<Item>(

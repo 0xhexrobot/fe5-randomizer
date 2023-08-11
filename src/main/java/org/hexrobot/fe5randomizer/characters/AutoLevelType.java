@@ -110,7 +110,7 @@ public enum AutoLevelType {
             case PRIEST_F:
             case HIGH_PRIEST:
             case HIGH_PRIEST_F:
-                options = new ArrayList<>(List.of(new Pair<>(MAGICAL_1, 0.5f), new Pair<>(FIGHTER_2, 0.5f))); break;
+                options = new ArrayList<>(List.of(new Pair<>(MAGICAL_1, 0.9f), new Pair<>(FIGHTER_2, 0.1f))); break;
             case DARK_MAGE:
             case MAGE:
             case MAGE_F:

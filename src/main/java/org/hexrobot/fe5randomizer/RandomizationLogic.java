@@ -102,6 +102,7 @@ public class RandomizationLogic {
         bannedClasses.put(GameCharacter.XAVIER, mountedClasses);
         bannedClasses.put(GameCharacter.FREEGE_PRIEST2, mountedClasses);
         bannedClasses.put(GameCharacter.LOPTO_DARK_MAGE, mountedClasses);
+        bannedClasses.put(GameCharacter.LOPTO_DARK_MAGE2, mountedClasses);
         bannedClasses.put(GameCharacter.MERCENARY, mountedClasses);
         bannedClasses.put(GameCharacter.MERCENARY3, mountedClasses);
         bannedClasses.put(GameCharacter.MERCENARY4, mountedClasses);
