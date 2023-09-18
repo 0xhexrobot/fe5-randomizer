@@ -43,7 +43,7 @@ public class RandomizeRomService extends Service<Void> {
         this.summary = randomizeSummary;
         this.romFile = romFile;
         
-        cfg = new Configuration(Configuration.VERSION_2_3_29);
+        cfg = new Configuration(Configuration.VERSION_2_3_30);
         cfg.setClassForTemplateLoading(getClass(), "/");
         cfg.setDefaultEncoding("UTF-8");
 
@@ -248,7 +248,7 @@ public class RandomizeRomService extends Service<Void> {
                     e.printStackTrace();
                 }
                 
-                InputStream is = getClass().getClassLoader().getResourceAsStream("style.css");
+                InputStream is = getClass().getClassLoader().getResourceAsStream("org/hexrobot/fe5randomizer/style.css");
                 String cssStyle = getFileContent(is);
 
                 input.put("cssStyle", cssStyle);
@@ -274,7 +274,7 @@ public class RandomizeRomService extends Service<Void> {
                     
                     try {
                         Writer fileWriter = new FileWriter(new File(romFile.getAbsolutePath().concat(".md")));
-                        Template template = cfg.getTemplate("md.ftl");
+                        Template template = cfg.getTemplate("org/hexrobot/fe5randomizer/md.ftl");
                         
                         template.process(input, fileWriter);
                         fileWriter.close();
@@ -290,7 +290,7 @@ public class RandomizeRomService extends Service<Void> {
 
                     try {
                         Writer fileWriter = new FileWriter(new File(romFile.getAbsolutePath().concat(".html")));
-                        Template template = cfg.getTemplate("html.ftl");
+                        Template template = cfg.getTemplate("org/hexrobot/fe5randomizer/html.ftl");
                         
                         template.process(input, fileWriter);
                         fileWriter.close();

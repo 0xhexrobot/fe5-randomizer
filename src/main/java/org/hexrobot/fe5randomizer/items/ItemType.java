@@ -1,5 +1,7 @@
 package org.hexrobot.fe5randomizer.items;
 
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +45,7 @@ public enum ItemType {
 	    return new ArrayList<>(WEAPON_TYPES);
 	}
 	
-	public static ItemType findById(int offset) {
+	public static ItemType findById(int offset) throws InvalidRomDataException {
 		ItemType itemType = null;
 		
 		for(ItemType item : ItemType.values()) {
@@ -54,8 +56,8 @@ public enum ItemType {
 		}
 		
 		if(itemType == null) {
-			System.out.println(String.format("WARNING: Offset 0x%02X in ItemType was not found.", offset));
-			itemType = ItemType.ITEM;
+			throw new InvalidRomDataException(String.format(
+					"Offset 0x%02X in ItemType was not found.", offset));
 		}
 		
 		return itemType;

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.util.GenericDiff;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public enum Shop {
     BATTLE_PREPS(0X29D6B, "Battle Preps"),
@@ -120,7 +121,7 @@ public enum Shop {
         return !oldValues.isEmpty();
     }
     
-    public static void initializeShops(Rom rom) {      
+    public static void initializeShops(Rom rom) throws InvalidRomDataException {
         final int ITEM_SEP = 2;
         final int SHOP_ITEM_COUNT = 5;
         

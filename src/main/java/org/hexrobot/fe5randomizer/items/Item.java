@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.util.GenericDiff;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public enum Item {
 	IRON_SWORD(0x00, "Iron Sword"),
@@ -708,7 +709,7 @@ public enum Item {
             similarItems = new ArrayList<>(MANUALS);
         }
         
-        if(similarItems.size() == 0) {
+        if(similarItems.isEmpty()) {
             throw new UnsupportedOperationException("No suitable replacements for " + item);
         }
         
@@ -719,7 +720,8 @@ public enum Item {
         return !oldValues.isEmpty();
     }
 
-    private void readItem(Rom rom) {
+    private void readItem(Rom rom) throws InvalidRomDataException {
+        // (NP version is off by 1)
         int relOffset = ITEMS_OFFSET + offset * ITEM_DATA_SIZE;
 
         itemType = ItemType.findById(rom.getValueAt(relOffset + ITEM_TYPE_OFFSET));
@@ -798,7 +800,7 @@ public enum Item {
         }
     }
     
-    public static void initializeItems(Rom rom) {
+    public static void initializeItems(Rom rom) throws InvalidRomDataException {
         for(Item item : values()) {
             item.readItem(rom);
         }
@@ -874,7 +876,7 @@ public enum Item {
         }
     }
 
-    public static Item findById(int offset) {
+    public static Item findById(int offset) throws InvalidRomDataException{
         Item item = null;
 
         for(Item currentItem : Item.values()) {
@@ -885,8 +887,7 @@ public enum Item {
         }
 
         if(item == null) {
-            System.out.println(String.format("WARNING: Offset 0x%02X in Item was not found.", offset));
-            item = Item.IRON_SWORD;
+            throw new InvalidRomDataException(String.format("Offset 0x%02X in Item was not found.%n", offset));
         }
 
         return item;

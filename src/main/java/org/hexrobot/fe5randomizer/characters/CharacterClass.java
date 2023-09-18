@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.items.ItemType;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public enum CharacterClass {
     SOCIAL_KNIGHT(0x01, "Social Knight", 0x81, 0x0A),
@@ -278,7 +279,7 @@ public enum CharacterClass {
         skills = Skill.getSkills(skills1, skills2, skills3);
     }
     
-    public static void initializeCharacterClasses(Rom rom) {
+    public static void initializeCharacterClasses(Rom rom) throws InvalidRomDataException {
         for(CharacterClass characterClass : values()) {
             characterClass.readCharacterClass(rom);
         }
@@ -713,7 +714,7 @@ public enum CharacterClass {
         return canTraverseWater;
     }
 
-    public CharacterClass getPromotion() {
+    public CharacterClass getPromotion() throws InvalidRomDataException {
         CharacterClass promotion = null;
         
         if(this.promotion != -1) {
@@ -723,7 +724,7 @@ public enum CharacterClass {
         return promotion;
     }
 
-    public static CharacterClass findById(int offset) {
+    public static CharacterClass findById(int offset) throws InvalidRomDataException {
         CharacterClass characterClass = null;
         
         for(CharacterClass charClass : CharacterClass.values()) {
@@ -734,8 +735,7 @@ public enum CharacterClass {
         }
         
         if(characterClass == null) {
-            System.out.println(String.format("WARNING: Offset 0x%02X in CharacterClass was not found.", offset));
-            characterClass = CharacterClass.POISON_ARCH;
+            throw new InvalidRomDataException((String.format("Offset 0x%02X in CharacterClass was not found.", offset)));
         }
         
         return characterClass;

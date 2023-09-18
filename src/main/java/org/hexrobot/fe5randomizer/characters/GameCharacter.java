@@ -9,6 +9,7 @@ import java.util.Random;
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.items.ItemType;
 import org.hexrobot.fe5randomizer.util.GenericDiff;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public enum GameCharacter {
     LEAF(0x0001, "Leaf"),
@@ -510,7 +511,7 @@ public enum GameCharacter {
         this.name = name;
     }
     
-    private void readCharacter(Rom rom) {
+    private void readCharacter(Rom rom) throws InvalidRomDataException{
         int relOffset = CHARACTERS_OFFSET + (offset - 1) * CHARACTER_DATA_SIZE;
         baseHp = rom.getValueAt(relOffset + BASE_HP_OFFSET);
         baseAtk = rom.getValueAt(relOffset + BASE_ATK_OFFSET);
@@ -709,7 +710,7 @@ public enum GameCharacter {
         }
     }
     
-    public static void initializeCharacters(Rom rom) {
+    public static void initializeCharacters(Rom rom) throws InvalidRomDataException {
         for(GameCharacter character : values()) {
             character.readCharacter(rom);
         }
@@ -1612,7 +1613,7 @@ public enum GameCharacter {
         return BOSSES.contains(this);
     }
 
-    public static GameCharacter findById(int offset) {
+    public static GameCharacter findById(int offset) throws InvalidRomDataException {
         GameCharacter character = null;
         
         for(GameCharacter currentCharacter : GameCharacter.values()) {
@@ -1623,8 +1624,7 @@ public enum GameCharacter {
         }
         
         if(character == null) {
-            System.out.println(String.format("WARNING: Offset 0x%04X in GameCharacter was not found.", offset));
-            character = GameCharacter.LEAF;
+            throw new InvalidRomDataException((String.format("Offset 0x%04X in GameCharacter was not found.", offset)));
         }
         
         return character;

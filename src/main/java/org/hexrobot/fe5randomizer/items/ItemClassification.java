@@ -1,5 +1,7 @@
 package org.hexrobot.fe5randomizer.items;
 
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
+
 public enum ItemClassification {
 	ITEM(0x00, "Item"),
 	WEAPON(0x04, "Weapon"),
@@ -41,7 +43,7 @@ public enum ItemClassification {
 		return name;
 	}
 	
-	public static ItemClassification findById(int offset) {
+	public static ItemClassification findById(int offset) throws InvalidRomDataException {
 		ItemClassification weaponClassification = null;
 		
 		for(ItemClassification wpnClassification : ItemClassification.values()) {
@@ -52,8 +54,8 @@ public enum ItemClassification {
 		}
 		
 		if(weaponClassification == null) {
-			System.out.println(String.format("WARNING: Offset 0x%02X in ItemClassification was not found.", offset));
-			weaponClassification = ItemClassification.ITEM;
+			throw new InvalidRomDataException(String.format(
+					"Offset 0x%02X in ItemClassification was not found.", offset));
 		}
 		
 		return weaponClassification;

@@ -1,5 +1,7 @@
 package org.hexrobot.fe5randomizer.items;
 
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
+
 public enum ItemUseEffect {
 	NOTHING(0x00, "Nothing"),
 	LUCK_RING_EFFECT(0x02, "Luck Ring effect"),
@@ -65,7 +67,7 @@ public enum ItemUseEffect {
 		return name;
 	}
 	
-	public static ItemUseEffect findById(int offset) {
+	public static ItemUseEffect findById(int offset) throws InvalidRomDataException {
 		ItemUseEffect itemUseEffect = null;
 		
 		for(ItemUseEffect itemUseEff : ItemUseEffect.values()) {
@@ -76,8 +78,7 @@ public enum ItemUseEffect {
 		}
 		
 		if(itemUseEffect == null) {
-			System.out.println(String.format("WARNING: Offset 0x%02X in ItemUseEffect was not found.", offset));
-			itemUseEffect = ItemUseEffect.NOTHING;
+			throw new InvalidRomDataException((String.format("Offset 0x%02X in ItemUseEffect was not found.", offset)));
 		}
 		
 		return itemUseEffect;

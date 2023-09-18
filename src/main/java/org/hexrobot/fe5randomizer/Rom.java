@@ -1,11 +1,6 @@
 package org.hexrobot.fe5randomizer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.zip.CRC32;
 
 import javafx.util.Pair;
@@ -24,13 +19,15 @@ import org.hexrobot.fe5randomizer.items.WeaponSkill;
 import org.hexrobot.fe5randomizer.items.WeaponStatBonus;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public class Rom {
     private static final long FE5_HEADERED_CRC32_CHK = 2514651613L;
-    private static final long FE5_UNHEADERED_CRC32_CHK = 4233206098L;
-    private static final long FE5_REV_1_NP = 3937021011L;
-    private static final long FE5_PROJECT_EXILE_1_04 = 402087895L; 
-    private static final long FE5_PROJECT_EXILE_1_04_TOP_WAIT = 3995459323L;
+    private static final long FE5_HEADERLESS_CRC32_CHK = 4233206098L;
+    private static final long FE5_NP_CHK = 1523210808L;
+    private static final long FE5_REV_1_NP_CHK = 3937021011L;
+    private static final long FE5_PROJECT_EXILE_1_04_CHK = 402087895L;
+    private static final long FE5_PROJECT_EXILE_1_04_TOP_WAIT_CHK = 3995459323L;
     private static final int MIN_FILE_SIZE = 4194304;
     private static final int HEADER_SIZE = 0x200;
     private static final int GAME_TITLE_OFFSET = 0x7FC0;
@@ -53,8 +50,8 @@ public class Rom {
         this.bytes = bytes;
         random = new Random(0);
 
-        headered = bytes.length % 1024 == 512;
-        validFileSize = bytes.length % 1024 == 0 && bytes.length >= MIN_FILE_SIZE;
+        headered = bytes.length % 1024 == HEADER_SIZE;
+        validFileSize = (bytes.length - (headered ? HEADER_SIZE : 0)) % 1024 == 0 && bytes.length >= MIN_FILE_SIZE;
 
         CRC32 crc32 = new CRC32();
         crc32.update(bytes);
@@ -66,21 +63,24 @@ public class Rom {
     
     private void checkFireEmblem5Version() {
         // known versions
-        if(crc32Checksum == FE5_HEADERED_CRC32_CHK || crc32Checksum == FE5_UNHEADERED_CRC32_CHK || crc32Checksum == FE5_REV_1_NP) {
-            if(crc32Checksum == FE5_REV_1_NP) {
+        if(crc32Checksum == FE5_HEADERED_CRC32_CHK || crc32Checksum == FE5_HEADERLESS_CRC32_CHK
+                || crc32Checksum == FE5_REV_1_NP_CHK || crc32Checksum == FE5_NP_CHK) {
+            if(crc32Checksum == FE5_REV_1_NP_CHK) {
                 name = "Fire Emblem 5 Rev 1 (NP)";
+            } else if(crc32Checksum == FE5_NP_CHK) {
+                name = "Fire Emblem 5 (NP)";
             } else {
                 name = "Fire Emblem 5";
             }
             
             fireEmblem5 = true;
-        } else if(crc32Checksum == FE5_PROJECT_EXILE_1_04 || crc32Checksum == FE5_PROJECT_EXILE_1_04_TOP_WAIT) {
+        } else if(crc32Checksum == FE5_PROJECT_EXILE_1_04_CHK || crc32Checksum == FE5_PROJECT_EXILE_1_04_TOP_WAIT_CHK) {
             fireEmblem5 = true;
             projectExile.set(true);
             
-            if(crc32Checksum == FE5_PROJECT_EXILE_1_04) {
+            if(crc32Checksum == FE5_PROJECT_EXILE_1_04_CHK) {
                 name = "Fire Emblem 5 + Project Exile 1.04";
-            } else if(crc32Checksum == FE5_PROJECT_EXILE_1_04_TOP_WAIT) {
+            } else if(crc32Checksum == FE5_PROJECT_EXILE_1_04_TOP_WAIT_CHK) {
                 name = "Fire Emblem 5 + Project Exile (Top Wait) 1.04";
             }
         }
@@ -183,7 +183,7 @@ public class Rom {
         return lilMansterHack;
     }
     
-    public void initialize() {
+    public void initialize() throws InvalidRomDataException {
         Item.initializeItems(this);
         Scroll.initializeScrolls(this);
         Shop.initializeShops(this);
@@ -195,23 +195,22 @@ public class Rom {
         AutoLevelType.initializeAutoLevelTypes(this);
     }
     
-    private void initializeArmyData() {
+    private void initializeArmyData() throws InvalidRomDataException{
         Army[] armies = Army.values();
-        
-        for(int i = 0; i < armies.length; i++) {
-            Army army = armies[i];
+
+        for (Army army : armies) {
             ArrayList<ArmyUnit> chapterUnits = new ArrayList<>();
             int separation = army.getSeparation();
-            
-            for(int j = 0; j < army.getUnitCount(); j++) {
-                ArmyUnit armyUnit = new ArmyUnit(this, army.getOffset() + j * separation);
+
+            for (int i = 0; i < army.getUnitCount(); i++) {
+                ArmyUnit armyUnit = new ArmyUnit(this, army.getOffset() + i * separation);
                 armyUnits.add(armyUnit);
                 chapterUnits.add(armyUnit);
             }
-            
+
             String chName = army.getName().split(" ")[0];
             Chapter chapter = Chapter.findByShortName(chName);
-            
+
             chapter.addArmyData(chapterUnits);
         }
     }
@@ -575,7 +574,7 @@ public class Rom {
         }
     }
     
-    public void randomizePlayableUnitClasses(boolean excludeHealers, boolean excludeThieves) {
+    public void randomizePlayableUnitClasses(boolean excludeHealers, boolean excludeThieves) throws InvalidRomDataException {
         ArrayList<GameCharacter> characters = GameCharacter.getPlayableUnits();
         ArrayList<CharacterClass> bannedClasses = new ArrayList<>();
         
@@ -814,7 +813,6 @@ public class Rom {
                 logic.registerDancer();
             }
 
-            // TODO also update fixed stats generic characters
             // update portrait
             if(character.hasRandomBases()) {
                 if(!portraitChangeExcluded.contains(character)) {
@@ -966,12 +964,12 @@ public class Rom {
         }
     }
     
-    public void randomizeMoveStars() {
+    public void randomizeMoveStars() throws InvalidRomDataException {
         ArrayList<GameCharacter> playableCharacters = GameCharacter.getPlayableUnits();
         assignMoveStars(playableCharacters);
     }
     
-    public void randomizeEnemyMoveStars(boolean excludeZeroStars) {
+    public void randomizeEnemyMoveStars(boolean excludeZeroStars) throws InvalidRomDataException {
         ArrayList<GameCharacter> enemyCharacters = GameCharacter.getEnemyUnits();
 
         if(excludeZeroStars) {
@@ -981,7 +979,7 @@ public class Rom {
         assignMoveStars(enemyCharacters);
     }
     
-    private void assignMoveStars(ArrayList<GameCharacter> characters) {
+    private void assignMoveStars(ArrayList<GameCharacter> characters) throws InvalidRomDataException {
         WeightedList<Integer> starWeights = new WeightedList<>();
         int cap = 5;
 
@@ -1839,19 +1837,6 @@ public class Rom {
         }
     }
 
-    public void testPortraits() {
-        System.out.println("Portrait test");
-
-        GameCharacter.LEAF.setPortrait(GameCharacter.KEMPF_BOSS.getPortrait());
-        GameCharacter.FINN.setPortrait(GameCharacter.IZENAU_BOSS.getPortrait());
-        GameCharacter.OTHIN.setPortrait(GameCharacter.MIRANDA.getPortrait());
-        GameCharacter.SARA.setPortrait(GameCharacter.AMALDA.getPortrait());
-
-        //GameCharacter.LEAF.setPortrait(0x41);
-        //GameCharacter.FINN.setPortrait(0x8F);
-        //GameCharacter.EYVEL.setPortrait(0xA2);
-    }
-
     public void lilMansterRenamePugi() {
         int pugiOffset = 0x1813D7;
         int[] pugiValues = new int[] {0x20, 0x50, 0x75, 0x67, 0x69, 0x20}; // " Pugi "
@@ -1892,7 +1877,7 @@ public class Rom {
         logic.reset();
     }
     
-    public void applyChanges() {
+    public void applyChanges() throws InvalidRomDataException {
         bytesBackup = bytes.clone();
         
         GameCharacter.writeCharacters(this);

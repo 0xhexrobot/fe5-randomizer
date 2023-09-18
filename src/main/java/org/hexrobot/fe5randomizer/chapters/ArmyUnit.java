@@ -12,6 +12,7 @@ import org.hexrobot.fe5randomizer.items.Item;
 import org.hexrobot.fe5randomizer.items.ItemType;
 import org.hexrobot.fe5randomizer.items.WeaponRank;
 import org.hexrobot.fe5randomizer.util.GenericDiff;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public class ArmyUnit {
     private int offset;
@@ -45,7 +46,7 @@ public class ArmyUnit {
     private static final int UNKNOWN_3_OFFSET = 0x12;
     private static final int UNKNOWN_4_OFFSET = 0x13;
     
-    public ArmyUnit(Rom rom, int startingOffset) {
+    public ArmyUnit(Rom rom, int startingOffset) throws InvalidRomDataException {
         int relOffset = startingOffset;
         offset = relOffset;
         character = GameCharacter.findById(rom.get2ByteValueAt(relOffset + CHARACTER_NUMBER_OFFSET));
@@ -241,7 +242,7 @@ public class ArmyUnit {
         return canUseItem;
     }
     
-    private void addToInventory(int offset) {
+    private void addToInventory(int offset) throws InvalidRomDataException {
         if(offset > 0) {
             inventory.add(Item.findById(offset - 1));
         }

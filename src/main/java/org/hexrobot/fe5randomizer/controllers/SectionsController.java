@@ -157,13 +157,13 @@ public class SectionsController {
                 try {
                     WeaponSeed wpnSeed = WeaponSeed.getBySeed(getIndex());
                     iconPath = "img/" + wpnSeed.getImageName();
-                    icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath));
+                    icon = new Image(org.hexrobot.fe5randomizer.MainView.class.getResourceAsStream(iconPath));
                     setText(wpnSeed.getName());
                 } catch(NullPointerException ex) {
                     // in case the above image doesn't exist, use a default one
                     System.out.println("Not found: " + iconPath);
                     iconPath = "img/hexrobot-logo.png";
-                    icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath));
+                    icon = new Image(org.hexrobot.fe5randomizer.MainView.class.getResourceAsStream(iconPath));
                 }
                 
                 ImageView iconImageView = new ImageView(icon);
@@ -184,11 +184,11 @@ public class SectionsController {
                 
                 try {
                     String iconPath = "img/" + wpnSeed.getImageName();
-                    icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath));
+                    icon = new Image(org.hexrobot.fe5randomizer.MainView.class.getResourceAsStream(iconPath));
                 } catch(NullPointerException ex) {
                     // in case the above image doesn't exist, use a default one
                     String iconPath = "img/hexrobot-logo.png";
-                    icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath));
+                    icon = new Image(org.hexrobot.fe5randomizer.MainView.class.getResourceAsStream(iconPath));
                 }
                 
                 ImageView imgView = new ImageView(icon);

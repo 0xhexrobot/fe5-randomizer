@@ -3,8 +3,10 @@ package org.hexrobot.fe5randomizer.controllers;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
 
+import org.hexrobot.fe5randomizer.MainView;
 import org.hexrobot.fe5randomizer.RandomizationSummary;
 import org.hexrobot.fe5randomizer.Rom;
 
@@ -41,10 +43,10 @@ public class MainController {
     private ProgressBar progressBar;
     @FXML
     private LoadRomController loadRomController;
-    
-    public static final String VERSION = "v1.1.1+";
+
     public static final String CONFIG_FILENAME = "fe5-rand.config";
     private static MainController instance;
+    private static String versionLabel = "";
     private Stage stage;
     private SectionsController sectionsController;
     private Parent vBox;
@@ -67,7 +69,7 @@ public class MainController {
     private void initialize()  throws IOException {
         randomizeSummary = new RandomizationSummary();
         loadRomController.setMainController(this);
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Sections.fxml"));
+        FXMLLoader loader = new FXMLLoader(MainView.class.getResource("Sections.fxml"));
         vBox = loader.load();
         sectionsController = loader.getController();
         
@@ -103,9 +105,10 @@ public class MainController {
     private void about() {
         Stage dialog = new Stage();
         Parent root;
-        
+
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("About.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(MainView.class.getResource("About.fxml"),
+                    "Could not find About.fxml"));
             dialog.setScene(new Scene(root));
         } catch(IOException e) {
             e.printStackTrace();
@@ -184,5 +187,21 @@ public class MainController {
             is.close();
         }
         return properties;
+    }
+
+    public static String getVersion() {
+        if(versionLabel.equals("")) {
+            Properties prop = new Properties();
+
+            try {
+                prop.load(MainView.class.getResourceAsStream("version.properties"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            versionLabel = "v" + prop.getProperty("versionLabel");
+        }
+
+        return versionLabel;
     }
 }

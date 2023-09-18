@@ -1,0 +1,35 @@
+name: "Multi os artifact generation"
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  multios:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Set up JDK 17'
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: 'Build with gradle'
+        run: ./gradlew jpackage
+      - name: 'Upload exe as an artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: fe5-randomizer-win-${{ github.ref_name }}
+          path: build/jpackage/*.exe
+      - name: 'Upload deb as artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: fe5-randomizer-linux-${{ github.ref_name }}
+          path: build/jpackage/*.deb
+      - name: 'Upload dmg as artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: fe5-randomizer-macos-${{ github.ref_name }}
+          path: build/jpackage/*.dmg

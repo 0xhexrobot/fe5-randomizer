@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Properties;
 
+import org.hexrobot.fe5randomizer.MainView;
 import org.hexrobot.fe5randomizer.RandomizationSummary;
 import org.hexrobot.fe5randomizer.Rom;
 import org.hexrobot.fe5randomizer.WeaponSeed;
@@ -143,13 +145,10 @@ public class RandomizeController {
         @Override
         protected Image computeValue() {
             WeaponSeed wpnSeed = WeaponSeed.getBySeed(summary.seedProperty().getValue() >> 25);
-            String iconPath = "img/" + wpnSeed.getImageName();
-            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
-            
-            return icon;
+            return getWpnSeedImage(wpnSeed);
         }
     };
-    
+
     private ObjectBinding<Image> icon2 = new ObjectBinding<Image>() {
         {
             super.bind(summary.seedProperty());
@@ -158,10 +157,7 @@ public class RandomizeController {
         @Override
         protected Image computeValue() {
             WeaponSeed wpnSeed = WeaponSeed.getBySeed((summary.seedProperty().getValue() >> 20) & 0x1F);
-            String iconPath = "img/" + wpnSeed.getImageName();
-            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
-            
-            return icon;
+            return getWpnSeedImage(wpnSeed);
         }
     };
     
@@ -173,10 +169,7 @@ public class RandomizeController {
         @Override
         protected Image computeValue() {
             WeaponSeed wpnSeed = WeaponSeed.getBySeed((summary.seedProperty().getValue() >> 15) & 0x1F);
-            String iconPath = "img/" + wpnSeed.getImageName();
-            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
-            
-            return icon;
+            return getWpnSeedImage(wpnSeed);
         }
     };
     
@@ -188,10 +181,7 @@ public class RandomizeController {
         @Override
         protected Image computeValue() {
             WeaponSeed wpnSeed = WeaponSeed.getBySeed((summary.seedProperty().getValue() >> 10) & 0x1F);
-            String iconPath = "img/" + wpnSeed.getImageName();
-            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
-            
-            return icon;
+            return getWpnSeedImage(wpnSeed);
         }
     };
     
@@ -203,10 +193,7 @@ public class RandomizeController {
         @Override
         protected Image computeValue() {
             WeaponSeed wpnSeed = WeaponSeed.getBySeed((summary.seedProperty().getValue() >> 5) & 0x1F);
-            String iconPath = "img/" + wpnSeed.getImageName();
-            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
-            
-            return icon;
+            return getWpnSeedImage(wpnSeed);
         }
     };
     
@@ -218,13 +205,18 @@ public class RandomizeController {
         @Override
         protected Image computeValue() {
             WeaponSeed wpnSeed = WeaponSeed.getBySeed(summary.seedProperty().getValue() & 0x1F);
-            String iconPath = "img/" + wpnSeed.getImageName();
-            Image icon = new Image(getClass().getClassLoader().getResourceAsStream(iconPath)); 
-            
-            return icon;
+            return getWpnSeedImage(wpnSeed);
         }
     };
-    
+
+    private Image getWpnSeedImage(WeaponSeed wpnSeed) {
+        String iconPath = "img/" + wpnSeed.getImageName();
+
+        return new Image(Objects.requireNonNull(
+                MainView.class.getResourceAsStream(iconPath),
+                wpnSeed.getImageName() + " icon not found."));
+    }
+
     private BooleanBinding unitLabelVisible = new BooleanBinding() {
         {
             super.bind(summary.randomizeBasesProperty(), summary.randomizeGrowthsProperty(),
@@ -254,10 +246,12 @@ public class RandomizeController {
             
             switch((String)summary.basesRandomizationTypeProperty().getValue().getUserData()) {
             case "variance":
-                text = String.format("Randomize unit bases by Variance ±%d", summary.basesVarianceProperty().getValue());
+                text = String.format("Randomize unit bases by Variance ±%d",
+                        summary.basesVarianceProperty().getValue());
                 break;
             case "redistribute":
-                text = String.format("Randomize unit bases by Redistribution ±%d", summary.basesRedistributeVarProperty().getValue());
+                text = String.format("Randomize unit bases by Redistribution ±%d",
+                        summary.basesRedistributeVarProperty().getValue());
                 break;
             }
             
@@ -279,13 +273,17 @@ public class RandomizeController {
             
             switch(randomizationType) {
             case "variance":
-                text = String.format("Randomize unit growths by Variance ±%d", summary.growthsVarianceProperty().getValue());
+                text = String.format("Randomize unit growths by Variance ±%d",
+                        summary.growthsVarianceProperty().getValue());
                 break;
             case "redistribute":
-                text = String.format("Randomize unit growths by Redistribute ±%d", summary.growthsRedistributeVarProperty().getValue());
+                text = String.format("Randomize unit growths by Redistribute ±%d",
+                        summary.growthsRedistributeVarProperty().getValue());
                 break;
             case "absolute":
-                text = String.format("Randomize unit growths by Absolute [%d - %d]", summary.growthsAbsoluteMinProperty().getValue(), summary.growthsAbsoluteMaxProperty().getValue());
+                text = String.format("Randomize unit growths by Absolute [%d - %d]",
+                        summary.growthsAbsoluteMinProperty().getValue(),
+                        summary.growthsAbsoluteMaxProperty().getValue());
                 break;
             }
             
@@ -322,9 +320,8 @@ public class RandomizeController {
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize unit skills, skill count range [0 - %d]", summary.maxSkillCountProperty().getValue());
-                        
-            return text;
+            return String.format("Randomize unit skills, skill count range [0 - %d]",
+                    summary.maxSkillCountProperty().getValue());
         }
     };
     
@@ -370,9 +367,8 @@ public class RandomizeController {
         
         @Override
         protected String computeValue() {
-            String text = String.format("Add extra inventory up to %d items", summary.enemiesMaxExtraInventoryCountProperty().getValue());
-                                    
-            return text;
+            return String.format("Add extra inventory up to %d items",
+                    summary.enemiesMaxExtraInventoryCountProperty().getValue());
         }
     };
     
@@ -411,9 +407,8 @@ public class RandomizeController {
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize boss skills, max skill count: %d", summary.maxBossSkillCountProperty().getValue());
-                                    
-            return text;
+            return String.format("Randomize boss skills, max skill count: %d",
+                    summary.maxBossSkillCountProperty().getValue());
         }
     };
     
@@ -424,9 +419,8 @@ public class RandomizeController {
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize common enemy skills, max skill count: %d", summary.maxEnemySkillCountProperty().getValue());
-                                    
-            return text;
+            return String.format("Randomize common enemy skills, max skill count: %d",
+                    summary.maxEnemySkillCountProperty().getValue());
         }
     };
     
@@ -509,9 +503,7 @@ public class RandomizeController {
         
         @Override
         protected String computeValue() {
-            String text = String.format("Randomize items Accuracy ±%d", summary.wpnsAccuracyDeltaProperty().getValue());
-                                    
-            return text;
+            return String.format("Randomize items Accuracy ±%d", summary.wpnsAccuracyDeltaProperty().getValue());
         }
     };
     
@@ -872,7 +864,7 @@ public class RandomizeController {
     public void setRom(Rom rom) {
         lblLilManster.visibleProperty().bind(rom.lilMansterHackProperty().and(summary.lilMansterRenamePugiProperty()));
         lblRomName.setText(rom.getName());
-        lblRandomizerVersion.setText(MainController.VERSION);
+        lblRandomizerVersion.setText(MainController.getVersion());
     }
 
     @FXML
@@ -894,7 +886,7 @@ public class RandomizeController {
             try {
                 properties = MainController.readPropertiesFile(MainController.CONFIG_FILENAME);
                 lastDirectory = properties.getProperty("lastDirectory", "");
-                
+
                 if(!lastDirectory.isEmpty()) {
                     fileChooser.setInitialDirectory(new File(lastDirectory));
                 }

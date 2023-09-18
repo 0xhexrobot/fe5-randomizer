@@ -1,5 +1,7 @@
 package org.hexrobot.fe5randomizer.items;
 
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
+
 import java.util.ArrayList;
 
 public enum WeaponBladeEffect {
@@ -28,7 +30,7 @@ public enum WeaponBladeEffect {
 		return name;
 	}
 	
-	public static WeaponBladeEffect findById(int offset) {
+	public static WeaponBladeEffect findById(int offset) throws InvalidRomDataException {
 		WeaponBladeEffect weaponBladeEffect = null;
 		
 		for(WeaponBladeEffect wpnBladeEff : WeaponBladeEffect.values()) {
@@ -39,8 +41,7 @@ public enum WeaponBladeEffect {
 		}
 		
 		if(weaponBladeEffect == null) {
-			System.out.println(String.format("WARNING: Offset 0x%02X in WeaponBladeEffect was not found.", offset));
-			weaponBladeEffect = WeaponBladeEffect.NOTHING;
+			throw new InvalidRomDataException(String.format("Offset 0x%02X in WeaponBladeEffect was not found.", offset));
 		}
 		
 		return weaponBladeEffect;

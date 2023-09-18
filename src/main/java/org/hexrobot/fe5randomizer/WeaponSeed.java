@@ -55,8 +55,7 @@ public enum WeaponSeed {
         }
 
         if(weaponSeed == null) {
-            //throw new IllegalArgumentException(String.format("Seed %d doesn't exist!", seed));
-            System.out.println(String.format("Seed %d doesn't exist!", seed));
+            throw new IllegalArgumentException(String.format("Seed %d doesn't exist!", seed));
         }
 
         return weaponSeed;

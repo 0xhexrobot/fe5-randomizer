@@ -1,5 +1,7 @@
 package org.hexrobot.fe5randomizer.characters;
 
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
+
 public enum MovementStars {
     MOV_STARS_0(0x00),
     MOV_STARS_1(0x05),
@@ -29,7 +31,7 @@ public enum MovementStars {
         return amount;
     }
     
-    public static MovementStars findById(int offset) {
+    public static MovementStars findById(int offset) throws InvalidRomDataException {
         MovementStars movementStars = null;
         
         for(MovementStars movStars : MovementStars.values()) {
@@ -40,16 +42,13 @@ public enum MovementStars {
         }
         
         if(movementStars == null) {
-            System.out.println(String.format("WARNING: Offset 0x%02X in MovementStars was not found.", offset));
-            movementStars = MovementStars.MOV_STARS_0;
+            throw new InvalidRomDataException(String.format("Offset 0x%02X in MovementStars was not found.", offset));
         }
         
         return movementStars;
     }
     
-    public static MovementStars findByAmount(int amount) {
-        MovementStars movementStars = MovementStars.findById(amount * 5);
-        
-        return movementStars;
+    public static MovementStars findByAmount(int amount) throws InvalidRomDataException {
+        return MovementStars.findById(amount * 5);
     }
 }

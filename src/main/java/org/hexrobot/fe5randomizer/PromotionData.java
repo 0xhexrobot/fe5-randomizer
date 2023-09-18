@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.hexrobot.fe5randomizer.characters.CharacterClass;
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public class PromotionData {
     private static final int PROMOTION_TABLE_OFFSET = 0x402F1;
@@ -15,7 +16,7 @@ public class PromotionData {
     private Map<GameCharacter, CharacterClass> promotionsTable = new HashMap<>();
     private Map<GameCharacter, CharacterClass> oldValues = new HashMap<>();
     
-    PromotionData(Rom rom) {
+    PromotionData(Rom rom) throws InvalidRomDataException {
         for(int i = 0; i < ENTRY_COUNT; i++) {
             int characterOffset = PROMOTION_TABLE_OFFSET + i * ENTRY_SIZE;
             int promotionOffset = characterOffset + 2;
@@ -27,7 +28,7 @@ public class PromotionData {
         }
     }
     
-    public void updatePromotions() {
+    public void updatePromotions() throws InvalidRomDataException {
         for(Map.Entry<GameCharacter, CharacterClass> entry : promotionsTable.entrySet()) {
             GameCharacter character = entry.getKey();
             
@@ -46,7 +47,7 @@ public class PromotionData {
         }
     }
     
-    public void writePromotions(Rom rom) {
+    public void writePromotions(Rom rom) throws InvalidRomDataException {
         for(int i = 0; i < ENTRY_COUNT; i++) {
             int characterOffset = PROMOTION_TABLE_OFFSET + i * ENTRY_SIZE;
             GameCharacter character = GameCharacter.findById(rom.getValueAt(characterOffset));

@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public class LoadRomController {
     @FXML
@@ -24,6 +25,8 @@ public class LoadRomController {
     private Button btnLoadRom;
 
     private MainController mainController;
+    private Label label;
+    private ProgressBar progressBar;
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
@@ -57,8 +60,8 @@ public class LoadRomController {
         if(selectedFile != null) {
             LoadRomService loadRomService = new LoadRomService(selectedFile);
 
-            Label label = mainController.getStatusLabel();
-            ProgressBar progressBar = mainController.getProgressBar();
+            label = mainController.getStatusLabel();
+            progressBar = mainController.getProgressBar();
             
             properties.setProperty("lastDirectory", selectedFile.getParent());
             
@@ -68,28 +71,30 @@ public class LoadRomController {
                 e.printStackTrace();
             }
 
-            label.textProperty().bind(loadRomService.messageProperty());
-            progressBar.progressProperty().bind(loadRomService.progressProperty());
-            btnLoadRom.disableProperty().bind(loadRomService.runningProperty());
-            mainController.statusBarControlsVisibleProperty().set(true);
-            mainController.disableContentProperty().set(true);
+            disableUI(loadRomService);
 
             loadRomService.start();
 
             loadRomService.setOnSucceeded((e) -> {
-                label.textProperty().unbind();
-                progressBar.progressProperty().unbind();
-                mainController.statusBarControlsVisibleProperty().set(false);
-                btnLoadRom.disableProperty().unbind();
-                btnLoadRom.setDisable(false);
-                mainController.disableContentProperty().set(false);
-
+                enableUI();
                 evaluateRom(loadRomService.getValue());
             });
 
             loadRomService.setOnFailed((e) -> {
+                enableUI();
                 Throwable throwable = loadRomService.getException();
                 throwable.printStackTrace();
+                String message;
+
+                if(throwable instanceof InvalidRomDataException) {
+                    message = "Rom is malformed or not supported, try with another one.";
+                } else {
+                    message = throwable.getMessage();
+                }
+
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setContentText(message);
+                alert.show();
             });
         }
     }
@@ -105,5 +110,22 @@ public class LoadRomController {
             alert.setContentText("The selected file is not a Fire Emblem 5 Rom.");
             alert.show();
         }
+    }
+
+    private void disableUI(LoadRomService loadRomService) {
+        label.textProperty().bind(loadRomService.messageProperty());
+        progressBar.progressProperty().bind(loadRomService.progressProperty());
+        btnLoadRom.disableProperty().bind(loadRomService.runningProperty());
+        mainController.statusBarControlsVisibleProperty().set(true);
+        mainController.disableContentProperty().set(true);
+    }
+
+    private void enableUI() {
+        label.textProperty().unbind();
+        progressBar.progressProperty().unbind();
+        mainController.statusBarControlsVisibleProperty().set(false);
+        btnLoadRom.disableProperty().unbind();
+        btnLoadRom.setDisable(false);
+        mainController.disableContentProperty().set(false);
     }
 }

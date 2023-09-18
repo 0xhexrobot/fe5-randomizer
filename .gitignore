@@ -29,7 +29,9 @@ proguard/
 .gradletasknamecache
 .gradle/
 build/
-bin/
+
+# Unknown stuff
+**/.DS_Store
 
 # Test output files
 *.html

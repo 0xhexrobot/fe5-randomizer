@@ -1,5 +1,7 @@
 package org.hexrobot.fe5randomizer.characters;
 
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
+
 public enum Gender {
     MALE(0x00, "Male"),
     FEMALE(0x01, "Female");
@@ -16,7 +18,7 @@ public enum Gender {
         return name;
     }
     
-    public static Gender findById(int offset) {
+    public static Gender findById(int offset) throws InvalidRomDataException {
         Gender gender = null;
         
         for(Gender g : Gender.values()) {
@@ -27,8 +29,8 @@ public enum Gender {
         }
         
         if(gender == null) {
-            System.out.println(String.format("WARNING: Offset 0x%02X in Gender was not found.", offset));
-            gender = Gender.MALE;
+            throw new InvalidRomDataException(String.format(
+                    "Offset 0x%02X in Gender was not found.", offset));
         }
         
         return gender;

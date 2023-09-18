@@ -9,6 +9,7 @@ import org.hexrobot.fe5randomizer.Rom;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public class LoadRomService extends Service<Rom> {
     File file;
@@ -22,26 +23,21 @@ public class LoadRomService extends Service<Rom> {
 
         return new Task<Rom>() {
             @Override
-            protected Rom call() throws Exception {
-                Rom rom = null;
+            protected Rom call() throws IOException, InvalidRomDataException {
 
-                try {
-                    updateMessage("Loading file...");
-                    InputStream inputStream = new FileInputStream(file);
+                updateMessage("Loading file...");
+                InputStream inputStream = new FileInputStream(file);
 
-                    rom = new Rom(inputStream.readAllBytes());
-                    inputStream.close();
+                Rom rom = new Rom(inputStream.readAllBytes());
+                inputStream.close();
 
-                    if(rom.isFireEmblem5()) {
-                        updateMessage("Reading rom...");
-                        rom.initialize();
-                        updateProgress(0.5, 1.0);
-                    }
-                    
-                    updateMessage("Finished loading.");
-                } catch(IOException e) {
-                    e.printStackTrace();
+                if(rom.isFireEmblem5()) {
+                    updateMessage("Reading rom...");
+                    rom.initialize();
+                    updateProgress(0.5, 1.0);
                 }
+
+                updateMessage("Finished loading.");
 
                 return rom;
             }

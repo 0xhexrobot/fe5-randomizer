@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hexrobot.fe5randomizer.characters.GameCharacter;
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
 
 public enum WeaponRank {
 	NOPE(0x0000, "-"),
@@ -100,7 +101,7 @@ public enum WeaponRank {
 	    return unlocked;
 	}
 	
-	public static WeaponRank findById(int offset) {
+	public static WeaponRank findById(int offset) throws InvalidRomDataException {
 		WeaponRank weaponRank = null;
 		
 		for(WeaponRank wpnRank : WeaponRank.values()) {
@@ -111,8 +112,7 @@ public enum WeaponRank {
 		}
 		
 		if(weaponRank == null) {
-			System.out.println(String.format("WARNING: Offset 0x%04X in WeaponRank was not found.", offset));
-			weaponRank = WeaponRank.NOPE;
+			throw new InvalidRomDataException((String.format("Offset 0x%04X in WeaponRank was not found.", offset)));
 		}
 		
 		return weaponRank;

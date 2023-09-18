@@ -1,5 +1,7 @@
 package org.hexrobot.fe5randomizer.items;
 
+import org.hexrobot.fe5randomizer.util.InvalidRomDataException;
+
 public enum WeaponEffectiveness {
 	NONE(0x80AA, "None"),
 	ARMORS(0x807A, "Armors"),
@@ -24,7 +26,7 @@ public enum WeaponEffectiveness {
 		return name;
 	}
 	
-	public static WeaponEffectiveness findById(int offset) {
+	public static WeaponEffectiveness findById(int offset) throws InvalidRomDataException {
 		WeaponEffectiveness wpnEffectiveness = null;
 		
 		for(WeaponEffectiveness wpnRank : WeaponEffectiveness.values()) {
@@ -35,8 +37,7 @@ public enum WeaponEffectiveness {
 		}
 		
 		if(wpnEffectiveness == null) {
-			System.out.println(String.format("WARNING: Offset 0x%04X in WeaponEffectiveness was not found.", offset));
-			wpnEffectiveness = WeaponEffectiveness.NONE;
+			throw new InvalidRomDataException(String.format("Offset 0x%04X in WeaponEffectiveness was not found.%n", offset));
 		}
 		
 		return wpnEffectiveness;
