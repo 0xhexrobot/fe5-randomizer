@@ -3,7 +3,7 @@ Fire Emblem Thracia 776 Randomizer
 
 ![Randomize tab](images/fe5randomizer1.1.png)
 
-Works with Headered/Headerless Thracia 776 ROM versions, Shaya's translation, Project Exile and Lil' Manster versions.
+Works with most Fire Emblem Thracia 776 ROM versions.
 
 ## Can randomize:
 
@@ -34,15 +34,3 @@ Bases, Growths, Classes, Movement stars, Leadership stars, Skills.
 ### Portrait palette randomizer
 
 ![Randomized palettes](images/r-palette.png)
-
-## How to run
-
-Requires Java 11.
-
-### Windows
-
-Double click `gradlew.bat` then execute `gradlew run`.
-
-### Linux
-
-Open a Terminal, run `./gradlew run`.

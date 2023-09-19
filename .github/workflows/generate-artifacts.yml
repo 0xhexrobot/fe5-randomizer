@@ -2,7 +2,7 @@ name: "Multi os artifact generation"
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 jobs:
   multios:
     strategy:
